@@ -24,7 +24,7 @@ final class RuntimeException extends SplRuntimeException implements ExceptionInt
         return new self(
             'Direct resource registration is not supported; resources are derived from the acl_rule table.',
             0,
-            $previous
+            $previous,
         );
     }
 }
