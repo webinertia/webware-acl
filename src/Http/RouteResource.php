@@ -31,9 +31,9 @@ final class RouteResource implements RouteResourceInterface
 
     public function getResourceId(): string
     {
-        $matchedRoute = $this->routeResult->getMatchedRoute();
+        $name = $this->routeResult->getMatchedRouteName();
 
-        return $this->routeResult->getMatchedRouteName();
+        return false === $name ? '' : $name;
     }
 
     public function getRole(): RoleInterface
@@ -46,7 +46,8 @@ final class RouteResource implements RouteResourceInterface
         $routeName = $this->getResourceId();
 
         // 1. Per-route options array (most specific)
-        $routeOptions = $this->routeResult->getMatchedRoute()->getOptions();
+        $matchedRoute = $this->routeResult->getMatchedRoute();
+        $routeOptions = false === $matchedRoute ? [] : $matchedRoute->getOptions();
         $paramName    = $routeOptions['acl']['ownerId']
             // 2. Global route_param_map config (app-level fallback)
             ?? $this->paramMap[$routeName]['ownerId']
