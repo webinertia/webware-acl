@@ -1,0 +1,77 @@
+{
+    "name": "webware/webware-acl",
+    "description": "Mezzio ACL middleware, builder, repository, and admin UI for the webware-* package family.",
+    "license": "BSD-3-Clause",
+    "keywords": [
+        "webware",
+        "acl",
+        "mezzio",
+        "authorization"
+    ],
+    "authors": [
+        {
+            "name": "Joey Smith",
+            "email": "jsmith@webinertia.net",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "~8.2.0 || ~8.3.0 || ~8.4.0 || ~8.5.0 || ~8.6.0",
+        "fig/http-message-util": "^1.1",
+        "laminas/laminas-diactoros": "^3.8",
+        "laminas/laminas-permissions-acl": "^2.16",
+        "mezzio/mezzio": "^3.26",
+        "mezzio/mezzio-authentication": "^1.13",
+        "mezzio/mezzio-router": "^3.15",
+        "mezzio/mezzio-session": "^1.12",
+        "mezzio/mezzio-template": "^2.8",
+        "php-db/phpdb-mysql": "^0.5.x-dev",
+        "php-standard-library/type": "^6.2",
+        "psr/container": "^2.0",
+        "psr/http-message": "^2.0",
+        "psr/http-server-handler": "^1.0",
+        "psr/http-server-middleware": "^1.0",
+        "webware/message-bus": "^2.0.0-beta.1",
+        "webware/webware-core": "0.1.x-dev",
+        "webware/webware-log": "^1.0",
+        "webware/webware-message": "^1.0.0-beta.1",
+        "webware/webware-resultset": "^0.1"
+    },
+    "suggest": {
+        "webware/admin": "Required to register the ACL dashboard widget via RegisterAclWidgetListener."
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^13.0",
+        "webware/coding-standard": "^0.1.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Webware\\Acl\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Webware\\AclTest\\": "test/unit/",
+            "Webware\\AclIntegrationTest\\": "test/integration/"
+        }
+    },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/webinertia/webware-core"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/webinertia/webware-resultset"
+        }
+    ],
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "laminas/laminas-component-installer": true
+        },
+        "github-protocols": ["https"]
+    }
+}

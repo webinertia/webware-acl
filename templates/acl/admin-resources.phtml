@@ -1,0 +1,205 @@
+<?php
+
+use Webware\Acl\PrivilegeInterface as Privilege;
+
+/**
+ * @var array<int, \Webware\Acl\Entity\Resource>  $resources   — keyed by resource_pk
+ * @var array<int, \Webware\Acl\Entity\Privilege> $privileges  — keyed by privilege_pk
+ */
+$this->headTitle('Resources & Privileges');
+
+// Group privileges by resource_pk for accordion rows
+$privsByResource = [];
+foreach ($this->privileges as $priv) {
+    $privsByResource[$priv->resourcePk][] = $priv;
+}
+?>
+
+<!-- Breadcrumb -->
+<nav aria-label="breadcrumb" class="mb-2">
+    <ol class="breadcrumb small mb-0">
+        <li class="breadcrumb-item"><a href="<?= $this->adminUrl('dashboard.read') ?>">Admin</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Resources &amp; Privileges</li>
+    </ol>
+</nav>
+
+<!-- Page header -->
+<div class="d-flex align-items-center justify-content-between mb-4">
+    <div>
+        <div class="d-flex align-items-center gap-2 mb-1">
+            <i class="bi bi-collection text-primary fs-5"></i>
+            <h1 class="h4 fw-bold mb-0">Resources &amp; Privileges</h1>
+        </div>
+        <p class="text-secondary small mb-0">Resources define what can be protected. Privileges define how.</p>
+    </div>
+    <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addResourceModal">
+        <i class="bi bi-plus-lg me-1"></i> Add Resource
+    </button>
+</div>
+
+<?php if ($this->resources === []): ?>
+    <div class="text-secondary small mt-3">No resources defined yet.</div>
+<?php endif; ?>
+
+<!-- Unprotected Routes -->
+<?php if (isset($this->unprotected) && $this->unprotected !== []): ?>
+<?php
+    $privilegeColor = [
+        Privilege::READ   => 'primary',
+        Privilege::CREATE => 'success',
+        Privilege::UPDATE => 'warning',
+        Privilege::DELETE => 'danger',
+    ];
+    $unprotectedCount = count($this->unprotected);
+?>
+<div class="card border-warning mt-4 mb-4">
+    <div class="card-header d-flex align-items-center gap-2 py-2">
+        <i class="bi bi-shield-exclamation text-warning"></i>
+        <span class="fw-semibold small">Unprotected Routes</span>
+        <span class="badge bg-warning text-dark ms-auto"><?= $unprotectedCount ?></span>
+    </div>
+    <div class="accordion accordion-flush" id="unprotectedAccordion">
+        <?php foreach ($this->unprotected as $routeName => $methods):
+            $accId = 'uprec-' . preg_replace('/[^a-z0-9]+/', '-', strtolower($routeName));
+            $privileges = array_unique(array_filter(array_map(
+                static fn(string $m): string => Privilege::METHOD_PRIVILEGE_MAP[$m] ?? '',
+                $methods,
+            )));
+        ?>
+        <div class="accordion-item" id="<?= $this->escapeHtmlAttr($accId) ?>">
+            <h2 class="accordion-header">
+                <button
+                    class="accordion-button collapsed py-2"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#<?= $this->escapeHtmlAttr($accId) ?>-body"
+                    aria-expanded="false"
+                    aria-controls="<?= $this->escapeHtmlAttr($accId) ?>-body"
+                >
+                    <div class="d-flex align-items-center gap-2 flex-grow-1 me-2">
+                        <code class="small"><?= $this->escapeHtml($routeName) ?></code>
+                        <div class="d-flex gap-1 ms-auto">
+                            <?php foreach ($privileges as $priv): ?>
+                                <span class="badge bg-transparent border border-<?= $privilegeColor[$priv] ?> text-<?= $privilegeColor[$priv] ?> ims-badge-xs">
+                                    <?= ucfirst($priv) ?>
+                                </span>
+                            <?php endforeach; ?>
+                        </div>
+                    </div>
+                </button>
+            </h2>
+            <div id="<?= $this->escapeHtmlAttr($accId) ?>-body" class="accordion-collapse collapse">
+                <div class="accordion-body py-2 px-3">
+                    <form
+                        <?php /* TODO: was 'acl.resources.protect' (ProtectRouteCommand, deleted). Protecting = creating a rule. */ ?>
+                        hx-post="<?= $this->adminUrl('acl.manager.rule.create') ?>"
+                        hx-target="main"
+                        hx-swap="innerHTML"
+                        hx-push-url="false"
+                    >
+                        <input type="hidden" name="routeName" value="<?= $this->escapeHtmlAttr($routeName) ?>">
+                        <p class="small text-secondary mb-2">Select role(s) to grant access:</p>
+                        <div class="d-flex flex-wrap gap-3 mb-3">
+                            <?php foreach ($this->roles as $role):
+                                $cbId = $accId . '-r-' . preg_replace('/[^a-z0-9]+/', '-', strtolower($role->roleId));
+                            ?>
+                            <div class="form-check">
+                                <input
+                                    class="form-check-input"
+                                    type="checkbox"
+                                    name="role[]"
+                                    value="<?= $this->escapeHtmlAttr($role->roleId) ?>"
+                                    id="<?= $this->escapeHtmlAttr($cbId) ?>"
+                                >
+                                <label class="form-check-label small" for="<?= $this->escapeHtmlAttr($cbId) ?>">
+                                    <?= $this->escapeHtml($role->roleId) ?>
+                                </label>
+                            </div>
+                            <?php endforeach; ?>
+                        </div>
+                        <button type="submit" class="btn btn-sm btn-warning py-1 px-3">
+                            <i class="bi bi-shield-plus me-1"></i> Protect
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <?php endforeach; ?>
+    </div>
+</div>
+<?php endif; ?>
+
+
+<!-- ADD RESOURCE MODAL -->
+<div class="modal fade" id="addResourceModal" tabindex="-1" aria-labelledby="addResourceModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header py-2">
+                <h5 class="modal-title small fw-bold" id="addResourceModalLabel">
+                    <i class="bi bi-plus-lg me-1"></i> Add Resource
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <?php
+                /*
+                 * TODO: 'acl.resources.create' route deleted — resources are route-derived (from RouteCollector),
+                 * not manually created. This entire "Add Resource" modal and form needs to be redesigned
+                 * or removed. Leaving in place until the admin-resources sub-page is reworked.
+                 */
+                ?>
+                <form
+                    id="addResourceForm"
+                    method="POST"
+                    action=""
+                    hx-post=""
+                    hx-target="main"
+                    hx-swap="innerHTML"
+                >
+                    <div class="mb-3">
+                        <label class="form-label small fw-semibold" for="new_resource_id">Resource ID <span class="text-danger">*</span></label>
+                        <input type="text" id="new_resource_id" name="resource_id" class="form-control form-control-sm" placeholder="e.g. admin.manifest" required>
+                        <div class="form-text">Lowercase, dot-separated. Must be unique.</div>
+                    </div>
+                    <div class="mb-0">
+                        <label class="form-label small fw-semibold" for="new_resource_label">Label <span class="text-danger">*</span></label>
+                        <input type="text" id="new_resource_label" name="label" class="form-control form-control-sm" placeholder="e.g. Manifest Management" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer py-2">
+                <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="submit" form="addResourceForm" class="btn btn-sm btn-primary">Save Resource</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- DELETE RESOURCE CONFIRM MODAL -->
+<div class="modal fade" id="deleteResourceModal" tabindex="-1" aria-labelledby="deleteResourceModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header py-2 border-danger">
+                <h5 class="modal-title small fw-bold text-danger" id="deleteResourceModalLabel">
+                    <i class="bi bi-trash3 me-1"></i> Delete Resource
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body small">
+                Delete resource <code id="deleteResourceId"></code> and all its privileges, rules, and route mappings?
+                <div class="text-danger mt-1 fw-semibold">This cannot be undone.</div>
+            </div>
+            <div class="modal-footer py-2">
+                <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button
+                    id="deleteResourceConfirmBtn"
+                    type="button"
+                    class="btn btn-sm btn-danger"
+                    hx-delete=""
+                    hx-target="main"
+                    hx-swap="innerHTML"
+                >Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
