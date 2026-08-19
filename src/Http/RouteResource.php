@@ -7,7 +7,6 @@ namespace Webware\Acl\Http;
 use Laminas\Permissions\Acl\Role\RoleInterface;
 use Mezzio\Router\RouteResult;
 use Psr\Http\Message\ServerRequestInterface;
-use Webware\Acl\Exception\RuntimeException;
 use Webware\UserManager\UserInterface;
 
 /**
@@ -32,13 +31,7 @@ final class RouteResource implements RouteResourceInterface
 
     public function getResourceId(): string
     {
-        $name = $this->routeResult->getMatchedRouteName();
-
-        if (false === $name) {
-            throw RuntimeException::forUnmatchedRoute();
-        }
-
-        return $name;
+        return $this->routeResult->getMatchedRouteName();
     }
 
     public function getRole(): RoleInterface

@@ -24,13 +24,7 @@ final class RuntimeException extends SplRuntimeException implements ExceptionInt
         return new self(
             'Direct resource registration is not supported; resources are derived from the acl_rule table.',
             0,
-            $previous
+            $previous,
         );
-    }
-
-    public static function forUnmatchedRoute(
-        ?ExceptionInterface $previous = null,
-    ): self {
-        return new self('Cannot build an ACL resource from an unmatched route.', 0, $previous);
     }
 }
