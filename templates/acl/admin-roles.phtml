@@ -1,0 +1,97 @@
+<?php
+/**
+ * @var \Webware\Acl\Entity\Role[]            $roles              — all roles
+ * @var array<string, bool>                  $rolesWithChildren  — roleId → true if has children
+ */
+$this->headTitle('Roles');
+?>
+
+<!-- Breadcrumb -->
+<nav aria-label="breadcrumb" class="mb-2">
+    <ol class="breadcrumb small mb-0">
+        <li class="breadcrumb-item"><a href="<?= $this->adminUrl('dashboard.read') ?>">Admin</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Roles</li>
+    </ol>
+</nav>
+
+<!-- Page header -->
+<div class="d-flex align-items-center justify-content-between mb-4">
+    <div>
+        <div class="d-flex align-items-center gap-2 mb-1">
+            <i class="bi bi-people text-primary fs-5"></i>
+            <h1 class="h4 fw-bold mb-0">Roles</h1>
+        </div>
+        <p class="text-secondary small mb-0">Define roles and their inheritance relationships.</p>
+    </div>
+    <button
+        class="btn btn-primary btn-sm"
+        hx-get="<?= $this->escapeHtmlAttr($this->adminUrl('acl.manager.role.add.modal')) ?>"
+        hx-target="#sharedModalDialog"
+        hx-swap="innerHTML"
+        hx-push-url="false"
+        hx-on::after-request="if(event.detail.successful) bootstrap.Modal.getOrCreateInstance(document.getElementById('sharedModal')).show()"
+    >
+        <i class="bi bi-plus-lg me-1"></i> Add Role
+    </button>
+</div>
+
+<!-- Role table -->
+<div class="card">
+    <div class="card-header py-2 d-flex align-items-center gap-2">
+        <i class="bi bi-people text-secondary"></i>
+        <span class="small fw-semibold">All Roles</span>
+        <span class="badge bg-body-tertiary border text-secondary ms-1"><?= count($roles) ?></span>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-hover table-sm mb-0 align-middle">
+            <thead class="table-dark">
+                <tr>
+                    <th style="width:38%">Role Name</th>
+                    <th style="width:40%">Inherits From</th>
+                    <th style="width:22%"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($roles as $role):
+                    $parentNames = array_map(
+                        static fn(\Webware\Acl\Entity\Role $p) => $p->getRoleId(),
+                        $role->parentId ?? []
+                    );
+                    $isRoot = $role->parentId === [] || $role->parentId === null;
+                ?>
+                    <tr>
+                        <td class="fw-semibold"><?= $this->escapeHtml($role->getRoleId()) ?></td>
+                        <td class="small text-secondary">
+                            <?php if ($isRoot): ?>
+                                <span class="fst-italic">— root role</span>
+                            <?php else: ?>
+                                <?= $this->escapeHtml(implode(', ', $parentNames)) ?>
+                            <?php endif; ?>
+                        </td>
+                        <td class="text-end">
+                            <?php if ($isRoot): ?>
+                                <button class="btn btn-sm btn-outline-secondary py-0 px-2" disabled title="Root role — cannot edit">
+                                    <i class="bi bi-pencil"></i>
+                                </button>
+                            <?php else: ?>
+                                <button
+                                    class="btn btn-sm btn-outline-secondary py-0 px-2"
+                                    hx-get="<?= $this->escapeHtmlAttr($this->adminUrl('acl.manager.role.edit.modal', ['roleId' => $role->getRoleId()])) ?>"
+                                    hx-target="#sharedModalDialog"
+                                    hx-swap="innerHTML"
+                                    hx-push-url="false"
+                                    hx-on::after-request="if(event.detail.successful) bootstrap.Modal.getOrCreateInstance(document.getElementById('sharedModal')).show()"
+                                >
+                                    <i class="bi bi-pencil"></i>
+                                </button>
+                            <?php endif; ?>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+    <div class="card-footer py-2 text-secondary small">
+        Changes to roles take effect on next request.
+    </div>
+</div>
