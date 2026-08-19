@@ -27,4 +27,10 @@ final class RuntimeException extends SplRuntimeException implements ExceptionInt
             $previous
         );
     }
+
+    public static function forUnmatchedRoute(
+        ?ExceptionInterface $previous = null,
+    ): self {
+        return new self('Cannot build an ACL resource from an unmatched route.', 0, $previous);
+    }
 }
