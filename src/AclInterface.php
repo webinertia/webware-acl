@@ -13,16 +13,16 @@ interface AclInterface extends LaminasAclInterface
     final public const string DEVELOPER_ROLE_ID = 'Developer';
 
     /**
+     * Returns the resource ID of the direct parent of $resourceId, or null if it has none.
+     */
+    public function getResourceParentId(string $resourceId): ?string;
+
+    /**
      * Returns all roles keyed by role ID with their parent role IDs.
      *
      * @return array<string, string[]>
      */
     public function getRoles(): array;
-
-    /**
-     * Returns the resource ID of the direct parent of $resourceId, or null if it has none.
-     */
-    public function getResourceParentId(string $resourceId): ?string;
 
     /**
      * Checks whether the authenticated user may access the matched route resource.

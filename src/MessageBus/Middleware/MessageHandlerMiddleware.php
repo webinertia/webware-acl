@@ -48,11 +48,11 @@ final readonly class MessageHandlerMiddleware implements MiddlewareInterface
     ): ResultInterface {
         if (
             $message instanceof AuthorizableCommandInterface
-            && ! $this->acl->isAllowed(
-                $message->getRole(),
-                $message,
-                $message->getPrivilegeId(),
-            )
+                && ! $this->acl->isAllowed(
+                    $message->getRole(),
+                    $message,
+                    $message->getPrivilegeId(),
+                )
         ) {
             return new CommandResult($message, CommandStatus::Forbidden, null);
         }
