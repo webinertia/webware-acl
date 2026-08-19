@@ -35,11 +35,6 @@ use Override;
  */
 final class OwnershipAssertion implements AssertionInterface
 {
-    public function __invoke(): static
-    {
-        return new self();
-    }
-
     #[Override]
     public function assert(
         Acl $acl,
@@ -56,5 +51,10 @@ final class OwnershipAssertion implements AssertionInterface
         }
 
         return $resource->getOwnerId() === $role->getOwnerId();
+    }
+
+    public function __invoke(): static
+    {
+        return new self();
     }
 }

@@ -42,7 +42,7 @@ final class SaveRuleHandler implements CommandHandlerInterface
                 $command->assertions,
             );
 
-            if ($ruleId === false) {
+            if (false === $ruleId) {
                 return new CommandResult($command, MessageStatus::Failure, null);
             }
         } catch (Throwable $e) {

@@ -28,8 +28,13 @@ final readonly class Configuration extends Config
             throw Exception\ContainerException::forMissingConfigKey(AssertionManager::class, $callingFactory);
         }
 
-        if (! is_array($config[AssertionManager::class]) || $config[AssertionManager::class] === []) {
-            throw Exception\ContainerException::forInvalidConfigType(AssertionManager::class, 'array', get_debug_type($config[AssertionManager::class]), $callingFactory);
+        if (! is_array($config[AssertionManager::class]) || [] === $config[AssertionManager::class]) {
+            throw Exception\ContainerException::forInvalidConfigType(
+                AssertionManager::class,
+                'array',
+                get_debug_type($config[AssertionManager::class]),
+                $callingFactory,
+            );
         }
 
         return $config[AssertionManager::class];

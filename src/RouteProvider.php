@@ -17,7 +17,7 @@ use Webware\Acl\Admin\RequestHandler\AclOverviewHandler;
 use Webware\Acl\Admin\RequestHandler\AddRoleModalHandler;
 use Webware\Acl\Admin\RequestHandler\DeleteRuleModalHandler;
 use Webware\Acl\Admin\RequestHandler\EditRoleModalHandler;
-use Webware\Acl\Admin\RequestHandler\ResourceListHandler;
+
 use Webware\Acl\Admin\RequestHandler\RoleListHandler;
 
 use function rtrim;
@@ -71,14 +71,14 @@ final readonly class RouteProvider implements RouteProviderInterface
          * route name / resourceId {route_prefix admin.}acl.manager.delete.role
          */
         $routeCollector->get(
-            '/' . $this->adminRouteSegment,
+            "/{$this->adminRouteSegment}",
             $middlewareFactory->prepare(
                 [
                     OverviewMiddleware::class,
                     AclOverviewHandler::class,
-                ]
+                ],
             ),
-            rtrim($this->adminRouteNamePrefix, '.')
+            rtrim($this->adminRouteNamePrefix, '.'),
         )->setOptions([
             'navigation' => 'admin',
             'label'      => 'Access Control',
@@ -89,17 +89,17 @@ final readonly class RouteProvider implements RouteProviderInterface
 
         // Role management
         $routeCollector->get(
-            '/' . $this->adminRouteSegment . '/roles',
+            "/{$this->adminRouteSegment}/roles",
             $middlewareFactory->prepare(
                 [
-                    RoleListHandler::class
-                ]
+                    RoleListHandler::class,
+                ],
             ),
-            $this->adminRouteNamePrefix . 'role.read'
+            "{$this->adminRouteNamePrefix}role.read",
         )->setOptions([
             'label'  => 'Roles',
             'icon'   => 'bi-shield-lock-fill',
-            'parent' => $this->adminRouteNamePrefix . 'acl.read',
+            'parent' => "{$this->adminRouteNamePrefix}acl.read",
             'order'  => 30,
         ]);
 
@@ -129,108 +129,108 @@ final readonly class RouteProvider implements RouteProviderInterface
 
         // Rules write/delete
         $routeCollector->post(
-            '/' . $this->adminRouteSegment . '/rule',
+            "/{$this->adminRouteSegment}/rule",
             $middlewareFactory->prepare(
                 [
                     ProcessRuleMiddleware::class,
                     OverviewMiddleware::class,
                     AclOverviewHandler::class,
-                ]
+                ],
             ),
-            $this->adminRouteNamePrefix . 'rule.create'
+            "{$this->adminRouteNamePrefix}rule.create",
         );
 
         $routeCollector->patch(
-            '/' . $this->adminRouteSegment . '/rule',
+            "/{$this->adminRouteSegment}/rule",
             $middlewareFactory->prepare(
                 [
                     BodyParamsMiddleware::class,
                     ProcessRuleMiddleware::class,
                     OverviewMiddleware::class,
-                    AclOverviewHandler::class
-                ]
+                    AclOverviewHandler::class,
+                ],
             ),
-            $this->adminRouteNamePrefix . 'rule.update'
+            "{$this->adminRouteNamePrefix}rule.update",
         );
 
         $routeCollector->delete(
-            '/' . $this->adminRouteSegment . '/rule/{roleId:[^/]+}/{resourceId:[^/]+}',
+            "/{$this->adminRouteSegment}/rule/{roleId:[^/]+}/{resourceId:[^/]+}",
             $middlewareFactory->prepare(
                 [
                     ProcessRuleMiddleware::class,
                     OverviewMiddleware::class,
                     AclOverviewHandler::class,
-                ]
+                ],
             ),
-            $this->adminRouteNamePrefix . 'rule.delete'
+            "{$this->adminRouteNamePrefix}rule.delete",
         );
 
         $routeCollector->get(
-            '/' . $this->adminRouteSegment . '/rule/{roleId:[^/]+}/{resourceId:[^/]+}/modal',
+            "/{$this->adminRouteSegment}/rule/{roleId:[^/]+}/{resourceId:[^/]+}/modal",
             $middlewareFactory->prepare(
                 [
                     DisableBodyMiddleware::class,
-                    DeleteRuleModalHandler::class
-                ]
+                    DeleteRuleModalHandler::class,
+                ],
             ),
-            $this->adminRouteNamePrefix . 'rule.delete.modal'
+            "{$this->adminRouteNamePrefix}rule.delete.modal",
         );
 
         // Roles write/delete
         $routeCollector->post(
-            '/' . $this->adminRouteSegment . '/role',
+            "/{$this->adminRouteSegment}/role",
             $middlewareFactory->prepare(
                 [
                     ProcessRoleMiddleware::class,
-                    RoleListHandler::class
-                ]
+                    RoleListHandler::class,
+                ],
             ),
-            $this->adminRouteNamePrefix . 'role.create'
+            "{$this->adminRouteNamePrefix}role.create",
         );
 
         $routeCollector->get(
-            '/' . $this->adminRouteSegment . '/role/modal',
+            "/{$this->adminRouteSegment}/role/modal",
             $middlewareFactory->prepare(
                 [
                     DisableBodyMiddleware::class,
                     AddRoleModalHandler::class,
-                ]
+                ],
             ),
-            $this->adminRouteNamePrefix . 'role.add.modal'
+            "{$this->adminRouteNamePrefix}role.add.modal",
         );
 
         $routeCollector->get(
-            '/' . $this->adminRouteSegment . '/role/{roleId:[^/]+}/modal',
+            "/{$this->adminRouteSegment}/role/{roleId:[^/]+}/modal",
             $middlewareFactory->prepare(
                 [
                     DisableBodyMiddleware::class,
                     EditRoleModalHandler::class,
-                ]
+                ],
             ),
-            $this->adminRouteNamePrefix . 'role.edit.modal'
+            "{$this->adminRouteNamePrefix}role.edit.modal",
         );
 
         $routeCollector->patch(
-            '/' . $this->adminRouteSegment . '/role/{roleId:[^/]+}',
+            "/{$this->adminRouteSegment}/role/{roleId:[^/]+}",
             $middlewareFactory->prepare(
                 [
                     BodyParamsMiddleware::class,
                     ProcessRoleMiddleware::class,
-                    RoleListHandler::class
-                ]
+                    RoleListHandler::class,
+                ],
             ),
-            $this->adminRouteNamePrefix . 'role.update'
+            "{$this->adminRouteNamePrefix}role.update",
         );
 
         $routeCollector->delete(
-            '/' . $this->adminRouteSegment . '/role/{roleId:[^/]+}',
+            "/{$this->adminRouteSegment}/role/{roleId:[^/]+}",
             $middlewareFactory->prepare(
                 [
                     ProcessRoleMiddleware::class,
-                    RoleListHandler::class
-                ]
+                    RoleListHandler::class,
+                ],
             ),
-            $this->adminRouteNamePrefix . 'role.delete'
+            "{$this->adminRouteNamePrefix}role.delete",
         );
 
         // Resources write/delete routes removed — resources are route-derived

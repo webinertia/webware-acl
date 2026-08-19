@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Webware\Acl\RequestHandler;
 
-use Webware\Message\SystemMessengerInterface;
 use Laminas\Diactoros\Response\RedirectResponse;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Webware\Message\SystemMessengerInterface;
 use Webware\UserManager\UserInterface;
 
 final readonly class ForbiddenHandler implements ForbiddenHandlerInterface
@@ -38,7 +38,7 @@ final readonly class ForbiddenHandler implements ForbiddenHandlerInterface
         $serverParams = $request->getServerParams();
         $redirect     = $this->forbiddenRedirect
             ?? $serverParams['HTTP_REFERER']
-            ?? '/';
+                ?? '/';
 
         return new RedirectResponse($redirect);
     }

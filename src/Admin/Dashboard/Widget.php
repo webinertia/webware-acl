@@ -15,13 +15,21 @@ use Webware\Admin\Widget\WidgetInterface;
  */
 final class Widget implements WidgetInterface
 {
-    public string $title      { get => 'ACL Management'; }
+    public string $title {
+        get => 'ACL Management';
+    }
 
-    public string $privilege  { get => 'read'; }
+    public string $privilege {
+        get => 'read';
+    }
 
-    public string $template   { get => 'acl::admin-widget'; }
+    public string $template {
+        get => 'acl::admin-widget';
+    }
 
-    public int $order      { get => 10; }
+    public int $order {
+        get => 10;
+    }
 
     public function __construct(
         public readonly string $resourceId,

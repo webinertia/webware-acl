@@ -13,7 +13,7 @@ final readonly class RuleDataFilterFactory
     public function __invoke(ContainerInterface $container): RuleDataFilter
     {
         return new RuleDataFilter(
-            $container->get(InputFilter\Factory::class)
+            $container->get(InputFilter\Factory::class),
         );
     }
 }

@@ -13,7 +13,7 @@ final class AclMiddlewareFactory
     public function __invoke(ContainerInterface $container): AclMiddleware
     {
         return new AclMiddleware(
-            $container->get(AclInterface::class)
+            $container->get(AclInterface::class),
         );
     }
 }

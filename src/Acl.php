@@ -32,6 +32,11 @@ final class Acl extends LaminasAcl implements AclInterface
         private readonly RouteCollectorInterface $routeCollector,
     ) {}
 
+    public function addResource($resource, $parent = null, bool $persist = false)
+    {
+        throw RuntimeException::forAclAddResource();
+    }
+
     public function addRole($role, $parents = null, bool $persist = false)
     {
         parent::addRole($role, $parents);
@@ -39,7 +44,7 @@ final class Acl extends LaminasAcl implements AclInterface
         if ($persist) {
             $roleId = $role instanceof RoleInterface ? $role->getRoleId() : $role;
 
-            if ($parents === null) {
+            if (null === $parents) {
                 $this->roleRepository->save($roleId, null);
             } else {
                 $parentIds    = [];
@@ -54,9 +59,28 @@ final class Acl extends LaminasAcl implements AclInterface
         return $this;
     }
 
-    public function addResource($resource, $parent = null, bool $persist = false)
+    public function getResourceParentId(string $resourceId): ?string
     {
-        throw RuntimeException::forAclAddResource();
+        if (! $this->hasResource($resourceId)) {
+            return null;
+        }
+
+        return $this->resources[$resourceId]['parent']?->getResourceId();
+    }
+
+    public function getRoles(): array
+    {
+        $registry = $this->getRoleRegistry();
+        $result   = [];
+        foreach (array_keys($registry->getRoles()) as $roleId) {
+            $parents = [];
+            foreach ($registry->getParents($roleId) as $parentId => $parent) {
+                $parents[] = $parentId;
+            }
+            $result[$roleId] = $parents;
+        }
+
+        return $result;
     }
 
     #[Override]
@@ -95,30 +119,6 @@ final class Acl extends LaminasAcl implements AclInterface
         return $this->isAllowed($user, $resource);
     }
 
-    public function getRoles(): array
-    {
-        $registry = $this->getRoleRegistry();
-        $result   = [];
-        foreach (array_keys($registry->getRoles()) as $roleId) {
-            $parents = [];
-            foreach ($registry->getParents($roleId) as $parentId => $parent) {
-                $parents[] = $parentId;
-            }
-            $result[$roleId] = $parents;
-        }
-
-        return $result;
-    }
-
-    public function getResourceParentId(string $resourceId): ?string
-    {
-        if (! $this->hasResource($resourceId)) {
-            return null;
-        }
-
-        return $this->resources[$resourceId]['parent']?->getResourceId();
-    }
-
     protected function getRoleRegistry()
     {
         if (null === $this->roleRegistry) {
@@ -139,9 +139,9 @@ final class Acl extends LaminasAcl implements AclInterface
         // Build explicit parent map from DB data
         $explicitParents = [];
         foreach ($allRules as $rule) {
-            if ($rule['parentResourceId'] !== null) {
-                $explicitParents[$rule['resourceId']] = $rule['parentResourceId'];
-            }
+            if (null === $rule['parentResourceId']) { continue; }
+
+$explicitParents[$rule['resourceId']] = $rule['parentResourceId'];
         }
 
         $resourceIds = $this->ruleRepository->fetchDistinctResourceIds();
@@ -165,7 +165,7 @@ final class Acl extends LaminasAcl implements AclInterface
                 $rule['roleId'],
                 $rule['resourceId'],
                 null,
-                ($this->factory)($rule['assertions'])
+                ($this->factory)($rule['assertions']),
             );
         }
 
@@ -177,7 +177,7 @@ final class Acl extends LaminasAcl implements AclInterface
         // Routes with no rules are registered here under their nearest ancestor.
         foreach ($this->routeCollector->getRoutes() as $route) {
             $name = $route->getName();
-            if ($name === null || $name === '' || $this->hasResource($name)) {
+            if (null === $name || '' === $name || $this->hasResource($name)) {
                 continue;
             }
             $candidate = $name;

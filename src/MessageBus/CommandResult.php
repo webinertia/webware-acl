@@ -33,14 +33,14 @@ final readonly class CommandResult implements CommandResultInterface
     }
 
     #[Override]
-    public function getStatus(): CommandStatus
-    {
-        return $this->status;
-    }
-
-    #[Override]
     public function getResult(): mixed
     {
         return $this->result;
+    }
+
+    #[Override]
+    public function getStatus(): CommandStatus
+    {
+        return $this->status;
     }
 }

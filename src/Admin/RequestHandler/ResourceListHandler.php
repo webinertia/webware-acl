@@ -11,6 +11,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Webware\MessageBus\Command\CommandResult;
+use Webware\MessageBus\Command\CommandResultInterface;
 use Webware\MessageBus\MessageStatus;
 
 use function json_encode;
@@ -42,7 +43,10 @@ final class ResourceListHandler implements RequestHandlerInterface
         ]));
 
         $commandResult = $request->getAttribute(CommandResult::class);
-        if ($commandResult instanceof CommandResultInterface && $commandResult->getStatus() === MessageStatus::Success) {
+        if (
+            $commandResult instanceof CommandResultInterface
+            && $commandResult->getStatus() === MessageStatus::Success
+        ) {
             $response = $response->withHeader(Header::Trigger->value, json_encode(['closeModal' => null]));
         }
 
