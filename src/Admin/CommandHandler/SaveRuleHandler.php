@@ -45,7 +45,6 @@ final class SaveRuleHandler implements CommandHandlerInterface
             if ($ruleId === false) {
                 return new CommandResult($command, MessageStatus::Failure, null);
             }
-
         } catch (Throwable $e) {
             return new CommandResult($command, MessageStatus::Failure, $e);
         }

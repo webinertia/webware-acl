@@ -22,31 +22,31 @@ use Webware\Acl\Admin\CommandHandler\SaveRuleHandler;
 use Webware\Acl\Admin\CommandHandler\UpdateRuleTypeHandler;
 use Webware\Acl\Admin\Dashboard\Container\RegisterWidgetListenerFactory;
 use Webware\Acl\Admin\Dashboard\RegisterWidgetListener;
-use Webware\Acl\Admin\Middleware\OverviewMiddleware;
 use Webware\Acl\Admin\Middleware\Container\OverviewMiddlewareFactory;
 use Webware\Acl\Admin\Middleware\Container\ProcessRoleMiddlewareFactory;
 use Webware\Acl\Admin\Middleware\Container\ProcessRuleMiddlewareFactory;
+use Webware\Acl\Admin\Middleware\OverviewMiddleware;
 use Webware\Acl\Admin\Middleware\ProcessRoleMiddleware;
 use Webware\Acl\Admin\Middleware\ProcessRuleMiddleware;
 use Webware\Acl\Admin\RequestHandler\AclOverviewHandler;
+use Webware\Acl\Admin\RequestHandler\AddRoleModalHandler;
 use Webware\Acl\Admin\RequestHandler\Container\AclOverviewHandlerFactory;
 use Webware\Acl\Admin\RequestHandler\Container\AddRoleModalHandlerFactory;
 use Webware\Acl\Admin\RequestHandler\Container\DeleteRuleModalHandlerFactory;
 use Webware\Acl\Admin\RequestHandler\Container\EditRoleModalHandlerFactory;
 use Webware\Acl\Admin\RequestHandler\Container\ResourceListHandlerFactory;
 use Webware\Acl\Admin\RequestHandler\Container\RoleListHandlerFactory;
-use Webware\Acl\Admin\RequestHandler\AddRoleModalHandler;
 use Webware\Acl\Admin\RequestHandler\DeleteRuleModalHandler;
 use Webware\Acl\Admin\RequestHandler\EditRoleModalHandler;
 use Webware\Acl\Admin\RequestHandler\ResourceListHandler;
 use Webware\Acl\Admin\RequestHandler\RoleListHandler;
-use Webware\Acl\MessageBus\Middleware\MessageHandlerMiddleware as AclMessageHandlerMiddleware;
 use Webware\Acl\Container\AclFactory;
 use Webware\Acl\Container\MessageHandlerMiddlewareFactory;
 use Webware\Acl\Container\RouteProviderFactory;
 use Webware\Acl\Http\Container\RouteResourceFactoryFactory;
 use Webware\Acl\Http\RouteResourceFactory;
 use Webware\Acl\Http\RouteResourceFactoryInterface;
+use Webware\Acl\MessageBus\Middleware\MessageHandlerMiddleware as AclMessageHandlerMiddleware;
 use Webware\Acl\Middleware\AclMiddleware;
 use Webware\Acl\Middleware\AuthorizationMiddleware;
 use Webware\Acl\Middleware\Container\AclMiddlewareFactory;
@@ -65,24 +65,50 @@ use Webware\MessageBus\Middleware\MessageHandlerMiddleware;
 
 final class ConfigProvider
 {
-    /**
-     * Returns the configuration array.
-     *
-     * To add a bit of a structure, each section is defined in a separate
-     * method which returns an array with its configuration.
-     */
-    public function __invoke(): array
+    public function getAssertionManagerConfig(): array
     {
         return [
-            'dependencies'             => $this->getDependencies(),
-            'input_filters'            => $this->getInputFilterConfig(),
-            'listeners'                => $this->getListeners(),
-            'router'                   => $this->getRouteProviders(),
-            'templates'                => $this->getTemplates(),
-            AclInterface::class        => $this->getDefaultConfig(),
-            AssertionManager::class    => $this->getAssertionManagerConfig(),
-            MessageBusInterface::class => $this->getBusConfig(),
-            'validators'               => $this->getValidatorConfig(),
+            'aliases'   => [
+                'Ownership' => Assertion\OwnershipAssertion::class,
+            ],
+            'factories' => [
+                // OwnershipAssertion defines __invoke(): static, making it usable as its own factory key.
+                Assertion\OwnershipAssertion::class => Assertion\OwnershipAssertion::class,
+            ],
+        ];
+    }
+
+    public function getBusConfig(): array
+    {
+        return [
+            BusProvider::COMMAND_MAP_KEY         => [
+                SaveRoleCommand::class       => SaveRoleHandler::class,
+                DeleteRoleCommand::class     => DeleteRoleHandler::class,
+                DeleteRuleCommand::class     => DeleteRuleHandler::class,
+                SaveRuleCommand::class       => SaveRuleHandler::class,
+                UpdateRuleTypeCommand::class => UpdateRuleTypeHandler::class,
+            ],
+            BusProvider::MIDDLEWARE_PIPELINE_KEY => [
+                [
+                    'middleware' => MessageHandlerMiddleware::class,
+                    'priority'   => BusProvider::DEFAULT_PRIORITY,
+                ],
+                [
+                    'middleware' => AclMessageHandlerMiddleware::class,
+                    'priority'   => 10,
+                ],
+            ],
+        ];
+    }
+
+    public function getDefaultConfig(): array
+    {
+        return [
+            'route_param_map'                                    => [],
+            'forbidden_redirect'                                 => '/',
+            'forbidden_template'                                 => null,
+            Container\Configuration::ADMIN_ROUTE_SEGMENT_KEY     => Container\Configuration::ADMIN_ROUTE_SEGMENT_VALUE,
+            Container\Configuration::ADMIN_ROUTE_NAME_PREFIX_KEY => Container\Configuration::ADMIN_ROUTE_NAME_PREFIX_VALUE,
         ];
     }
 
@@ -120,25 +146,7 @@ final class ConfigProvider
                 UpdateRuleTypeHandler::class               => UpdateRuleTypeHandlerFactory::class,
                 RoleRepository::class                      => RoleRepositoryFactory::class,
                 RuleRepository::class                      => RuleRepositoryFactory::class,
-                AclMessageHandlerMiddleware::class            => MessageHandlerMiddlewareFactory::class,
-            ],
-        ];
-    }
-
-    public function getTemplates(): array
-    {
-        return [
-            'paths' => [
-                'acl' => [__DIR__ . '/../templates/acl'],
-            ],
-        ];
-    }
-
-    public function getRouteProviders(): array
-    {
-        return [
-            'route-providers' => [
-                RouteProvider::class,
+                AclMessageHandlerMiddleware::class         => MessageHandlerMiddlewareFactory::class,
             ],
         ];
     }
@@ -162,49 +170,20 @@ final class ConfigProvider
         ];
     }
 
-    public function getDefaultConfig(): array
+    public function getRouteProviders(): array
     {
         return [
-            'route_param_map'                                    => [],
-            'forbidden_redirect'                                 => '/',
-            'forbidden_template'                                 => null,
-            Container\Configuration::ADMIN_ROUTE_SEGMENT_KEY     => Container\Configuration::ADMIN_ROUTE_SEGMENT_VALUE,
-            Container\Configuration::ADMIN_ROUTE_NAME_PREFIX_KEY => Container\Configuration::ADMIN_ROUTE_NAME_PREFIX_VALUE,
-        ];
-    }
-
-    public function getAssertionManagerConfig(): array
-    {
-        return [
-            'aliases'   => [
-                'Ownership' => Assertion\OwnershipAssertion::class,
-            ],
-            'factories' => [
-                // OwnershipAssertion defines __invoke(): static, making it usable as its own factory key.
-                Assertion\OwnershipAssertion::class => Assertion\OwnershipAssertion::class,
+            'route-providers' => [
+                RouteProvider::class,
             ],
         ];
     }
 
-    public function getBusConfig(): array
+    public function getTemplates(): array
     {
         return [
-            BusProvider::COMMAND_MAP_KEY => [
-                SaveRoleCommand::class       => SaveRoleHandler::class,
-                DeleteRoleCommand::class     => DeleteRoleHandler::class,
-                DeleteRuleCommand::class     => DeleteRuleHandler::class,
-                SaveRuleCommand::class       => SaveRuleHandler::class,
-                UpdateRuleTypeCommand::class => UpdateRuleTypeHandler::class,
-            ],
-            BusProvider::MIDDLEWARE_PIPELINE_KEY => [
-                [
-                    'middleware' => MessageHandlerMiddleware::class,
-                    'priority'   => BusProvider::DEFAULT_PRIORITY,
-                ],
-                [
-                    'middleware' => AclMessageHandlerMiddleware::class,
-                    'priority'   => 10,
-                ],
+            'paths' => [
+                'acl' => [__DIR__ . '/../templates/acl'],
             ],
         ];
     }
@@ -215,6 +194,27 @@ final class ConfigProvider
             'factories' => [
                 Validator\Assertion::class => Validator\Container\AssertionFactory::class,
             ],
+        ];
+    }
+
+    /**
+     * Returns the configuration array.
+     *
+     * To add a bit of a structure, each section is defined in a separate
+     * method which returns an array with its configuration.
+     */
+    public function __invoke(): array
+    {
+        return [
+            'dependencies'             => $this->getDependencies(),
+            'input_filters'            => $this->getInputFilterConfig(),
+            'listeners'                => $this->getListeners(),
+            'router'                   => $this->getRouteProviders(),
+            'templates'                => $this->getTemplates(),
+            AclInterface::class        => $this->getDefaultConfig(),
+            AssertionManager::class    => $this->getAssertionManagerConfig(),
+            MessageBusInterface::class => $this->getBusConfig(),
+            'validators'               => $this->getValidatorConfig(),
         ];
     }
 }
