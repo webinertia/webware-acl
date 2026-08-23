@@ -1,1 +1,271 @@
-[]
+variant = "loose"
+
+[[issues]]
+file = "src/Acl.php"
+code = "ambiguous-function-call"
+message = "Ambiguous function call detected."
+count = 1
+
+[[issues]]
+file = "src/Acl.php"
+code = "cyclomatic-complexity"
+message = "Class has high complexity."
+count = 1
+
+[[issues]]
+file = "src/Acl.php"
+code = "kan-defect"
+message = "Class has a high kan defect score."
+count = 1
+
+[[issues]]
+file = "src/Acl.php"
+code = "literal-named-argument"
+message = "Literal argument `'.'` should be passed as a named argument for clarity."
+count = 1
+
+[[issues]]
+file = "src/Acl.php"
+code = "literal-named-argument"
+message = "Literal argument `0` should be passed as a named argument for clarity."
+count = 1
+
+[[issues]]
+file = "src/Acl.php"
+code = "no-boolean-flag-parameter"
+message = "Avoid boolean flag parameters."
+count = 1
+
+[[issues]]
+file = "src/Acl.php"
+code = "no-else-clause"
+message = "Avoid `else` clauses."
+count = 1
+
+[[issues]]
+file = "src/Admin/Dashboard/Container/RegisterWidgetListenerFactory.php"
+code = "literal-named-argument"
+message = "Literal argument `'.'` should be passed as a named argument for clarity."
+count = 1
+
+[[issues]]
+file = "src/Admin/Dashboard/Widget.php"
+code = "excessive-parameter-list"
+message = "Parameter list is too long."
+count = 1
+
+[[issues]]
+file = "src/Admin/Middleware/OverviewMiddleware.php"
+code = "cyclomatic-complexity"
+message = "Class has high complexity."
+count = 1
+
+[[issues]]
+file = "src/Admin/Middleware/OverviewMiddleware.php"
+code = "halstead"
+message = "Method has a high halstead volume and effort"
+count = 1
+
+[[issues]]
+file = "src/Admin/Middleware/OverviewMiddleware.php"
+code = "kan-defect"
+message = "Class has a high kan defect score."
+count = 1
+
+[[issues]]
+file = "src/Admin/Middleware/OverviewMiddleware.php"
+code = "no-array-accumulation-in-loop"
+message = "`array_values()` called inside a loop reprocesses the entire array every iteration."
+count = 2
+
+[[issues]]
+file = "src/Admin/Middleware/OverviewMiddleware.php"
+code = "no-else-clause"
+message = "Avoid `else` clauses."
+count = 2
+
+[[issues]]
+file = "src/Admin/Middleware/OverviewMiddleware.php"
+code = "no-isset"
+message = "Use of the `isset` construct."
+count = 3
+
+[[issues]]
+file = "src/Admin/Middleware/ProcessRoleMiddleware.php"
+code = "no-else-clause"
+message = "Avoid `else` clauses."
+count = 3
+
+[[issues]]
+file = "src/Admin/Middleware/ProcessRuleMiddleware.php"
+code = "no-else-clause"
+message = "Avoid `else` clauses."
+count = 3
+
+[[issues]]
+file = "src/Assertion/AssertionAggregateFactory.php"
+code = "no-empty"
+message = "Use of the `empty` construct."
+count = 1
+
+[[issues]]
+file = "src/Container/Configuration.php"
+code = "ambiguous-function-call"
+message = "Ambiguous function call detected."
+count = 2
+
+[[issues]]
+file = "src/Container/Configuration.php"
+code = "no-isset"
+message = "Use of the `isset` construct."
+count = 1
+
+[[issues]]
+file = "src/Entity/Role.php"
+code = "ambiguous-function-call"
+message = "Ambiguous function call detected."
+count = 1
+
+[[issues]]
+file = "src/Entity/Role.php"
+code = "literal-named-argument"
+message = "Literal argument `true` should be passed as a named argument for clarity."
+count = 1
+
+[[issues]]
+file = "src/Entity/Role.php"
+code = "no-else-clause"
+message = "Avoid `else` clauses."
+count = 1
+
+[[issues]]
+file = "src/Entity/Rule.php"
+code = "ambiguous-function-call"
+message = "Ambiguous function call detected."
+count = 1
+
+[[issues]]
+file = "src/Entity/Rule.php"
+code = "excessive-parameter-list"
+message = "Parameter list is too long."
+count = 1
+
+[[issues]]
+file = "src/Entity/Rule.php"
+code = "literal-named-argument"
+message = "Literal argument `true` should be passed as a named argument for clarity."
+count = 1
+
+[[issues]]
+file = "src/InputFilter/RoleDataFilter.php"
+code = "ambiguous-function-call"
+message = "Ambiguous function call detected."
+count = 1
+
+[[issues]]
+file = "src/InputFilter/RuleDataFilter.php"
+code = "ambiguous-function-call"
+message = "Ambiguous function call detected."
+count = 1
+
+[[issues]]
+file = "src/Repository/RoleRepository.php"
+code = "ambiguous-function-call"
+message = "Ambiguous function call detected."
+count = 3
+
+[[issues]]
+file = "src/Repository/RoleRepository.php"
+code = "cyclomatic-complexity"
+message = "Class has high complexity."
+count = 1
+
+[[issues]]
+file = "src/Repository/RoleRepository.php"
+code = "kan-defect"
+message = "Class has a high kan defect score."
+count = 1
+
+[[issues]]
+file = "src/Repository/RoleRepository.php"
+code = "literal-named-argument"
+message = "Literal argument `true` should be passed as a named argument for clarity."
+count = 1
+
+[[issues]]
+file = "src/Repository/RoleRepository.php"
+code = "no-array-accumulation-in-loop"
+message = "`array_values()` called inside a loop reprocesses the entire array every iteration."
+count = 1
+
+[[issues]]
+file = "src/Repository/RoleRepository.php"
+code = "no-isset"
+message = "Use of the `isset` construct."
+count = 1
+
+[[issues]]
+file = "src/Repository/RoleRepository.php"
+code = "no-shorthand-ternary"
+message = "Use of the shorthand ternary operator."
+count = 1
+
+[[issues]]
+file = "src/Repository/RuleRepository.php"
+code = "cyclomatic-complexity"
+message = "Class has high complexity."
+count = 1
+
+[[issues]]
+file = "src/Repository/RuleRepository.php"
+code = "literal-named-argument"
+message = "Literal argument `true` should be passed as a named argument for clarity."
+count = 2
+
+[[issues]]
+file = "src/Repository/RuleRepository.php"
+code = "no-negated-ternary"
+message = "Negated ternary condition."
+count = 1
+
+[[issues]]
+file = "src/RequestHandler/Container/ForbiddenHandlerFactory.php"
+code = "no-shorthand-ternary"
+message = "Use of the shorthand ternary operator."
+count = 1
+
+[[issues]]
+file = "src/Role/SingleRoleUserProxy.php"
+code = "no-else-clause"
+message = "Avoid `else` clauses."
+count = 1
+
+[[issues]]
+file = "src/Role/SingleRoleUserProxy.php"
+code = "too-many-methods"
+message = "Class has too many methods."
+count = 1
+
+[[issues]]
+file = "src/Role/UserRoleIterator.php"
+code = "no-isset"
+message = "Use of the `isset` construct."
+count = 1
+
+[[issues]]
+file = "src/RouteProvider.php"
+code = "literal-named-argument"
+message = "Literal argument `'.'` should be passed as a named argument for clarity."
+count = 1
+
+[[issues]]
+file = "src/Validator/Assertion.php"
+code = "halstead"
+message = "Method has a high halstead difficulty"
+count = 1
+
+[[issues]]
+file = "test/integration/ProcessRoleMiddlewareTest.php"
+code = "prefer-first-class-callable"
+message = "Use first-class callable syntax `...` instead of a arrow function."
+count = 2

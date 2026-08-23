@@ -8,6 +8,7 @@ use Laminas\Permissions\Acl\Role\RoleInterface;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
+use RuntimeException;
 use Webware\Acl\AclInterface;
 use Webware\Acl\MessageBus\AuthorizableCommandInterface;
 use Webware\Acl\MessageBus\CommandStatus;
@@ -18,7 +19,6 @@ use Webware\MessageBus\MiddlewareInterface;
 use Webware\MessageBus\MiddlewarePipe;
 use Webware\MessageBus\PipelineHandlerInterface;
 use Webware\MessageBus\ResultInterface;
-use RuntimeException;
 
 #[CoversClass(MessageHandlerMiddleware::class)]
 final class MessageHandlerMiddlewareIntegrationTest extends TestCase

@@ -7,11 +7,11 @@ namespace Webware\Acl\Entity;
 use Laminas\Permissions\Acl\Resource\ResourceInterface;
 use Laminas\Permissions\Acl\Role\RoleInterface;
 use Override;
+use RuntimeException;
 use Webware\Acl\RuleType;
 use Webware\ResultSet\WithRowDataPrototypeInterface;
 
 use function json_decode;
-use RuntimeException;
 
 final class Rule implements WithRowDataPrototypeInterface, ResourceInterface, RoleInterface
 {

@@ -23,14 +23,11 @@ use Webware\Acl\Admin\Command\DeleteRuleCommand;
 use Webware\Acl\Admin\Command\SaveRuleCommand;
 use Webware\Acl\Admin\Command\UpdateRuleTypeCommand;
 use Webware\Acl\InputFilter\RuleDataFilter;
-
 use Webware\Core\Http\Middleware\HttpMethodProcessorTrait;
 use Webware\Message\SystemMessengerInterface;
 use Webware\MessageBus\Command\CommandResult;
 use Webware\MessageBus\MessageBusInterface;
 use Webware\MessageBus\MessageStatus;
-
-
 
 final readonly class ProcessRuleMiddleware implements MiddlewareInterface
 {

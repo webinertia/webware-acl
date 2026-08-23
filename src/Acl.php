@@ -139,9 +139,11 @@ final class Acl extends LaminasAcl implements AclInterface
         // Build explicit parent map from DB data
         $explicitParents = [];
         foreach ($allRules as $rule) {
-            if (null === $rule['parentResourceId']) { continue; }
+            if (null === $rule['parentResourceId']) {
+                continue;
+            }
 
-$explicitParents[$rule['resourceId']] = $rule['parentResourceId'];
+            $explicitParents[$rule['resourceId']] = $rule['parentResourceId'];
         }
 
         $resourceIds = $this->ruleRepository->fetchDistinctResourceIds();

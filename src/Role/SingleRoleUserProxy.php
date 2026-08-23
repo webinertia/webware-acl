@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Webware\Acl\Role;
 
+use Exception;
 use Laminas\Permissions\Acl\Role\RoleInterface;
 use Override;
 use Webware\UserManager\UserInterface;
 
 use function is_string;
-use Exception;
 
 final class SingleRoleUserProxy implements UserInterface
 {

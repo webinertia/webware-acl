@@ -6,7 +6,6 @@ namespace Webware\Acl\InputFilter;
 
 use Laminas\Filter;
 use Laminas\InputFilter;
-
 use Webware\Core\InputFilter\SystemMessageTrait;
 
 final class RoleDataFilter extends InputFilter\InputFilter

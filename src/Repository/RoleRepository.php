@@ -63,9 +63,11 @@ final class RoleRepository
         // Seed the queue with roots (roles that have no known parents)
         $queue = [];
         foreach ($inDegree as $roleId => $degree) {
-            if (0 !== $degree) { continue; }
+            if (0 !== $degree) {
+                continue;
+            }
 
-$queue[] = $roleId;
+            $queue[] = $roleId;
         }
 
         $registry = new Registry();
@@ -74,9 +76,11 @@ $queue[] = $roleId;
             $role   = $map[$roleId];
             $registry->add($role, $role->parentId ?: null);
             foreach ($children[$roleId] ?? [] as $childId) {
-                if (--$inDegree[$childId] !== 0) { continue; }
+                if (--$inDegree[$childId] !== 0) {
+                    continue;
+                }
 
-$queue[] = $childId;
+                $queue[] = $childId;
             }
         }
 

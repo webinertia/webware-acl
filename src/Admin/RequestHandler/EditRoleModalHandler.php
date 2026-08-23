@@ -42,10 +42,12 @@ final class EditRoleModalHandler implements RequestHandlerInterface
         // Find the role being edited so we can pre-populate the form
         $role = null;
         foreach ($roles as $r) {
-            if ($r->getRoleId() !== $roleId) { continue; }
+            if ($r->getRoleId() !== $roleId) {
+                continue;
+            }
 
-$role = $r;
-                break;
+            $role = $r;
+            break;
         }
 
         return new HtmlResponse($this->template->render('acl::partials/edit-role-modal', [

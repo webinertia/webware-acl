@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace Webware\Acl\Entity;
 
 use Laminas\Permissions\Acl\Role\RoleInterface;
+use RuntimeException;
 use Webware\ResultSet\WithRowDataPrototypeInterface;
 
 use function is_string;
 use function json_decode;
-use RuntimeException;
 
 final class Role implements RoleInterface, WithRowDataPrototypeInterface
 {

@@ -166,19 +166,19 @@ final class RuleRepository
             return null !== $id ? (int) $id : false;
         }
 
-            $set = ['type' => $type->value];
-            if (null !== $parentResourceId) {
-                $set['parentResourceId'] = $parentResourceId;
-            }
-            if (null !== $assertions) {
-                $set['assertions'] = json_encode($assertions);
-            }
-            $update = $sql->update()
-                ->set($set)
-                ->where(['roleId' => $roleId, 'resourceId' => $resourceId]);
-            $result = $sql->prepareStatementForSqlObject($update)->execute();
+        $set = ['type' => $type->value];
+        if (null !== $parentResourceId) {
+            $set['parentResourceId'] = $parentResourceId;
+        }
+        if (null !== $assertions) {
+            $set['assertions'] = json_encode($assertions);
+        }
+        $update = $sql->update()
+            ->set($set)
+            ->where(['roleId' => $roleId, 'resourceId' => $resourceId]);
+        $result = $sql->prepareStatementForSqlObject($update)->execute();
 
-            return $result->getAffectedRows() >= 0 ? (int) $row['id'] : false;
+        return $result->getAffectedRows() >= 0 ? (int) $row['id'] : false;
     }
 
     /**

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Webware\Acl;
 
-use Webware\Htmx\Middleware\DisableBodyMiddleware;
 use Mezzio\Helper\BodyParams\BodyParamsMiddleware;
 use Mezzio\MiddlewareFactoryInterface;
 use Mezzio\Router\RouteCollectorInterface;
@@ -17,8 +16,8 @@ use Webware\Acl\Admin\RequestHandler\AclOverviewHandler;
 use Webware\Acl\Admin\RequestHandler\AddRoleModalHandler;
 use Webware\Acl\Admin\RequestHandler\DeleteRuleModalHandler;
 use Webware\Acl\Admin\RequestHandler\EditRoleModalHandler;
-
 use Webware\Acl\Admin\RequestHandler\RoleListHandler;
+use Webware\Htmx\Middleware\DisableBodyMiddleware;
 
 use function rtrim;
 
