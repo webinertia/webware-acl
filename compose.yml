@@ -87,12 +87,13 @@ services:
   mysql:
     image: mysql:9.7
     environment:
-      MYSQL_ROOT_PASSWORD: root
+      MYSQL_ROOT_HOST: "%"
+      MYSQL_ALLOW_EMPTY_PASSWORD: "true"
       MYSQL_DATABASE: webware
       MYSQL_USER: webware
       MYSQL_PASSWORD: webware
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-proot"]
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
       interval: 5s
       timeout: 5s
       retries: 30
@@ -108,6 +109,8 @@ services:
     environment:
       PMA_HOST: mysql
       PMA_PORT: 3306
+      PMA_USER: root
+      PMA_PASSWORD: ""
     ports:
       - "8080:80"
     depends_on:
