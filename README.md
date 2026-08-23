@@ -1,5 +1,12 @@
 # webware-acl
 
+[![PHP Version](https://img.shields.io/packagist/php-v/webware/webware-acl)](https://packagist.org/packages/webware/webware-acl)
+[![Latest Version](https://img.shields.io/packagist/v/webware/webware-acl)](https://packagist.org/packages/webware/webware-acl)
+[![License](https://img.shields.io/github/license/webinertia/webware-acl)](LICENSE)
+[![Continuous Integration](https://github.com/webinertia/webware-acl/actions/workflows/continuous-integration.yml/badge.svg)](https://github.com/webinertia/webware-acl/actions/workflows/continuous-integration.yml)
+[![codecov](https://codecov.io/gh/webinertia/webware-acl/graph/badge.svg)](https://codecov.io/gh/webinertia/webware-acl)
+[![Mutation testing badge](https://img.shields.io/endpoint?style=flat&url=https%3A%2F%2Fbadge-api.stryker-mutator.io%2Fgithub.com%2Fwebinertia%2Fwebware-acl%2F0.1.x)](https://dashboard.stryker-mutator.io/reports/github.com/webinertia/webware-acl/0.1.x)
+
 A role-based access control (RBAC) library for Mezzio applications. Provides
 route-level authorisation backed by a relational database, a file-based cache,
 a PSR-14 event-driven build pipeline, and a full Bootstrap 5 administration UI.

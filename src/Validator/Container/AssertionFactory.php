@@ -13,11 +13,11 @@ final readonly class AssertionFactory
     public function __invoke(
         ContainerInterface $container,
         string $requestedName,
-        ?array $options = null
+        ?array $options = null,
     ): Assertion {
         return new Assertion(
             $container->get(AssertionManager::class),
-            $options
+            $options,
         );
     }
 }

@@ -19,7 +19,6 @@ use Throwable;
 use Webware\Acl\Admin\Command\UpdateRuleTypeCommand;
 use Webware\Acl\Repository\RoleRepository;
 use Webware\Acl\Repository\RuleRepository;
-use Webware\Acl\RuleType;
 use Webware\MessageBus\Command\CommandResult;
 use Webware\MessageBus\Command\CommandResultInterface;
 use Webware\MessageBus\CommandHandlerInterface;
@@ -45,9 +44,11 @@ final class UpdateRuleTypeHandler implements CommandHandlerInterface
             // Cascade: children with no explicit rule inherit the parent rule type.
             // Add an explicit old-type rule for each such child so they keep their access.
             foreach ($this->roleRepository->fetchDirectChildren($command->roleId) as $childRole) {
-                if ($this->ruleRepository->findByRoleAndResource($childRole, $command->resourceId) === null) {
-                    $this->ruleRepository->save($command->type, $childRole, $command->resourceId, []);
+                if ($this->ruleRepository->findByRoleAndResource($childRole, $command->resourceId) !== null) {
+                    continue;
                 }
+
+                $this->ruleRepository->save($command->type, $childRole, $command->resourceId, []);
             }
         } catch (Throwable $e) {
             return new CommandResult($command, MessageStatus::Failure, $e);

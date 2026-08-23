@@ -59,8 +59,8 @@ final readonly class OverviewMiddleware implements MiddlewareInterface
         $acl      = $request->getAttribute(AclInterface::class);
         $allRules = $this->ruleRepository->fetchAll();
 
-        $configAllow      = [];
-        $configDeny       = [];
+        $configAllow       = [];
+        $configDeny        = [];
         $parentResourceMap = [];
         foreach ($allRules as $rule) {
             if (RuleType::from($rule['type']) === RuleType::Allow) {
@@ -68,7 +68,7 @@ final readonly class OverviewMiddleware implements MiddlewareInterface
             } else {
                 $configDeny[$rule['roleId']][$rule['resourceId']] = [];
             }
-            if ($rule['parentResourceId'] !== null) {
+            if (null !== $rule['parentResourceId']) {
                 $parentResourceMap[$rule['resourceId']] = $rule['parentResourceId'];
             }
         }
@@ -84,7 +84,7 @@ final readonly class OverviewMiddleware implements MiddlewareInterface
 
         foreach ($this->routeCollector->getRoutes() as $route) {
             $name = $route->getName();
-            if ($name === null || $name === '') {
+            if (null === $name || '' === $name) {
                 continue;
             }
 
@@ -96,8 +96,8 @@ final readonly class OverviewMiddleware implements MiddlewareInterface
                 continue;
             }
 
-            $inheritedFrom = $parentResourceMap[$name] ?? null;
-            $lookupName    = $inheritedFrom ?? $name;
+            $inheritedFrom   = $parentResourceMap[$name] ?? null;
+            $lookupName      = $inheritedFrom ?? $name;
             $rules           = [];
             $rolesOnResource = [];
             $syntheticId     = 0;
@@ -114,11 +114,11 @@ final readonly class OverviewMiddleware implements MiddlewareInterface
                         'privilege_id'   => '',
                         'type'           => RuleType::Allow->value,
                         'assertions'     => $assertions,
-                        'inherited'      => $inheritedFrom !== null,
+                        'inherited'      => null !== $inheritedFrom,
                         'inherited_from' => $inheritedFrom,
                     ];
                     $rolesOnResource[$roleId] = true;
-                    if ($assertions !== []) {
+                    if ([] !== $assertions) {
                         $hasAssertions = true;
                     }
                 }
@@ -134,7 +134,7 @@ final readonly class OverviewMiddleware implements MiddlewareInterface
                         'privilege_id'   => '',
                         'type'           => RuleType::Deny->value,
                         'assertions'     => [],
-                        'inherited'      => $inheritedFrom !== null,
+                        'inherited'      => null !== $inheritedFrom,
                         'inherited_from' => $inheritedFrom,
                     ];
                     $rolesOnResource[$roleId] = true;
@@ -142,11 +142,13 @@ final readonly class OverviewMiddleware implements MiddlewareInterface
             }
 
             $derivedPrivileges = array_values(array_unique(array_map(
-                static fn (string $m): string => PrivilegeInterface::METHOD_PRIVILEGE_MAP[$m] ?? PrivilegeInterface::READ,
+                static fn(string $m): string => (
+                    PrivilegeInterface::METHOD_PRIVILEGE_MAP[$m] ?? PrivilegeInterface::READ
+                ),
                 $methods,
             )));
 
-            if ($rules === []) {
+            if ([] === $rules) {
                 $unprotectedRoutes[$name] = $methods;
 
                 continue;
@@ -170,9 +172,11 @@ final readonly class OverviewMiddleware implements MiddlewareInterface
             $roles[$pk] = new Role(roleId: $roleId);
             $parentPks  = [];
             foreach ($configRoles[$roleId] as $parentName) {
-                if (isset($rolePkMap[$parentName])) {
-                    $parentPks[] = $rolePkMap[$parentName];
+                if (! isset($rolePkMap[$parentName])) {
+                    continue;
                 }
+
+                $parentPks[] = $rolePkMap[$parentName];
             }
             $roleParents[$pk] = $parentPks;
         }

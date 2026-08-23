@@ -7,6 +7,7 @@ namespace Webware\Acl\Entity;
 use Laminas\Permissions\Acl\Resource\ResourceInterface;
 use Laminas\Permissions\Acl\Role\RoleInterface;
 use Override;
+use RuntimeException;
 use Webware\Acl\RuleType;
 use Webware\ResultSet\WithRowDataPrototypeInterface;
 
@@ -15,17 +16,17 @@ use function json_decode;
 final class Rule implements WithRowDataPrototypeInterface, ResourceInterface, RoleInterface
 {
     public function __construct(
-        public private(set) int|string|null $id       = null,
-        public private(set) RuleType $type            = RuleType::Allow {
+        public private(set) int|string|null $id = null,
+        public private(set) RuleType $type = RuleType::Allow {
             set(string|RuleType $value) {
                 $this->type = $this->resolveType($value);
             }
         },
-        public private(set) ?string $roleId           = null,
-        public private(set) ?string $resourceId       = null,
-        public private(set) ?array $assertions        = null {
+        public private(set) ?string $roleId = null,
+        public private(set) ?string $resourceId = null,
+        public private(set) ?array $assertions = null {
             set(?array $value) {
-                $this->assertions = $value === null ? null : json_decode(json_encode($value), true);
+                $this->assertions = null === $value ? null : json_decode(json_encode($value), true);
             }
         },
         public private(set) ?string $parentResourceId = null,
@@ -34,7 +35,7 @@ final class Rule implements WithRowDataPrototypeInterface, ResourceInterface, Ro
     #[Override]
     public function exchangeArray(array $array): array
     {
-        throw new \RuntimeException('Not implemented');
+        throw new RuntimeException('Not implemented');
     }
 
     #[Override]
@@ -48,14 +49,10 @@ final class Rule implements WithRowDataPrototypeInterface, ResourceInterface, Ro
     {
         return $this->roleId;
     }
-    
-    private function resolveType(string|RuleType $type): RuleType
-    {
-        if ($type instanceof RuleType) {
-            return $type;
-        }
 
-        return RuleType::from($type);
+    public function toArray(): array
+    {
+        return (array) $this;
     }
 
     public function withRowData(array $withRowData): static
@@ -63,8 +60,12 @@ final class Rule implements WithRowDataPrototypeInterface, ResourceInterface, Ro
         return new self(...$withRowData);
     }
 
-    public function toArray(): array
+    private function resolveType(string|RuleType $type): RuleType
     {
-        return (array) $this;
+        if ($type instanceof RuleType) {
+            return $type;
+        }
+
+        return RuleType::from($type);
     }
 }

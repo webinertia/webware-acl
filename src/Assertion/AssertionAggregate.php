@@ -10,15 +10,15 @@ use Webware\Acl\AssertionManager;
 
 final class AssertionAggregate extends BaseAggregate
 {
-    public function setAssertionManager(BaseManager|AssertionManager $manager): AssertionAggregate
+    public function getAssertionManager(): ?AssertionManager
+    {
+        return $this->assertionManager;
+    }
+
+    public function setAssertionManager(BaseManager|AssertionManager $manager): self
     {
         $this->assertionManager = $manager;
 
         return $this;
-    }
-
-    public function getAssertionManager(): ?AssertionManager
-    {
-        return $this->assertionManager;
     }
 }

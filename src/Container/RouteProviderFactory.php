@@ -14,19 +14,19 @@ final readonly class RouteProviderFactory
     {
         $adminBaseRouteSegment = AdminConfiguration::getAdminRouteSegment(
             $container,
-            self::class
+            self::class,
         );
         $moduleAdminRouteSegment = Configuration::getAdminRouteSegment(
             $container,
-            self::class
+            self::class,
         );
         $adminBaseRouteNamePrefix = AdminConfiguration::getAdminRouteNamePrefix(
             $container,
-            self::class
+            self::class,
         );
         $moduleAdminRouteNamePrefix = Configuration::getAdminRouteNamePrefix(
             $container,
-            self::class
+            self::class,
         );
 
         // The admin route segment is the base segment for all admin routes, e.g. 'admin'.
@@ -34,8 +34,8 @@ final readonly class RouteProviderFactory
         // The admin route name prefix is the base prefix for all admin route names, e.g. 'admin.'.
         // The module admin route name prefix is the prefix for this module's admin route names, e.g. 'admin.acl.'.
         return new RouteProvider(
-            $adminBaseRouteSegment . '/' . $moduleAdminRouteSegment,
-            $adminBaseRouteNamePrefix . $moduleAdminRouteNamePrefix
+            "{$adminBaseRouteSegment}/{$moduleAdminRouteSegment}",
+            $adminBaseRouteNamePrefix . $moduleAdminRouteNamePrefix,
         );
     }
 }

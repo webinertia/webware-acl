@@ -2,22 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Webware\AclTest;
+namespace WebwareTest\Acl;
 
-use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\CoversNothing;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Webware\Acl\PrivilegeInterface;
 
-#[CoversClass(PrivilegeInterface::class)]
+#[CoversNothing]
 final class PrivilegeTest extends TestCase
 {
-    #[Test]
-    public function readConstantValue(): void
-    {
-        self::assertSame('read', PrivilegeInterface::READ);
-    }
-
     #[Test]
     public function createConstantValue(): void
     {
@@ -25,14 +19,20 @@ final class PrivilegeTest extends TestCase
     }
 
     #[Test]
-    public function updateConstantValue(): void
-    {
-        self::assertSame('update', PrivilegeInterface::UPDATE);
-    }
-
-    #[Test]
     public function deleteConstantValue(): void
     {
         self::assertSame('delete', PrivilegeInterface::DELETE);
+    }
+
+    #[Test]
+    public function readConstantValue(): void
+    {
+        self::assertSame('read', PrivilegeInterface::READ);
+    }
+
+    #[Test]
+    public function updateConstantValue(): void
+    {
+        self::assertSame('update', PrivilegeInterface::UPDATE);
     }
 }

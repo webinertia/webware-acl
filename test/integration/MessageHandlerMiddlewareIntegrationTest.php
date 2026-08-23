@@ -2,12 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Webware\AclIntegrationTest;
+namespace WebwareTestIntegration\Acl;
 
 use Laminas\Permissions\Acl\Role\RoleInterface;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
+use RuntimeException;
 use Webware\Acl\AclInterface;
 use Webware\Acl\MessageBus\AuthorizableCommandInterface;
 use Webware\Acl\MessageBus\CommandStatus;
@@ -38,10 +39,12 @@ final class MessageHandlerMiddlewareIntegrationTest extends TestCase
             ->with($role, $message, 'create')
             ->willReturn(true);
 
-        $dispatch = new class ($expectedResult) implements MiddlewareInterface {
+        $dispatch = new class($expectedResult) implements MiddlewareInterface {
             public bool $called = false;
 
-            public function __construct(private ResultInterface $result) {}
+            public function __construct(
+                private ResultInterface $result,
+            ) {}
 
             public function process(MessageInterface $message, PipelineHandlerInterface $next): ResultInterface
             {
@@ -71,14 +74,14 @@ final class MessageHandlerMiddlewareIntegrationTest extends TestCase
             ->with($role, $message, 'delete')
             ->willReturn(false);
 
-        $dispatch = new class () implements MiddlewareInterface {
+        $dispatch = new class() implements MiddlewareInterface {
             public bool $called = false;
 
             public function process(MessageInterface $message, PipelineHandlerInterface $next): ResultInterface
             {
                 $this->called = true;
 
-                throw new \RuntimeException('dispatch must not be reached');
+                throw new RuntimeException('dispatch must not be reached');
             }
         };
 
@@ -100,10 +103,12 @@ final class MessageHandlerMiddlewareIntegrationTest extends TestCase
         $acl = $this->createMock(AclInterface::class);
         $acl->expects($this->never())->method('isAllowed');
 
-        $dispatch = new class ($expectedResult) implements MiddlewareInterface {
+        $dispatch = new class($expectedResult) implements MiddlewareInterface {
             public bool $called = false;
 
-            public function __construct(private ResultInterface $result) {}
+            public function __construct(
+                private ResultInterface $result,
+            ) {}
 
             public function process(MessageInterface $message, PipelineHandlerInterface $next): ResultInterface
             {

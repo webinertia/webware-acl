@@ -16,9 +16,9 @@ use function trim;
 
 final class Assertion extends Validator\AbstractValidator
 {
-    public const NOT_EXIST        = 'notExist';
+    public const NOT_EXIST = 'notExist';
 
-    public const INVALID_TYPE     = 'invalidType';
+    public const INVALID_TYPE = 'invalidType';
 
     public const NULL_NOT_ALLOWED = 'nullNotAllowed';
 
@@ -41,7 +41,7 @@ final class Assertion extends Validator\AbstractValidator
 
     public function __construct(
         private readonly ContainerInterface&AssertionManager $assertionManager,
-        ?array $options = ['nullable' => false]
+        ?array $options = ['nullable' => false],
     ) {
         $this->nullable = $options['nullable'];
         parent::__construct($options);
@@ -56,11 +56,11 @@ final class Assertion extends Validator\AbstractValidator
 
         $this->setValue($value);
 
-        if ($this->nullable && $value === null) {
+        if ($this->nullable && null === $value) {
             return true;
         }
 
-        if (! $this->nullable && $value === null) {
+        if (! $this->nullable && null === $value) {
             $this->error(self::NULL_NOT_ALLOWED);
 
             return false;

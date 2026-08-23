@@ -4,14 +4,15 @@ declare(strict_types=1);
 
 namespace Webware\Acl\Admin\RequestHandler;
 
-use Htmx\Response\Header;
 use Laminas\Diactoros\Response\HtmlResponse;
 use Mezzio\Template\TemplateRendererInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Webware\Acl\Repository\RoleRepository;
+use Webware\Htmx\Response\Header;
 use Webware\MessageBus\Command\CommandResult;
+use Webware\MessageBus\Command\CommandResultInterface;
 use Webware\MessageBus\MessageStatus;
 
 use function json_encode;
@@ -42,7 +43,10 @@ final class RoleListHandler implements RequestHandlerInterface
         ]));
 
         $commandResult = $request->getAttribute(CommandResult::class);
-        if ($commandResult instanceof CommandResultInterface && $commandResult->getStatus() === MessageStatus::Success) {
+        if (
+            $commandResult instanceof CommandResultInterface
+                && $commandResult->getStatus() === MessageStatus::Success
+        ) {
             $response = $response->withHeader(Header::Trigger->value, json_encode(['closeModal' => null]));
         }
 

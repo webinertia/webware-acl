@@ -14,7 +14,6 @@ declare(strict_types=1);
 
 namespace Webware\Acl\Admin\Middleware;
 
-use Webware\Message\SystemMessengerInterface;
 use Laminas\InputFilter;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -23,10 +22,11 @@ use Psr\Http\Server\RequestHandlerInterface;
 use Webware\Acl\Admin\Command\DeleteRoleCommand;
 use Webware\Acl\Admin\Command\SaveRoleCommand;
 use Webware\Acl\InputFilter\RoleDataFilter;
-use Webware\MessageBus\Command\CommandResult;
-use Webware\MessageBus\MessageStatus;
-use Webware\MessageBus\MessageBusInterface;
 use Webware\Core\Http\Middleware\HttpMethodProcessorTrait;
+use Webware\Message\SystemMessengerInterface;
+use Webware\MessageBus\Command\CommandResult;
+use Webware\MessageBus\MessageBusInterface;
+use Webware\MessageBus\MessageStatus;
 
 final readonly class ProcessRoleMiddleware implements MiddlewareInterface
 {
@@ -36,7 +36,7 @@ final readonly class ProcessRoleMiddleware implements MiddlewareInterface
         private MessageBusInterface $commandBus,
     ) {}
 
-    public function processPost(
+    public function processDelete(
         ServerRequestInterface $request,
         RequestHandlerInterface $handler,
     ): ResponseInterface {
@@ -45,25 +45,17 @@ final readonly class ProcessRoleMiddleware implements MiddlewareInterface
         $filterManager = $request->getAttribute(InputFilter\InputFilterPluginManager::class);
         $filter        = $filterManager->get(RoleDataFilter::class);
         $filter->setValidationGroup([
-            'id',
             'roleId',
-            'parentId',
         ]);
-        $filter->setData($request->getParsedBody());
-
-        if (! $filter->isValid()) {
-            $messenger?->warning($filter->getSystemMessage());
-
-            return $handler->handle($request);
-        }
+        $filter->setData($request->getAttributes());
 
         $filteredData = $filter->getValues();
 
-        $result = $this->commandBus->handle(new SaveRoleCommand(...$filteredData));
+        $result = $this->commandBus->handle(new DeleteRoleCommand(...$filteredData));
         if ($result->getStatus() === MessageStatus::Success) {
-            $messenger?->success('Role saved.');
+            $messenger?->success('Role deleted.');
         } else {
-            $messenger?->warning('Role could not be saved. Please try again.');
+            $messenger?->warning('Role could not be deleted. Please try again.');
         }
 
         return $handler->handle($request->withAttribute(CommandResult::class, $result));
@@ -102,7 +94,7 @@ final readonly class ProcessRoleMiddleware implements MiddlewareInterface
         return $handler->handle($request->withAttribute(CommandResult::class, $result));
     }
 
-    public function processDelete(
+    public function processPost(
         ServerRequestInterface $request,
         RequestHandlerInterface $handler,
     ): ResponseInterface {
@@ -111,17 +103,25 @@ final readonly class ProcessRoleMiddleware implements MiddlewareInterface
         $filterManager = $request->getAttribute(InputFilter\InputFilterPluginManager::class);
         $filter        = $filterManager->get(RoleDataFilter::class);
         $filter->setValidationGroup([
+            'id',
             'roleId',
+            'parentId',
         ]);
-        $filter->setData($request->getAttributes());
+        $filter->setData($request->getParsedBody());
+
+        if (! $filter->isValid()) {
+            $messenger?->warning($filter->getSystemMessage());
+
+            return $handler->handle($request);
+        }
 
         $filteredData = $filter->getValues();
 
-        $result = $this->commandBus->handle(new DeleteRoleCommand(...$filteredData));
+        $result = $this->commandBus->handle(new SaveRoleCommand(...$filteredData));
         if ($result->getStatus() === MessageStatus::Success) {
-            $messenger?->success('Role deleted.');
+            $messenger?->success('Role saved.');
         } else {
-            $messenger?->warning('Role could not be deleted. Please try again.');
+            $messenger?->warning('Role could not be saved. Please try again.');
         }
 
         return $handler->handle($request->withAttribute(CommandResult::class, $result));

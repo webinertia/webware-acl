@@ -16,8 +16,9 @@ final class UserRoleIterator implements Iterator
 
     private int $position = 0;
 
-    public function __construct(private readonly UserInterface $user)
-    {
+    public function __construct(
+        private readonly UserInterface $user,
+    ) {
         $this->roles = [...$user->getRoles()];
     }
 

@@ -25,7 +25,7 @@ enum RuleType: string
     {
         return match ($this) {
             self::Allow => LaminasAcl::TYPE_ALLOW,
-            self::Deny  => LaminasAcl::TYPE_DENY,
+            self::Deny => LaminasAcl::TYPE_DENY,
         };
     }
 }

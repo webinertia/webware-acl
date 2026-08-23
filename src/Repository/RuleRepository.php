@@ -26,8 +26,20 @@ final class RuleRepository
             null,
             new WithRowDataResultSet(
                 rowPrototype: new Rule(),
-            )
+            ),
         );
+    }
+
+    /**
+     * Delete the rule for the given (roleId, resourceId) pair.
+     */
+    public function delete(string $roleId, string $resourceId): bool
+    {
+        $sql    = $this->gateway->getSql();
+        $delete = $sql->delete()->where(['roleId' => $roleId, 'resourceId' => $resourceId]);
+        $result = $sql->prepareStatementForSqlObject($delete)->execute();
+
+        return $result->getAffectedRows() > 0;
     }
 
     /**
@@ -49,7 +61,7 @@ final class RuleRepository
                 'type'             => $row['type'],
                 'roleId'           => $row['roleId'],
                 'resourceId'       => $row['resourceId'],
-                'assertions'       => $row['assertions'] === null ? null : json_decode($row['assertions'], true),
+                'assertions'       => null === $row['assertions'] ? null : json_decode($row['assertions'], true),
                 'parentResourceId' => $row['parentResourceId'] ?? null,
             ];
         }
@@ -92,29 +104,34 @@ final class RuleRepository
 
         $row = $sql->prepareStatementForSqlObject($select)->execute()->current();
 
-        if ($row === false || $row === null) {
+        if (false === $row || null === $row) {
             return null;
         }
 
         return [
-            'type'        => $row['type'],
-            'roleId'      => $row['roleId'],
-            'resourceId'  => $row['resourceId'],
-            'assertions'  => json_decode($row['assertions'], true) ?? [],
+            'type'       => $row['type'],
+            'roleId'     => $row['roleId'],
+            'resourceId' => $row['resourceId'],
+            'assertions' => json_decode($row['assertions'], true) ?? [],
         ];
     }
 
     /**
      * Insert or update a rule (upsert on the unique key roleId + resourceId).
      * Returns the rule ID on success, false on failure.
-     * 
+     *
      * $this->allow(Role, Resource, Privilege, Assertions) in the ACL corresponds to save(RuleType::Allow, Role, Resource, Assertions) here.;
      *
      * @param string[] $assertions
      */
-    public function save(RuleType $type, string $roleId, string $resourceId, ?array $assertions, ?string $parentResourceId = null): int|false
-    {
-        if ($assertions === [] || $assertions === [0 => '']) {
+    public function save(
+        RuleType $type,
+        string $roleId,
+        string $resourceId,
+        ?array $assertions,
+        ?string $parentResourceId = null,
+    ): int|false {
+        if ([] === $assertions || [0 => ''] === $assertions) {
             $assertions = null;
         }
 
@@ -132,36 +149,36 @@ final class RuleRepository
             'resourceId' => $resourceId,
         ];
 
-        if ($parentResourceId !== null) {
+        if (null !== $parentResourceId) {
             $data['parentResourceId'] = $parentResourceId;
         }
 
-        if ($assertions !== null) {
+        if (null !== $assertions) {
             $data['assertions'] = json_encode($assertions);
         }
 
-        if ($row === false || $row === null) {
+        if (false === $row || null === $row) {
             $insert = $sql->insert()->values($data);
             $sql->prepareStatementForSqlObject($insert)->execute();
 
             $id = $this->gateway->getAdapter()->getDriver()->getConnection()->getLastGeneratedValue();
 
-            return $id !== null ? (int) $id : false;
-        } else {
-            $set = ['type' => $type->value];
-            if ($parentResourceId !== null) {
-                $set['parentResourceId'] = $parentResourceId;
-            }
-            if ($assertions !== null) {
-                $set['assertions'] = json_encode($assertions);
-            }
-            $update = $sql->update()
-                ->set($set)
-                ->where(['roleId' => $roleId, 'resourceId' => $resourceId]);
-            $result = $sql->prepareStatementForSqlObject($update)->execute();
-
-            return $result->getAffectedRows() >= 0 ? (int) $row['id'] : false;
+            return null !== $id ? (int) $id : false;
         }
+
+        $set = ['type' => $type->value];
+        if (null !== $parentResourceId) {
+            $set['parentResourceId'] = $parentResourceId;
+        }
+        if (null !== $assertions) {
+            $set['assertions'] = json_encode($assertions);
+        }
+        $update = $sql->update()
+            ->set($set)
+            ->where(['roleId' => $roleId, 'resourceId' => $resourceId]);
+        $result = $sql->prepareStatementForSqlObject($update)->execute();
+
+        return $result->getAffectedRows() >= 0 ? (int) $row['id'] : false;
     }
 
     /**
@@ -174,18 +191,6 @@ final class RuleRepository
             ->set(['type' => $newType->value])
             ->where(['roleId' => $roleId, 'resourceId' => $resourceId]);
         $result = $sql->prepareStatementForSqlObject($update)->execute();
-
-        return $result->getAffectedRows() > 0;
-    }
-
-    /**
-     * Delete the rule for the given (roleId, resourceId) pair.
-     */
-    public function delete(string $roleId, string $resourceId): bool
-    {
-        $sql    = $this->gateway->getSql();
-        $delete = $sql->delete()->where(['roleId' => $roleId, 'resourceId' => $resourceId]);
-        $result = $sql->prepareStatementForSqlObject($delete)->execute();
 
         return $result->getAffectedRows() > 0;
     }

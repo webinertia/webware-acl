@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Webware\Acl\Role;
 
+use Exception;
 use Laminas\Permissions\Acl\Role\RoleInterface;
 use Override;
 use Webware\UserManager\UserInterface;
@@ -15,7 +16,7 @@ final class SingleRoleUserProxy implements UserInterface
     public private(set) int|string|null $id = null {
         get => $this->id ?? null;
         set(int|string|null $value) {
-            if ($value === null) {
+            if (null === $value) {
                 $this->id = null;
             } else {
                 $this->id = is_string($value) ? (int) $value : $value;
@@ -31,7 +32,7 @@ final class SingleRoleUserProxy implements UserInterface
     #[Override]
     public function exchangeArray(array $array): array
     {
-        throw new \Exception('Not implemented');
+        throw new Exception('Not implemented');
     }
 
     #[Override]
@@ -79,18 +80,18 @@ final class SingleRoleUserProxy implements UserInterface
     #[Override]
     public function toArray(): array
     {
-        throw new \Exception('Not implemented');
+        throw new Exception('Not implemented');
     }
 
     #[Override]
     public function withId(int|string|null $id): static
     {
-        throw new \Exception('Not implemented');
+        throw new Exception('Not implemented');
     }
 
     #[Override]
     public function withRowData(array $withRowData): static
     {
-        throw new \Exception('Not implemented');
+        throw new Exception('Not implemented');
     }
 }

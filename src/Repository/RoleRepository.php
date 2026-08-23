@@ -25,21 +25,15 @@ final class RoleRepository
             null,
             new WithRowDataResultSet(
                 rowPrototype: new Role(),
-            )
+            ),
         );
     }
 
-    /**
-     * @return Role[]
-     */
-    public function fetchAll(): array
+    public function delete(string $roleId): void
     {
-        $roles = [];
-        foreach ($this->gateway->select() as $role) {
-            $roles[] = $role;
-        }
-
-        return $roles;
+        $sql    = $this->gateway->getSql();
+        $delete = $sql->delete()->where(['roleId' => $roleId]);
+        $sql->prepareStatementForSqlObject($delete)->execute();
     }
 
     public function fetchAclRoleRegistry(): Registry
@@ -69,24 +63,41 @@ final class RoleRepository
         // Seed the queue with roots (roles that have no known parents)
         $queue = [];
         foreach ($inDegree as $roleId => $degree) {
-            if ($degree === 0) {
-                $queue[] = $roleId;
+            if (0 !== $degree) {
+                continue;
             }
+
+            $queue[] = $roleId;
         }
 
         $registry = new Registry();
-        while ($queue !== []) {
+        while ([] !== $queue) {
             $roleId = array_shift($queue);
             $role   = $map[$roleId];
             $registry->add($role, $role->parentId ?: null);
             foreach ($children[$roleId] ?? [] as $childId) {
-                if (--$inDegree[$childId] === 0) {
-                    $queue[] = $childId;
+                if (--$inDegree[$childId] !== 0) {
+                    continue;
                 }
+
+                $queue[] = $childId;
             }
         }
 
         return $registry;
+    }
+
+    /**
+     * @return Role[]
+     */
+    public function fetchAll(): array
+    {
+        $roles = [];
+        foreach ($this->gateway->select() as $role) {
+            $roles[] = $role;
+        }
+
+        return $roles;
     }
 
     /**
@@ -106,6 +117,25 @@ final class RoleRepository
         }
 
         return $children;
+    }
+
+    /**
+     * Removes the given roleId from the parentId JSON array of any role that lists it as a parent.
+     */
+    public function removeFromParents(string $roleId): void
+    {
+        $sql    = $this->gateway->getSql();
+        $select = $sql->select()->columns(['id', 'parentId']);
+        $select->where->expression('JSON_CONTAINS(parentId, JSON_QUOTE(?))', [$roleId]);
+
+        foreach ($sql->prepareStatementForSqlObject($select)->execute() as $row) {
+            $parents = json_decode($row['parentId'], true) ?? [];
+            $parents = array_values(array_filter($parents, static fn($p) => $p !== $roleId));
+            $update  = $sql->update()
+                ->set(['parentId' => json_encode($parents)])
+                ->where(['id' => $row['id']]);
+            $sql->prepareStatementForSqlObject($update)->execute();
+        }
     }
 
     /**
@@ -141,31 +171,5 @@ final class RoleRepository
         $result = $sql->prepareStatementForSqlObject($update)->execute();
 
         return $result->getAffectedRows() > 0 ? $row['id'] : false;
-    }
-
-    public function delete(string $roleId): void
-    {
-        $sql    = $this->gateway->getSql();
-        $delete = $sql->delete()->where(['roleId' => $roleId]);
-        $sql->prepareStatementForSqlObject($delete)->execute();
-    }
-
-    /**
-     * Removes the given roleId from the parentId JSON array of any role that lists it as a parent.
-     */
-    public function removeFromParents(string $roleId): void
-    {
-        $sql    = $this->gateway->getSql();
-        $select = $sql->select()->columns(['id', 'parentId']);
-        $select->where->expression('JSON_CONTAINS(parentId, JSON_QUOTE(?))', [$roleId]);
-
-        foreach ($sql->prepareStatementForSqlObject($select)->execute() as $row) {
-            $parents = json_decode($row['parentId'], true) ?? [];
-            $parents = array_values(array_filter($parents, static fn ($p) => $p !== $roleId));
-            $update  = $sql->update()
-                ->set(['parentId' => json_encode($parents)])
-                ->where(['id' => $row['id']]);
-            $sql->prepareStatementForSqlObject($update)->execute();
-        }
     }
 }

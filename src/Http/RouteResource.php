@@ -29,16 +29,6 @@ final class RouteResource implements RouteResourceInterface
         private readonly array $paramMap = [],
     ) {}
 
-    public function getResourceId(): string
-    {
-        return $this->routeResult->getMatchedRouteName();
-    }
-
-    public function getRole(): RoleInterface
-    {
-        return $this->request->getAttribute(UserInterface::class);
-    }
-
     public function getOwnerId(): int
     {
         $routeName = $this->getResourceId();
@@ -49,14 +39,26 @@ final class RouteResource implements RouteResourceInterface
         $paramName    = $routeOptions['acl']['ownerId']
             // 2. Global route_param_map config (app-level fallback)
             ?? $this->paramMap[$routeName]['ownerId']
-            // 3. Convention
-            ?? 'ownerId';
+                // 3. Convention
+                ?? 'ownerId';
 
         return (int) (
-            $this->routeResult->getMatchedParams()[$paramName]
-            ?? $this->request->getQueryParams()[$paramName]
-            ?? $this->request->getAttribute($paramName)
-            ?? 0
+
+                $this->routeResult->getMatchedParams()[$paramName]
+                ?? $this->request->getQueryParams()[$paramName]
+                    ?? $this->request->getAttribute($paramName)
+                        ?? 0
+
         );
+    }
+
+    public function getResourceId(): string
+    {
+        return $this->routeResult->getMatchedRouteName();
+    }
+
+    public function getRole(): RoleInterface
+    {
+        return $this->request->getAttribute(UserInterface::class);
     }
 }

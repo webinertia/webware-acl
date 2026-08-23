@@ -19,7 +19,7 @@ final class AclMiddleware implements MiddlewareInterface
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         return $handler->handle(
-            $request->withAttribute(AclInterface::class, $this->acl)
+            $request->withAttribute(AclInterface::class, $this->acl),
         );
     }
 }
