@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace WebwareTest\Acl;
 
-use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\CoversNothing;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Webware\Acl\PrivilegeInterface;
 
-#[CoversClass(PrivilegeInterface::class)]
+#[CoversNothing]
 final class PrivilegeTest extends TestCase
 {
     #[Test]
