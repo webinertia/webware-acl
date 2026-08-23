@@ -33,6 +33,7 @@
         "psr/http-server-middleware": "^1.0",
         "webware/message-bus": "^2.0.0-beta.1",
         "webware/webware-core": "0.1.x-dev",
+        "webware/webware-htmx": "0.1.x-dev",
         "webware/webware-log": "^1.0",
         "webware/webware-message": "^1.0.0-beta.1",
         "webware/webware-resultset": "^0.1"
@@ -63,6 +64,10 @@
         {
             "type": "vcs",
             "url": "https://github.com/webinertia/webware-core"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/webinertia/webware-htmx"
         },
         {
             "type": "vcs",

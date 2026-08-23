@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Webware\Acl;
 
-use Htmx\Middleware\DisableBodyMiddleware;
+use Webware\Htmx\Middleware\DisableBodyMiddleware;
 use Mezzio\Helper\BodyParams\BodyParamsMiddleware;
 use Mezzio\MiddlewareFactoryInterface;
 use Mezzio\Router\RouteCollectorInterface;

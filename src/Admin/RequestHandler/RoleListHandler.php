@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Webware\Acl\Admin\RequestHandler;
 
-use Htmx\Response\Header;
+use Webware\Htmx\Response\Header;
 use Laminas\Diactoros\Response\HtmlResponse;
 use Mezzio\Template\TemplateRendererInterface;
 use Psr\Http\Message\ResponseInterface;
