@@ -16,6 +16,7 @@ namespace Webware\Acl\Admin\RequestHandler;
 
 use Laminas\Diactoros\Response\HtmlResponse;
 use Mezzio\Template\TemplateRendererInterface;
+use Override;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
@@ -34,6 +35,7 @@ final class AddRoleModalHandler implements RequestHandlerInterface
         private readonly RoleRepository $roleRepository,
     ) {}
 
+    #[Override]
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
         return new HtmlResponse($this->template->render('acl::partials/add-role-modal', [

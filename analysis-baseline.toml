@@ -38,36 +38,6 @@ count = 1
 
 [[issues]]
 file = "src/Acl.php"
-code = "missing-override-attribute"
-message = 'Missing `#[Override]` attribute on overriding method `Webware\Acl\Acl::addResource`.'
-count = 1
-
-[[issues]]
-file = "src/Acl.php"
-code = "missing-override-attribute"
-message = 'Missing `#[Override]` attribute on overriding method `Webware\Acl\Acl::addRole`.'
-count = 1
-
-[[issues]]
-file = "src/Acl.php"
-code = "missing-override-attribute"
-message = 'Missing `#[Override]` attribute on overriding method `Webware\Acl\Acl::getResourceParentId`.'
-count = 1
-
-[[issues]]
-file = "src/Acl.php"
-code = "missing-override-attribute"
-message = 'Missing `#[Override]` attribute on overriding method `Webware\Acl\Acl::getRoleRegistry`.'
-count = 1
-
-[[issues]]
-file = "src/Acl.php"
-code = "missing-override-attribute"
-message = 'Missing `#[Override]` attribute on overriding method `Webware\Acl\Acl::getRoles`.'
-count = 1
-
-[[issues]]
-file = "src/Acl.php"
 code = "mixed-array-access"
 message = "Unsafe array access on type `mixed`."
 count = 1
@@ -283,30 +253,6 @@ message = 'Potentially unhandled exception `Psr\Container\NotFoundExceptionInter
 count = 1
 
 [[issues]]
-file = "src/Admin/CommandHandler/DeleteRoleHandler.php"
-code = "invalid-override-attribute"
-message = 'Invalid `#[Override]` attribute on `Webware\Acl\Admin\CommandHandler\DeleteRoleHandler::handle`.'
-count = 1
-
-[[issues]]
-file = "src/Admin/CommandHandler/DeleteRuleHandler.php"
-code = "invalid-override-attribute"
-message = 'Invalid `#[Override]` attribute on `Webware\Acl\Admin\CommandHandler\DeleteRuleHandler::handle`.'
-count = 1
-
-[[issues]]
-file = "src/Admin/CommandHandler/SaveRoleHandler.php"
-code = "invalid-override-attribute"
-message = 'Invalid `#[Override]` attribute on `Webware\Acl\Admin\CommandHandler\SaveRoleHandler::handle`.'
-count = 1
-
-[[issues]]
-file = "src/Admin/CommandHandler/SaveRuleHandler.php"
-code = "invalid-override-attribute"
-message = 'Invalid `#[Override]` attribute on `Webware\Acl\Admin\CommandHandler\SaveRuleHandler::handle`.'
-count = 1
-
-[[issues]]
 file = "src/Admin/CommandHandler/SaveRuleHandler.php"
 code = "less-specific-nested-argument-type"
 message = 'Argument type mismatch for argument #4 of `Webware\Acl\Repository\RuleRepository::save`: expected `array<array-key, string>|null`, but provided type `array<array-key, mixed>|null` is less specific.'
@@ -316,12 +262,6 @@ count = 1
 file = "src/Admin/CommandHandler/SaveRuleHandler.php"
 code = "unused-property"
 message = "Property `$roleRepository` is never used."
-count = 1
-
-[[issues]]
-file = "src/Admin/CommandHandler/UpdateRuleTypeHandler.php"
-code = "invalid-override-attribute"
-message = 'Invalid `#[Override]` attribute on `Webware\Acl\Admin\CommandHandler\UpdateRuleTypeHandler::handle`.'
 count = 1
 
 [[issues]]
@@ -430,12 +370,6 @@ count = 1
 file = "src/Admin/Middleware/OverviewMiddleware.php"
 code = "mismatched-array-index"
 message = "Invalid array key type: `array<array-key, string>|string` is not a valid key for this array."
-count = 1
-
-[[issues]]
-file = "src/Admin/Middleware/OverviewMiddleware.php"
-code = "missing-override-attribute"
-message = 'Missing `#[Override]` attribute on overriding method `Webware\Acl\Admin\Middleware\OverviewMiddleware::process`.'
 count = 1
 
 [[issues]]
@@ -578,12 +512,6 @@ count = 1
 
 [[issues]]
 file = "src/Admin/RequestHandler/AclOverviewHandler.php"
-code = "missing-override-attribute"
-message = 'Missing `#[Override]` attribute on overriding method `Webware\Acl\Admin\RequestHandler\AclOverviewHandler::handle`.'
-count = 1
-
-[[issues]]
-file = "src/Admin/RequestHandler/AclOverviewHandler.php"
 code = "mixed-assignment"
 message = "Assigning `mixed` type to a variable may lead to unexpected behavior."
 count = 1
@@ -598,12 +526,6 @@ count = 1
 file = "src/Admin/RequestHandler/AclOverviewHandler.php"
 code = "unhandled-thrown-type"
 message = 'Potentially unhandled exception `Laminas\Diactoros\Exception\InvalidArgumentException` in `Webware\Acl\Admin\RequestHandler\AclOverviewHandler::handle`.'
-count = 1
-
-[[issues]]
-file = "src/Admin/RequestHandler/AddRoleModalHandler.php"
-code = "missing-override-attribute"
-message = 'Missing `#[Override]` attribute on overriding method `Webware\Acl\Admin\RequestHandler\AddRoleModalHandler::handle`.'
 count = 1
 
 [[issues]]
@@ -698,12 +620,6 @@ count = 1
 
 [[issues]]
 file = "src/Admin/RequestHandler/DeleteRuleModalHandler.php"
-code = "missing-override-attribute"
-message = 'Missing `#[Override]` attribute on overriding method `Webware\Acl\Admin\RequestHandler\DeleteRuleModalHandler::handle`.'
-count = 1
-
-[[issues]]
-file = "src/Admin/RequestHandler/DeleteRuleModalHandler.php"
 code = "mixed-assignment"
 message = "Assigning `mixed` type to a variable may lead to unexpected behavior."
 count = 2
@@ -712,12 +628,6 @@ count = 2
 file = "src/Admin/RequestHandler/DeleteRuleModalHandler.php"
 code = "unhandled-thrown-type"
 message = 'Potentially unhandled exception `Laminas\Diactoros\Exception\InvalidArgumentException` in `Webware\Acl\Admin\RequestHandler\DeleteRuleModalHandler::handle`.'
-count = 1
-
-[[issues]]
-file = "src/Admin/RequestHandler/EditRoleModalHandler.php"
-code = "missing-override-attribute"
-message = 'Missing `#[Override]` attribute on overriding method `Webware\Acl\Admin\RequestHandler\EditRoleModalHandler::handle`.'
 count = 1
 
 [[issues]]
@@ -736,12 +646,6 @@ count = 1
 file = "src/Admin/RequestHandler/ResourceListHandler.php"
 code = "imprecise-type"
 message = "Type `array` in parameter `$config` is imprecise, equivalent to `array<array-key, mixed>`."
-count = 1
-
-[[issues]]
-file = "src/Admin/RequestHandler/ResourceListHandler.php"
-code = "missing-override-attribute"
-message = 'Missing `#[Override]` attribute on overriding method `Webware\Acl\Admin\RequestHandler\ResourceListHandler::handle`.'
 count = 1
 
 [[issues]]
@@ -766,12 +670,6 @@ count = 1
 file = "src/Admin/RequestHandler/ResourceListHandler.php"
 code = "unhandled-thrown-type"
 message = 'Potentially unhandled exception `Laminas\Diactoros\Exception\InvalidArgumentException` in `Webware\Acl\Admin\RequestHandler\ResourceListHandler::handle`.'
-count = 1
-
-[[issues]]
-file = "src/Admin/RequestHandler/RoleListHandler.php"
-code = "missing-override-attribute"
-message = 'Missing `#[Override]` attribute on overriding method `Webware\Acl\Admin\RequestHandler\RoleListHandler::handle`.'
 count = 1
 
 [[issues]]
@@ -817,18 +715,6 @@ message = 'Invalid type for property `$assertionManager`: expected `Laminas\Perm
 count = 1
 
 [[issues]]
-file = "src/Assertion/AssertionAggregate.php"
-code = "missing-override-attribute"
-message = 'Missing `#[Override]` attribute on overriding method `Webware\Acl\Assertion\AssertionAggregate::getAssertionManager`.'
-count = 1
-
-[[issues]]
-file = "src/Assertion/AssertionAggregate.php"
-code = "missing-override-attribute"
-message = 'Missing `#[Override]` attribute on overriding method `Webware\Acl\Assertion\AssertionAggregate::setAssertionManager`.'
-count = 1
-
-[[issues]]
 file = "src/Assertion/AssertionAggregateFactory.php"
 code = "imprecise-type"
 message = "Type `array` in parameter `$aliasesOrClassnames` is imprecise, equivalent to `array<array-key, mixed>`."
@@ -862,12 +748,6 @@ count = 1
 file = "src/AssertionManager.php"
 code = "docblock-type-mismatch"
 message = '''Docblock type `array{'abstract_factories'?: array<array-key, Laminas\ServiceManager\Factory\AbstractFactoryInterface|class-string<Laminas\ServiceManager\Factory\AbstractFactoryInterface>>, 'aliases'?: array<string, string>, 'delegators'?: !Laminas\ServiceManager\ServiceManager::DelegatorsConfiguration, 'factories'?: !Laminas\ServiceManager\ServiceManager::FactoriesConfiguration, 'initializers'?: !Laminas\ServiceManager\ServiceManager::InitializersConfiguration, 'invokables'?: array<string, class-string>, 'lazy_services'?: array{'class_map'?: array<string, class-string>, 'proxies_namespace'?: non-empty-string, 'proxies_target_dir'?: non-empty-string, 'write_proxy_files'?: bool}, 'services'?: array<string, mixed>, 'shared'?: array<string, bool>, 'shared_by_default'?: bool, ...<string, mixed>}` for parameter `$config` is incompatible with native type `array<array-key, mixed>`.'''
-count = 1
-
-[[issues]]
-file = "src/AssertionManager.php"
-code = "missing-override-attribute"
-message = 'Missing `#[Override]` attribute on overriding method `Webware\Acl\AssertionManager::configure`.'
 count = 1
 
 [[issues]]
@@ -1088,30 +968,6 @@ count = 1
 
 [[issues]]
 file = "src/Entity/Role.php"
-code = "missing-override-attribute"
-message = 'Missing `#[Override]` attribute on overriding method `Webware\Acl\Entity\Role::exchangeArray`.'
-count = 1
-
-[[issues]]
-file = "src/Entity/Role.php"
-code = "missing-override-attribute"
-message = 'Missing `#[Override]` attribute on overriding method `Webware\Acl\Entity\Role::getRoleId`.'
-count = 1
-
-[[issues]]
-file = "src/Entity/Role.php"
-code = "missing-override-attribute"
-message = 'Missing `#[Override]` attribute on overriding method `Webware\Acl\Entity\Role::toArray`.'
-count = 1
-
-[[issues]]
-file = "src/Entity/Role.php"
-code = "missing-override-attribute"
-message = 'Missing `#[Override]` attribute on overriding method `Webware\Acl\Entity\Role::withRowData`.'
-count = 1
-
-[[issues]]
-file = "src/Entity/Role.php"
 code = "missing-parameter-type"
 message = "Parameter `$id` is missing a type hint."
 count = 1
@@ -1192,18 +1048,6 @@ count = 1
 file = "src/Entity/Rule.php"
 code = "invalid-type-cast"
 message = 'Object of type `$this(Webware\Acl\Entity\Rule)` cast to `array`. Property visibility (public, protected, private) affects the resulting array.'
-count = 1
-
-[[issues]]
-file = "src/Entity/Rule.php"
-code = "missing-override-attribute"
-message = 'Missing `#[Override]` attribute on overriding method `Webware\Acl\Entity\Rule::toArray`.'
-count = 1
-
-[[issues]]
-file = "src/Entity/Rule.php"
-code = "missing-override-attribute"
-message = 'Missing `#[Override]` attribute on overriding method `Webware\Acl\Entity\Rule::withRowData`.'
 count = 1
 
 [[issues]]
@@ -1304,18 +1148,6 @@ count = 1
 
 [[issues]]
 file = "src/Http/RouteResource.php"
-code = "missing-override-attribute"
-message = 'Missing `#[Override]` attribute on overriding method `Webware\Acl\Http\RouteResource::getResourceId`.'
-count = 1
-
-[[issues]]
-file = "src/Http/RouteResource.php"
-code = "missing-override-attribute"
-message = 'Missing `#[Override]` attribute on overriding method `Webware\Acl\Http\RouteResource::getRole`.'
-count = 1
-
-[[issues]]
-file = "src/Http/RouteResource.php"
 code = "mixed-argument"
 message = 'Invalid argument type for argument #1 of `Psr\Http\Message\ServerRequestInterface::getAttribute`: expected `string`, but found `nonnull`.'
 count = 1
@@ -1351,12 +1183,6 @@ message = "Type `array` in parameter `$paramMap` is imprecise, equivalent to `ar
 count = 1
 
 [[issues]]
-file = "src/Http/RouteResourceFactory.php"
-code = "missing-override-attribute"
-message = 'Missing `#[Override]` attribute on overriding method `Webware\Acl\Http\RouteResourceFactory::__invoke`.'
-count = 1
-
-[[issues]]
 file = "src/Http/RouteResourceFactoryInterface.php"
 code = "missing-api-or-internal"
 message = 'Interface `Webware\Acl\Http\RouteResourceFactoryInterface` is missing an `@api` or `@internal` annotation.'
@@ -1382,12 +1208,6 @@ count = 1
 
 [[issues]]
 file = "src/InputFilter/RoleDataFilter.php"
-code = "missing-override-attribute"
-message = 'Missing `#[Override]` attribute on overriding method `Webware\Acl\InputFilter\RoleDataFilter::init`.'
-count = 1
-
-[[issues]]
-file = "src/InputFilter/RoleDataFilter.php"
 code = "missing-template-parameter"
 message = 'Too few template arguments for `Laminas\InputFilter\InputFilter`: expected at least 1, but found 0.'
 count = 1
@@ -1396,12 +1216,6 @@ count = 1
 file = "src/InputFilter/RoleDataFilter.php"
 code = "unhandled-thrown-type"
 message = 'Potentially unhandled exception `Laminas\InputFilter\Exception\InvalidArgumentException` in `Webware\Acl\InputFilter\RoleDataFilter::init`.'
-count = 1
-
-[[issues]]
-file = "src/InputFilter/RuleDataFilter.php"
-code = "missing-override-attribute"
-message = 'Missing `#[Override]` attribute on overriding method `Webware\Acl\InputFilter\RuleDataFilter::init`.'
 count = 1
 
 [[issues]]
@@ -1420,18 +1234,6 @@ count = 1
 file = "src/MessageBus/AuthorizableCommandInterface.php"
 code = "missing-api-or-internal"
 message = 'Interface `Webware\Acl\MessageBus\AuthorizableCommandInterface` is missing an `@api` or `@internal` annotation.'
-count = 1
-
-[[issues]]
-file = "src/Middleware/AclMiddleware.php"
-code = "missing-override-attribute"
-message = 'Missing `#[Override]` attribute on overriding method `Webware\Acl\Middleware\AclMiddleware::process`.'
-count = 1
-
-[[issues]]
-file = "src/Middleware/AuthorizationMiddleware.php"
-code = "missing-override-attribute"
-message = 'Missing `#[Override]` attribute on overriding method `Webware\Acl\Middleware\AuthorizationMiddleware::process`.'
 count = 1
 
 [[issues]]
@@ -1670,12 +1472,6 @@ count = 2
 
 [[issues]]
 file = "src/Repository/RoleRepository.php"
-code = "possibly-null-property-access"
-message = "Attempting to access a property on a possibly `null` value."
-count = 1
-
-[[issues]]
-file = "src/Repository/RoleRepository.php"
 code = "possibly-undefined-string-array-index"
 message = 'Possibly undefined array key `string` accessed on `array<string, Webware\Acl\Entity\Role>`.'
 count = 1
@@ -1807,12 +1603,6 @@ message = 'Potentially unhandled exception `PhpDb\TableGateway\Exception\Invalid
 count = 1
 
 [[issues]]
-file = "src/Repository/Schema.php"
-code = "missing-override-attribute"
-message = 'Missing `#[Override]` attribute on overriding method `Webware\Acl\Repository\Schema::table`.'
-count = 1
-
-[[issues]]
 file = "src/RequestHandler/Container/ForbiddenHandlerFactory.php"
 code = "mixed-argument"
 message = 'Invalid argument type for argument #2 of `Webware\Acl\RequestHandler\ForbiddenHandler::__construct`: expected `null|string`, but found `mixed`.'
@@ -1858,12 +1648,6 @@ count = 1
 file = "src/RequestHandler/Container/ForbiddenHandlerFactory.php"
 code = "unhandled-thrown-type"
 message = 'Potentially unhandled exception `Psr\Container\NotFoundExceptionInterface` in `Webware\Acl\RequestHandler\Container\ForbiddenHandlerFactory::__invoke`.'
-count = 1
-
-[[issues]]
-file = "src/RequestHandler/ForbiddenHandler.php"
-code = "missing-override-attribute"
-message = 'Missing `#[Override]` attribute on overriding method `Webware\Acl\RequestHandler\ForbiddenHandler::handle`.'
 count = 1
 
 [[issues]]
@@ -2068,36 +1852,6 @@ count = 1
 file = "src/Role/UserRoleIterator.php"
 code = "invalid-return-statement"
 message = 'Invalid return type for function `Webware\Acl\Role\UserRoleIterator::current`: expected `unknown-ref(Webware\UserManager\UserInterface)`, but found `Webware\Acl\Role\SingleRoleUserProxy`.'
-count = 1
-
-[[issues]]
-file = "src/Role/UserRoleIterator.php"
-code = "missing-override-attribute"
-message = 'Missing `#[Override]` attribute on overriding method `Webware\Acl\Role\UserRoleIterator::current`.'
-count = 1
-
-[[issues]]
-file = "src/Role/UserRoleIterator.php"
-code = "missing-override-attribute"
-message = 'Missing `#[Override]` attribute on overriding method `Webware\Acl\Role\UserRoleIterator::key`.'
-count = 1
-
-[[issues]]
-file = "src/Role/UserRoleIterator.php"
-code = "missing-override-attribute"
-message = 'Missing `#[Override]` attribute on overriding method `Webware\Acl\Role\UserRoleIterator::next`.'
-count = 1
-
-[[issues]]
-file = "src/Role/UserRoleIterator.php"
-code = "missing-override-attribute"
-message = 'Missing `#[Override]` attribute on overriding method `Webware\Acl\Role\UserRoleIterator::rewind`.'
-count = 1
-
-[[issues]]
-file = "src/Role/UserRoleIterator.php"
-code = "missing-override-attribute"
-message = 'Missing `#[Override]` attribute on overriding method `Webware\Acl\Role\UserRoleIterator::valid`.'
 count = 1
 
 [[issues]]

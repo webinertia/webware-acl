@@ -14,7 +14,6 @@ declare(strict_types=1);
 
 namespace Webware\Acl\Admin\CommandHandler;
 
-use Override;
 use Throwable;
 use Webware\Acl\Admin\Command\SaveRuleCommand;
 use Webware\Acl\Repository\RoleRepository;
@@ -31,7 +30,6 @@ final class SaveRuleHandler implements CommandHandlerInterface
         private readonly RoleRepository $roleRepository,
     ) {}
 
-    #[Override]
     public function handle(SaveRuleCommand $command): CommandResultInterface
     {
         try {

@@ -74,7 +74,7 @@ final class RoleRepository
         while ([] !== $queue) {
             $roleId = array_shift($queue);
             $role   = $map[$roleId];
-            $registry->add($role, $role->parentId ?: null);
+            $registry->add($role, $role?->parentId ?: null);
             foreach ($children[$roleId] ?? [] as $childId) {
                 if (--$inDegree[$childId] !== 0) {
                     continue;

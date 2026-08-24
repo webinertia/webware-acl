@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Webware\Acl\RequestHandler;
 
 use Laminas\Diactoros\Response\RedirectResponse;
+use Override;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Webware\Message\SystemMessengerInterface;
@@ -18,6 +19,7 @@ final readonly class ForbiddenHandler implements ForbiddenHandlerInterface
         private ?string $forbiddenTemplate = null,
     ) {}
 
+    #[Override]
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
         $user = $request->getAttribute(UserInterface::class);

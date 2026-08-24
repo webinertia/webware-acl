@@ -50,11 +50,13 @@ final class Rule implements WithRowDataPrototypeInterface, ResourceInterface, Ro
         return $this->roleId;
     }
 
+    #[Override]
     public function toArray(): array
     {
         return (array) $this;
     }
 
+    #[Override]
     public function withRowData(array $withRowData): static
     {
         return new self(...$withRowData);

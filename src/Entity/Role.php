@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Webware\Acl\Entity;
 
 use Laminas\Permissions\Acl\Role\RoleInterface;
+use Override;
 use RuntimeException;
 use Webware\ResultSet\WithRowDataPrototypeInterface;
 
@@ -34,6 +35,7 @@ final class Role implements RoleInterface, WithRowDataPrototypeInterface
         },
     ) {}
 
+    #[Override]
     public function exchangeArray(array $data): array
     {
         throw new RuntimeException('Not implemented');
@@ -49,16 +51,19 @@ final class Role implements RoleInterface, WithRowDataPrototypeInterface
         return $this->parentId;
     }
 
+    #[Override]
     public function getRoleId(): int|string|null
     {
         return $this->roleId;
     }
 
+    #[Override]
     public function toArray(): array
     {
         return (array) $this;
     }
 
+    #[Override]
     public function withRowData(array $withRowData): static
     {
         return new self(...$withRowData);

@@ -32,11 +32,13 @@ final class Acl extends LaminasAcl implements AclInterface
         private readonly RouteCollectorInterface $routeCollector,
     ) {}
 
+    #[Override]
     public function addResource($resource, $parent = null, bool $persist = false)
     {
         throw RuntimeException::forAclAddResource();
     }
 
+    #[Override]
     public function addRole($role, $parents = null, bool $persist = false)
     {
         parent::addRole($role, $parents);
@@ -59,6 +61,7 @@ final class Acl extends LaminasAcl implements AclInterface
         return $this;
     }
 
+    #[Override]
     public function getResourceParentId(string $resourceId): ?string
     {
         if (! $this->hasResource($resourceId)) {
@@ -68,6 +71,7 @@ final class Acl extends LaminasAcl implements AclInterface
         return $this->resources[$resourceId]['parent']?->getResourceId();
     }
 
+    #[Override]
     public function getRoles(): array
     {
         $registry = $this->getRoleRegistry();
@@ -119,6 +123,7 @@ final class Acl extends LaminasAcl implements AclInterface
         return $this->isAllowed($user, $resource);
     }
 
+    #[Override]
     protected function getRoleRegistry()
     {
         if (null === $this->roleRegistry) {

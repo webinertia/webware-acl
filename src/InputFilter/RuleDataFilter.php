@@ -6,6 +6,7 @@ namespace Webware\Acl\InputFilter;
 
 use Laminas\Filter;
 use Laminas\InputFilter;
+use Override;
 use Webware\Acl\RuleType;
 use Webware\Acl\Validator\Assertion;
 use Webware\Core\InputFilter\SystemMessageTrait;
@@ -18,6 +19,7 @@ final class RuleDataFilter extends InputFilter\InputFilter
         protected readonly InputFilter\Factory $factory,
     ) {}
 
+    #[Override]
     public function init(): void
     {
         $this->add([

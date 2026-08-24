@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Webware\Acl\Role;
 
 use Iterator;
+use Override;
 use Webware\UserManager\UserInterface;
 
 /**
@@ -22,26 +23,31 @@ final class UserRoleIterator implements Iterator
         $this->roles = [...$user->getRoles()];
     }
 
+    #[Override]
     public function current(): UserInterface
     {
         return new SingleRoleUserProxy($this->user, $this->roles[$this->position]);
     }
 
+    #[Override]
     public function key(): int
     {
         return $this->position;
     }
 
+    #[Override]
     public function next(): void
     {
         $this->position++;
     }
 
+    #[Override]
     public function rewind(): void
     {
         $this->position = 0;
     }
 
+    #[Override]
     public function valid(): bool
     {
         return isset($this->roles[$this->position]);

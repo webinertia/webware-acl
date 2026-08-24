@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Webware\Acl\Middleware;
 
 use Mezzio\Router\RouteResult;
+use Override;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
@@ -22,6 +23,7 @@ final class AuthorizationMiddleware implements MiddlewareInterface
         private readonly RouteResourceFactoryInterface $routeResourceFactory,
     ) {}
 
+    #[Override]
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         $routeResult = $request->getAttribute(RouteResult::class);

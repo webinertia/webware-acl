@@ -6,6 +6,7 @@ namespace Webware\Acl\Http;
 
 use Laminas\Permissions\Acl\Role\RoleInterface;
 use Mezzio\Router\RouteResult;
+use Override;
 use Psr\Http\Message\ServerRequestInterface;
 use Webware\UserManager\UserInterface;
 
@@ -52,11 +53,13 @@ final class RouteResource implements RouteResourceInterface
         );
     }
 
+    #[Override]
     public function getResourceId(): string
     {
         return $this->routeResult->getMatchedRouteName();
     }
 
+    #[Override]
     public function getRole(): RoleInterface
     {
         return $this->request->getAttribute(UserInterface::class);
