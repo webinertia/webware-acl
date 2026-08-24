@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Webware\Acl;
 
 use Laminas\InputFilter\InputFilterFactory;
+use Laminas\Permissions\Acl\AclInterface as LaminasAclInterface;
 use Webware\Acl\Admin\Command\DeleteRoleCommand;
 use Webware\Acl\Admin\Command\DeleteRuleCommand;
 use Webware\Acl\Admin\Command\SaveRoleCommand;
@@ -118,6 +119,7 @@ final class ConfigProvider
             'aliases'   => [
                 AclInterface::class                  => Acl::class,
                 ForbiddenHandlerInterface::class     => ForbiddenHandler::class,
+                LaminasAclInterface::class           => Acl::class,
                 RouteResourceFactoryInterface::class => RouteResourceFactory::class,
             ],
             'factories' => [

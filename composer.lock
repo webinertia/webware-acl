@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "302d4296a562d2c6e51583c3c5adf56f",
+    "content-hash": "7a50287b86c77003401bd78ee8520a2e",
     "packages": [
         {
             "name": "brick/math",
@@ -3467,6 +3467,82 @@
                 "source": "https://github.com/webinertia/message-bus"
             },
             "time": "2026-08-15T05:42:17+00:00"
+        },
+        {
+            "name": "webware/webware-admin",
+            "version": "0.1.x-dev",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/webinertia/webware-admin.git",
+                "reference": "468e8b467719c4fd08226a5d06383b56aaaa3f9d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/webinertia/webware-admin/zipball/468e8b467719c4fd08226a5d06383b56aaaa3f9d",
+                "reference": "468e8b467719c4fd08226a5d06383b56aaaa3f9d",
+                "shasum": ""
+            },
+            "require": {
+                "laminas/laminas-diactoros": "^3.8",
+                "laminas/laminas-permissions-acl": "^2.16",
+                "laminas/laminas-view": "^3.0",
+                "mezzio/mezzio": "^3.26",
+                "mezzio/mezzio-authentication": "^1.13",
+                "mezzio/mezzio-helpers": "^5.0",
+                "mezzio/mezzio-router": "^3.15 || ^4.0",
+                "mezzio/mezzio-template": "^2.8 || ^3.0",
+                "php": "~8.4.1 || ~8.5.0",
+                "php-standard-library/type": "^6.2",
+                "psr/container": "^2.0",
+                "psr/event-dispatcher": "^1.0",
+                "psr/http-message": "^2.0",
+                "psr/http-server-handler": "^1.0",
+                "psr/http-server-middleware": "^1.0",
+                "webware/webware-core": "0.1.x-dev"
+            },
+            "require-dev": {
+                "infection/infection": "^0.35.0",
+                "mezzio/mezzio-authentication-session": "^1.11",
+                "phpbench/phpbench": "^1.7",
+                "phpunit/phpunit": "^13.3",
+                "roave/backward-compatibility-check": "^8.21.0",
+                "roave/security-advisories": "dev-master",
+                "webware/coding-standard": "^0.1.0",
+                "webware/webware-tools": "^0.1.x-dev"
+            },
+            "suggest": {
+                "webware/webware-acl": "Provides the ACL implementation and ACL configuration consumed by the dashboard widget filtering, plus the ACL management UI."
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Webware\\Admin\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Joey Smith",
+                    "email": "jsmith@webinertia.net",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Mezzio admin dashboard framework: widget system, ACL-filtered rendering, and navigation for the webware-* package family.",
+            "keywords": [
+                "admin",
+                "dashboard",
+                "mezzio",
+                "webware"
+            ],
+            "support": {
+                "issues": "https://github.com/webinertia/webware-admin/issues",
+                "source": "https://github.com/webinertia/webware-admin/tree/0.1.x"
+            },
+            "time": "2026-08-24T02:59:50+00:00"
         },
         {
             "name": "webware/webware-core",
@@ -12480,6 +12556,7 @@
     "stability-flags": {
         "php-db/phpdb-mysql": 20,
         "roave/security-advisories": 20,
+        "webware/webware-admin": 20,
         "webware/webware-core": 20,
         "webware/webware-htmx": 20,
         "webware/webware-tools": 20

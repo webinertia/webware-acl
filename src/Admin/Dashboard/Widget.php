@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Webware\Acl\Admin\Dashboard;
 
 use Override;
-use Webware\Admin\Widget\WidgetInterface;
+use Webware\Admin\WidgetInterface;
 
 /**
  * Admin dashboard widget contributed by webware-acl.
