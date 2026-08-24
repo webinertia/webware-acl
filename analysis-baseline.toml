@@ -338,18 +338,6 @@ count = 1
 
 [[issues]]
 file = "src/Admin/Dashboard/Container/RegisterWidgetListenerFactory.php"
-code = "non-existent-method"
-message = 'Method `getAdminRouteNamePrefix` does not exist on type `Webware\Admin\Container\Configuration`.'
-count = 1
-
-[[issues]]
-file = "src/Admin/Dashboard/Container/RegisterWidgetListenerFactory.php"
-code = "non-existent-use-import"
-message = 'Imported class, interface, trait, or enum `Webware\Admin\Container\Configuration` does not exist.'
-count = 1
-
-[[issues]]
-file = "src/Admin/Dashboard/Container/RegisterWidgetListenerFactory.php"
 code = "unhandled-thrown-type"
 message = 'Potentially unhandled exception `Psr\Container\ContainerExceptionInterface` in `Webware\Acl\Admin\Dashboard\Container\RegisterWidgetListenerFactory::__invoke`.'
 count = 1
@@ -368,38 +356,8 @@ count = 1
 
 [[issues]]
 file = "src/Admin/Dashboard/RegisterWidgetListener.php"
-code = "invalid-method-access"
-message = 'Attempting to access a method on a non-object type (`unknown-ref(Webware\Admin\Event\RegisterWidgetEvent)`).'
-count = 1
-
-[[issues]]
-file = "src/Admin/Dashboard/RegisterWidgetListener.php"
-code = "non-existent-class-like"
-message = 'Cannot find class, interface, enum, or type alias `Webware\Admin\Event\RegisterWidgetEvent`.'
-count = 1
-
-[[issues]]
-file = "src/Admin/Dashboard/RegisterWidgetListener.php"
-code = "non-existent-use-import"
-message = 'Imported class, interface, trait, or enum `Webware\Admin\Event\RegisterWidgetEvent` does not exist.'
-count = 1
-
-[[issues]]
-file = "src/Admin/Dashboard/RegisterWidgetListener.php"
 code = "unused-property"
 message = "Property `$config` is never used."
-count = 1
-
-[[issues]]
-file = "src/Admin/Dashboard/Widget.php"
-code = "non-existent-class-like"
-message = 'Class `Webware\Acl\Admin\Dashboard\Widget` cannot implement unknown type `WidgetInterface`'
-count = 1
-
-[[issues]]
-file = "src/Admin/Dashboard/Widget.php"
-code = "non-existent-use-import"
-message = 'Imported class, interface, trait, or enum `Webware\Admin\Widget\WidgetInterface` does not exist.'
 count = 1
 
 [[issues]]
@@ -979,18 +937,6 @@ message = "Type `array` in return type of `getValidatorConfig` is imprecise, equ
 count = 1
 
 [[issues]]
-file = "src/ConfigProvider.php"
-code = "non-existent-class-like"
-message = 'Class, interface, enum, or trait `Webware\Admin\Event\RegisterWidgetEvent` not found.'
-count = 1
-
-[[issues]]
-file = "src/ConfigProvider.php"
-code = "non-existent-use-import"
-message = 'Imported class, interface, trait, or enum `Webware\Admin\Event\RegisterWidgetEvent` does not exist.'
-count = 1
-
-[[issues]]
 file = "src/Container/AclFactory.php"
 code = "unhandled-thrown-type"
 message = 'Potentially unhandled exception `Psr\Container\ContainerExceptionInterface` in `Webware\Acl\Container\AclFactory::__invoke`.'
@@ -1084,36 +1030,6 @@ count = 1
 file = "src/Container/MessageHandlerMiddlewareFactory.php"
 code = "unhandled-thrown-type"
 message = 'Potentially unhandled exception `Psr\Container\NotFoundExceptionInterface` in `Webware\Acl\Container\MessageHandlerMiddlewareFactory::__invoke`.'
-count = 1
-
-[[issues]]
-file = "src/Container/RouteProviderFactory.php"
-code = "mixed-assignment"
-message = "Assigning `mixed` type to a variable may lead to unexpected behavior."
-count = 2
-
-[[issues]]
-file = "src/Container/RouteProviderFactory.php"
-code = "mixed-operand"
-message = "Invalid left operand: type `mixed` cannot be reliably used in string concatenation."
-count = 1
-
-[[issues]]
-file = "src/Container/RouteProviderFactory.php"
-code = "non-existent-method"
-message = 'Method `getAdminRouteNamePrefix` does not exist on type `Webware\Admin\Container\Configuration`.'
-count = 1
-
-[[issues]]
-file = "src/Container/RouteProviderFactory.php"
-code = "non-existent-method"
-message = 'Method `getAdminRouteSegment` does not exist on type `Webware\Admin\Container\Configuration`.'
-count = 1
-
-[[issues]]
-file = "src/Container/RouteProviderFactory.php"
-code = "non-existent-use-import"
-message = 'Imported class, interface, trait, or enum `Webware\Admin\Container\Configuration` does not exist.'
 count = 1
 
 [[issues]]
