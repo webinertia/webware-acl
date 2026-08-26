@@ -6,6 +6,7 @@ namespace WebwareTestIntegration\Acl;
 
 use Laminas\Diactoros\Response\EmptyResponse;
 use Laminas\Diactoros\ServerRequest;
+use Laminas\InputFilter;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
@@ -19,99 +20,120 @@ use Webware\Message\SystemMessengerInterface;
 use Webware\MessageBus\Command\CommandResult;
 use Webware\MessageBus\MessageBusInterface;
 use Webware\MessageBus\MessageStatus;
+use WebwareTestIntegration\Acl\Support\FilterManagerFactory;
 
 #[CoversClass(ProcessRoleMiddleware::class)]
 final class ProcessRoleMiddlewareTest extends TestCase
 {
+    private InputFilter\InputFilterPluginManager $filterManager;
+
     #[Test]
-    public function patchWithValidBodyDispatchesSaveRoleCommand(): void
+    public function processDeleteDispatchesDeleteRoleCommand(): void
     {
-        $bus = $this->createMock(MessageBusInterface::class);
+        $captured = null;
+        $bus      = $this->createMock(MessageBusInterface::class);
+        $bus->expects($this->once())
+            ->method('handle')
+            ->with($this->isInstanceOf(DeleteRoleCommand::class))
+            ->willReturnCallback(static function (DeleteRoleCommand $cmd) use (&$captured): CommandResult {
+                $captured = $cmd;
+
+                return new CommandResult($cmd, MessageStatus::Success, null);
+            });
+
+        $handler = $this->capturingHandler();
+
+        new ProcessRoleMiddleware($bus)->process(
+            $this->request('DELETE', [], ['roleId' => 'Editor']),
+            $handler,
+        );
+
+        self::assertInstanceOf(DeleteRoleCommand::class, $captured);
+        self::assertSame('Editor', $captured->roleId);
+    }
+
+    #[Test]
+    public function processPatchDispatchesSaveRoleCommandWithFilteredId(): void
+    {
+        $captured = null;
+        $bus      = $this->createMock(MessageBusInterface::class);
         $bus->expects($this->once())
             ->method('handle')
             ->with($this->isInstanceOf(SaveRoleCommand::class))
-            ->willReturnCallback(fn($cmd) => $this->successResult($cmd));
+            ->willReturnCallback(static function (SaveRoleCommand $cmd) use (&$captured): CommandResult {
+                $captured = $cmd;
 
-        $request = new ServerRequest([], [], '/', 'PATCH')->withParsedBody([
-            'role_id'   => 'Shift Lead',
-            'parent_pk' => '2',
-        ]);
+                return new CommandResult($cmd, MessageStatus::Success, null);
+            });
 
-        $handler    = $this->capturingHandler();
-        $middleware = new ProcessRoleMiddleware($bus);
-        $middleware->processPatch($request, $handler);
+        $handler = $this->capturingHandler();
 
-        $result = $handler->received?->getAttribute(CommandResult::class);
-        self::assertInstanceOf(CommandResult::class, $result);
-        self::assertSame(MessageStatus::Success, $result->getStatus());
+        new ProcessRoleMiddleware($bus)->process(
+            $this->request('PATCH', ['id' => '7', 'roleId' => 'Editor', 'parentId' => 'Admin']),
+            $handler,
+        );
+
+        self::assertInstanceOf(SaveRoleCommand::class, $captured);
+        self::assertSame(7, $captured->id);
+        self::assertSame('Editor', $captured->roleId);
+        self::assertSame(['Admin'], $captured->parentId);
     }
 
     #[Test]
-    public function postWithMissingRoleIdSetsFailure(): void
+    public function processPostDispatchesSaveRoleCommandWithFilteredValues(): void
     {
-        $bus = $this->createStub(MessageBusInterface::class);
-
-        $request = new ServerRequest([], [], '/', 'POST')->withParsedBody(['parent_pk' => '2']);
-
-        $handler    = $this->capturingHandler();
-        $middleware = new ProcessRoleMiddleware($bus);
-        $middleware->process($request, $handler);
-
-        $result = $handler->received?->getAttribute(CommandResult::class);
-        self::assertInstanceOf(CommandResult::class, $result);
-        self::assertSame(MessageStatus::Failure, $result->getStatus());
-    }
-
-    #[Test]
-    public function postWithValidBodyDispatchesSaveRoleCommandAndSetsSuccess(): void
-    {
-        $bus = $this->createMock(MessageBusInterface::class);
+        $captured = null;
+        $bus      = $this->createMock(MessageBusInterface::class);
         $bus->expects($this->once())
             ->method('handle')
             ->with($this->isInstanceOf(SaveRoleCommand::class))
-            ->willReturnCallback(fn($cmd) => $this->successResult($cmd));
+            ->willReturnCallback(static function (SaveRoleCommand $cmd) use (&$captured): CommandResult {
+                $captured = $cmd;
 
-        $messenger = $this->createStub(SystemMessengerInterface::class);
+                return new CommandResult($cmd, MessageStatus::Success, null);
+            });
 
-        $request = new ServerRequest([], [], '/', 'POST')->withParsedBody([
-            'role_id'   => 'Shift Lead',
-            'parent_pk' => '2',
-        ])
-            ->withAttribute(SystemMessengerInterface::class, $messenger);
+        $handler = $this->capturingHandler();
 
-        $handler    = $this->capturingHandler();
-        $middleware = new ProcessRoleMiddleware($bus);
-        $middleware->process($request, $handler);
+        new ProcessRoleMiddleware($bus)->process(
+            $this->request('POST', ['roleId' => ' Guest ', 'parentId' => 'Admin']),
+            $handler,
+        );
 
-        $result = $handler->received?->getAttribute(CommandResult::class);
-        self::assertInstanceOf(CommandResult::class, $result);
-        self::assertSame(MessageStatus::Success, $result->getStatus());
+        self::assertInstanceOf(SaveRoleCommand::class, $captured);
+        self::assertNull($captured->id);
+        self::assertSame('Guest', $captured->roleId);
+        self::assertSame(['Admin'], $captured->parentId);
+        self::assertSame(
+            MessageStatus::Success,
+            $handler->received?->getAttribute(CommandResult::class)?->getStatus(),
+        );
     }
 
     #[Test]
-    public function postWithZeroParentPkSetsFailure(): void
+    public function processPostSkipsDispatchWhenRoleIdMissing(): void
     {
-        $bus = $this->createStub(MessageBusInterface::class);
+        $bus = $this->createMock(MessageBusInterface::class);
+        $bus->expects($this->never())->method('handle');
 
-        $request = new ServerRequest([], [], '/', 'POST')->withParsedBody([
-            'role_id'   => 'Shift Lead',
-            'parent_pk' => '0',
-        ]);
+        $messenger = $this->createMock(SystemMessengerInterface::class);
+        $messenger->expects($this->once())->method('warning');
 
-        $handler    = $this->capturingHandler();
-        $middleware = new ProcessRoleMiddleware($bus);
-        $middleware->process($request, $handler);
+        $handler = $this->capturingHandler();
 
-        $result = $handler->received?->getAttribute(CommandResult::class);
-        self::assertInstanceOf(CommandResult::class, $result);
-        self::assertSame(MessageStatus::Failure, $result->getStatus());
+        new ProcessRoleMiddleware($bus)->process(
+            $this->request('POST', ['parentId' => 'Admin'], [], $messenger),
+            $handler,
+        );
+
+        self::assertNull($handler->received?->getAttribute(CommandResult::class));
     }
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->markTestSkipped('Blocked on MessageBus query/command refactor of the repository boundary.');
+        $this->filterManager = FilterManagerFactory::create();
     }
 
     private function capturingHandler(): RequestHandlerInterface
@@ -128,8 +150,33 @@ final class ProcessRoleMiddlewareTest extends TestCase
         };
     }
 
-    private function successResult(SaveRoleCommand|DeleteRoleCommand $cmd): CommandResult
-    {
-        return new CommandResult($cmd, MessageStatus::Success, null);
+    /**
+     * @param array<array-key, mixed> $body
+     * @param array<array-key, mixed> $attributes
+     */
+    private function request(
+        string $method,
+        array $body = [],
+        array $attributes = [],
+        ?SystemMessengerInterface $messenger = null,
+    ): ServerRequest {
+        $request = new ServerRequest([], [], '/', $method)->withAttribute(
+            InputFilter\InputFilterPluginManager::class,
+            $this->filterManager,
+        );
+
+        if ($body !== []) {
+            $request = $request->withParsedBody($body);
+        }
+
+        foreach ($attributes as $name => $value) {
+            $request = $request->withAttribute((string) $name, $value);
+        }
+
+        if ($messenger !== null) {
+            $request = $request->withAttribute(SystemMessengerInterface::class, $messenger);
+        }
+
+        return $request;
     }
 }

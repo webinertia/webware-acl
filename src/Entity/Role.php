@@ -6,13 +6,12 @@ namespace Webware\Acl\Entity;
 
 use Laminas\Permissions\Acl\Role\RoleInterface;
 use Override;
-use RuntimeException;
-use Webware\ResultSet\WithRowDataPrototypeInterface;
+use PhpDb\ResultSet\RowPrototypeInterface;
 
 use function is_string;
 use function json_decode;
 
-final class Role implements RoleInterface, WithRowDataPrototypeInterface
+final class Role implements RoleInterface, RowPrototypeInterface
 {
     public function __construct(
         public private(set) int|string|null $id = null,
@@ -35,12 +34,6 @@ final class Role implements RoleInterface, WithRowDataPrototypeInterface
         },
     ) {}
 
-    #[Override]
-    public function exchangeArray(array $data): array
-    {
-        throw new RuntimeException('Not implemented');
-    }
-
     public function getId(): int|string|null
     {
         return $this->id;
@@ -58,14 +51,19 @@ final class Role implements RoleInterface, WithRowDataPrototypeInterface
     }
 
     #[Override]
+    public function populate(array $data): RoleInterface&RowPrototypeInterface
+    {
+        return new static(...$data);
+    }
+
+    #[Override]
     public function toArray(): array
     {
         return (array) $this;
     }
 
-    #[Override]
-    public function withRowData(array $withRowData): static
+    public function withRowData(array $withRowData): RoleInterface&RowPrototypeInterface
     {
-        return new self(...$withRowData);
+        return $this->populate(data: $withRowData);
     }
 }

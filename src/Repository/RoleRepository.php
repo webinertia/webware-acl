@@ -6,9 +6,9 @@ namespace Webware\Acl\Repository;
 
 use Laminas\Permissions\Acl\Role\Registry;
 use PhpDb\Adapter\AdapterInterface;
+use PhpDb\ResultSet\RowPrototypeResultSet;
 use PhpDb\TableGateway\TableGateway;
 use Webware\Acl\Entity\Role;
-use Webware\ResultSet\WithRowDataResultSet;
 
 use function array_shift;
 use function json_encode;
@@ -23,7 +23,7 @@ final class RoleRepository
             Schema::Roles->table(),
             $adapter,
             null,
-            new WithRowDataResultSet(
+            new RowPrototypeResultSet(
                 rowPrototype: new Role(),
             ),
         );

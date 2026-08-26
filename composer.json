@@ -25,6 +25,7 @@
         "mezzio/mezzio-router": "^3.15 || ^4.0",
         "mezzio/mezzio-session": "^1.12",
         "mezzio/mezzio-template": "^2.8 || ^3.0",
+        "php-db/phpdb": "^0.6.x-dev",
         "php-db/phpdb-mysql": "^0.5.x-dev",
         "php-standard-library/type": "^6.2",
         "psr/container": "^2.0",
@@ -37,7 +38,7 @@
         "webware/webware-htmx": "0.1.x-dev",
         "webware/webware-log": "^1.0",
         "webware/webware-message": "^1.0.0-beta.1",
-        "webware/webware-resultset": "^0.1"
+        "webware/webware-usermanager":  "^0.1.x-dev"
     },
     "require-dev": {
         "infection/infection": "^0.35.0",
@@ -66,10 +67,6 @@
         {
             "type": "vcs",
             "url": "https://github.com/webinertia/webware-htmx"
-        },
-        {
-            "type": "vcs",
-            "url": "https://github.com/webinertia/webware-resultset"
         }
     ],
     "minimum-stability": "dev",

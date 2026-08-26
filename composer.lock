@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7a50287b86c77003401bd78ee8520a2e",
+    "content-hash": "fe3a37f737787d7b48a5b4cc7369f0e0",
     "packages": [
         {
             "name": "brick/math",
@@ -2101,30 +2101,29 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-db/phpdb.git",
-                "reference": "5c561a620d20088fef9111f090da295ab82d7cd0"
+                "reference": "b57f549b411d0b4fe46de8a469983816395be850"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-db/phpdb/zipball/5c561a620d20088fef9111f090da295ab82d7cd0",
-                "reference": "5c561a620d20088fef9111f090da295ab82d7cd0",
+                "url": "https://api.github.com/repos/php-db/phpdb/zipball/b57f549b411d0b4fe46de8a469983816395be850",
+                "reference": "b57f549b411d0b4fe46de8a469983816395be850",
                 "shasum": ""
             },
             "require": {
                 "laminas/laminas-servicemanager": "^3.0.0 || ^4.0.0",
                 "laminas/laminas-stdlib": "^3.20.0",
-                "php": "~8.2.0 || ~8.3.0 || ~8.4.0 || ~8.5.0"
+                "php": "~8.3.0 || ~8.4.0 || ~8.5.0"
             },
             "conflict": {
                 "laminas/laminas-db": "*",
                 "zendframework/zend-db": "*"
             },
             "require-dev": {
-                "laminas/laminas-coding-standard": "^3.0.1",
+                "infection/infection": "^0.34.1",
                 "laminas/laminas-eventmanager": "^3.14.0",
                 "laminas/laminas-hydrator": "^4.6.0",
+                "php-db/phpdb-qa-tools": "0.1.x-dev",
                 "phpbench/phpbench": "^1.4",
-                "phpstan/phpstan": "^2.1",
-                "phpstan/phpstan-phpunit": "^2.0",
                 "phpunit/phpunit": "^11.5.42",
                 "rector/rector": "^2.0"
             },
@@ -2162,7 +2161,7 @@
                 "issues": "https://github.com/php-db/phpdb/issues",
                 "source": "https://github.com/php-db/phpdb"
             },
-            "time": "2026-08-12T22:24:28+00:00"
+            "time": "2026-08-24T01:49:39+00:00"
         },
         {
             "name": "php-db/phpdb-mysql",
@@ -2758,6 +2757,88 @@
                 "source": "https://github.com/php-standard-library/type/tree/6.2.1"
             },
             "time": "2026-05-23T20:26:52+00:00"
+        },
+        {
+            "name": "phpmailer/phpmailer",
+            "version": "v7.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/PHPMailer/PHPMailer.git",
+                "reference": "1bc1716a507a65e039d4ac9d9adebbbd0d346e15"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/1bc1716a507a65e039d4ac9d9adebbbd0d346e15",
+                "reference": "1bc1716a507a65e039d4ac9d9adebbbd0d346e15",
+                "shasum": ""
+            },
+            "require": {
+                "ext-ctype": "*",
+                "ext-filter": "*",
+                "ext-hash": "*",
+                "php": ">=5.5.0"
+            },
+            "require-dev": {
+                "dealerdirect/phpcodesniffer-composer-installer": "^1.0",
+                "doctrine/annotations": "^1.2.6 || ^1.13.3",
+                "php-parallel-lint/php-console-highlighter": "^1.0.0",
+                "php-parallel-lint/php-parallel-lint": "^1.3.2",
+                "phpcompatibility/php-compatibility": "^10.0.0@dev",
+                "squizlabs/php_codesniffer": "^3.13.5",
+                "yoast/phpunit-polyfills": "^1.0.4"
+            },
+            "suggest": {
+                "decomplexity/SendOauth2": "Adapter for using XOAUTH2 authentication",
+                "directorytree/imapengine": "For uploading sent messages via IMAP, see gmail example",
+                "ext-imap": "Needed to support advanced email address parsing according to RFC822",
+                "ext-mbstring": "Needed to send email in multibyte encoding charset or decode encoded addresses",
+                "ext-openssl": "Needed for secure SMTP sending and DKIM signing",
+                "greew/oauth2-azure-provider": "Needed for Microsoft Azure XOAUTH2 authentication",
+                "hayageek/oauth2-yahoo": "Needed for Yahoo XOAUTH2 authentication",
+                "league/oauth2-google": "Needed for Google XOAUTH2 authentication",
+                "psr/log": "For optional PSR-3 debug logging",
+                "symfony/polyfill-mbstring": "To support UTF-8 if the Mbstring PHP extension is not enabled (^1.2)",
+                "thenetworg/oauth2-azure": "Needed for Microsoft XOAUTH2 authentication"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "PHPMailer\\PHPMailer\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL-2.1-only"
+            ],
+            "authors": [
+                {
+                    "name": "Marcus Bointon",
+                    "email": "phpmailer@synchromedia.co.uk"
+                },
+                {
+                    "name": "Jim Jagielski",
+                    "email": "jimjag@gmail.com"
+                },
+                {
+                    "name": "Andy Prevost",
+                    "email": "codeworxtech@users.sourceforge.net"
+                },
+                {
+                    "name": "Brent R. Matzelle"
+                }
+            ],
+            "description": "PHPMailer is a full-featured email creation and transfer class for PHP",
+            "support": {
+                "issues": "https://github.com/PHPMailer/PHPMailer/issues",
+                "source": "https://github.com/PHPMailer/PHPMailer/tree/v7.1.1"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/Synchro",
+                    "type": "github"
+                }
+            ],
+            "time": "2026-05-18T08:06:14+00:00"
         },
         {
             "name": "psr/container",
@@ -3474,12 +3555,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/webinertia/webware-admin.git",
-                "reference": "468e8b467719c4fd08226a5d06383b56aaaa3f9d"
+                "reference": "037ee8ea9a4ef243cdb5ec36ce0bcfda5f680d25"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/webinertia/webware-admin/zipball/468e8b467719c4fd08226a5d06383b56aaaa3f9d",
-                "reference": "468e8b467719c4fd08226a5d06383b56aaaa3f9d",
+                "url": "https://api.github.com/repos/webinertia/webware-admin/zipball/037ee8ea9a4ef243cdb5ec36ce0bcfda5f680d25",
+                "reference": "037ee8ea9a4ef243cdb5ec36ce0bcfda5f680d25",
                 "shasum": ""
             },
             "require": {
@@ -3542,7 +3623,7 @@
                 "issues": "https://github.com/webinertia/webware-admin/issues",
                 "source": "https://github.com/webinertia/webware-admin/tree/0.1.x"
             },
-            "time": "2026-08-24T02:59:50+00:00"
+            "time": "2026-08-24T23:22:49+00:00"
         },
         {
             "name": "webware/webware-core",
@@ -3550,29 +3631,33 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/webinertia/webware-core.git",
-                "reference": "fcd3e7cfc472c5fc547f68cfb5a70def3114dac4"
+                "reference": "83db5de1c1835e3a1842fd86dac3829f2eb62fc5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/webinertia/webware-core/zipball/fcd3e7cfc472c5fc547f68cfb5a70def3114dac4",
-                "reference": "fcd3e7cfc472c5fc547f68cfb5a70def3114dac4",
+                "url": "https://api.github.com/repos/webinertia/webware-core/zipball/83db5de1c1835e3a1842fd86dac3829f2eb62fc5",
+                "reference": "83db5de1c1835e3a1842fd86dac3829f2eb62fc5",
                 "shasum": ""
             },
             "require": {
+                "fig/http-message-util": "^1.1",
                 "laminas/laminas-inputfilter": "3.0.x-dev",
-                "php": "~8.4.0 || ~8.5.0",
+                "php": "~8.4.1 || ~8.5.0",
                 "php-standard-library/type": "^6.2.1",
                 "psr/http-message": "^2.0",
                 "psr/http-server-handler": "^1.0",
                 "psr/http-server-middleware": "^1.0"
             },
             "require-dev": {
-                "fig/http-message-util": "^1.1",
+                "infection/infection": "^0.35.0",
                 "laminas/laminas-diactoros": "^3.8",
                 "laminas/laminas-filter": "3.5.x-dev",
                 "php-db/phpdb": "^0.6.0",
-                "phpunit/phpunit": "^13.2.0",
-                "roave/security-advisories": "dev-master"
+                "phpbench/phpbench": "^1.7",
+                "phpunit/phpunit": "^13.3",
+                "roave/backward-compatibility-check": "^8.21.0",
+                "roave/security-advisories": "dev-master",
+                "webware/webware-tools": "^0.1.x-dev"
             },
             "default-branch": true,
             "type": "library",
@@ -3583,19 +3668,25 @@
             },
             "autoload-dev": {
                 "psr-4": {
-                    "Webware\\CoreTest\\": "test/unit/",
-                    "Webware\\CoreIntegrationTest\\": "test/integration/"
+                    "WebwareTest\\Core\\": "test/unit/",
+                    "WebwareTestIntegration\\Core\\": "test/integration/"
                 }
             },
             "scripts": {
-                "check-all": [
-                    "@test"
-                ],
                 "test": [
-                    "phpunit --colors=always"
+                    "phpunit --no-coverage --colors=always --testsuite \"unit test\""
                 ],
                 "test-coverage": [
-                    "phpunit --colors=always --coverage-clover clover.xml"
+                    "phpunit --colors=always --coverage-clover clover.xml --coverage-html coverage/html --coverage-text"
+                ],
+                "test-integration": [
+                    "phpunit --no-coverage --colors=always --testsuite \"integration test\""
+                ],
+                "mutation-test": [
+                    "infection"
+                ],
+                "test-all": [
+                    "@test && @test-integration && @mutation-test"
                 ]
             },
             "license": [
@@ -3618,7 +3709,64 @@
                 "source": "https://github.com/webinertia/webware-core/tree/0.1.x",
                 "issues": "https://github.com/webinertia/webware-core/issues"
             },
-            "time": "2026-08-18T23:09:15+00:00"
+            "time": "2026-08-24T23:24:48+00:00"
+        },
+        {
+            "name": "webware/webware-event",
+            "version": "0.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/webinertia/webware-event.git",
+                "reference": "e3e0a74ee2543ce8348a642ef4ddd21a17f5ba57"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/webinertia/webware-event/zipball/e3e0a74ee2543ce8348a642ef4ddd21a17f5ba57",
+                "reference": "e3e0a74ee2543ce8348a642ef4ddd21a17f5ba57",
+                "shasum": ""
+            },
+            "require": {
+                "phly/phly-event-dispatcher": "^1.5.0",
+                "php": "~8.2.0 || ~8.3.0 || ~8.4.0 || ~8.5.0",
+                "webmozart/assert": "^1.11.0 || ^2.0.0",
+                "webware/webware-core": "^0.1.0"
+            },
+            "require-dev": {
+                "phpstan/phpstan": "^2.1",
+                "phpstan/phpstan-phpunit": "^2.0",
+                "phpunit/phpunit": "^13.0.0",
+                "roave/security-advisories": "dev-master",
+                "webware/coding-standard": "^0.1.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Webware\\Event\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Joey Smith",
+                    "email": "jsmith@webinertia.net",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Event system for Webware",
+            "keywords": [
+                "dispatcher",
+                "event",
+                "psr-14",
+                "webware"
+            ],
+            "support": {
+                "issues": "https://github.com/webinertia/webware-event/issues",
+                "source": "https://github.com/webinertia/webware-event/tree/0.1.0"
+            },
+            "time": "2026-06-20T05:11:57+00:00"
         },
         {
             "name": "webware/webware-htmx",
@@ -3626,12 +3774,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/webinertia/webware-htmx.git",
-                "reference": "1f0630d4183e74a9d89b89fa4574b860fd8eae46"
+                "reference": "958fafd620ff9261c65f2fd89e605646d9ad351f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/webinertia/webware-htmx/zipball/1f0630d4183e74a9d89b89fa4574b860fd8eae46",
-                "reference": "1f0630d4183e74a9d89b89fa4574b860fd8eae46",
+                "url": "https://api.github.com/repos/webinertia/webware-htmx/zipball/958fafd620ff9261c65f2fd89e605646d9ad351f",
+                "reference": "958fafd620ff9261c65f2fd89e605646d9ad351f",
                 "shasum": ""
             },
             "require": {
@@ -3706,20 +3854,20 @@
                 "source": "https://github.com/webinertia/webware-htmx/tree/0.1.x",
                 "issues": "https://github.com/webinertia/webware-htmx/issues"
             },
-            "time": "2026-08-23T04:03:02+00:00"
+            "time": "2026-08-24T23:24:10+00:00"
         },
         {
             "name": "webware/webware-log",
-            "version": "1.0.0",
+            "version": "1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/webinertia/webware-log.git",
-                "reference": "19da5568989587a7f89d541061a4e761901b920d"
+                "reference": "185828124c1ef0462ea95004afd1c4d3876d5474"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/webinertia/webware-log/zipball/19da5568989587a7f89d541061a4e761901b920d",
-                "reference": "19da5568989587a7f89d541061a4e761901b920d",
+                "url": "https://api.github.com/repos/webinertia/webware-log/zipball/185828124c1ef0462ea95004afd1c4d3876d5474",
+                "reference": "185828124c1ef0462ea95004afd1c4d3876d5474",
                 "shasum": ""
             },
             "require": {
@@ -3727,11 +3875,11 @@
                 "laminas/laminas-hydrator": "^4.15.0",
                 "monolog/monolog": "^3.4",
                 "phly/phly-event-dispatcher": "^1.5.0",
-                "php": "~8.4.1 || ~8.5.0 || 8.6.0-dev",
+                "php": "~8.4.1 || ~8.5.0",
                 "ramsey/uuid": "^4.7"
             },
             "require-dev": {
-                "infection/infection": "^0.34.1",
+                "infection/infection": "^0.35.0",
                 "laminas/laminas-diactoros": "^3.5",
                 "laminas/laminas-eventmanager": "^3.14",
                 "laminas/laminas-i18n": "^2.31.0",
@@ -3783,9 +3931,77 @@
             "support": {
                 "chat": "https://discord.gg/89DfgmuF6C",
                 "issues": "https://github.com/webinertia/webware-log/issues",
-                "source": "https://github.com/webinertia/webware-log/tree/1.0.0"
+                "source": "https://github.com/webinertia/webware-log/tree/1.1.0"
             },
-            "time": "2026-08-11T23:25:36+00:00"
+            "time": "2026-08-22T23:05:37+00:00"
+        },
+        {
+            "name": "webware/webware-mailer",
+            "version": "1.0.0-beta.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/webinertia/webware-mailer.git",
+                "reference": "40f2cf5813babed0b05b32aeb6cf603187e65274"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/webinertia/webware-mailer/zipball/40f2cf5813babed0b05b32aeb6cf603187e65274",
+                "reference": "40f2cf5813babed0b05b32aeb6cf603187e65274",
+                "shasum": ""
+            },
+            "require": {
+                "php": "~8.4.1 || ~8.5.0",
+                "phpmailer/phpmailer": "^7.0.0"
+            },
+            "require-dev": {
+                "infection/infection": "^0.34.1",
+                "laminas/laminas-servicemanager": "^4.0.0",
+                "phpbench/phpbench": "^1.7",
+                "phpunit/phpunit": "^13.3.0",
+                "psr/http-message": "^1.0",
+                "psr/http-server-handler": "^1.0",
+                "psr/http-server-middleware": "^1.0",
+                "roave/backward-compatibility-check": "^8.21.0",
+                "roave/security-advisories": "dev-master",
+                "webware/message-bus": "2.0.x-dev",
+                "webware/messagebus-event": "^2.0.0-beta.1",
+                "webware/webware-tools": "^0.1.x-dev"
+            },
+            "type": "library",
+            "extra": {
+                "laminas": {
+                    "config-provider": "Webware\\Mailer\\ConfigProvider"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Webware\\Mailer\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Joey Smith",
+                    "email": "jsmith@webinertia.net"
+                }
+            ],
+            "description": "Php Mail abstraction for a variety of php mailer libraries for mezzio applications",
+            "homepage": "https://github.com/orgs/webinertia/discussions",
+            "keywords": [
+                "MailerInterface abstraction for mezzio applications",
+                "PHP mail",
+                "mezzio",
+                "webware"
+            ],
+            "support": {
+                "chat": "https://discord.gg/9TxQ74EPsG",
+                "issues": "https://github.com/webinertia/webware-mailer/issues",
+                "source": "https://github.com/webinertia/webware-mailer/tree/1.0.0-beta.1"
+            },
+            "time": "2026-08-17T23:05:18+00:00"
         },
         {
             "name": "webware/webware-message",
@@ -3862,53 +4078,69 @@
             "time": "2026-08-18T01:34:05+00:00"
         },
         {
-            "name": "webware/webware-resultset",
-            "version": "0.1.0",
+            "name": "webware/webware-usermanager",
+            "version": "0.1.x-dev",
             "source": {
                 "type": "git",
-                "url": "https://github.com/webinertia/webware-resultset.git",
-                "reference": "cd578c5f26b39bbff5de24e1d4c4251a3ac886c0"
+                "url": "https://github.com/webinertia/webware-usermanager.git",
+                "reference": "29d8fcda1dbf11907a6ab5e77a4a16827d8dd45c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/webinertia/webware-resultset/zipball/cd578c5f26b39bbff5de24e1d4c4251a3ac886c0",
-                "reference": "cd578c5f26b39bbff5de24e1d4c4251a3ac886c0",
+                "url": "https://api.github.com/repos/webinertia/webware-usermanager/zipball/29d8fcda1dbf11907a6ab5e77a4a16827d8dd45c",
+                "reference": "29d8fcda1dbf11907a6ab5e77a4a16827d8dd45c",
                 "shasum": ""
             },
             "require": {
-                "php": "~8.3.0 || ~8.4.1 || ~8.5.0",
-                "webmozart/assert": "^2.4.1"
+                "fig/http-message-util": "^1.1",
+                "laminas/laminas-diactoros": "^3.8",
+                "laminas/laminas-filter": "^3.0",
+                "laminas/laminas-inputfilter": "3.0.x-dev",
+                "laminas/laminas-validator": "^3.7",
+                "laminas/laminas-view": "^2.30 || ^3.0",
+                "mezzio/mezzio": "^3.26",
+                "mezzio/mezzio-helpers": "^5.9",
+                "mezzio/mezzio-router": "^3.15 || ^4.0",
+                "mezzio/mezzio-session": "^1.12",
+                "mezzio/mezzio-template": "^2.8 || ^3.0",
+                "monolog/monolog": "^3.4",
+                "php": "~8.4.1 || ~8.5.0",
+                "php-db/phpdb-mysql": "^0.5.x-dev",
+                "php-standard-library/type": "^6.2",
+                "psr/container": "^2.0",
+                "psr/event-dispatcher": "^1.0",
+                "psr/http-message": "^2.0",
+                "psr/http-server-handler": "^1.0",
+                "psr/http-server-middleware": "^1.0",
+                "psr/log": "^3.0",
+                "ramsey/uuid": "^4.7",
+                "webmozart/assert": "^2.4.1",
+                "webware/message-bus": "^2.0.0-beta.1",
+                "webware/webware-acl": "0.1.x-dev",
+                "webware/webware-admin": "0.1.x-dev",
+                "webware/webware-core": "0.1.x-dev",
+                "webware/webware-event": "^0.1",
+                "webware/webware-htmx": "0.1.x-dev",
+                "webware/webware-log": "^1.0",
+                "webware/webware-mailer": "^1.0.0-beta.1",
+                "webware/webware-message": "^1.0.0-beta.1"
             },
             "require-dev": {
-                "php-db/phpdb": "^0.6.0",
-                "phpunit/phpunit": "^11.5.55",
-                "roave/security-advisories": "dev-master"
+                "infection/infection": "^0.35.0",
+                "phpbench/phpbench": "^1.7",
+                "phpunit/phpunit": "^13.3",
+                "roave/backward-compatibility-check": "^8.21.0",
+                "roave/security-advisories": "dev-master",
+                "webware/webware-tools": "^0.1.x-dev"
             },
+            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "Webware\\ResultSet\\": "src/"
+                    "Webware\\UserManager\\": "src/"
                 }
             },
-            "autoload-dev": {
-                "psr-4": {
-                    "Webware\\ResultSetTest\\": "test/unit/",
-                    "Webware\\ResultSetIntegrationTest\\": "test/integration/"
-                }
-            },
-            "scripts": {
-                "check-all": [
-                    "@cs-check",
-                    "@sa",
-                    "@test"
-                ],
-                "test": [
-                    "phpunit --colors=always"
-                ],
-                "test-coverage": [
-                    "phpunit --colors=always --coverage-clover clover.xml"
-                ]
-            },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "BSD-3-Clause"
             ],
@@ -3919,17 +4151,18 @@
                     "role": "Developer"
                 }
             ],
-            "description": "Result set system for Webware",
+            "description": "Mezzio user registration, authentication, email verification, and admin user management for the webware-* package family.",
             "keywords": [
-                "PhpDb",
-                "resultset",
+                "Authentication",
+                "mezzio",
+                "user",
                 "webware"
             ],
             "support": {
-                "source": "https://github.com/webinertia/webware-resultset/tree/0.1.0",
-                "issues": "https://github.com/webinertia/webware-resultset/issues"
+                "issues": "https://github.com/webinertia/webware-usermanager/issues",
+                "source": "https://github.com/webinertia/webware-usermanager/tree/0.1.x"
             },
-            "time": "2026-06-26T05:06:14+00:00"
+            "time": "2026-08-25T02:28:22+00:00"
         }
     ],
     "packages-dev": [
@@ -4090,16 +4323,16 @@
         },
         {
             "name": "composer/ca-bundle",
-            "version": "1.5.13",
+            "version": "1.5.14",
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/ca-bundle.git",
-                "reference": "c008272789979f709f7fcb32c2ecf1d2db5e84e5"
+                "reference": "0c8abba0634f637bd78c4e451981da368d403463"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/ca-bundle/zipball/c008272789979f709f7fcb32c2ecf1d2db5e84e5",
-                "reference": "c008272789979f709f7fcb32c2ecf1d2db5e84e5",
+                "url": "https://api.github.com/repos/composer/ca-bundle/zipball/0c8abba0634f637bd78c4e451981da368d403463",
+                "reference": "0c8abba0634f637bd78c4e451981da368d403463",
                 "shasum": ""
             },
             "require": {
@@ -4146,7 +4379,7 @@
             "support": {
                 "irc": "irc://irc.freenode.org/composer",
                 "issues": "https://github.com/composer/ca-bundle/issues",
-                "source": "https://github.com/composer/ca-bundle/tree/1.5.13"
+                "source": "https://github.com/composer/ca-bundle/tree/1.5.14"
             },
             "funding": [
                 {
@@ -4158,7 +4391,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-07-18T12:35:13+00:00"
+            "time": "2026-08-21T14:57:29+00:00"
         },
         {
             "name": "composer/class-map-generator",
@@ -5335,19 +5568,20 @@
         },
         {
             "name": "justinrainbow/json-schema",
-            "version": "6.10.0",
+            "version": "6.11.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/jsonrainbow/json-schema.git",
-                "reference": "8b1308a9d7bdbdb20ce87ef920f82b4564bb2d33"
+                "reference": "7e420a943a6fbc95e60e3cf67acfbee85b3b4da7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jsonrainbow/json-schema/zipball/8b1308a9d7bdbdb20ce87ef920f82b4564bb2d33",
-                "reference": "8b1308a9d7bdbdb20ce87ef920f82b4564bb2d33",
+                "url": "https://api.github.com/repos/jsonrainbow/json-schema/zipball/7e420a943a6fbc95e60e3cf67acfbee85b3b4da7",
+                "reference": "7e420a943a6fbc95e60e3cf67acfbee85b3b4da7",
                 "shasum": ""
             },
             "require": {
+                "ext-filter": "*",
                 "ext-json": "*",
                 "marc-mabe/php-enum": "^4.4",
                 "php": "^7.2 || ^8.0"
@@ -5380,20 +5614,9 @@
             ],
             "authors": [
                 {
-                    "name": "Bruno Prieto Reis",
-                    "email": "bruno.p.reis@gmail.com"
-                },
-                {
-                    "name": "Justin Rainbow",
-                    "email": "justin.rainbow@gmail.com"
-                },
-                {
-                    "name": "Igor Wiedler",
-                    "email": "igor@wiedler.ch"
-                },
-                {
-                    "name": "Robert Schönthal",
-                    "email": "seroscho@googlemail.com"
+                    "name": "Danny van der Sluijs",
+                    "email": "danny.vandersluijs@icloud.com",
+                    "role": "Maintainer"
                 }
             ],
             "description": "A library to validate a json schema.",
@@ -5404,9 +5627,9 @@
             ],
             "support": {
                 "issues": "https://github.com/jsonrainbow/json-schema/issues",
-                "source": "https://github.com/jsonrainbow/json-schema/tree/6.10.0"
+                "source": "https://github.com/jsonrainbow/json-schema/tree/6.11.0"
             },
-            "time": "2026-06-16T20:50:26+00:00"
+            "time": "2026-08-21T10:30:42+00:00"
         },
         {
             "name": "marc-mabe/php-enum",
@@ -8171,12 +8394,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Roave/SecurityAdvisories.git",
-                "reference": "4a8b10995f6b62488cf92b121cfcc644d060cd94"
+                "reference": "6c0be3a74b4e70c18693ae5dc183132b4d17603a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/4a8b10995f6b62488cf92b121cfcc644d060cd94",
-                "reference": "4a8b10995f6b62488cf92b121cfcc644d060cd94",
+                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/6c0be3a74b4e70c18693ae5dc183132b4d17603a",
+                "reference": "6c0be3a74b4e70c18693ae5dc183132b4d17603a",
                 "shasum": ""
             },
             "conflict": {
@@ -8243,7 +8466,7 @@
                 "azuracast/azuracast": "<=0.23.5",
                 "b13/seo_basics": "<0.8.2",
                 "backdrop/backdrop": "<=1.32",
-                "backpack/crud": "<4.0.63|>=4.1,<4.1.69|>=5,<5.0.13",
+                "backpack/crud": "<6.8.15|>=7,<7.0.47",
                 "backpack/filemanager": "<2.0.2|>=3,<3.0.9",
                 "bacula-web/bacula-web": "<9.7.1",
                 "badaso/core": "<=2.9.11",
@@ -8508,7 +8731,7 @@
                 "georgringer/news": "<10.0.4|>=11,<11.4.4|>=12,<12.3.2|>=13,<13.0.2|>=14,<14.0.3",
                 "geshi/geshi": "<=1.0.9.1",
                 "getformwork/formwork": "<=2.3.3",
-                "getgrav/grav": "<2.0.4",
+                "getgrav/grav": "<=2.0.19",
                 "getgrav/grav-plugin-api": "<1.0.0.0-beta15",
                 "getgrav/grav-plugin-form": "<9.1",
                 "getkirby/cms": "<=4.9.3|>=5,<=5.4.3",
@@ -8808,6 +9031,7 @@
                 "pegasus/google-for-jobs": "<1.5.1|>=2,<2.1.1",
                 "personnummer/personnummer": "<3.0.2",
                 "ph7software/ph7builder": "<=17.9.1",
+                "phalcon/cphalcon": "<=5.15",
                 "phanan/koel": "<=9.7",
                 "pheditor/pheditor": "<2.0.8",
                 "phenx/php-svg-lib": "<0.5.2",
@@ -9176,10 +9400,10 @@
                 "wikibase/wikibase": "<=1.39.3",
                 "wikimedia/parsoid": "<0.12.2",
                 "willdurand/js-translation-bundle": "<2.1.1",
-                "winter/wn-backend-module": "<1.2.13",
+                "winter/wn-backend-module": "<1.2.14",
                 "winter/wn-cms-module": "<=1.2.12",
                 "winter/wn-dusk-plugin": "<2.1",
-                "winter/wn-system-module": "<1.2.4",
+                "winter/wn-system-module": "<1.2.13",
                 "wintercms/winter": "<=1.2.3",
                 "wireui/wireui": "<1.19.3|>=2,<2.1.3",
                 "wnx/laravel-backup-restore": "<=1.9.3",
@@ -9213,7 +9437,7 @@
                 "yikesinc/yikes-inc-easy-mailchimp-extender": "<6.8.6",
                 "yoast-seo-for-typo3/yoast_seo": "<7.2.3",
                 "yoast/duplicate-post": "<=4.5",
-                "yourls/yourls": "<=1.10.2",
+                "yourls/yourls": "<=1.10.3",
                 "yuan1994/tpadmin": "<=1.3.12",
                 "yungifez/skuul": "<=2.6.5",
                 "z-push/z-push-dev": "<2.7.6",
@@ -9291,7 +9515,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-08-19T20:26:39+00:00"
+            "time": "2026-08-21T21:23:53+00:00"
         },
         {
             "name": "sanmai/di-container",
@@ -10900,16 +11124,16 @@
         },
         {
             "name": "symfony/console",
-            "version": "v7.4.16",
+            "version": "v7.4.17",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/console.git",
-                "reference": "f4c69c9aed03abf933b294257d618bdd9b30a06d"
+                "reference": "962e18f09ebe68a49039b4c82fc0ea4871824fca"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/console/zipball/f4c69c9aed03abf933b294257d618bdd9b30a06d",
-                "reference": "f4c69c9aed03abf933b294257d618bdd9b30a06d",
+                "url": "https://api.github.com/repos/symfony/console/zipball/962e18f09ebe68a49039b4c82fc0ea4871824fca",
+                "reference": "962e18f09ebe68a49039b4c82fc0ea4871824fca",
                 "shasum": ""
             },
             "require": {
@@ -10974,7 +11198,7 @@
                 "terminal"
             ],
             "support": {
-                "source": "https://github.com/symfony/console/tree/v7.4.16"
+                "source": "https://github.com/symfony/console/tree/v7.4.17"
             },
             "funding": [
                 {
@@ -10994,7 +11218,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-07-31T12:37:14+00:00"
+            "time": "2026-08-21T12:09:28+00:00"
         },
         {
             "name": "symfony/deprecation-contracts",
@@ -11069,16 +11293,16 @@
         },
         {
             "name": "symfony/filesystem",
-            "version": "v8.1.2",
+            "version": "v8.1.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/filesystem.git",
-                "reference": "17856b7a222664a26a5ea1cb06ee0721c2438217"
+                "reference": "6b2f4a0eeb28b5d74f90862592923a654bc629b3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/filesystem/zipball/17856b7a222664a26a5ea1cb06ee0721c2438217",
-                "reference": "17856b7a222664a26a5ea1cb06ee0721c2438217",
+                "url": "https://api.github.com/repos/symfony/filesystem/zipball/6b2f4a0eeb28b5d74f90862592923a654bc629b3",
+                "reference": "6b2f4a0eeb28b5d74f90862592923a654bc629b3",
                 "shasum": ""
             },
             "require": {
@@ -11116,7 +11340,7 @@
             "description": "Provides basic utilities for the filesystem",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/filesystem/tree/v8.1.2"
+                "source": "https://github.com/symfony/filesystem/tree/v8.1.5"
             },
             "funding": [
                 {
@@ -11136,20 +11360,20 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-07-22T15:42:13+00:00"
+            "time": "2026-08-21T12:16:08+00:00"
         },
         {
             "name": "symfony/finder",
-            "version": "v8.1.1",
+            "version": "v8.1.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/finder.git",
-                "reference": "e2989e762c70f9490fa3a00a0ac0fae5aa97a531"
+                "reference": "8d7acede2b2ae07605783d1c43e49b5767036474"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/finder/zipball/e2989e762c70f9490fa3a00a0ac0fae5aa97a531",
-                "reference": "e2989e762c70f9490fa3a00a0ac0fae5aa97a531",
+                "url": "https://api.github.com/repos/symfony/finder/zipball/8d7acede2b2ae07605783d1c43e49b5767036474",
+                "reference": "8d7acede2b2ae07605783d1c43e49b5767036474",
                 "shasum": ""
             },
             "require": {
@@ -11184,7 +11408,7 @@
             "description": "Finds files and directories via an intuitive fluent interface",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/finder/tree/v8.1.1"
+                "source": "https://github.com/symfony/finder/tree/v8.1.5"
             },
             "funding": [
                 {
@@ -11204,7 +11428,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-06-27T09:05:56+00:00"
+            "time": "2026-08-21T12:16:08+00:00"
         },
         {
             "name": "symfony/options-resolver",
@@ -11444,16 +11668,16 @@
         },
         {
             "name": "symfony/polyfill-intl-normalizer",
-            "version": "v1.38.0",
+            "version": "v1.42.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-intl-normalizer.git",
-                "reference": "2d446c214bdbe5b71bde5011b060a05fece3ae6b"
+                "reference": "aa20edea75bd9c48cfecc8360922e5a6e5c44502"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-intl-normalizer/zipball/2d446c214bdbe5b71bde5011b060a05fece3ae6b",
-                "reference": "2d446c214bdbe5b71bde5011b060a05fece3ae6b",
+                "url": "https://api.github.com/repos/symfony/polyfill-intl-normalizer/zipball/aa20edea75bd9c48cfecc8360922e5a6e5c44502",
+                "reference": "aa20edea75bd9c48cfecc8360922e5a6e5c44502",
                 "shasum": ""
             },
             "require": {
@@ -11505,7 +11729,7 @@
                 "shim"
             ],
             "support": {
-                "source": "https://github.com/symfony/polyfill-intl-normalizer/tree/v1.38.0"
+                "source": "https://github.com/symfony/polyfill-intl-normalizer/tree/v1.42.0"
             },
             "funding": [
                 {
@@ -11525,7 +11749,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-05-25T13:48:31+00:00"
+            "time": "2026-08-07T06:33:24+00:00"
         },
         {
             "name": "symfony/polyfill-mbstring",
@@ -12018,16 +12242,16 @@
         },
         {
             "name": "symfony/process",
-            "version": "v8.1.0",
+            "version": "v8.1.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/process.git",
-                "reference": "c4a9e58f235a6bf7f97ffbfedae2687353ac79e5"
+                "reference": "d863f5e70d7c87abb906ac11b61f83036093000b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/process/zipball/c4a9e58f235a6bf7f97ffbfedae2687353ac79e5",
-                "reference": "c4a9e58f235a6bf7f97ffbfedae2687353ac79e5",
+                "url": "https://api.github.com/repos/symfony/process/zipball/d863f5e70d7c87abb906ac11b61f83036093000b",
+                "reference": "d863f5e70d7c87abb906ac11b61f83036093000b",
                 "shasum": ""
             },
             "require": {
@@ -12059,7 +12283,7 @@
             "description": "Executes commands in sub-processes",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/process/tree/v8.1.0"
+                "source": "https://github.com/symfony/process/tree/v8.1.5"
             },
             "funding": [
                 {
@@ -12079,7 +12303,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-05-29T05:06:50+00:00"
+            "time": "2026-08-21T17:47:34+00:00"
         },
         {
             "name": "symfony/service-contracts",
@@ -12506,12 +12730,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/webinertia/webware-tools.git",
-                "reference": "ddd4faefb444543fd320364b3668fb9695dcc0d5"
+                "reference": "feb2e492f5aa44aefc961e8ea02b652f1bb9bb1e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/webinertia/webware-tools/zipball/ddd4faefb444543fd320364b3668fb9695dcc0d5",
-                "reference": "ddd4faefb444543fd320364b3668fb9695dcc0d5",
+                "url": "https://api.github.com/repos/webinertia/webware-tools/zipball/feb2e492f5aa44aefc961e8ea02b652f1bb9bb1e",
+                "reference": "feb2e492f5aa44aefc961e8ea02b652f1bb9bb1e",
                 "shasum": ""
             },
             "require": {
@@ -12548,18 +12772,20 @@
                 "issues": "https://github.com/webinertia/webware-tools/issues",
                 "source": "https://github.com/webinertia/webware-tools/tree/0.1.x"
             },
-            "time": "2026-08-22T23:11:25+00:00"
+            "time": "2026-08-24T23:13:33+00:00"
         }
     ],
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
+        "php-db/phpdb": 20,
         "php-db/phpdb-mysql": 20,
         "roave/security-advisories": 20,
         "webware/webware-admin": 20,
         "webware/webware-core": 20,
         "webware/webware-htmx": 20,
-        "webware/webware-tools": 20
+        "webware/webware-tools": 20,
+        "webware/webware-usermanager": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,

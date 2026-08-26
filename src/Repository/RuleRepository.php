@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace Webware\Acl\Repository;
 
 use PhpDb\Adapter\AdapterInterface;
+use PhpDb\ResultSet\RowPrototypeResultSet;
 use PhpDb\Sql\Select;
 use PhpDb\TableGateway\TableGateway;
 use Webware\Acl\Entity\Rule;
 use Webware\Acl\RuleType;
-use Webware\ResultSet\WithRowDataResultSet;
 
 use function json_decode;
 use function json_encode;
@@ -24,7 +24,7 @@ final class RuleRepository
             Schema::Rules->table(),
             $adapter,
             null,
-            new WithRowDataResultSet(
+            new RowPrototypeResultSet(
                 rowPrototype: new Rule(),
             ),
         );

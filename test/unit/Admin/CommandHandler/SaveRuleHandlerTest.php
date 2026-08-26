@@ -7,36 +7,54 @@ namespace WebwareTest\Acl\Admin\CommandHandler;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
+use RuntimeException;
 use Webware\Acl\Admin\Command\SaveRuleCommand;
 use Webware\Acl\Admin\CommandHandler\SaveRuleHandler;
-use Webware\Acl\Repository\AclRepositoryInterface;
-use Webware\MessageBus\Command\CommandResult;
+use Webware\Acl\Repository\RoleRepository;
+use Webware\Acl\Repository\RuleRepository;
+use Webware\Acl\RuleType;
 use Webware\MessageBus\MessageStatus;
+use WebwareTest\Acl\Support\PhpDbAdapterMock;
 
 #[CoversClass(SaveRuleHandler::class)]
 final class SaveRuleHandlerTest extends TestCase
 {
+    use PhpDbAdapterMock;
+
     #[Test]
-    public function handleSavesRuleIncrementsVersionAndReturnsSuccess(): void
+    public function handleReturnsFailureWhenRepositoryThrows(): void
     {
-        $repo = $this->createMock(AclRepositoryInterface::class);
-        $repo->expects($this->once())
-            ->method('saveRule')
-            ->with(2, 5, 1, 'allow');
-        $repo->expects($this->once())->method('incrementVersion');
+        $handler = new SaveRuleHandler(
+            new RuleRepository($this->createAdapter([], [], new RuntimeException('boom'))),
+            new RoleRepository($this->createAdapter([])),
+        );
+        $result = $handler->handle(new SaveRuleCommand('Admin', 'dashboard', RuleType::Allow, null));
 
-        $command = new SaveRuleCommand(2, 5, 1, 'allow');
-        $result  = new SaveRuleHandler($repo)->handle($command);
-
-        self::assertInstanceOf(CommandResult::class, $result);
-        self::assertSame(MessageStatus::Success, $result->getStatus());
-        self::assertNull($result->getResult());
+        self::assertSame(MessageStatus::Failure, $result->getStatus());
+        self::assertInstanceOf(RuntimeException::class, $result->getResult());
     }
 
-    protected function setUp(): void
+    #[Test]
+    public function handleReturnsFailureWhenSaveReturnsFalse(): void
     {
-        parent::setUp();
+        $handler = new SaveRuleHandler(
+            new RuleRepository($this->createAdapter([[], []], [], null, null)),
+            new RoleRepository($this->createAdapter([])),
+        );
+        $result = $handler->handle(new SaveRuleCommand('Admin', 'dashboard', RuleType::Allow, null));
 
-        $this->markTestSkipped('Blocked on MessageBus query/command refactor of the repository boundary.');
+        self::assertSame(MessageStatus::Failure, $result->getStatus());
+    }
+
+    #[Test]
+    public function handleSavesRuleAndReturnsSuccess(): void
+    {
+        $handler = new SaveRuleHandler(
+            new RuleRepository($this->createAdapter([[], []])),
+            new RoleRepository($this->createAdapter([])),
+        );
+        $result = $handler->handle(new SaveRuleCommand('Admin', 'dashboard', RuleType::Allow, null));
+
+        self::assertSame(MessageStatus::Success, $result->getStatus());
     }
 }

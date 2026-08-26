@@ -35,4 +35,17 @@ final class PrivilegeTest extends TestCase
     {
         self::assertSame('update', PrivilegeInterface::UPDATE);
     }
+
+    #[Test]
+    public function methodPrivilegeMapMapsHttpMethodsToPrivileges(): void
+    {
+        self::assertSame([
+            'GET'    => 'read',
+            'HEAD'   => 'read',
+            'POST'   => 'create',
+            'PUT'    => 'update',
+            'PATCH'  => 'update',
+            'DELETE' => 'delete',
+        ], PrivilegeInterface::METHOD_PRIVILEGE_MAP);
+    }
 }
