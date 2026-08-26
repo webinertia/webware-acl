@@ -15,7 +15,7 @@ with webware-acl so that its routes are protected by `AuthorizationMiddleware`.
 - `webware/acl` is installed and its `ConfigProvider` is loaded in `config/config.php`
 - `IdentityMiddleware` is registered in the global pipeline before `AuthorizationMiddleware`
 - `AuthorizationMiddleware` is registered in the global pipeline before `DispatchMiddleware`
-- **`Mezzio\Authentication\UserInterface` is aliased to `Webware\UserManager\UserInterface`
+- **`Mezzio\Authentication\UserInterface` is aliased to `Webware\Core\UserInterface`
   in the host-application's container** (see [User Identity Requirements](#user-identity-requirements) below)
 
 ---
@@ -43,7 +43,7 @@ declare(strict_types=1);
 
 namespace Acme\Widget;
 
-use Webware\Acl\AclInterface;
+use Webware\Core\AclInterface;
 
 final class ConfigProvider
 {
@@ -164,13 +164,13 @@ container. Mezzio's own `DefaultUser` does **not** implement `RoleInterface` or
 assertions will fail if the bare Mezzio interface is used.
 
 The host application **must** alias Mezzio's interface to
-`Webware\UserManager\UserInterface` in its DI configuration:
+`Webware\Core\UserInterface` in its DI configuration:
 
 ```php
 // config/autoload/dependencies.global.php  (host application only — not in any package)
 
 use Mezzio\Authentication\UserInterface as MezzioUserInterface;
-use Webware\UserManager\UserInterface as UserManagerUserInterface;
+use Webware\Core\UserInterface as UserManagerUserInterface;
 
 return [
     'dependencies' => [

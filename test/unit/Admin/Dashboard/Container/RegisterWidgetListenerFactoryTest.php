@@ -8,10 +8,10 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
-use Webware\Acl\AclInterface;
 use Webware\Acl\Admin\Dashboard\Container\RegisterWidgetListenerFactory;
 use Webware\Acl\Admin\Dashboard\RegisterWidgetListener;
 use Webware\Admin\Container\Configuration as AdminConfiguration;
+use Webware\Core\AclInterface;
 
 #[CoversClass(RegisterWidgetListenerFactory::class)]
 final class RegisterWidgetListenerFactoryTest extends TestCase
@@ -21,8 +21,7 @@ final class RegisterWidgetListenerFactoryTest extends TestCase
     {
         $container = $this->createStub(ContainerInterface::class);
         $container->method('has')->willReturnMap([['config', true]]);
-        $container
-            ->method('get')
+        $container->method('get')
             ->willReturnMap([
                 [
                     'config',

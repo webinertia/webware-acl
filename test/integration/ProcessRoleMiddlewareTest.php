@@ -165,7 +165,7 @@ final class ProcessRoleMiddlewareTest extends TestCase
             $this->filterManager,
         );
 
-        if ($body !== []) {
+        if ([] !== $body) {
             $request = $request->withParsedBody($body);
         }
 
@@ -173,7 +173,7 @@ final class ProcessRoleMiddlewareTest extends TestCase
             $request = $request->withAttribute((string) $name, $value);
         }
 
-        if ($messenger !== null) {
+        if (null !== $messenger) {
             $request = $request->withAttribute(SystemMessengerInterface::class, $messenger);
         }
 

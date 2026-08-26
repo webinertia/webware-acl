@@ -11,20 +11,19 @@ use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ServerRequestInterface;
 use Webware\Acl\Admin\RequestHandler\AddRoleModalHandler;
 use Webware\Acl\Repository\RoleRepository;
-use WebwareTest\Acl\Support\PhpDbAdapterMock;
+use WebwareTest\Acl\Support\PhpDbAdapterMockTrait;
 
 #[CoversClass(AddRoleModalHandler::class)]
 final class AddRoleModalHandlerTest extends TestCase
 {
-    use PhpDbAdapterMock;
+    use PhpDbAdapterMockTrait;
 
     #[Test]
     public function handleRendersModalWithAllRoles(): void
     {
         [$name, $params] = [null, null];
         $template = $this->createStub(TemplateRendererInterface::class);
-        $template
-            ->method('render')
+        $template->method('render')
             ->willReturnCallback(
                 static function (string $template, mixed $model = null) use (&$name, &$params): string {
                     $name   = $template;

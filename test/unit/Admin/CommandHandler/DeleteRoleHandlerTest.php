@@ -12,12 +12,12 @@ use Webware\Acl\Admin\Command\DeleteRoleCommand;
 use Webware\Acl\Admin\CommandHandler\DeleteRoleHandler;
 use Webware\Acl\Repository\RoleRepository;
 use Webware\MessageBus\MessageStatus;
-use WebwareTest\Acl\Support\PhpDbAdapterMock;
+use WebwareTest\Acl\Support\PhpDbAdapterMockTrait;
 
 #[CoversClass(DeleteRoleHandler::class)]
 final class DeleteRoleHandlerTest extends TestCase
 {
-    use PhpDbAdapterMock;
+    use PhpDbAdapterMockTrait;
 
     #[Test]
     public function handleRemovesFromParentsDeletesAndReturnsSuccess(): void

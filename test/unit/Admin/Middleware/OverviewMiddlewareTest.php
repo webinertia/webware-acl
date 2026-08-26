@@ -16,17 +16,19 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Webware\Acl\AclInterface;
 use Webware\Acl\Admin\Middleware\OverviewMiddleware;
 use Webware\Acl\Assertion\OwnershipAssertion;
 use Webware\Acl\AssertionManager;
 use Webware\Acl\Repository\RuleRepository;
-use WebwareTest\Acl\Support\PhpDbAdapterMock;
+use Webware\Core\AclInterface;
+use WebwareTest\Acl\Support\PhpDbAdapterMockTrait;
+
+use function array_keys;
 
 #[CoversClass(OverviewMiddleware::class)]
 final class OverviewMiddlewareTest extends TestCase
 {
-    use PhpDbAdapterMock;
+    use PhpDbAdapterMockTrait;
 
     #[Test]
     public function processBuildsDenyRules(): void

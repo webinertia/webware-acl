@@ -12,20 +12,19 @@ use Webware\Acl\Admin\CommandHandler\Container\SaveRuleHandlerFactory;
 use Webware\Acl\Admin\CommandHandler\SaveRuleHandler;
 use Webware\Acl\Repository\RoleRepository;
 use Webware\Acl\Repository\RuleRepository;
-use WebwareTest\Acl\Support\PhpDbAdapterMock;
+use WebwareTest\Acl\Support\PhpDbAdapterMockTrait;
 
 #[CoversClass(SaveRuleHandlerFactory::class)]
 final class SaveRuleHandlerFactoryTest extends TestCase
 {
-    use PhpDbAdapterMock;
+    use PhpDbAdapterMockTrait;
 
     #[Test]
     public function invokeBuildsHandler(): void
     {
         $adapter   = $this->createAdapter([]);
         $container = $this->createStub(ContainerInterface::class);
-        $container
-            ->method('get')
+        $container->method('get')
             ->willReturnMap([
                 [RuleRepository::class, new RuleRepository($adapter)],
                 [RoleRepository::class, new RoleRepository($adapter)],

@@ -13,12 +13,12 @@ use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Webware\Acl\Entity\Role;
 use Webware\Acl\Repository\RoleRepository;
-use WebwareTest\Acl\Support\PhpDbAdapterMock;
+use WebwareTest\Acl\Support\PhpDbAdapterMockTrait;
 
 #[CoversClass(RoleRepository::class)]
 final class RoleRepositoryTest extends TestCase
 {
-    use PhpDbAdapterMock;
+    use PhpDbAdapterMockTrait;
 
     #[Test]
     public function deleteExecutesDeleteStatement(): void

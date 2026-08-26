@@ -11,19 +11,18 @@ use Psr\Container\ContainerInterface;
 use Webware\Acl\Admin\CommandHandler\Container\SaveRoleHandlerFactory;
 use Webware\Acl\Admin\CommandHandler\SaveRoleHandler;
 use Webware\Acl\Repository\RoleRepository;
-use WebwareTest\Acl\Support\PhpDbAdapterMock;
+use WebwareTest\Acl\Support\PhpDbAdapterMockTrait;
 
 #[CoversClass(SaveRoleHandlerFactory::class)]
 final class SaveRoleHandlerFactoryTest extends TestCase
 {
-    use PhpDbAdapterMock;
+    use PhpDbAdapterMockTrait;
 
     #[Test]
     public function invokeBuildsHandler(): void
     {
         $container = $this->createStub(ContainerInterface::class);
-        $container
-            ->method('get')
+        $container->method('get')
             ->willReturnMap([
                 [RoleRepository::class, new RoleRepository($this->createAdapter([]))],
             ]);

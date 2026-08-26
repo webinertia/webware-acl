@@ -12,12 +12,12 @@ use Webware\Acl\Admin\Command\SaveRoleCommand;
 use Webware\Acl\Admin\CommandHandler\SaveRoleHandler;
 use Webware\Acl\Repository\RoleRepository;
 use Webware\MessageBus\MessageStatus;
-use WebwareTest\Acl\Support\PhpDbAdapterMock;
+use WebwareTest\Acl\Support\PhpDbAdapterMockTrait;
 
 #[CoversClass(SaveRoleHandler::class)]
 final class SaveRoleHandlerTest extends TestCase
 {
-    use PhpDbAdapterMock;
+    use PhpDbAdapterMockTrait;
 
     #[Test]
     public function handleReturnsFailureWhenRepositoryThrows(): void

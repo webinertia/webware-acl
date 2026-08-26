@@ -14,12 +14,12 @@ use Webware\Acl\Repository\RoleRepository;
 use Webware\Acl\Repository\RuleRepository;
 use Webware\Acl\RuleType;
 use Webware\MessageBus\MessageStatus;
-use WebwareTest\Acl\Support\PhpDbAdapterMock;
+use WebwareTest\Acl\Support\PhpDbAdapterMockTrait;
 
 #[CoversClass(SaveRuleHandler::class)]
 final class SaveRuleHandlerTest extends TestCase
 {
-    use PhpDbAdapterMock;
+    use PhpDbAdapterMockTrait;
 
     #[Test]
     public function handleReturnsFailureWhenRepositoryThrows(): void

@@ -67,8 +67,7 @@ final class AclOverviewHandlerTest extends TestCase
     private function request(array $attributes): ServerRequestInterface
     {
         $request = $this->createStub(ServerRequestInterface::class);
-        $request
-            ->method('getAttribute')
+        $request->method('getAttribute')
             ->willReturnCallback(
                 static fn(string $name, mixed $default = null): mixed => $attributes[$name] ?? $default,
             );

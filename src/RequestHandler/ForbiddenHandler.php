@@ -8,8 +8,8 @@ use Laminas\Diactoros\Response\RedirectResponse;
 use Override;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Webware\Core\UserInterface;
 use Webware\Message\SystemMessengerInterface;
-use Webware\UserManager\UserInterface;
 
 final readonly class ForbiddenHandler implements ForbiddenHandlerInterface
 {

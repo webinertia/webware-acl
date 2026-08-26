@@ -60,6 +60,7 @@ use Webware\Acl\RequestHandler\Container\ForbiddenHandlerFactory;
 use Webware\Acl\RequestHandler\ForbiddenHandler;
 use Webware\Acl\RequestHandler\ForbiddenHandlerInterface;
 use Webware\Admin\Event\RegisterWidgetEvent;
+use Webware\Core\AclInterface;
 use Webware\MessageBus\ConfigProvider as BusProvider;
 use Webware\MessageBus\MessageBusInterface;
 use Webware\MessageBus\Middleware\MessageHandlerMiddleware;

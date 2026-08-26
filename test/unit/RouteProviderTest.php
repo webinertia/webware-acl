@@ -130,14 +130,16 @@ final class RouteProviderTest extends TestCase
         $this->preparedMiddleware = [];
         $this->collector          = $this->createStub(RouteCollectorInterface::class);
 
-        $register = function (string $method): Closure {
-            return function (string $path, MiddlewareInterface $middleware, ?string $name = null) use ($method): Route {
-                $route = new Route($path, $middleware, null, $name);
+        $register = fn(string $method): Closure => function (
+            string $path,
+            MiddlewareInterface $middleware,
+            ?string $name = null,
+        ) use ($method): Route {
+            $route = new Route($path, $middleware, null, $name);
 
-                $this->routes[] = ['method' => $method, 'route' => $route];
+            $this->routes[] = ['method' => $method, 'route' => $route];
 
-                return $route;
-            };
+            return $route;
         };
 
         $this->collector->method('get')->willReturnCallback($register('GET'));
@@ -149,8 +151,7 @@ final class RouteProviderTest extends TestCase
     private function middlewareFactory(): MiddlewareFactoryInterface
     {
         $factory = $this->createStub(MiddlewareFactoryInterface::class);
-        $factory
-            ->method('prepare')
+        $factory->method('prepare')
             ->willReturnCallback(
                 function (array $middleware): MiddlewareInterface {
                     $this->preparedMiddleware[] = $middleware;

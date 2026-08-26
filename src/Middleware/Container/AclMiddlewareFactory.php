@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Webware\Acl\Middleware\Container;
 
 use Psr\Container\ContainerInterface;
-use Webware\Acl\AclInterface;
 use Webware\Acl\Middleware\AclMiddleware;
+use Webware\Core\AclInterface;
 
 final class AclMiddlewareFactory
 {

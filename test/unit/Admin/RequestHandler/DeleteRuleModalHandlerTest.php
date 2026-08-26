@@ -19,8 +19,7 @@ final class DeleteRuleModalHandlerTest extends TestCase
     {
         [$name, $params] = [null, null];
         $template = $this->createStub(TemplateRendererInterface::class);
-        $template
-            ->method('render')
+        $template->method('render')
             ->willReturnCallback(
                 static function (string $template, mixed $model = null) use (&$name, &$params): string {
                     $name   = $template;
@@ -31,8 +30,7 @@ final class DeleteRuleModalHandlerTest extends TestCase
             );
 
         $request = $this->createStub(ServerRequestInterface::class);
-        $request
-            ->method('getAttribute')
+        $request->method('getAttribute')
             ->willReturnCallback(
                 static fn(string $attribute, mixed $default = null): mixed => match ($attribute) {
                     'roleId'     => 'Admin',

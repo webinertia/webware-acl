@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Webware\Acl\Container;
 
 use Psr\Container\ContainerInterface;
-use Webware\Acl\AclInterface;
 use Webware\Acl\AssertionManager;
+use Webware\Core\AclInterface;
 use Webware\Core\Configuration as Config;
 use Webware\Core\Exception;
 

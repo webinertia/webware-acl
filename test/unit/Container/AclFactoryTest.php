@@ -16,20 +16,19 @@ use Webware\Acl\AssertionManager;
 use Webware\Acl\Container\AclFactory;
 use Webware\Acl\Repository\RoleRepository;
 use Webware\Acl\Repository\RuleRepository;
-use WebwareTest\Acl\Support\PhpDbAdapterMock;
+use WebwareTest\Acl\Support\PhpDbAdapterMockTrait;
 
 #[CoversClass(AclFactory::class)]
 final class AclFactoryTest extends TestCase
 {
-    use PhpDbAdapterMock;
+    use PhpDbAdapterMockTrait;
 
     #[Test]
     public function invokeBuildsAclFromContainerServices(): void
     {
         $adapter   = $this->createAdapter([]);
         $container = $this->createStub(ContainerInterface::class);
-        $container
-            ->method('get')
+        $container->method('get')
             ->willReturnMap([
                 [RoleRepository::class, new RoleRepository($adapter)],
                 [RuleRepository::class, new RuleRepository($adapter)],

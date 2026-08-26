@@ -10,7 +10,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Webware\Acl\Role\SingleRoleUserProxy;
-use Webware\UserManager\UserInterface;
+use Webware\Core\UserInterface;
 
 #[CoversClass(SingleRoleUserProxy::class)]
 final class SingleRoleUserProxyTest extends TestCase

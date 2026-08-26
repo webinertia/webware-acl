@@ -14,19 +14,18 @@ use Webware\Acl\Admin\Middleware\Container\OverviewMiddlewareFactory;
 use Webware\Acl\Admin\Middleware\OverviewMiddleware;
 use Webware\Acl\AssertionManager;
 use Webware\Acl\Repository\RuleRepository;
-use WebwareTest\Acl\Support\PhpDbAdapterMock;
+use WebwareTest\Acl\Support\PhpDbAdapterMockTrait;
 
 #[CoversClass(OverviewMiddlewareFactory::class)]
 final class OverviewMiddlewareFactoryTest extends TestCase
 {
-    use PhpDbAdapterMock;
+    use PhpDbAdapterMockTrait;
 
     #[Test]
     public function invokeBuildsMiddleware(): void
     {
         $container = $this->createStub(ContainerInterface::class);
-        $container
-            ->method('get')
+        $container->method('get')
             ->willReturnMap([
                 [RuleRepository::class, new RuleRepository($this->createAdapter([]))],
                 [RouteCollectorInterface::class, $this->createStub(RouteCollectorInterface::class)],

@@ -6,8 +6,8 @@ namespace Webware\Acl\Admin\RequestHandler\Container;
 
 use Mezzio\Template\TemplateRendererInterface;
 use Psr\Container\ContainerInterface;
-use Webware\Acl\AclInterface;
 use Webware\Acl\Admin\RequestHandler\ResourceListHandler;
+use Webware\Core\AclInterface;
 
 final class ResourceListHandlerFactory
 {

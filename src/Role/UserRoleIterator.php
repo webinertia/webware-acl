@@ -6,7 +6,7 @@ namespace Webware\Acl\Role;
 
 use Iterator;
 use Override;
-use Webware\UserManager\UserInterface;
+use Webware\Core\UserInterface;
 
 /**
  * @implements Iterator<int, UserInterface>

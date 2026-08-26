@@ -15,10 +15,10 @@ declare(strict_types=1);
 namespace Webware\Acl\MessageBus\Middleware;
 
 use Override;
-use Webware\Acl\AclInterface;
 use Webware\Acl\MessageBus\AuthorizableCommandInterface;
 use Webware\Acl\MessageBus\CommandResult;
 use Webware\Acl\MessageBus\CommandStatus;
+use Webware\Core\AclInterface;
 use Webware\MessageBus\MessageInterface;
 use Webware\MessageBus\MiddlewareInterface;
 use Webware\MessageBus\PipelineHandlerInterface;

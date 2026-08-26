@@ -12,20 +12,19 @@ use Webware\Acl\Admin\CommandHandler\Container\UpdateRuleTypeHandlerFactory;
 use Webware\Acl\Admin\CommandHandler\UpdateRuleTypeHandler;
 use Webware\Acl\Repository\RoleRepository;
 use Webware\Acl\Repository\RuleRepository;
-use WebwareTest\Acl\Support\PhpDbAdapterMock;
+use WebwareTest\Acl\Support\PhpDbAdapterMockTrait;
 
 #[CoversClass(UpdateRuleTypeHandlerFactory::class)]
 final class UpdateRuleTypeHandlerFactoryTest extends TestCase
 {
-    use PhpDbAdapterMock;
+    use PhpDbAdapterMockTrait;
 
     #[Test]
     public function invokeBuildsHandler(): void
     {
         $adapter   = $this->createAdapter([]);
         $container = $this->createStub(ContainerInterface::class);
-        $container
-            ->method('get')
+        $container->method('get')
             ->willReturnMap([
                 [RuleRepository::class, new RuleRepository($adapter)],
                 [RoleRepository::class, new RoleRepository($adapter)],

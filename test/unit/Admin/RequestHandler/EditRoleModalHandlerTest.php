@@ -11,20 +11,19 @@ use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ServerRequestInterface;
 use Webware\Acl\Admin\RequestHandler\EditRoleModalHandler;
 use Webware\Acl\Repository\RoleRepository;
-use WebwareTest\Acl\Support\PhpDbAdapterMock;
+use WebwareTest\Acl\Support\PhpDbAdapterMockTrait;
 
 #[CoversClass(EditRoleModalHandler::class)]
 final class EditRoleModalHandlerTest extends TestCase
 {
-    use PhpDbAdapterMock;
+    use PhpDbAdapterMockTrait;
 
     #[Test]
     public function handleFindsTheRequestedRoleAndRendersModal(): void
     {
         [$name, $params] = [null, null];
         $template = $this->createStub(TemplateRendererInterface::class);
-        $template
-            ->method('render')
+        $template->method('render')
             ->willReturnCallback(
                 static function (string $template, mixed $model = null) use (&$name, &$params): string {
                     $name   = $template;
@@ -42,8 +41,7 @@ final class EditRoleModalHandlerTest extends TestCase
         ]));
 
         $request = $this->createStub(ServerRequestInterface::class);
-        $request
-            ->method('getAttribute')
+        $request->method('getAttribute')
             ->willReturnCallback(
                 static fn(string $attribute, mixed $default = null): mixed => 'roleId' === $attribute
                     ? 'Manager'
@@ -63,8 +61,7 @@ final class EditRoleModalHandlerTest extends TestCase
     {
         $params   = null;
         $template = $this->createStub(TemplateRendererInterface::class);
-        $template
-            ->method('render')
+        $template->method('render')
             ->willReturnCallback(
                 static function (string $template, mixed $model = null) use (&$params): string {
                     $params = $model;
@@ -78,8 +75,7 @@ final class EditRoleModalHandlerTest extends TestCase
         ]));
 
         $request = $this->createStub(ServerRequestInterface::class);
-        $request
-            ->method('getAttribute')
+        $request->method('getAttribute')
             ->willReturnCallback(
                 static fn(string $attribute, mixed $default = null): mixed => 'roleId' === $attribute
                     ? 'Missing'

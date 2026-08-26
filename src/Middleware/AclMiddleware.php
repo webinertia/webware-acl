@@ -9,7 +9,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Webware\Acl\AclInterface;
+use Webware\Core\AclInterface;
 
 final class AclMiddleware implements MiddlewareInterface
 {

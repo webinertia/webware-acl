@@ -8,9 +8,9 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
-use Webware\Acl\AclInterface;
 use Webware\Acl\Http\Container\RouteResourceFactoryFactory;
 use Webware\Acl\Http\RouteResourceFactory;
+use Webware\Core\AclInterface;
 
 #[CoversClass(RouteResourceFactoryFactory::class)]
 final class RouteResourceFactoryFactoryTest extends TestCase
@@ -28,8 +28,7 @@ final class RouteResourceFactoryFactoryTest extends TestCase
     public function invokeReadsParamMapFromConfig(): void
     {
         $container = $this->createStub(ContainerInterface::class);
-        $container
-            ->method('get')
+        $container->method('get')
             ->willReturnMap([
                 [
                     'config',

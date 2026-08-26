@@ -11,19 +11,18 @@ use Psr\Container\ContainerInterface;
 use Webware\Acl\Admin\CommandHandler\Container\DeleteRuleHandlerFactory;
 use Webware\Acl\Admin\CommandHandler\DeleteRuleHandler;
 use Webware\Acl\Repository\RuleRepository;
-use WebwareTest\Acl\Support\PhpDbAdapterMock;
+use WebwareTest\Acl\Support\PhpDbAdapterMockTrait;
 
 #[CoversClass(DeleteRuleHandlerFactory::class)]
 final class DeleteRuleHandlerFactoryTest extends TestCase
 {
-    use PhpDbAdapterMock;
+    use PhpDbAdapterMockTrait;
 
     #[Test]
     public function invokeBuildsHandler(): void
     {
         $container = $this->createStub(ContainerInterface::class);
-        $container
-            ->method('get')
+        $container->method('get')
             ->willReturnMap([
                 [RuleRepository::class, new RuleRepository($this->createAdapter([]))],
             ]);

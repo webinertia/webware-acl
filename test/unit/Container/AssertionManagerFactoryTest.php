@@ -19,8 +19,7 @@ final class AssertionManagerFactoryTest extends TestCase
     public function invokeBuildsAssertionManagerFromConfig(): void
     {
         $container = $this->createStub(ContainerInterface::class);
-        $container
-            ->method('get')
+        $container->method('get')
             ->willReturnMap([
                 [
                     'config',

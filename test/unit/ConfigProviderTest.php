@@ -10,7 +10,6 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Webware\Acl\Acl;
-use Webware\Acl\AclInterface;
 use Webware\Acl\Admin\Command\DeleteRoleCommand;
 use Webware\Acl\Admin\Command\DeleteRuleCommand;
 use Webware\Acl\Admin\Command\SaveRoleCommand;
@@ -39,6 +38,7 @@ use Webware\Acl\RouteProvider;
 use Webware\Acl\Validator\Assertion;
 use Webware\Acl\Validator\Container\AssertionFactory;
 use Webware\Admin\Event\RegisterWidgetEvent;
+use Webware\Core\AclInterface;
 use Webware\MessageBus\ConfigProvider as BusProvider;
 use Webware\MessageBus\MessageBusInterface;
 

@@ -16,10 +16,9 @@ use PhpDb\Sql\SqlInterface;
 use Throwable;
 
 use function array_fill;
-use function array_merge;
 use function count;
 
-trait PhpDbAdapterMock
+trait PhpDbAdapterMockTrait
 {
     /** @var list<PreparableSqlInterface> */
     protected array $preparedSqlObjects = [];
@@ -66,14 +65,16 @@ trait PhpDbAdapterMock
 
         if (null !== $statementException) {
             $driver->method('createStatement')->willThrowException($statementException);
-        } else {
-            $statements = [];
-            foreach ($statementResults as $index => $rows) {
-                $statements[] = $this->createStatement($rows, $affectedRows[$index] ?? 1);
-            }
-            if ([] !== $statements) {
-                $driver->method('createStatement')->willReturnOnConsecutiveCalls(...$statements);
-            }
+
+            return $adapter;
+        }
+
+        $statements = [];
+        foreach ($statementResults as $index => $rows) {
+            $statements[] = $this->createStatement($rows, $affectedRows[$index] ?? 1);
+        }
+        if ([] !== $statements) {
+            $driver->method('createStatement')->willReturnOnConsecutiveCalls(...$statements);
         }
 
         return $adapter;
@@ -90,7 +91,7 @@ trait PhpDbAdapterMock
         $result->method('getAffectedRows')->willReturn($affectedRows);
         $result->method('valid')
             ->willReturnOnConsecutiveCalls(
-                ...array_merge(array_fill(0, count($rows), true), [false]),
+                ...[...array_fill(0, count($rows), value: true), false],
             );
         if ([] !== $rows) {
             $result->method('current')->willReturnOnConsecutiveCalls(...$rows);

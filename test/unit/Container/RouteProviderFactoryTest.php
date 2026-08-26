@@ -9,10 +9,10 @@ use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 use ReflectionProperty;
-use Webware\Acl\AclInterface;
 use Webware\Acl\Container\RouteProviderFactory;
 use Webware\Acl\RouteProvider;
 use Webware\Admin\Container\Configuration as AdminConfiguration;
+use Webware\Core\AclInterface;
 
 #[CoversClass(RouteProviderFactory::class)]
 final class RouteProviderFactoryTest extends TestCase
@@ -22,8 +22,7 @@ final class RouteProviderFactoryTest extends TestCase
     {
         $container = $this->createStub(ContainerInterface::class);
         $container->method('has')->willReturnMap([['config', true]]);
-        $container
-            ->method('get')
+        $container->method('get')
             ->willReturnMap([
                 [
                     'config',
@@ -48,8 +47,6 @@ final class RouteProviderFactoryTest extends TestCase
 
     private function readProperty(RouteProvider $provider, string $name): string
     {
-        $value = new ReflectionProperty(RouteProvider::class, $name)->getValue($provider);
-
-        return $value;
+        return new ReflectionProperty(RouteProvider::class, $name)->getValue($provider);
     }
 }

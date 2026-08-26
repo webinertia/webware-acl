@@ -14,12 +14,12 @@ use Webware\Acl\Repository\RoleRepository;
 use Webware\MessageBus\Command\CommandResult;
 use Webware\MessageBus\Command\CommandResultInterface;
 use Webware\MessageBus\MessageStatus;
-use WebwareTest\Acl\Support\PhpDbAdapterMock;
+use WebwareTest\Acl\Support\PhpDbAdapterMockTrait;
 
 #[CoversClass(RoleListHandler::class)]
 final class RoleListHandlerTest extends TestCase
 {
-    use PhpDbAdapterMock;
+    use PhpDbAdapterMockTrait;
 
     #[Test]
     public function handleAddsCloseModalTriggerOnSuccess(): void
@@ -31,8 +31,7 @@ final class RoleListHandlerTest extends TestCase
         $result->method('getStatus')->willReturn(MessageStatus::Success);
 
         $request = $this->createStub(ServerRequestInterface::class);
-        $request
-            ->method('getAttribute')
+        $request->method('getAttribute')
             ->willReturnCallback(
                 static fn(string $name, mixed $default = null): mixed => CommandResult::class === $name
                     ? $result
@@ -50,8 +49,7 @@ final class RoleListHandlerTest extends TestCase
     {
         [$name, $params] = [null, null];
         $template = $this->createStub(TemplateRendererInterface::class);
-        $template
-            ->method('render')
+        $template->method('render')
             ->willReturnCallback(
                 static function (string $template, mixed $model = null) use (&$name, &$params): string {
                     $name   = $template;

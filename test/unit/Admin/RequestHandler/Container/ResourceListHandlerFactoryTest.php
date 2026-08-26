@@ -9,9 +9,9 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
-use Webware\Acl\AclInterface;
 use Webware\Acl\Admin\RequestHandler\Container\ResourceListHandlerFactory;
 use Webware\Acl\Admin\RequestHandler\ResourceListHandler;
+use Webware\Core\AclInterface;
 
 #[CoversClass(ResourceListHandlerFactory::class)]
 final class ResourceListHandlerFactoryTest extends TestCase
@@ -20,8 +20,7 @@ final class ResourceListHandlerFactoryTest extends TestCase
     public function invokeBuildsHandlerFromConfig(): void
     {
         $container = $this->createStub(ContainerInterface::class);
-        $container
-            ->method('get')
+        $container->method('get')
             ->willReturnMap([
                 ['config', [AclInterface::class => ['resources' => []]]],
                 [TemplateRendererInterface::class, $this->createStub(TemplateRendererInterface::class)],

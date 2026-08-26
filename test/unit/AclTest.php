@@ -28,11 +28,10 @@ use Webware\Acl\Entity\Role;
 use Webware\Acl\Exception\RuntimeException;
 use Webware\Acl\Repository\RoleRepository;
 use Webware\Acl\Repository\RuleRepository;
-use Webware\UserManager\UserInterface;
+use Webware\Core\UserInterface;
 
 use function array_fill;
 use function array_map;
-use function array_merge;
 use function count;
 use function json_encode;
 
@@ -370,7 +369,7 @@ final class AclTest extends TestCase
         $decorator->method('prepareStatement')->willReturnArgument(1);
 
         $statements = array_map(
-            fn(array $rows): StatementInterface => $this->createStatement($rows),
+            $this->createStatement(...),
             $statementResults,
         );
         if ([] !== $statements) {
@@ -403,7 +402,7 @@ final class AclTest extends TestCase
         $result->method('getAffectedRows')->willReturn(1);
         $result->method('valid')
             ->willReturnOnConsecutiveCalls(
-                ...[...array_fill(0, count($rows), true), false],
+                ...[...array_fill(0, count($rows), value: true), false],
             );
         if ([] !== $rows) {
             $result->method('current')->willReturnOnConsecutiveCalls(...$rows);

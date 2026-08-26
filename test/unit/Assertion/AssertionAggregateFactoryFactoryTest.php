@@ -20,8 +20,7 @@ final class AssertionAggregateFactoryFactoryTest extends TestCase
     public function invokeBuildsFactory(): void
     {
         $container = $this->createStub(ContainerInterface::class);
-        $container
-            ->method('get')
+        $container->method('get')
             ->willReturnMap([
                 [AssertionManager::class, new AssertionManager(new ServiceManager())],
             ]);

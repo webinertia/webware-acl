@@ -9,7 +9,7 @@ use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Webware\Acl\Role\SingleRoleUserProxy;
 use Webware\Acl\Role\UserRoleIterator;
-use Webware\UserManager\UserInterface;
+use Webware\Core\UserInterface;
 
 #[CoversClass(UserRoleIterator::class)]
 final class UserRoleIteratorTest extends TestCase

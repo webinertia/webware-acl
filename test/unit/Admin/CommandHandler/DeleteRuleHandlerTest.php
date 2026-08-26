@@ -12,12 +12,12 @@ use Webware\Acl\Admin\Command\DeleteRuleCommand;
 use Webware\Acl\Admin\CommandHandler\DeleteRuleHandler;
 use Webware\Acl\Repository\RuleRepository;
 use Webware\MessageBus\MessageStatus;
-use WebwareTest\Acl\Support\PhpDbAdapterMock;
+use WebwareTest\Acl\Support\PhpDbAdapterMockTrait;
 
 #[CoversClass(DeleteRuleHandler::class)]
 final class DeleteRuleHandlerTest extends TestCase
 {
-    use PhpDbAdapterMock;
+    use PhpDbAdapterMockTrait;
 
     #[Test]
     public function handleDeletesAndReturnsSuccess(): void

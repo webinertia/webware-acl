@@ -15,8 +15,8 @@ declare(strict_types=1);
 namespace Webware\Acl\Container;
 
 use Psr\Container\ContainerInterface;
-use Webware\Acl\AclInterface;
 use Webware\Acl\CommandBus\Middleware\CommandHandlerMiddleware;
+use Webware\Core\AclInterface;
 
 final class CommandHandlerMiddlewareFactory
 {

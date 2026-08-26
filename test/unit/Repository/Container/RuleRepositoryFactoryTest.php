@@ -11,19 +11,18 @@ use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 use Webware\Acl\Repository\Container\RuleRepositoryFactory;
 use Webware\Acl\Repository\RuleRepository;
-use WebwareTest\Acl\Support\PhpDbAdapterMock;
+use WebwareTest\Acl\Support\PhpDbAdapterMockTrait;
 
 #[CoversClass(RuleRepositoryFactory::class)]
 final class RuleRepositoryFactoryTest extends TestCase
 {
-    use PhpDbAdapterMock;
+    use PhpDbAdapterMockTrait;
 
     #[Test]
     public function invokeBuildsRepository(): void
     {
         $container = $this->createStub(ContainerInterface::class);
-        $container
-            ->method('get')
+        $container->method('get')
             ->willReturnMap([
                 [AdapterInterface::class, $this->createAdapter([])],
             ]);

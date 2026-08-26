@@ -11,6 +11,7 @@ use RuntimeException as SplRuntimeException;
 use Webware\Acl\Exception\ExceptionInterface;
 use Webware\Acl\Exception\InvalidConfigException;
 use Webware\Acl\Exception\RuntimeException;
+use InvalidArgumentException;
 
 #[CoversClass(RuntimeException::class)]
 #[CoversClass(InvalidConfigException::class)]
@@ -28,7 +29,7 @@ final class ExceptionTest extends TestCase
     #[Test]
     public function invalidConfigExtendsInvalidArgumentException(): void
     {
-        self::assertInstanceOf(\InvalidArgumentException::class, new InvalidConfigException());
+        self::assertInstanceOf(InvalidArgumentException::class, new InvalidConfigException());
         self::assertInstanceOf(ExceptionInterface::class, new InvalidConfigException());
     }
 }

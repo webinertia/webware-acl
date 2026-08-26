@@ -8,9 +8,9 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
-use Webware\Acl\AclInterface;
 use Webware\Acl\AssertionManager;
 use Webware\Acl\Container\Configuration;
+use Webware\Core\AclInterface;
 use Webware\Core\Exception\ContainerException;
 
 #[CoversClass(Configuration::class)]

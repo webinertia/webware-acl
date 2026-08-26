@@ -13,7 +13,7 @@ use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Webware\Acl\Http\RouteResource;
-use Webware\UserManager\UserInterface;
+use Webware\Core\UserInterface;
 
 #[CoversClass(RouteResource::class)]
 final class RouteResourceTest extends TestCase
@@ -106,8 +106,7 @@ final class RouteResourceTest extends TestCase
     {
         $request = $this->createStub(ServerRequestInterface::class);
         $request->method('getQueryParams')->willReturn($queryParams);
-        $request
-            ->method('getAttribute')
+        $request->method('getAttribute')
             ->willReturnCallback(
                 static fn(string $name, mixed $default = null): mixed => $attributes[$name] ?? $default,
             );

@@ -21,15 +21,15 @@ final class RuleTypeTest extends TestCase
     }
 
     #[Test]
-    public function denyCaseValue(): void
-    {
-        self::assertSame('Deny', RuleType::Deny->value);
-    }
-
-    #[Test]
     public function allowMapsToAclAllowConstant(): void
     {
         self::assertSame(LaminasAcl::TYPE_ALLOW, RuleType::Allow->toAclConstant());
+    }
+
+    #[Test]
+    public function denyCaseValue(): void
+    {
+        self::assertSame('Deny', RuleType::Deny->value);
     }
 
     #[Test]

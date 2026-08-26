@@ -19,8 +19,7 @@ final class DeleteRuleModalHandlerFactoryTest extends TestCase
     public function invokeBuildsHandler(): void
     {
         $container = $this->createStub(ContainerInterface::class);
-        $container
-            ->method('get')
+        $container->method('get')
             ->willReturnMap([
                 [TemplateRendererInterface::class, $this->createStub(TemplateRendererInterface::class)],
             ]);

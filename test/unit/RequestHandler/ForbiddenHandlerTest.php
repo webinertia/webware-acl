@@ -9,8 +9,8 @@ use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ServerRequestInterface;
 use Webware\Acl\RequestHandler\ForbiddenHandler;
+use Webware\Core\UserInterface;
 use Webware\Message\SystemMessengerInterface;
-use Webware\UserManager\UserInterface;
 
 #[CoversClass(ForbiddenHandler::class)]
 final class ForbiddenHandlerTest extends TestCase
@@ -66,8 +66,7 @@ final class ForbiddenHandlerTest extends TestCase
     private function request(array $attributes, array $serverParams = []): ServerRequestInterface
     {
         $request = $this->createStub(ServerRequestInterface::class);
-        $request
-            ->method('getAttribute')
+        $request->method('getAttribute')
             ->willReturnCallback(
                 static fn(string $name, mixed $default = null): mixed => $attributes[$name] ?? $default,
             );

@@ -10,8 +10,8 @@ use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Webware\Acl\AclInterface;
 use Webware\Acl\Middleware\AclMiddleware;
+use Webware\Core\AclInterface;
 
 #[CoversClass(AclMiddleware::class)]
 final class AclMiddlewareTest extends TestCase

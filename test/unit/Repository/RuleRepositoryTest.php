@@ -13,12 +13,12 @@ use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Webware\Acl\Repository\RuleRepository;
 use Webware\Acl\RuleType;
-use WebwareTest\Acl\Support\PhpDbAdapterMock;
+use WebwareTest\Acl\Support\PhpDbAdapterMockTrait;
 
 #[CoversClass(RuleRepository::class)]
 final class RuleRepositoryTest extends TestCase
 {
-    use PhpDbAdapterMock;
+    use PhpDbAdapterMockTrait;
 
     #[Test]
     public function deleteReturnsFalseWhenNoRowsAffected(): void

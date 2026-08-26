@@ -14,7 +14,8 @@ use Webware\Acl\Exception\RuntimeException;
 use Webware\Acl\Repository\RoleRepository;
 use Webware\Acl\Repository\RuleRepository;
 use Webware\Acl\Role\UserRoleIterator;
-use Webware\UserManager\UserInterface;
+use Webware\Core\AclInterface;
+use Webware\Core\UserInterface;
 
 use function is_array;
 use function sort;

@@ -263,9 +263,3 @@ file = "src/Validator/Assertion.php"
 code = "halstead"
 message = "Method has a high halstead difficulty"
 count = 1
-
-[[issues]]
-file = "test/integration/ProcessRoleMiddlewareTest.php"
-code = "prefer-first-class-callable"
-message = "Use first-class callable syntax `...` instead of a arrow function."
-count = 2

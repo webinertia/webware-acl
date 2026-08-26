@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Webware\Acl\RequestHandler\Container;
 
 use Psr\Container\ContainerInterface;
-use Webware\Acl\AclInterface;
 use Webware\Acl\RequestHandler\ForbiddenHandler;
-use Webware\UserManager\UserInterface;
+use Webware\Core\AclInterface;
+use Webware\Core\UserInterface;
 
 /**
  * Creates the default ForbiddenHandler.

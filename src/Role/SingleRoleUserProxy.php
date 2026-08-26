@@ -7,7 +7,7 @@ namespace Webware\Acl\Role;
 use Exception;
 use Laminas\Permissions\Acl\Role\RoleInterface;
 use Override;
-use Webware\UserManager\UserInterface;
+use Webware\Core\UserInterface;
 
 use function is_string;
 

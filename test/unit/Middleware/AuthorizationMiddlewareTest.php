@@ -14,11 +14,11 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use RuntimeException;
-use Webware\Acl\AclInterface;
 use Webware\Acl\Http\RouteResourceFactoryInterface;
 use Webware\Acl\Http\RouteResourceInterface;
 use Webware\Acl\Middleware\AuthorizationMiddleware;
 use Webware\Acl\RequestHandler\ForbiddenHandlerInterface;
+use Webware\Core\AclInterface;
 
 #[CoversClass(AuthorizationMiddleware::class)]
 final class AuthorizationMiddlewareTest extends TestCase
@@ -124,8 +124,7 @@ final class AuthorizationMiddlewareTest extends TestCase
     private function request(array $attributes): ServerRequestInterface
     {
         $request = $this->createStub(ServerRequestInterface::class);
-        $request
-            ->method('getAttribute')
+        $request->method('getAttribute')
             ->willReturnCallback(
                 static fn(string $name, mixed $default = null): mixed => $attributes[$name] ?? $default,
             );

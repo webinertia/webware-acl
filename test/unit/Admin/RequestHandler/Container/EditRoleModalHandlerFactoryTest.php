@@ -12,19 +12,18 @@ use Psr\Container\ContainerInterface;
 use Webware\Acl\Admin\RequestHandler\Container\EditRoleModalHandlerFactory;
 use Webware\Acl\Admin\RequestHandler\EditRoleModalHandler;
 use Webware\Acl\Repository\RoleRepository;
-use WebwareTest\Acl\Support\PhpDbAdapterMock;
+use WebwareTest\Acl\Support\PhpDbAdapterMockTrait;
 
 #[CoversClass(EditRoleModalHandlerFactory::class)]
 final class EditRoleModalHandlerFactoryTest extends TestCase
 {
-    use PhpDbAdapterMock;
+    use PhpDbAdapterMockTrait;
 
     #[Test]
     public function invokeBuildsHandler(): void
     {
         $container = $this->createStub(ContainerInterface::class);
-        $container
-            ->method('get')
+        $container->method('get')
             ->willReturnMap([
                 [TemplateRendererInterface::class, $this->createStub(TemplateRendererInterface::class)],
                 [RoleRepository::class, new RoleRepository($this->createAdapter([]))],

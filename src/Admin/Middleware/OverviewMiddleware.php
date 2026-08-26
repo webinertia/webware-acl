@@ -12,12 +12,12 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Webware\Acl\AclInterface;
 use Webware\Acl\AssertionManager;
 use Webware\Acl\Entity\Role;
 use Webware\Acl\PrivilegeInterface;
 use Webware\Acl\Repository\RuleRepository;
 use Webware\Acl\RuleType;
+use Webware\Core\AclInterface;
 
 use function array_flip;
 use function array_keys;

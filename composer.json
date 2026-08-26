@@ -37,8 +37,7 @@
         "webware/webware-core": "0.1.x-dev",
         "webware/webware-htmx": "0.1.x-dev",
         "webware/webware-log": "^1.0",
-        "webware/webware-message": "^1.0.0-beta.1",
-        "webware/webware-usermanager":  "^0.1.x-dev"
+        "webware/webware-message": "^1.0.0-beta.1"
     },
     "require-dev": {
         "infection/infection": "^0.35.0",

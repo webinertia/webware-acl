@@ -11,10 +11,10 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use RuntimeException;
-use Webware\Acl\AclInterface;
 use Webware\Acl\Http\RouteResourceFactoryInterface;
 use Webware\Acl\RequestHandler\ForbiddenHandlerInterface;
-use Webware\UserManager\UserInterface;
+use Webware\Core\AclInterface;
+use Webware\Core\UserInterface;
 
 final class AuthorizationMiddleware implements MiddlewareInterface
 {
