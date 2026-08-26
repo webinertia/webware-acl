@@ -15,7 +15,9 @@ declare(strict_types=1);
 namespace Webware\Acl\Container;
 
 use Mezzio\Router\RouteCollectorInterface;
+use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Webware\Acl\Acl;
 use Webware\Acl\Assertion\AssertionAggregateFactory;
 use Webware\Acl\Repository\RoleRepository;
@@ -23,6 +25,10 @@ use Webware\Acl\Repository\RuleRepository;
 
 final readonly class AclFactory
 {
+    /**
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
     public function __invoke(ContainerInterface $container): Acl
     {
         return new Acl(

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Webware\Acl\Assertion;
 
+use Laminas\Permissions\Acl\Exception\ExceptionInterface;
 use Webware\Acl\AssertionManager;
 
 final class AssertionAggregateFactory
@@ -12,6 +13,10 @@ final class AssertionAggregateFactory
         private readonly AssertionManager $assertionManager,
     ) {}
 
+    /**
+     * @param array<string>|null $aliasesOrClassnames
+     * @throws ExceptionInterface
+     */
     public function __invoke(?array $aliasesOrClassnames): ?AssertionAggregate
     {
         if (empty($aliasesOrClassnames)) {

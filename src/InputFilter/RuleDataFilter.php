@@ -6,6 +6,7 @@ namespace Webware\Acl\InputFilter;
 
 use Laminas\Filter;
 use Laminas\InputFilter;
+use Laminas\InputFilter\Exception\ExceptionInterface;
 use Override;
 use Webware\Acl\RuleType;
 use Webware\Acl\Validator\Assertion;
@@ -19,6 +20,9 @@ final class RuleDataFilter extends InputFilter\InputFilter
         protected readonly InputFilter\Factory $factory,
     ) {}
 
+    /**
+     * @throws ExceptionInterface
+     */
     #[Override]
     public function init(): void
     {

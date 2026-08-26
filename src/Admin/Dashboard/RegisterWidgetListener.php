@@ -14,6 +14,9 @@ use Webware\Admin\Event\RegisterWidgetEvent;
  */
 final class RegisterWidgetListener
 {
+    /**
+     * @param array<string, mixed> $config
+     */
     public function __construct(
         private readonly string $resourceId,
         private readonly array $config,

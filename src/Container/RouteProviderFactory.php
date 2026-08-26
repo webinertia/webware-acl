@@ -4,12 +4,16 @@ declare(strict_types=1);
 
 namespace Webware\Acl\Container;
 
+use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Webware\Acl\RouteProvider;
 use Webware\Admin\Container\Configuration as AdminConfiguration;
 
 final readonly class RouteProviderFactory
 {
+    /**
+     * @throws ContainerExceptionInterface
+     */
     public function __invoke(ContainerInterface $container): RouteProvider
     {
         $adminBaseRouteSegment = AdminConfiguration::getAdminRouteSegment(

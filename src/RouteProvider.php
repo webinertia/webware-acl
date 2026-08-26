@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Webware\Acl;
 
+use Mezzio\Exception\ExceptionInterface;
 use Mezzio\Helper\BodyParams\BodyParamsMiddleware;
 use Mezzio\MiddlewareFactoryInterface;
 use Mezzio\Router\RouteCollectorInterface;
@@ -28,6 +29,9 @@ final readonly class RouteProvider implements RouteProviderInterface
         private string $adminRouteNamePrefix,
     ) {}
 
+    /**
+     * @throws ExceptionInterface
+     */
     #[Override]
     public function registerRoutes(
         RouteCollectorInterface $routeCollector,

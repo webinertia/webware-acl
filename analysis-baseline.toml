@@ -1,2 +1,949 @@
 variant = "loose"
-issues = []
+
+[[issues]]
+file = "src/Acl.php"
+code = "impossible-condition"
+message = "This condition (type `false`) will always evaluate to false."
+count = 2
+
+[[issues]]
+file = "src/Acl.php"
+code = "impossible-null-type-comparison"
+message = "Impossible condition: variable `$name` (type `non-empty-string`) will always be `null`."
+count = 2
+
+[[issues]]
+file = "src/Acl.php"
+code = "impossible-type-comparison"
+message = "Impossible condition: variable `$explicitParents[$resourceId]` (type `null`) can never be `isset`."
+count = 1
+
+[[issues]]
+file = "src/Acl.php"
+code = "less-specific-argument"
+message = 'Argument type mismatch for argument #1 of `Laminas\Permissions\Acl\Role\Registry::getParents`: expected `Laminas\Permissions\Acl\Role\RoleInterface|string`, but provided type `array-key` is less specific.'
+count = 1
+
+[[issues]]
+file = "src/Acl.php"
+code = "less-specific-argument"
+message = 'Argument type mismatch for argument #1 of `Webware\Acl\Role\UserRoleIterator::__construct`: expected `Webware\Core\UserInterface`, but provided type `Laminas\Permissions\Acl\Role\RoleInterface|string` is less specific.'
+count = 1
+
+[[issues]]
+file = "src/Acl.php"
+code = "less-specific-nested-argument-type"
+message = 'Argument type mismatch for argument #2 of `Webware\Acl\Repository\RoleRepository::save`: expected `array<array-key, string>|null`, but provided type `array{}|non-empty-list<mixed>` is less specific.'
+count = 1
+
+[[issues]]
+file = "src/Acl.php"
+code = "less-specific-return-statement"
+message = 'Returned type `array<array-key, array{}|non-empty-list<array-key>>` is less specific than the declared return type `array<string, array<array-key, string>>` for function `Webware\Acl\Acl::getRoles`.'
+count = 1
+
+[[issues]]
+file = "src/Acl.php"
+code = "mixed-array-access"
+message = "Unsafe array access on type `mixed`."
+count = 1
+
+[[issues]]
+file = "src/Acl.php"
+code = "mixed-assignment"
+message = "Assigning `mixed` type to a variable may lead to unexpected behavior."
+count = 2
+
+[[issues]]
+file = "src/Acl.php"
+code = "mixed-method-access"
+message = "Attempting to access a method on a non-object type (`mixed`)."
+count = 1
+
+[[issues]]
+file = "src/Acl.php"
+code = "mixed-return-statement"
+message = 'Could not infer a precise return type for function `Webware\Acl\Acl::getResourceParentId`. Saw type `mixed`.'
+count = 1
+
+[[issues]]
+file = "src/Acl.php"
+code = "null-argument"
+message = 'Argument #2 of method `Laminas\Permissions\Acl\Acl::addResource` is `null`, but parameter type `Laminas\Permissions\Acl\Resource\ResourceInterface|string` does not accept it.'
+count = 1
+
+[[issues]]
+file = "src/Acl.php"
+code = "possibly-null-argument"
+message = 'Argument #1 of method `Webware\Acl\Acl::isAllowed` is possibly `null`, but parameter type `Laminas\Permissions\Acl\Role\RoleInterface|string` does not accept it.'
+count = 1
+
+[[issues]]
+file = "src/Acl.php"
+code = "possibly-null-argument"
+message = 'Argument #2 of method `Laminas\Permissions\Acl\Acl::addResource` is possibly `null`, but parameter type `Laminas\Permissions\Acl\Resource\ResourceInterface|string` does not accept it.'
+count = 1
+
+[[issues]]
+file = "src/Acl.php"
+code = "possibly-undefined-string-array-index"
+message = "Possibly undefined array key `string` accessed on `array<array-key, mixed>`."
+count = 1
+
+[[issues]]
+file = "src/Acl.php"
+code = "redundant-comparison"
+message = "Redundant `===` comparison: left-hand side is always identical to right-hand side."
+count = 1
+
+[[issues]]
+file = "src/Acl.php"
+code = "redundant-comparison"
+message = "Redundant `===` comparison: left-hand side is never identical to right-hand side."
+count = 4
+
+[[issues]]
+file = "src/Acl.php"
+code = "redundant-condition"
+message = "This condition (type `true`) will always evaluate to true."
+count = 1
+
+[[issues]]
+file = "src/Acl.php"
+code = "redundant-logical-operation"
+message = "Redundant `||` operation: left operand is always false and right operand is evaluated."
+count = 1
+
+[[issues]]
+file = "src/Acl.php"
+code = "redundant-logical-operation"
+message = "Redundant `||` operation: left operand is always falsy and right operand is always falsy."
+count = 1
+
+[[issues]]
+file = "src/Acl.php"
+code = "redundant-null-coalesce"
+message = "Redundant null coalesce: left-hand side is always `null`."
+count = 1
+
+[[issues]]
+file = "src/Acl.php"
+code = "undefined-string-array-index"
+message = "Undefined array key 'parentResourceId' accessed on `array{'assertions': array<array-key, string>, 'resourceId': string, 'roleId': string, 'type': string}`."
+count = 2
+
+[[issues]]
+file = "src/Admin/CommandHandler/SaveRuleHandler.php"
+code = "unused-property"
+message = "Property `$roleRepository` is never used."
+count = 1
+
+[[issues]]
+file = "src/Admin/Dashboard/Container/RegisterWidgetListenerFactory.php"
+code = "mixed-argument"
+message = 'Invalid argument type for argument #2 of `Webware\Acl\Admin\Dashboard\RegisterWidgetListener::__construct`: expected `array<string, mixed>`, but found `nonnull`.'
+count = 1
+
+[[issues]]
+file = "src/Admin/Dashboard/RegisterWidgetListener.php"
+code = "unused-property"
+message = "Property `$config` is never used."
+count = 1
+
+[[issues]]
+file = "src/Admin/Middleware/OverviewMiddleware.php"
+code = "impossible-condition"
+message = "This condition (type `false`) will always evaluate to false."
+count = 2
+
+[[issues]]
+file = "src/Admin/Middleware/OverviewMiddleware.php"
+code = "impossible-null-type-comparison"
+message = "Impossible condition: variable `$name` (type `non-empty-string`) will always be `null`."
+count = 1
+
+[[issues]]
+file = "src/Admin/Middleware/OverviewMiddleware.php"
+code = "impossible-type-comparison"
+message = "Impossible condition: variable `$parentResourceMap[$name]` (type `null`) can never be `isset`."
+count = 1
+
+[[issues]]
+file = "src/Admin/Middleware/OverviewMiddleware.php"
+code = "invalid-iterator"
+message = "The expression provided to `foreach` is not iterable. It resolved to type `mixed`, which is not iterable."
+count = 1
+
+[[issues]]
+file = "src/Admin/Middleware/OverviewMiddleware.php"
+code = "invalid-return-statement"
+message = 'Invalid return type for function `Webware\Acl\Admin\Middleware\OverviewMiddleware::normalizeRouteList`: expected `array<string, array<array-key, string>>`, but found `array<array<array-key, string>|string, array<array-key, string>|string>`.'
+count = 1
+
+[[issues]]
+file = "src/Admin/Middleware/OverviewMiddleware.php"
+code = "mismatched-array-index"
+message = "Invalid array key type: `array<array-key, string>|string` is not a valid key for this array."
+count = 1
+
+[[issues]]
+file = "src/Admin/Middleware/OverviewMiddleware.php"
+code = "mixed-assignment"
+message = "Assigning `mixed` type to a variable may lead to unexpected behavior."
+count = 1
+
+[[issues]]
+file = "src/Admin/Middleware/OverviewMiddleware.php"
+code = "possibly-null-array-index"
+message = "Possibly using `null` as an array index to access element."
+count = 1
+
+[[issues]]
+file = "src/Admin/Middleware/OverviewMiddleware.php"
+code = "possibly-undefined-int-array-index"
+message = "Possibly undefined array key `array-key` accessed on `array<array-key, mixed>`."
+count = 1
+
+[[issues]]
+file = "src/Admin/Middleware/OverviewMiddleware.php"
+code = "possibly-undefined-int-array-index"
+message = "Possibly undefined array key `mixed` accessed on `array<array-key, non-negative-int>`."
+count = 1
+
+[[issues]]
+file = "src/Admin/Middleware/OverviewMiddleware.php"
+code = "possibly-undefined-int-array-index"
+message = "Possibly undefined array key `non-negative-int` accessed on `array<non-negative-int, array{}|list<non-negative-int|null>>`."
+count = 1
+
+[[issues]]
+file = "src/Admin/Middleware/OverviewMiddleware.php"
+code = "redundant-comparison"
+message = "Redundant `!==` comparison: left-hand side is never identical to (always false for !==) right-hand side."
+count = 3
+
+[[issues]]
+file = "src/Admin/Middleware/OverviewMiddleware.php"
+code = "redundant-comparison"
+message = "Redundant `===` comparison: left-hand side is never identical to right-hand side."
+count = 2
+
+[[issues]]
+file = "src/Admin/Middleware/OverviewMiddleware.php"
+code = "redundant-logical-operation"
+message = "Redundant `||` operation: left operand is always falsy and right operand is always falsy."
+count = 1
+
+[[issues]]
+file = "src/Admin/Middleware/OverviewMiddleware.php"
+code = "redundant-null-coalesce"
+message = "Redundant null coalesce: left-hand side can never be `null` or undefined."
+count = 1
+
+[[issues]]
+file = "src/Admin/Middleware/OverviewMiddleware.php"
+code = "redundant-null-coalesce"
+message = "Redundant null coalesce: left-hand side is always `null`."
+count = 2
+
+[[issues]]
+file = "src/Admin/Middleware/OverviewMiddleware.php"
+code = "undefined-string-array-index"
+message = "Undefined array key 'parentResourceId' accessed on `array{'assertions': array<array-key, string>, 'resourceId': string, 'roleId': string, 'type': string}`."
+count = 2
+
+[[issues]]
+file = "src/Admin/Middleware/ProcessRoleMiddleware.php"
+code = "deprecated-method"
+message = 'Call to deprecated method: `Laminas\InputFilter\BaseInputFilter::getValues`.'
+count = 3
+
+[[issues]]
+file = "src/Admin/Middleware/ProcessRoleMiddleware.php"
+code = "deprecated-method"
+message = 'Call to deprecated method: `Laminas\InputFilter\BaseInputFilter::isValid`.'
+count = 2
+
+[[issues]]
+file = "src/Admin/Middleware/ProcessRoleMiddleware.php"
+code = "deprecated-method"
+message = 'Call to deprecated method: `Laminas\InputFilter\BaseInputFilter::setData`.'
+count = 3
+
+[[issues]]
+file = "src/Admin/Middleware/ProcessRoleMiddleware.php"
+code = "deprecated-method"
+message = 'Call to deprecated method: `Laminas\InputFilter\BaseInputFilter::setValidationGroup`.'
+count = 3
+
+[[issues]]
+file = "src/Admin/Middleware/ProcessRoleMiddleware.php"
+code = "possibly-invalid-argument"
+message = 'Possible argument type mismatch for argument #1 of `Laminas\InputFilter\BaseInputFilter::setData`: expected `iterable<array-key, mixed>|null`, but possibly received `array<array-key, mixed>|null|object`.'
+count = 2
+
+[[issues]]
+file = "src/Admin/Middleware/ProcessRuleMiddleware.php"
+code = "deprecated-method"
+message = 'Call to deprecated method: `Laminas\InputFilter\BaseInputFilter::getValues`.'
+count = 3
+
+[[issues]]
+file = "src/Admin/Middleware/ProcessRuleMiddleware.php"
+code = "deprecated-method"
+message = 'Call to deprecated method: `Laminas\InputFilter\BaseInputFilter::isValid`.'
+count = 2
+
+[[issues]]
+file = "src/Admin/Middleware/ProcessRuleMiddleware.php"
+code = "deprecated-method"
+message = 'Call to deprecated method: `Laminas\InputFilter\BaseInputFilter::setData`.'
+count = 3
+
+[[issues]]
+file = "src/Admin/Middleware/ProcessRuleMiddleware.php"
+code = "deprecated-method"
+message = 'Call to deprecated method: `Laminas\InputFilter\BaseInputFilter::setValidationGroup`.'
+count = 3
+
+[[issues]]
+file = "src/Admin/Middleware/ProcessRuleMiddleware.php"
+code = "possibly-invalid-argument"
+message = 'Possible argument type mismatch for argument #1 of `Laminas\InputFilter\BaseInputFilter::setData`: expected `iterable<array-key, mixed>|null`, but possibly received `array<array-key, mixed>|null|object`.'
+count = 2
+
+[[issues]]
+file = "src/Admin/RequestHandler/AclOverviewHandler.php"
+code = "possibly-invalid-argument"
+message = 'Possible argument type mismatch for argument #2 of `Mezzio\Template\TemplateRendererInterface::render`: expected `array<non-empty-string, mixed>|object`, but possibly received `array<string, mixed>`.'
+count = 1
+
+[[issues]]
+file = "src/Admin/RequestHandler/Container/ResourceListHandlerFactory.php"
+code = "mixed-argument"
+message = 'Invalid argument type for argument #1 of `Webware\Acl\Admin\RequestHandler\ResourceListHandler::__construct`: expected `array<string, mixed>`, but found `nonnull`.'
+count = 1
+
+[[issues]]
+file = "src/Admin/RequestHandler/ResourceListHandler.php"
+code = "possibly-false-argument"
+message = 'Argument #2 of method `Laminas\Diactoros\MessageTrait::withHeader` is possibly `false`, but parameter type `array<array-key, string>|string` does not accept it.'
+count = 1
+
+[[issues]]
+file = "src/Admin/RequestHandler/RoleListHandler.php"
+code = "mixed-assignment"
+message = "Assigning `mixed` type to a variable may lead to unexpected behavior."
+count = 1
+
+[[issues]]
+file = "src/Admin/RequestHandler/RoleListHandler.php"
+code = "mixed-method-access"
+message = "Attempting to access a method on a non-object type (`mixed`)."
+count = 1
+
+[[issues]]
+file = "src/Admin/RequestHandler/RoleListHandler.php"
+code = "possibly-false-argument"
+message = 'Argument #2 of method `Laminas\Diactoros\MessageTrait::withHeader` is possibly `false`, but parameter type `array<array-key, string>|string` does not accept it.'
+count = 1
+
+[[issues]]
+file = "src/Admin/RequestHandler/RoleListHandler.php"
+code = "possibly-invalid-iterator"
+message = 'The expression provided to `foreach` (type `array<array-key, Laminas\Permissions\Acl\Role\RoleInterface|string>|string`) might not be iterable at runtime.'
+count = 1
+
+[[issues]]
+file = "src/Assertion/AssertionAggregate.php"
+code = "docblock-type-mismatch"
+message = 'Docblock return type `Laminas\Permissions\Acl\Assertion\AssertionManager|null` is incompatible with native return type `Webware\Acl\AssertionManager|null`.'
+count = 1
+
+[[issues]]
+file = "src/Assertion/AssertionAggregate.php"
+code = "invalid-property-assignment-value"
+message = 'Invalid type for property `$assertionManager`: expected `Laminas\Permissions\Acl\Assertion\AssertionManager|null`, but got `Laminas\Permissions\Acl\Assertion\AssertionManager|Webware\Acl\AssertionManager`.'
+count = 1
+
+[[issues]]
+file = "src/AssertionManager.php"
+code = "docblock-type-mismatch"
+message = '''Docblock type `array{'abstract_factories'?: array<array-key, Laminas\ServiceManager\Factory\AbstractFactoryInterface|class-string<Laminas\ServiceManager\Factory\AbstractFactoryInterface>>, 'aliases'?: array<string, string>, 'delegators'?: !Laminas\ServiceManager\ServiceManager::DelegatorsConfiguration, 'factories'?: !Laminas\ServiceManager\ServiceManager::FactoriesConfiguration, 'initializers'?: !Laminas\ServiceManager\ServiceManager::InitializersConfiguration, 'invokables'?: array<string, class-string>, 'lazy_services'?: array{'class_map'?: array<string, class-string>, 'proxies_namespace'?: non-empty-string, 'proxies_target_dir'?: non-empty-string, 'write_proxy_files'?: bool}, 'services'?: array<string, mixed>, 'shared'?: array<string, bool>, 'shared_by_default'?: bool, ...<string, mixed>}` for parameter `$config` is incompatible with native type `array<array-key, mixed>`.'''
+count = 1
+
+[[issues]]
+file = "src/AssertionManager.php"
+code = "missing-template-parameter"
+message = 'Too few template arguments for `Laminas\ServiceManager\AbstractSingleInstancePluginManager`: expected at least 1, but found 0.'
+count = 1
+
+[[issues]]
+file = "src/Container/AssertionManagerFactory.php"
+code = "less-specific-nested-argument-type"
+message = '''Argument type mismatch for argument #2 of `Laminas\ServiceManager\AbstractPluginManager::__construct`: expected `array{'abstract_factories'?: array<array-key, Laminas\ServiceManager\Factory\AbstractFactoryInterface|class-string<Laminas\ServiceManager\Factory\AbstractFactoryInterface>>, 'aliases'?: array<string, string>, 'delegators'?: !Laminas\ServiceManager\ServiceManager::DelegatorsConfiguration, 'factories'?: !Laminas\ServiceManager\ServiceManager::FactoriesConfiguration, 'initializers'?: !Laminas\ServiceManager\ServiceManager::InitializersConfiguration, 'invokables'?: array<string, class-string>, 'lazy_services'?: array{'class_map'?: array<string, class-string>, 'proxies_namespace'?: non-empty-string, 'proxies_target_dir'?: non-empty-string, 'write_proxy_files'?: bool}, 'services'?: array<string, mixed>, 'shared'?: array<string, bool>, 'shared_by_default'?: bool, ...<string, mixed>}`, but provided type `array<string, mixed>` is less specific.'''
+count = 1
+
+[[issues]]
+file = "src/Container/CommandHandlerMiddlewareFactory.php"
+code = "never-return"
+message = "Cannot return value with type 'never' from this function."
+count = 1
+
+[[issues]]
+file = "src/Container/CommandHandlerMiddlewareFactory.php"
+code = "non-existent-class"
+message = 'Class `Webware\Acl\CommandBus\Middleware\CommandHandlerMiddleware` not found.'
+count = 1
+
+[[issues]]
+file = "src/Container/CommandHandlerMiddlewareFactory.php"
+code = "non-existent-class-like"
+message = 'Cannot find class, interface, enum, or type alias `Webware\Acl\CommandBus\Middleware\CommandHandlerMiddleware`.'
+count = 1
+
+[[issues]]
+file = "src/Container/CommandHandlerMiddlewareFactory.php"
+code = "non-existent-use-import"
+message = 'Imported class, interface, trait, or enum `Webware\Acl\CommandBus\Middleware\CommandHandlerMiddleware` does not exist.'
+count = 1
+
+[[issues]]
+file = "src/Container/Configuration.php"
+code = "less-specific-return-statement"
+message = 'Returned type `non-empty-array<array-key, mixed>` is less specific than the declared return type `array<string, mixed>` for function `Webware\Acl\Container\Configuration::getAssertionManagerConfig`.'
+count = 1
+
+[[issues]]
+file = "src/Container/Configuration.php"
+code = "possibly-undefined-string-array-index"
+message = '''Possibly undefined array key `class-string('Webware\Acl\AssertionManager')` accessed on `array<string, mixed>`.'''
+count = 2
+
+[[issues]]
+file = "src/Entity/Role.php"
+code = "incompatible-parameter-type"
+message = 'Parameter `$data` of `Webware\Acl\Entity\Role::populate()` expects type `array<string, mixed>` but parent `PhpDb\ResultSet\RowPrototypeInterface::populate()` expects type `array<array-key, mixed>`'
+count = 1
+
+[[issues]]
+file = "src/Entity/Role.php"
+code = "invalid-return-statement"
+message = 'Invalid return type for function `Webware\Acl\Entity\Role::getParentId`: expected `array<array-key, Laminas\Permissions\Acl\Role\RoleInterface|string>|null`, but found `array<array-key, Laminas\Permissions\Acl\Role\RoleInterface|string>|null|string`.'
+count = 1
+
+[[issues]]
+file = "src/Entity/Role.php"
+code = "invalid-return-statement"
+message = 'Invalid return type for function `Webware\Acl\Entity\Role::getRoleId`: expected `string`, but found `int|null|string`.'
+count = 1
+
+[[issues]]
+file = "src/Entity/Role.php"
+code = "invalid-type-cast"
+message = 'Object of type `$this(Webware\Acl\Entity\Role)` cast to `array`. Property visibility (public, protected, private) affects the resulting array.'
+count = 1
+
+[[issues]]
+file = "src/Entity/Role.php"
+code = "missing-parameter-type"
+message = "Parameter `$id` is missing a type hint."
+count = 1
+
+[[issues]]
+file = "src/Entity/Role.php"
+code = "missing-return-type"
+message = "Function `arrow function` is missing a return type hint."
+count = 1
+
+[[issues]]
+file = "src/Entity/Role.php"
+code = "mixed-argument"
+message = "Invalid argument type for argument #2 of `array_map`: expected `array<('K.array_map() extends array-key), ('V.array_map() extends mixed)>`, but found `mixed`."
+count = 1
+
+[[issues]]
+file = "src/Entity/Role.php"
+code = "mixed-assignment"
+message = "Assigning `mixed` type to a variable may lead to unexpected behavior."
+count = 1
+
+[[issues]]
+file = "src/Entity/Role.php"
+code = "mixed-property-type-coercion"
+message = 'A value with a less specific type `array<array-key, mixed>|list<mixed>` is being assigned to property `$parentId` (array<array-key, Laminas\Permissions\Acl\Role\RoleInterface|string>|null|string).'
+count = 1
+
+[[issues]]
+file = "src/Entity/Role.php"
+code = "nullable-return-statement"
+message = 'Function `Webware\Acl\Entity\Role::getRoleId` is declared to return `string` but possibly returns a nullable value (inferred as `int|null|string`).'
+count = 1
+
+[[issues]]
+file = "src/Entity/Rule.php"
+code = "incompatible-parameter-type"
+message = 'Parameter `$data` of `Webware\Acl\Entity\Rule::populate()` expects type `array<string, mixed>` but parent `PhpDb\ResultSet\RowPrototypeInterface::populate()` expects type `array<array-key, mixed>`'
+count = 1
+
+[[issues]]
+file = "src/Entity/Rule.php"
+code = "invalid-return-statement"
+message = 'Invalid return type for function `Webware\Acl\Entity\Rule::getResourceId`: expected `string`, but found `null|string`.'
+count = 1
+
+[[issues]]
+file = "src/Entity/Rule.php"
+code = "invalid-return-statement"
+message = 'Invalid return type for function `Webware\Acl\Entity\Rule::getRoleId`: expected `string`, but found `null|string`.'
+count = 1
+
+[[issues]]
+file = "src/Entity/Rule.php"
+code = "invalid-type-cast"
+message = 'Object of type `$this(Webware\Acl\Entity\Rule)` cast to `array`. Property visibility (public, protected, private) affects the resulting array.'
+count = 1
+
+[[issues]]
+file = "src/Entity/Rule.php"
+code = "less-specific-return-statement"
+message = 'Returned type `PhpDb\ResultSet\RowPrototypeInterface` is less specific than the declared return type `webware\acl\entity\rule` for function `Webware\Acl\Entity\Rule::withRowData`.'
+count = 1
+
+[[issues]]
+file = "src/Entity/Rule.php"
+code = "mixed-property-type-coercion"
+message = "A value with a less specific type `mixed` is being assigned to property `$assertions` (array<array-key, string>|null)."
+count = 1
+
+[[issues]]
+file = "src/Entity/Rule.php"
+code = "nullable-return-statement"
+message = 'Function `Webware\Acl\Entity\Rule::getResourceId` is declared to return `string` but possibly returns a nullable value (inferred as `null|string`).'
+count = 1
+
+[[issues]]
+file = "src/Entity/Rule.php"
+code = "nullable-return-statement"
+message = 'Function `Webware\Acl\Entity\Rule::getRoleId` is declared to return `string` but possibly returns a nullable value (inferred as `null|string`).'
+count = 1
+
+[[issues]]
+file = "src/Entity/Rule.php"
+code = "possibly-false-argument"
+message = "Argument #1 of function `json_decode` is possibly `false`, but parameter type `string` does not accept it."
+count = 1
+
+[[issues]]
+file = "src/Exception/AccessDeniedException.php"
+code = "extend-final-class"
+message = 'Class `Webware\Acl\Exception\AccessDeniedException` cannot extend final class `Webware\Acl\Exception\RuntimeException`'
+count = 1
+
+[[issues]]
+file = "src/Exception/RuntimeException.php"
+code = "possibly-invalid-argument"
+message = 'Possible argument type mismatch for argument #3 of `Exception::__construct`: expected `Throwable|null`, but possibly received `Webware\Acl\Exception\ExceptionInterface|null`.'
+count = 1
+
+[[issues]]
+file = "src/Http/RouteResource.php"
+code = "falsable-return-statement"
+message = '''Function `Webware\Acl\Http\RouteResource::getResourceId` is declared to return `string` but possibly returns 'false' (inferred as `false|string`).'''
+count = 1
+
+[[issues]]
+file = "src/Http/RouteResource.php"
+code = "invalid-return-statement"
+message = 'Invalid return type for function `Webware\Acl\Http\RouteResource::getResourceId`: expected `string`, but found `false|string`.'
+count = 1
+
+[[issues]]
+file = "src/Http/RouteResource.php"
+code = "mixed-return-statement"
+message = 'Could not infer a precise return type for function `Webware\Acl\Http\RouteResource::getRole`. Saw type `mixed`.'
+count = 1
+
+[[issues]]
+file = "src/InputFilter/RoleDataFilter.php"
+code = "missing-template-parameter"
+message = 'Too few template arguments for `Laminas\InputFilter\InputFilter`: expected at least 1, but found 0.'
+count = 1
+
+[[issues]]
+file = "src/InputFilter/RuleDataFilter.php"
+code = "missing-template-parameter"
+message = 'Too few template arguments for `Laminas\InputFilter\InputFilter`: expected at least 1, but found 0.'
+count = 1
+
+[[issues]]
+file = "src/Repository/RoleRepository.php"
+code = "invalid-operand"
+message = "Decrementing a value of type `null` has no effect."
+count = 1
+
+[[issues]]
+file = "src/Repository/RoleRepository.php"
+code = "invalid-return-statement"
+message = 'Invalid return type for function `Webware\Acl\Repository\RoleRepository::save`: expected `false|int|string`, but found `false|int|null|string`.'
+count = 1
+
+[[issues]]
+file = "src/Repository/RoleRepository.php"
+code = "less-specific-nested-return-statement"
+message = '''Returned type `array{}|non-empty-list<mixed>` is less specific than the declared return type `array<array-key, string>` for function `Webware\Acl\Repository\RoleRepository::fetchDirectChildren` due to nested 'mixed'.'''
+count = 1
+
+[[issues]]
+file = "src/Repository/RoleRepository.php"
+code = "less-specific-nested-return-statement"
+message = '''Returned type `list<('V.iterator extends mixed)>` is less specific than the declared return type `array<array-key, Webware\Acl\Entity\Role>` for function `Webware\Acl\Repository\RoleRepository::fetchAll` due to nested 'mixed'.'''
+count = 1
+
+[[issues]]
+file = "src/Repository/RoleRepository.php"
+code = "missing-parameter-type"
+message = "Parameter `$p` is missing a type hint."
+count = 1
+
+[[issues]]
+file = "src/Repository/RoleRepository.php"
+code = "missing-return-type"
+message = "Function `arrow function` is missing a return type hint."
+count = 1
+
+[[issues]]
+file = "src/Repository/RoleRepository.php"
+code = "mixed-argument"
+message = "Invalid argument type for argument #1 of `json_decode`: expected `string`, but found `mixed`."
+count = 1
+
+[[issues]]
+file = "src/Repository/RoleRepository.php"
+code = "mixed-array-access"
+message = "Unsafe array access on type `mixed`."
+count = 3
+
+[[issues]]
+file = "src/Repository/RoleRepository.php"
+code = "mixed-assignment"
+message = "Assigning `mixed` type to a variable may lead to unexpected behavior."
+count = 2
+
+[[issues]]
+file = "src/Repository/RoleRepository.php"
+code = "mixed-method-access"
+message = "Attempting to access a method on a non-object type (`mixed`)."
+count = 1
+
+[[issues]]
+file = "src/Repository/RoleRepository.php"
+code = "mixed-operand"
+message = "Left operand in `>` comparison has `mixed` type."
+count = 1
+
+[[issues]]
+file = "src/Repository/RoleRepository.php"
+code = "nullable-return-statement"
+message = 'Function `Webware\Acl\Repository\RoleRepository::save` is declared to return `false|int|string` but possibly returns a nullable value (inferred as `false|int|null|string`).'
+count = 1
+
+[[issues]]
+file = "src/Repository/RoleRepository.php"
+code = "possible-method-access-on-null"
+message = "Attempting to call a method on `null`."
+count = 2
+
+[[issues]]
+file = "src/Repository/RoleRepository.php"
+code = "possibly-invalid-iterator"
+message = 'The expression provided to `foreach` (type `array<array-key, Laminas\Permissions\Acl\Role\RoleInterface|string>|string`) might not be iterable at runtime.'
+count = 1
+
+[[issues]]
+file = "src/Repository/RoleRepository.php"
+code = "possibly-null-argument"
+message = 'Argument #1 of method `Laminas\Permissions\Acl\Role\Registry::add` is possibly `null`, but parameter type `Laminas\Permissions\Acl\Role\RoleInterface` does not accept it.'
+count = 1
+
+[[issues]]
+file = "src/Repository/RoleRepository.php"
+code = "possibly-null-argument"
+message = 'Argument #2 of method `Laminas\Permissions\Acl\Role\Registry::add` is possibly `null`, but parameter type `Laminas\Permissions\Acl\Role\RoleInterface|Traversable<mixed, mixed>|array<array-key, mixed>|string` does not accept it.'
+count = 1
+
+[[issues]]
+file = "src/Repository/RoleRepository.php"
+code = "possibly-null-iterator"
+message = 'Expression being iterated (type `PhpDb\Adapter\Driver\ResultInterface|null`) might be `null` at runtime.'
+count = 2
+
+[[issues]]
+file = "src/Repository/RoleRepository.php"
+code = "possibly-undefined-string-array-index"
+message = 'Possibly undefined array key `string` accessed on `array<string, Webware\Acl\Entity\Role>`.'
+count = 1
+
+[[issues]]
+file = "src/Repository/RoleRepository.php"
+code = "possibly-undefined-string-array-index"
+message = "Possibly undefined array key `string` accessed on `array<string, int|null>`."
+count = 1
+
+[[issues]]
+file = "src/Repository/RuleRepository.php"
+code = "less-specific-nested-return-statement"
+message = '''Returned type `array{'assertions': nonnull, 'resourceId': string, 'roleId': string, 'type': string}` is less specific than the declared return type `array{'assertions': array<array-key, string>, 'resourceId': string, 'roleId': string, 'type': string}|null` for function `Webware\Acl\Repository\RuleRepository::findByRoleAndResource` due to nested 'mixed'.'''
+count = 1
+
+[[issues]]
+file = "src/Repository/RuleRepository.php"
+code = "less-specific-nested-return-statement"
+message = '''Returned type `array{}|non-empty-list<array{'assertions': mixed, 'parentResourceId': mixed, 'resourceId': mixed, 'roleId': mixed, 'type': mixed}>` is less specific than the declared return type `array<int, array{'assertions': array<array-key, string>, 'resourceId': string, 'roleId': string, 'type': string}>` for function `Webware\Acl\Repository\RuleRepository::fetchAll` due to nested 'mixed'.'''
+count = 1
+
+[[issues]]
+file = "src/Repository/RuleRepository.php"
+code = "less-specific-nested-return-statement"
+message = '''Returned type `array{}|non-empty-list<mixed>` is less specific than the declared return type `array<array-key, string>` for function `Webware\Acl\Repository\RuleRepository::fetchDistinctResourceIds` due to nested 'mixed'.'''
+count = 1
+
+[[issues]]
+file = "src/Repository/RuleRepository.php"
+code = "mixed-argument"
+message = "Invalid argument type for argument #1 of `json_decode`: expected `string`, but found `mixed`."
+count = 1
+
+[[issues]]
+file = "src/Repository/RuleRepository.php"
+code = "mixed-array-access"
+message = "Unsafe array access on type `mixed`."
+count = 5
+
+[[issues]]
+file = "src/Repository/RuleRepository.php"
+code = "mixed-operand"
+message = "Left operand in `>=` comparison has `mixed` type."
+count = 1
+
+[[issues]]
+file = "src/Repository/RuleRepository.php"
+code = "mixed-operand"
+message = "Left operand in `>` comparison has `mixed` type."
+count = 2
+
+[[issues]]
+file = "src/Repository/RuleRepository.php"
+code = "possible-method-access-on-null"
+message = "Attempting to call a method on `null`."
+count = 5
+
+[[issues]]
+file = "src/Repository/RuleRepository.php"
+code = "possibly-null-argument"
+message = "Argument #1 of function `json_decode` is possibly `null`, but parameter type `string` does not accept it."
+count = 1
+
+[[issues]]
+file = "src/Repository/RuleRepository.php"
+code = "possibly-null-iterator"
+message = 'Expression being iterated (type `PhpDb\Adapter\Driver\ResultInterface|null`) might be `null` at runtime.'
+count = 2
+
+[[issues]]
+file = "src/RequestHandler/Container/ForbiddenHandlerFactory.php"
+code = "mixed-argument"
+message = 'Invalid argument type for argument #2 of `Webware\Acl\RequestHandler\ForbiddenHandler::__construct`: expected `null|string`, but found `mixed`.'
+count = 1
+
+[[issues]]
+file = "src/RequestHandler/Container/ForbiddenHandlerFactory.php"
+code = "mixed-argument"
+message = 'Invalid argument type for argument #3 of `Webware\Acl\RequestHandler\ForbiddenHandler::__construct`: expected `null|string`, but found `nonnull`.'
+count = 1
+
+[[issues]]
+file = "src/RequestHandler/ForbiddenHandler.php"
+code = "unused-property"
+message = "Property `$forbiddenTemplate` is never used."
+count = 1
+
+[[issues]]
+file = "src/Role/SingleRoleUserProxy.php"
+code = "incompatible-parameter-type"
+message = 'Parameter `$data` of `Webware\Acl\Role\SingleRoleUserProxy::populate()` expects type `array<string, mixed>` but parent `PhpDb\ResultSet\RowPrototypeInterface::populate()` expects type `array<array-key, mixed>`'
+count = 1
+
+[[issues]]
+file = "src/Role/SingleRoleUserProxy.php"
+code = "invalid-return-statement"
+message = 'Invalid return type for function `Webware\Acl\Role\SingleRoleUserProxy::getDetails`: expected `array<string, mixed>`, but found `array<string, mixed>|null`.'
+count = 1
+
+[[issues]]
+file = "src/Role/SingleRoleUserProxy.php"
+code = "invalid-return-statement"
+message = 'Invalid return type for function `Webware\Acl\Role\SingleRoleUserProxy::getIdentity`: expected `string`, but found `null|string`.'
+count = 1
+
+[[issues]]
+file = "src/Role/SingleRoleUserProxy.php"
+code = "mixed-return-statement"
+message = 'Could not infer a precise return type for function `Webware\Acl\Role\SingleRoleUserProxy::getOwnerId`. Saw type `mixed`.'
+count = 1
+
+[[issues]]
+file = "src/Role/SingleRoleUserProxy.php"
+code = "nullable-return-statement"
+message = 'Function `Webware\Acl\Role\SingleRoleUserProxy::getDetails` is declared to return `array<string, mixed>` but possibly returns a nullable value (inferred as `array<string, mixed>|null`).'
+count = 1
+
+[[issues]]
+file = "src/Role/SingleRoleUserProxy.php"
+code = "nullable-return-statement"
+message = 'Function `Webware\Acl\Role\SingleRoleUserProxy::getIdentity` is declared to return `string` but possibly returns a nullable value (inferred as `null|string`).'
+count = 1
+
+[[issues]]
+file = "src/Role/UserRoleIterator.php"
+code = "invalid-array-element"
+message = "Cannot use spread operator on non-iterable type `null`."
+count = 1
+
+[[issues]]
+file = "src/Role/UserRoleIterator.php"
+code = "mixed-property-type-coercion"
+message = 'A value with a less specific type `list<mixed>` is being assigned to property `$roles` (array<array-key, Laminas\Permissions\Acl\Role\RoleInterface|string>).'
+count = 1
+
+[[issues]]
+file = "src/Role/UserRoleIterator.php"
+code = "possibly-null-argument"
+message = 'Argument #2 of method `Webware\Acl\Role\SingleRoleUserProxy::__construct` is possibly `null`, but parameter type `Laminas\Permissions\Acl\Role\RoleInterface|string` does not accept it.'
+count = 1
+
+[[issues]]
+file = "src/Role/UserRoleIterator.php"
+code = "possibly-undefined-int-array-index"
+message = 'Possibly undefined array key `int` accessed on `array<array-key, Laminas\Permissions\Acl\Role\RoleInterface|string>`.'
+count = 1
+
+[[issues]]
+file = "src/RouteProvider.php"
+code = "possibly-invalid-argument"
+message = 'Possible argument type mismatch for argument #3 of `Mezzio\Router\RouteCollectorInterface::get`: expected `non-empty-string|null`, but possibly received `string`.'
+count = 1
+
+[[issues]]
+file = "src/Validator/Assertion.php"
+code = "less-specific-nested-argument-type"
+message = '''Argument type mismatch for argument #1 of `Laminas\Validator\AbstractValidator::__construct`: expected `array{'messages'?: array<string, string>, 'translator'?: Laminas\Translator\TranslatorInterface|null, 'translatorEnabled'?: bool, 'translatorTextDomain'?: null|string, 'valueObscured'?: bool, ...<string, mixed>}`, but provided type `array<string, mixed>|null` is less specific.'''
+count = 1
+
+[[issues]]
+file = "src/Validator/Assertion.php"
+code = "missing-constant-type"
+message = "Class constant `INVALID_TYPE` is missing a type hint."
+count = 1
+
+[[issues]]
+file = "src/Validator/Assertion.php"
+code = "missing-constant-type"
+message = "Class constant `NOT_EXIST` is missing a type hint."
+count = 1
+
+[[issues]]
+file = "src/Validator/Assertion.php"
+code = "missing-constant-type"
+message = "Class constant `NULL_NOT_ALLOWED` is missing a type hint."
+count = 1
+
+[[issues]]
+file = "src/Validator/Assertion.php"
+code = "mixed-assignment"
+message = "Assigning `mixed` type to a variable may lead to unexpected behavior."
+count = 1
+
+[[issues]]
+file = "src/Validator/Assertion.php"
+code = "mixed-property-type-coercion"
+message = "A value with a less specific type `mixed` is being assigned to property `$nullable` (bool)."
+count = 1
+
+[[issues]]
+file = "src/Validator/Assertion.php"
+code = "possibly-null-argument"
+message = '''Argument #1 of method `Laminas\Validator\AbstractValidator::__construct` is possibly `null`, but parameter type `array{'messages'?: array<string, string>, 'translator'?: Laminas\Translator\TranslatorInterface|null, 'translatorEnabled'?: bool, 'translatorTextDomain'?: null|string, 'valueObscured'?: bool, ...<string, mixed>}` does not accept it.'''
+count = 1
+
+[[issues]]
+file = "src/Validator/Assertion.php"
+code = "possibly-null-array-access"
+message = "Cannot perform array access on possibly `null` value."
+count = 1
+
+[[issues]]
+file = "src/Validator/Assertion.php"
+code = "possibly-undefined-string-array-index"
+message = "Possibly undefined array key `string('nullable')` accessed on `array<string, mixed>`."
+count = 1
+
+[[issues]]
+file = "src/Validator/Assertion.php"
+code = "uninitialized-property"
+message = 'Property `$invalidType` is not initialized in the constructor of class `Webware\Acl\Validator\Assertion`.'
+count = 1
+
+[[issues]]
+file = "src/Validator/Assertion.php"
+code = "uninitialized-property"
+message = 'Property `$missingAssertion` is not initialized in the constructor of class `Webware\Acl\Validator\Assertion`.'
+count = 1
+
+[[issues]]
+file = "src/Validator/Assertion.php"
+code = "write-only-property"
+message = "Property `$invalidType` is written to but never read."
+count = 1
+
+[[issues]]
+file = "src/Validator/Assertion.php"
+code = "write-only-property"
+message = "Property `$missingAssertion` is written to but never read."
+count = 1
+
+[[issues]]
+file = "src/Validator/Container/AssertionFactory.php"
+code = "unused-parameter"
+message = "Parameter `$requestedName` is never used."
+count = 1
+
+[[issues]]
+file = "vendor/webware/message-bus/src/Command/NamedCommandTrait.php"
+code = "uninitialized-property"
+message = 'Property `$name` is not initialized in the constructor of class `Webware\Acl\Admin\Command\DeleteRoleCommand`.'
+count = 1
+
+[[issues]]
+file = "vendor/webware/message-bus/src/Command/NamedCommandTrait.php"
+code = "uninitialized-property"
+message = 'Property `$name` is not initialized in the constructor of class `Webware\Acl\Admin\Command\DeleteRuleCommand`.'
+count = 1
+
+[[issues]]
+file = "vendor/webware/message-bus/src/Command/NamedCommandTrait.php"
+code = "uninitialized-property"
+message = 'Property `$name` is not initialized in the constructor of class `Webware\Acl\Admin\Command\SaveRoleCommand`.'
+count = 1
+
+[[issues]]
+file = "vendor/webware/message-bus/src/Command/NamedCommandTrait.php"
+code = "uninitialized-property"
+message = 'Property `$name` is not initialized in the constructor of class `Webware\Acl\Admin\Command\SaveRuleCommand`.'
+count = 1
+
+[[issues]]
+file = "vendor/webware/message-bus/src/Command/NamedCommandTrait.php"
+code = "uninitialized-property"
+message = 'Property `$name` is not initialized in the constructor of class `Webware\Acl\Admin\Command\UpdateRuleTypeCommand`.'
+count = 1

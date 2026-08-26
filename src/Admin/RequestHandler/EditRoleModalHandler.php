@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 namespace Webware\Acl\Admin\RequestHandler;
 
+use Laminas\Diactoros\Exception\ExceptionInterface;
 use Laminas\Diactoros\Response\HtmlResponse;
 use Mezzio\Template\TemplateRendererInterface;
 use Override;
@@ -35,9 +36,13 @@ final class EditRoleModalHandler implements RequestHandlerInterface
         private readonly RoleRepository $roleRepository,
     ) {}
 
+    /**
+     * @throws ExceptionInterface
+     */
     #[Override]
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
+        /** @var string $roleId */
         $roleId = $request->getAttribute('roleId', '');
         $roles  = $this->roleRepository->fetchAll();
 

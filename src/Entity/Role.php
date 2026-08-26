@@ -39,6 +39,9 @@ final class Role implements RoleInterface, RowPrototypeInterface
         return $this->id;
     }
 
+    /**
+     * @return array<RoleInterface|string>|null
+     */
     public function getParentId(): ?array
     {
         return $this->parentId;
@@ -50,18 +53,27 @@ final class Role implements RoleInterface, RowPrototypeInterface
         return $this->roleId;
     }
 
+    /**
+     * @param array<string, mixed> $data
+     */
     #[Override]
     public function populate(array $data): RoleInterface&RowPrototypeInterface
     {
         return new static(...$data);
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     #[Override]
     public function toArray(): array
     {
         return (array) $this;
     }
 
+    /**
+     * @param array<string, mixed> $withRowData
+     */
     public function withRowData(array $withRowData): RoleInterface&RowPrototypeInterface
     {
         return $this->populate(data: $withRowData);

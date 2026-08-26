@@ -7,6 +7,9 @@ namespace Webware\Acl\Http;
 use Mezzio\Router\RouteResult;
 use Psr\Http\Message\ServerRequestInterface;
 
+/**
+ * @api
+ */
 interface RouteResourceFactoryInterface
 {
     public function __invoke(

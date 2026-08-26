@@ -15,6 +15,9 @@ declare(strict_types=1);
 namespace Webware\Acl\Admin\Middleware;
 
 use Laminas\InputFilter;
+use Laminas\InputFilter\Exception\ExceptionInterface;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
@@ -23,6 +26,7 @@ use Webware\Acl\Admin\Command\DeleteRuleCommand;
 use Webware\Acl\Admin\Command\SaveRuleCommand;
 use Webware\Acl\Admin\Command\UpdateRuleTypeCommand;
 use Webware\Acl\InputFilter\RuleDataFilter;
+use Webware\Acl\RuleType;
 use Webware\Core\Http\Middleware\HttpMethodProcessorTrait;
 use Webware\Message\SystemMessengerInterface;
 use Webware\MessageBus\Command\CommandResult;
@@ -37,12 +41,18 @@ final readonly class ProcessRuleMiddleware implements MiddlewareInterface
         private MessageBusInterface $commandBus,
     ) {}
 
+    /**
+     * @throws ContainerExceptionInterface
+     * @throws ExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
     public function processDelete(
         ServerRequestInterface $request,
         RequestHandlerInterface $handler,
     ): ResponseInterface {
         /** @var SystemMessengerInterface|null $messenger */
-        $messenger     = $request->getAttribute(SystemMessengerInterface::class);
+        $messenger = $request->getAttribute(SystemMessengerInterface::class);
+        /** @var InputFilter\InputFilterPluginManager $filterManager */
         $filterManager = $request->getAttribute(InputFilter\InputFilterPluginManager::class);
         $filter        = $filterManager->get(RuleDataFilter::class);
         $filter->setValidationGroup([
@@ -51,6 +61,7 @@ final readonly class ProcessRuleMiddleware implements MiddlewareInterface
         ]);
         $filter->setData($request->getAttributes());
 
+        /** @var array{roleId: string, resourceId: string} $filteredData */
         $filteredData = $filter->getValues();
 
         $result = $this->commandBus->handle(new DeleteRuleCommand(...$filteredData));
@@ -63,12 +74,18 @@ final readonly class ProcessRuleMiddleware implements MiddlewareInterface
         return $handler->handle($request->withAttribute(CommandResult::class, $result));
     }
 
+    /**
+     * @throws ContainerExceptionInterface
+     * @throws ExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
     public function processPatch(
         ServerRequestInterface $request,
         RequestHandlerInterface $handler,
     ): ResponseInterface {
         /** @var SystemMessengerInterface|null $messenger */
-        $messenger     = $request->getAttribute(SystemMessengerInterface::class);
+        $messenger = $request->getAttribute(SystemMessengerInterface::class);
+        /** @var InputFilter\InputFilterPluginManager $filterManager */
         $filterManager = $request->getAttribute(InputFilter\InputFilterPluginManager::class);
         $filter        = $filterManager->get(RuleDataFilter::class);
         $filter->setValidationGroup([
@@ -84,6 +101,7 @@ final readonly class ProcessRuleMiddleware implements MiddlewareInterface
             return $handler->handle($request);
         }
 
+        /** @var array{roleId: string, resourceId: string, type: RuleType} $filteredData */
         $filteredData = $filter->getValues();
 
         $result = $this->commandBus->handle(new UpdateRuleTypeCommand(...$filteredData));
@@ -96,12 +114,18 @@ final readonly class ProcessRuleMiddleware implements MiddlewareInterface
         return $handler->handle($request->withAttribute(CommandResult::class, $result));
     }
 
+    /**
+     * @throws ContainerExceptionInterface
+     * @throws ExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
     public function processPost(
         ServerRequestInterface $request,
         RequestHandlerInterface $handler,
     ): ResponseInterface {
         /** @var SystemMessengerInterface|null $messenger */
-        $messenger     = $request->getAttribute(SystemMessengerInterface::class);
+        $messenger = $request->getAttribute(SystemMessengerInterface::class);
+        /** @var InputFilter\InputFilterPluginManager $filterManager */
         $filterManager = $request->getAttribute(InputFilter\InputFilterPluginManager::class);
         $filter        = $filterManager->get(RuleDataFilter::class);
         $filter->setValidationGroup([
@@ -118,6 +142,7 @@ final readonly class ProcessRuleMiddleware implements MiddlewareInterface
             return $handler->handle($request);
         }
 
+        /** @var array{roleId: string, resourceId: string, type: RuleType, assertions: array<string>|null} $filteredData */
         $filteredData = $filter->getValues();
 
         $result = $this->commandBus->handle(

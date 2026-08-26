@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Webware\Acl\Role;
 
 use Iterator;
+use Laminas\Permissions\Acl\Role\RoleInterface;
 use Override;
 use Webware\Core\UserInterface;
 
@@ -13,6 +14,7 @@ use Webware\Core\UserInterface;
  */
 final class UserRoleIterator implements Iterator
 {
+    /** @var array<RoleInterface|string> */
     private array $roles;
 
     private int $position = 0;

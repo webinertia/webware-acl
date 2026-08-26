@@ -24,6 +24,9 @@ use Webware\Core\UserInterface;
  */
 final class RouteResource implements RouteResourceInterface
 {
+    /**
+     * @param array<string, array<string, mixed>> $paramMap
+     */
     public function __construct(
         private readonly RouteResult $routeResult,
         private readonly ServerRequestInterface $request,
@@ -37,11 +40,13 @@ final class RouteResource implements RouteResourceInterface
         // 1. Per-route options array (most specific)
         $matchedRoute = $this->routeResult->getMatchedRoute();
         $routeOptions = false === $matchedRoute ? [] : $matchedRoute->getOptions();
-        $paramName    = $routeOptions['acl']['ownerId']
-            // 2. Global route_param_map config (app-level fallback)
-            ?? $this->paramMap[$routeName]['ownerId']
-                // 3. Convention
-                ?? 'ownerId';
+        /** @var string $paramName */
+        $paramName =
+            $routeOptions['acl']['ownerId']
+                // 2. Global route_param_map config (app-level fallback)
+                ?? $this->paramMap[$routeName]['ownerId']
+                    // 3. Convention
+                    ?? 'ownerId';
 
         return (int) (
 

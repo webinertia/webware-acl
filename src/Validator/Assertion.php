@@ -39,6 +39,9 @@ final class Assertion extends Validator\AbstractValidator
 
     private string $invalidType;
 
+    /**
+     * @param array<string, mixed>|null $options
+     */
     public function __construct(
         private readonly ContainerInterface&AssertionManager $assertionManager,
         ?array $options = ['nullable' => false],

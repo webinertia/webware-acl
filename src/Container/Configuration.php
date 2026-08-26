@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Webware\Acl\Container;
 
+use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Webware\Acl\AssertionManager;
 use Webware\Core\AclInterface;
 use Webware\Core\Configuration as Config;
@@ -18,10 +20,16 @@ final readonly class Configuration extends Config
 
     public const string ADMIN_ROUTE_NAME_PREFIX_VALUE = 'acl.manager.';
 
+    /**
+     * @return array<string, mixed>
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
     public static function getAssertionManagerConfig(
         ContainerInterface $container,
         string $callingFactory,
     ): array {
+        /** @var array<string, mixed> $config */
         $config = $container->get('config');
 
         if (! isset($config[AssertionManager::class])) {

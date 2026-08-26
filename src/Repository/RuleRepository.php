@@ -6,7 +6,9 @@ namespace Webware\Acl\Repository;
 
 use PhpDb\Adapter\AdapterInterface;
 use PhpDb\ResultSet\RowPrototypeResultSet;
+use PhpDb\Sql\Exception\ExceptionInterface as SqlException;
 use PhpDb\Sql\Select;
+use PhpDb\TableGateway\Exception\ExceptionInterface as TableGatewayException;
 use PhpDb\TableGateway\TableGateway;
 use Webware\Acl\Entity\Rule;
 use Webware\Acl\RuleType;
@@ -18,6 +20,10 @@ final class RuleRepository
 {
     private readonly TableGateway $gateway;
 
+    /**
+     * @throws SqlException
+     * @throws TableGatewayException
+     */
     public function __construct(AdapterInterface $adapter)
     {
         $this->gateway = new TableGateway(
@@ -73,6 +79,7 @@ final class RuleRepository
      * Returns the distinct set of resourceId values across all rules.
      *
      * @return string[]
+     * @throws SqlException
      */
     public function fetchDistinctResourceIds(): array
     {
@@ -93,6 +100,7 @@ final class RuleRepository
      * Returns a single rule row for the given (roleId, resourceId) pair, or null.
      *
      * @return array{type: string, roleId: string, resourceId: string, assertions: string[]}|null
+     * @throws SqlException
      */
     public function findByRoleAndResource(string $roleId, string $resourceId): ?array
     {
@@ -102,6 +110,7 @@ final class RuleRepository
             ->where(['roleId' => $roleId, 'resourceId' => $resourceId])
             ->limit(1);
 
+        /** @var array{type: string, roleId: string, resourceId: string, assertions: string|null}|false|null $row */
         $row = $sql->prepareStatementForSqlObject($select)->execute()->current();
 
         if (false === $row || null === $row) {
@@ -123,6 +132,7 @@ final class RuleRepository
      * $this->allow(Role, Resource, Privilege, Assertions) in the ACL corresponds to save(RuleType::Allow, Role, Resource, Assertions) here.;
      *
      * @param string[] $assertions
+     * @throws SqlException
      */
     public function save(
         RuleType $type,
@@ -141,6 +151,7 @@ final class RuleRepository
             ->where(['roleId' => $roleId, 'resourceId' => $resourceId])
             ->limit(1);
 
+        /** @var array{id: int|string}|false|null $row */
         $row = $sql->prepareStatementForSqlObject($exists)->execute()->current();
 
         $data = [
@@ -183,6 +194,8 @@ final class RuleRepository
 
     /**
      * Update only the type column for a specific (roleId, resourceId) pair.
+     *
+     * @throws SqlException
      */
     public function updateType(string $roleId, string $resourceId, RuleType $newType): bool
     {

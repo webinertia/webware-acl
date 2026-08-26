@@ -10,6 +10,9 @@ use Psr\Http\Message\ServerRequestInterface;
 
 final class RouteResourceFactory implements RouteResourceFactoryInterface
 {
+    /**
+     * @param array<string, array<string, mixed>> $paramMap
+     */
     public function __construct(
         private readonly array $paramMap = [],
     ) {}

@@ -6,6 +6,9 @@ namespace Webware\Acl;
 
 use Laminas\Permissions\Acl\Resource\ResourceInterface;
 
+/**
+ * @api
+ */
 interface ResourceProviderInterface
 {
     public function getResource(): ResourceInterface;

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Webware\Acl\Admin\RequestHandler;
 
+use Laminas\Diactoros\Exception\ExceptionInterface;
 use Laminas\Diactoros\Response\HtmlResponse;
 use Mezzio\Template\TemplateRendererInterface;
 use Override;
@@ -24,10 +25,15 @@ final class DeleteRuleModalHandler implements RequestHandlerInterface
         private readonly TemplateRendererInterface $template,
     ) {}
 
+    /**
+     * @throws ExceptionInterface
+     */
     #[Override]
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
-        $roleId     = $request->getAttribute('roleId', '');
+        /** @var string $roleId */
+        $roleId = $request->getAttribute('roleId', '');
+        /** @var string $resourceId */
         $resourceId = $request->getAttribute('resourceId', '');
 
         return new HtmlResponse($this->template->render('acl::partials/delete-rule-modal', [

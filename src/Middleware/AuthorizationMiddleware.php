@@ -23,9 +23,13 @@ final class AuthorizationMiddleware implements MiddlewareInterface
         private readonly RouteResourceFactoryInterface $routeResourceFactory,
     ) {}
 
+    /**
+     * @throws RuntimeException
+     */
     #[Override]
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
+        /** @var RouteResult|null $routeResult */
         $routeResult = $request->getAttribute(RouteResult::class);
 
         if (null === $routeResult || $routeResult->isFailure()) {
@@ -39,6 +43,7 @@ final class AuthorizationMiddleware implements MiddlewareInterface
             throw new RuntimeException('AclMiddleware must be in the pipeline before AuthorizationMiddleware.');
         }
 
+        /** @var UserInterface|null $user */
         $user          = $request->getAttribute(UserInterface::class);
         $routeResource = ($this->routeResourceFactory)($routeResult, $request);
 

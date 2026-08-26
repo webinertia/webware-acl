@@ -14,12 +14,18 @@ declare(strict_types=1);
 
 namespace Webware\Acl\Container;
 
+use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Webware\Acl\CommandBus\Middleware\CommandHandlerMiddleware;
 use Webware\Core\AclInterface;
 
 final class CommandHandlerMiddlewareFactory
 {
+    /**
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
     public function __invoke(ContainerInterface $container): CommandHandlerMiddleware
     {
         return new CommandHandlerMiddleware(

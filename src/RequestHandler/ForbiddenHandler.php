@@ -22,6 +22,7 @@ final readonly class ForbiddenHandler implements ForbiddenHandlerInterface
     #[Override]
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
+        /** @var UserInterface $user */
         $user = $request->getAttribute(UserInterface::class);
 
         // Guest identity — silent redirect to login, no toast
@@ -30,6 +31,7 @@ final readonly class ForbiddenHandler implements ForbiddenHandlerInterface
         }
 
         // Authenticated but denied — conditional toast then redirect
+        /** @var SystemMessengerInterface|null $messenger */
         $messenger = $request->getAttribute(SystemMessengerInterface::class);
         $messenger?->warning(
             'You do not have permission to access the requested resource.',
@@ -38,9 +40,11 @@ final readonly class ForbiddenHandler implements ForbiddenHandlerInterface
         );
 
         $serverParams = $request->getServerParams();
-        $redirect     = $this->forbiddenRedirect
-            ?? $serverParams['HTTP_REFERER']
-                ?? '/';
+        /** @var string $redirect */
+        $redirect =
+            $this->forbiddenRedirect
+                ?? $serverParams['HTTP_REFERER']
+                    ?? '/';
 
         return new RedirectResponse($redirect);
     }

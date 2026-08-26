@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Webware\Acl\Admin\RequestHandler;
 
+use Laminas\Diactoros\Exception\ExceptionInterface;
 use Laminas\Diactoros\Response\HtmlResponse;
 use Mezzio\Template\TemplateRendererInterface;
 use Override;
@@ -26,14 +27,21 @@ use function json_encode;
  */
 final class ResourceListHandler implements RequestHandlerInterface
 {
+    /**
+     * @param array<string, mixed> $config
+     */
     public function __construct(
         private readonly array $config,
         private readonly TemplateRendererInterface $template,
     ) {}
 
+    /**
+     * @throws ExceptionInterface
+     */
     #[Override]
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
+        /** @var array<string, mixed> $resources */
         $resources  = $this->config['resources'] ?? [];
         $privileges = [];
         $roles      = [];
@@ -44,6 +52,7 @@ final class ResourceListHandler implements RequestHandlerInterface
             'roles'      => $roles,
         ]));
 
+        /** @var CommandResultInterface|null $commandResult */
         $commandResult = $request->getAttribute(CommandResult::class);
         if (
             $commandResult instanceof CommandResultInterface

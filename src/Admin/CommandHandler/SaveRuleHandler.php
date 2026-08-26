@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 namespace Webware\Acl\Admin\CommandHandler;
 
+use PhpDb\Sql\Exception\ExceptionInterface as SqlException;
 use Throwable;
 use Webware\Acl\Admin\Command\SaveRuleCommand;
 use Webware\Acl\Repository\RoleRepository;
@@ -30,6 +31,9 @@ final class SaveRuleHandler implements CommandHandlerInterface
         private readonly RoleRepository $roleRepository,
     ) {}
 
+    /**
+     * @throws SqlException
+     */
     public function handle(SaveRuleCommand $command): CommandResultInterface
     {
         try {

@@ -72,6 +72,7 @@ final class SingleRoleUserProxy implements UserInterface
     }
 
     /**
+     * @param array<string, mixed> $data
      * @throws Exception
      */
     #[Override]

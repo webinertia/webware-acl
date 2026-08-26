@@ -12,6 +12,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
+use ValueError;
 use Webware\Acl\AssertionManager;
 use Webware\Acl\Entity\Role;
 use Webware\Acl\PrivilegeInterface;
@@ -54,6 +55,9 @@ final readonly class OverviewMiddleware implements MiddlewareInterface
         private AssertionManager $assertionManager,
     ) {}
 
+    /**
+     * @throws ValueError
+     */
     #[Override]
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
