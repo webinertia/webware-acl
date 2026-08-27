@@ -16,8 +16,8 @@ constructor dependency is removed.
 | File | Violation | Replacement |
 |------|-----------|-------------|
 | `src/Admin/RequestHandler/RuleManagerHandler.php` | Fetches roles, role parents, resources, privileges, rules, assertions; builds hierarchy rows, filter logic, and display maps inline. | Extract to `BuildRulesMiddleware`. Register before `RuleManagerHandler` in all rule-related pipelines. |
-| `src/Admin/RequestHandler/RoleListHandler.php` | Fetches roles and role parents directly. | Extract to `BuildRolesMiddleware`. Register before `RoleListHandler` in all role-related pipelines. |
-| `src/Admin/RequestHandler/ResourceListHandler.php` | Fetches resources and related data directly (verify). | Extract to `BuildResourcesMiddleware`. Register before `ResourceListHandler` in all resource-related pipelines. |
+| `src/Http/Admin/RequestHandlers/RoleListHandler.php` | Fetches roles and role parents directly. | Extract to `BuildRolesMiddleware`. Register before `RoleListHandler` in all role-related pipelines. |
+| `src/Http/Admin/RequestHandlers/ResourceListHandler.php` | Fetches resources and related data directly (verify). | Extract to `BuildResourcesMiddleware`. Register before `ResourceListHandler` in all resource-related pipelines. |
 
 ---
 

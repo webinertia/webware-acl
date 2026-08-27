@@ -15,7 +15,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Webware\Acl\Admin\Command\DeleteRoleCommand;
 use Webware\Acl\Admin\Command\SaveRoleCommand;
-use Webware\Acl\Admin\Middleware\ProcessRoleMiddleware;
+use Webware\Acl\Http\Admin\Middleware\ProcessRoleMiddleware;
 use Webware\Message\SystemMessengerInterface;
 use Webware\MessageBus\Command\CommandResult;
 use Webware\MessageBus\MessageBusInterface;

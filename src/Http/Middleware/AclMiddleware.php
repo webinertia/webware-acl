@@ -1,0 +1,27 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Webware\Acl\Http\Middleware;
+
+use Override;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\MiddlewareInterface;
+use Psr\Http\Server\RequestHandlerInterface;
+use Webware\Core\AclInterface;
+
+final class AclMiddleware implements MiddlewareInterface
+{
+    public function __construct(
+        private AclInterface $acl,
+    ) {}
+
+    #[Override]
+    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
+    {
+        return $handler->handle(
+            $request->withAttribute(AclInterface::class, $this->acl),
+        );
+    }
+}

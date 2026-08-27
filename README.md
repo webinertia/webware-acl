@@ -48,7 +48,7 @@ $app->pipe(\Webware\Acl\Middleware\IdentityMiddleware::class);
 ### 3. Protect routes in your module's RouteProvider
 
 ```php
-use Webware\Acl\Middleware\AuthorizationMiddleware;
+use Webware\Acl\Http\Middleware\AuthorizationMiddleware;
 
 $routeCollector->get('/my-module', $middlewareFactory->prepare([
     AuthorizationMiddleware::class,
