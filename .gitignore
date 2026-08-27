@@ -2,6 +2,8 @@
 /.phpunit.result.cache
 /clover.xml
 /coverage/
+/infection.log
+/summary.log
 /vendor/
 /.vscode/
 
