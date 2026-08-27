@@ -35,9 +35,9 @@ final class Assertion extends Validator\AbstractValidator
 
     private readonly bool $nullable;
 
-    private string $missingAssertion;
+    protected string $missingAssertion = '';
 
-    private string $invalidType;
+    protected string $invalidType = '';
 
     /**
      * @param array<string, mixed>|null $options

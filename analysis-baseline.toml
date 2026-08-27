@@ -854,18 +854,6 @@ count = 1
 
 [[issues]]
 file = "src/Validator/Assertion.php"
-code = "uninitialized-property"
-message = 'Property `$invalidType` is not initialized in the constructor of class `Webware\Acl\Validator\Assertion`.'
-count = 1
-
-[[issues]]
-file = "src/Validator/Assertion.php"
-code = "uninitialized-property"
-message = 'Property `$missingAssertion` is not initialized in the constructor of class `Webware\Acl\Validator\Assertion`.'
-count = 1
-
-[[issues]]
-file = "src/Validator/Assertion.php"
 code = "write-only-property"
 message = "Property `$invalidType` is written to but never read."
 count = 1
