@@ -20,7 +20,7 @@ final class Rule implements RowPrototypeInterface, ResourceInterface, RoleInterf
      */
     public function __construct(
         public private(set) int|string|null $id = null,
-        public private(set) RuleType $type = RuleType::Allow {
+        public private(set) string|RuleType $type = RuleType::Allow {
             set(string|RuleType $value) {
                 $this->type = $this->resolveType($value);
             }
