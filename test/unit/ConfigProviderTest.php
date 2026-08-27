@@ -72,7 +72,7 @@ final class ConfigProviderTest extends TestCase
             ],
             $config[BusProvider::COMMAND_MAP_KEY],
         );
-        self::assertCount(2, $config[BusProvider::MIDDLEWARE_PIPELINE_KEY]);
+        self::assertCount(1, $config[BusProvider::MIDDLEWARE_PIPELINE_KEY]);
     }
 
     #[Test]
@@ -107,7 +107,7 @@ final class ConfigProviderTest extends TestCase
             ],
             $deps['aliases'],
         );
-        self::assertCount(26, $deps['factories']);
+        self::assertCount(25, $deps['factories']);
         self::assertArrayHasKey(RoleRepository::class, $deps['factories']);
         self::assertArrayHasKey(RuleRepository::class, $deps['factories']);
     }

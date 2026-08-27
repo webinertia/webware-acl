@@ -24,7 +24,6 @@ use Webware\Acl\Admin\CommandHandler\UpdateRuleTypeHandler;
 use Webware\Acl\Admin\Dashboard\Container\RegisterWidgetListenerFactory;
 use Webware\Acl\Admin\Dashboard\RegisterWidgetListener;
 use Webware\Acl\Container\AclFactory;
-use Webware\Acl\Container\MessageHandlerMiddlewareFactory;
 use Webware\Acl\Container\RouteProviderFactory;
 use Webware\Acl\Http\Admin\Middleware\Container\OverviewMiddlewareFactory;
 use Webware\Acl\Http\Admin\Middleware\Container\ProcessRoleMiddlewareFactory;
@@ -54,7 +53,6 @@ use Webware\Acl\Http\RequestHandlers\ForbiddenHandler;
 use Webware\Acl\Http\RequestHandlers\ForbiddenHandlerInterface;
 use Webware\Acl\Http\RouteResourceFactory;
 use Webware\Acl\Http\RouteResourceFactoryInterface;
-use Webware\Acl\MessageBus\Middleware\MessageHandlerMiddleware as AclMessageHandlerMiddleware;
 use Webware\Acl\Repository\Container\RoleRepositoryFactory;
 use Webware\Acl\Repository\Container\RuleRepositoryFactory;
 use Webware\Acl\Repository\RoleRepository;
@@ -139,10 +137,6 @@ final class ConfigProvider
                     'middleware' => MessageHandlerMiddleware::class,
                     'priority'   => BusProvider::DEFAULT_PRIORITY,
                 ],
-                [
-                    'middleware' => AclMessageHandlerMiddleware::class,
-                    'priority'   => 10,
-                ],
             ],
         ];
     }
@@ -199,7 +193,6 @@ final class ConfigProvider
                 UpdateRuleTypeHandler::class               => UpdateRuleTypeHandlerFactory::class,
                 RoleRepository::class                      => RoleRepositoryFactory::class,
                 RuleRepository::class                      => RuleRepositoryFactory::class,
-                AclMessageHandlerMiddleware::class         => MessageHandlerMiddlewareFactory::class,
             ],
         ];
     }
