@@ -17,7 +17,7 @@ namespace Webware\Acl\Container;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;
-use Webware\Acl\CommandBus\Middleware\CommandHandlerMiddleware;
+use Webware\Acl\MessageBus\Middleware\MessageHandlerMiddleware;
 use Webware\Core\AclInterface;
 
 final class CommandHandlerMiddlewareFactory
@@ -26,9 +26,9 @@ final class CommandHandlerMiddlewareFactory
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */
-    public function __invoke(ContainerInterface $container): CommandHandlerMiddleware
+    public function __invoke(ContainerInterface $container): MessageHandlerMiddleware
     {
-        return new CommandHandlerMiddleware(
+        return new MessageHandlerMiddleware(
             $container->get(AclInterface::class),
         );
     }
