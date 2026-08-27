@@ -15,9 +15,9 @@ use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use RuntimeException;
 use Webware\Acl\Http\Middleware\AuthorizationMiddleware;
+use Webware\Acl\Http\RequestHandlers\ForbiddenHandlerInterface;
 use Webware\Acl\Http\RouteResourceFactoryInterface;
 use Webware\Acl\Http\RouteResourceInterface;
-use Webware\Acl\RequestHandler\ForbiddenHandlerInterface;
 use Webware\Core\AclInterface;
 
 #[CoversClass(AuthorizationMiddleware::class)]
@@ -66,7 +66,10 @@ final class AuthorizationMiddlewareTest extends TestCase
         self::assertSame(
             $response,
             new AuthorizationMiddleware(
-                $this->createStub(ForbiddenHandlerInterface::class),
+                $this->createStubForIntersectionOfInterfaces([
+                    ForbiddenHandlerInterface::class,
+                    RequestHandlerInterface::class,
+                ]),
                 $factory,
             )->process($request, $handler),
         );
@@ -83,7 +86,10 @@ final class AuthorizationMiddlewareTest extends TestCase
         $factory->method('__invoke')->willReturn($resource);
 
         $forbiddenResponse = $this->createStub(ResponseInterface::class);
-        $forbidden         = $this->createStub(ForbiddenHandlerInterface::class);
+        $forbidden         = $this->createStubForIntersectionOfInterfaces([
+            ForbiddenHandlerInterface::class,
+            RequestHandlerInterface::class,
+        ]);
         $forbidden->method('handle')->willReturn($forbiddenResponse);
 
         $request = $this->request([
@@ -113,7 +119,10 @@ final class AuthorizationMiddlewareTest extends TestCase
     private function middleware(): AuthorizationMiddleware
     {
         return new AuthorizationMiddleware(
-            $this->createStub(ForbiddenHandlerInterface::class),
+            $this->createStubForIntersectionOfInterfaces([
+                ForbiddenHandlerInterface::class,
+                RequestHandlerInterface::class,
+            ]),
             $this->createStub(RouteResourceFactoryInterface::class),
         );
     }

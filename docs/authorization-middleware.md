@@ -149,9 +149,9 @@ directly instead of reading from the `RouteResult` attribute.
 
 ## ForbiddenHandlerInterface
 
-`Webware\Acl\RequestHandler\ForbiddenHandlerInterface` extends
-`Psr\Http\Server\RequestHandlerInterface`. The default implementation is
-`ForbiddenHandler`, which:
+`Webware\Acl\Http\RequestHandlers\ForbiddenHandlerInterface` is a marker
+interface. The default implementation is `ForbiddenHandler`, which implements
+both `ForbiddenHandlerInterface` and `Psr\Http\Server\RequestHandlerInterface`:  
 
 - **Guest** (`isGuest() === true`) → `RedirectResponse($loginPath)`, no toast
 - **Authenticated but denied** → optional `SystemMessengerInterface` warning
@@ -163,7 +163,7 @@ the host application's DI config:
 
 ```php
 // config/autoload/acl.local.php
-use Webware\Acl\RequestHandler\ForbiddenHandlerInterface;
+use Webware\Acl\Http\RequestHandlers\ForbiddenHandlerInterface;
 
 return [
     'dependencies' => [

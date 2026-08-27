@@ -7,9 +7,10 @@ namespace Webware\Acl\Http\Middleware\Container;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 use Webware\Acl\Http\Middleware\AuthorizationMiddleware;
+use Webware\Acl\Http\RequestHandlers\ForbiddenHandlerInterface;
 use Webware\Acl\Http\RouteResourceFactoryInterface;
-use Webware\Acl\RequestHandler\ForbiddenHandlerInterface;
 
 final class AuthorizationMiddlewareFactory
 {
@@ -19,8 +20,11 @@ final class AuthorizationMiddlewareFactory
      */
     public function __invoke(ContainerInterface $container): AuthorizationMiddleware
     {
+        /** @var ForbiddenHandlerInterface&RequestHandlerInterface $forbiddenHandler */
+        $forbiddenHandler = $container->get(ForbiddenHandlerInterface::class);
+
         return new AuthorizationMiddleware(
-            $container->get(ForbiddenHandlerInterface::class),
+            $forbiddenHandler,
             $container->get(RouteResourceFactoryInterface::class),
         );
     }

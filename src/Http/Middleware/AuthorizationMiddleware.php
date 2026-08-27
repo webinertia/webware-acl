@@ -11,15 +11,15 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use RuntimeException;
+use Webware\Acl\Http\RequestHandlers\ForbiddenHandlerInterface;
 use Webware\Acl\Http\RouteResourceFactoryInterface;
-use Webware\Acl\RequestHandler\ForbiddenHandlerInterface;
 use Webware\Core\AclInterface;
 use Webware\Core\UserInterface;
 
 final class AuthorizationMiddleware implements MiddlewareInterface
 {
     public function __construct(
-        private readonly ForbiddenHandlerInterface $forbiddenHandler,
+        private readonly ForbiddenHandlerInterface&RequestHandlerInterface $forbiddenHandler,
         private readonly RouteResourceFactoryInterface $routeResourceFactory,
     ) {}
 

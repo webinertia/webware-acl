@@ -157,6 +157,12 @@ message = "Avoid `else` clauses."
 count = 3
 
 [[issues]]
+file = "src/Http/RequestHandlers/Container/ForbiddenHandlerFactory.php"
+code = "no-shorthand-ternary"
+message = "Use of the shorthand ternary operator."
+count = 1
+
+[[issues]]
 file = "src/InputFilter/RoleDataFilter.php"
 code = "ambiguous-function-call"
 message = "Ambiguous function call detected."
@@ -226,12 +232,6 @@ count = 2
 file = "src/Repository/RuleRepository.php"
 code = "no-negated-ternary"
 message = "Negated ternary condition."
-count = 1
-
-[[issues]]
-file = "src/RequestHandler/Container/ForbiddenHandlerFactory.php"
-code = "no-shorthand-ternary"
-message = "Use of the shorthand ternary operator."
 count = 1
 
 [[issues]]

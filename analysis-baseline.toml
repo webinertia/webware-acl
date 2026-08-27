@@ -151,48 +151,6 @@ message = "Property `$config` is never used."
 count = 1
 
 [[issues]]
-file = "src/Admin/RequestHandler/AclOverviewHandler.php"
-code = "possibly-invalid-argument"
-message = 'Possible argument type mismatch for argument #2 of `Mezzio\Template\TemplateRendererInterface::render`: expected `array<non-empty-string, mixed>|object`, but possibly received `array<string, mixed>`.'
-count = 1
-
-[[issues]]
-file = "src/Admin/RequestHandler/Container/ResourceListHandlerFactory.php"
-code = "mixed-argument"
-message = 'Invalid argument type for argument #1 of `Webware\Acl\Admin\RequestHandler\ResourceListHandler::__construct`: expected `array<string, mixed>`, but found `nonnull`.'
-count = 1
-
-[[issues]]
-file = "src/Admin/RequestHandler/ResourceListHandler.php"
-code = "possibly-false-argument"
-message = 'Argument #2 of method `Laminas\Diactoros\MessageTrait::withHeader` is possibly `false`, but parameter type `array<array-key, string>|string` does not accept it.'
-count = 1
-
-[[issues]]
-file = "src/Admin/RequestHandler/RoleListHandler.php"
-code = "mixed-assignment"
-message = "Assigning `mixed` type to a variable may lead to unexpected behavior."
-count = 1
-
-[[issues]]
-file = "src/Admin/RequestHandler/RoleListHandler.php"
-code = "mixed-method-access"
-message = "Attempting to access a method on a non-object type (`mixed`)."
-count = 1
-
-[[issues]]
-file = "src/Admin/RequestHandler/RoleListHandler.php"
-code = "possibly-false-argument"
-message = 'Argument #2 of method `Laminas\Diactoros\MessageTrait::withHeader` is possibly `false`, but parameter type `array<array-key, string>|string` does not accept it.'
-count = 1
-
-[[issues]]
-file = "src/Admin/RequestHandler/RoleListHandler.php"
-code = "possibly-invalid-iterator"
-message = 'The expression provided to `foreach` (type `array<array-key, Laminas\Permissions\Acl\Role\RoleInterface|string>|string`) might not be iterable at runtime.'
-count = 1
-
-[[issues]]
 file = "src/Assertion/AssertionAggregate.php"
 code = "docblock-type-mismatch"
 message = 'Docblock return type `Laminas\Permissions\Acl\Assertion\AssertionManager|null` is incompatible with native return type `Webware\Acl\AssertionManager|null`.'
@@ -523,6 +481,66 @@ message = 'Possible argument type mismatch for argument #1 of `Laminas\InputFilt
 count = 2
 
 [[issues]]
+file = "src/Http/Admin/RequestHandlers/AclOverviewHandler.php"
+code = "possibly-invalid-argument"
+message = 'Possible argument type mismatch for argument #2 of `Mezzio\Template\TemplateRendererInterface::render`: expected `array<non-empty-string, mixed>|object`, but possibly received `array<string, mixed>`.'
+count = 1
+
+[[issues]]
+file = "src/Http/Admin/RequestHandlers/Container/ResourceListHandlerFactory.php"
+code = "mixed-argument"
+message = 'Invalid argument type for argument #1 of `Webware\Acl\Http\Admin\RequestHandlers\ResourceListHandler::__construct`: expected `array<string, mixed>`, but found `nonnull`.'
+count = 1
+
+[[issues]]
+file = "src/Http/Admin/RequestHandlers/ResourceListHandler.php"
+code = "possibly-false-argument"
+message = 'Argument #2 of method `Laminas\Diactoros\MessageTrait::withHeader` is possibly `false`, but parameter type `array<array-key, string>|string` does not accept it.'
+count = 1
+
+[[issues]]
+file = "src/Http/Admin/RequestHandlers/RoleListHandler.php"
+code = "mixed-assignment"
+message = "Assigning `mixed` type to a variable may lead to unexpected behavior."
+count = 1
+
+[[issues]]
+file = "src/Http/Admin/RequestHandlers/RoleListHandler.php"
+code = "mixed-method-access"
+message = "Attempting to access a method on a non-object type (`mixed`)."
+count = 1
+
+[[issues]]
+file = "src/Http/Admin/RequestHandlers/RoleListHandler.php"
+code = "possibly-false-argument"
+message = 'Argument #2 of method `Laminas\Diactoros\MessageTrait::withHeader` is possibly `false`, but parameter type `array<array-key, string>|string` does not accept it.'
+count = 1
+
+[[issues]]
+file = "src/Http/Admin/RequestHandlers/RoleListHandler.php"
+code = "possibly-invalid-iterator"
+message = 'The expression provided to `foreach` (type `array<array-key, Laminas\Permissions\Acl\Role\RoleInterface|string>|string`) might not be iterable at runtime.'
+count = 1
+
+[[issues]]
+file = "src/Http/RequestHandlers/Container/ForbiddenHandlerFactory.php"
+code = "mixed-argument"
+message = 'Invalid argument type for argument #2 of `Webware\Acl\Http\RequestHandlers\ForbiddenHandler::__construct`: expected `null|string`, but found `mixed`.'
+count = 1
+
+[[issues]]
+file = "src/Http/RequestHandlers/Container/ForbiddenHandlerFactory.php"
+code = "mixed-argument"
+message = 'Invalid argument type for argument #3 of `Webware\Acl\Http\RequestHandlers\ForbiddenHandler::__construct`: expected `null|string`, but found `nonnull`.'
+count = 1
+
+[[issues]]
+file = "src/Http/RequestHandlers/ForbiddenHandler.php"
+code = "unused-property"
+message = "Property `$forbiddenTemplate` is never used."
+count = 1
+
+[[issues]]
 file = "src/Http/RouteResource.php"
 code = "falsable-return-statement"
 message = '''Function `Webware\Acl\Http\RouteResource::getResourceId` is declared to return `string` but possibly returns 'false' (inferred as `false|string`).'''
@@ -725,24 +743,6 @@ file = "src/Repository/RuleRepository.php"
 code = "possibly-null-iterator"
 message = 'Expression being iterated (type `PhpDb\Adapter\Driver\ResultInterface|null`) might be `null` at runtime.'
 count = 2
-
-[[issues]]
-file = "src/RequestHandler/Container/ForbiddenHandlerFactory.php"
-code = "mixed-argument"
-message = 'Invalid argument type for argument #2 of `Webware\Acl\RequestHandler\ForbiddenHandler::__construct`: expected `null|string`, but found `mixed`.'
-count = 1
-
-[[issues]]
-file = "src/RequestHandler/Container/ForbiddenHandlerFactory.php"
-code = "mixed-argument"
-message = 'Invalid argument type for argument #3 of `Webware\Acl\RequestHandler\ForbiddenHandler::__construct`: expected `null|string`, but found `nonnull`.'
-count = 1
-
-[[issues]]
-file = "src/RequestHandler/ForbiddenHandler.php"
-code = "unused-property"
-message = "Property `$forbiddenTemplate` is never used."
-count = 1
 
 [[issues]]
 file = "src/Role/SingleRoleUserProxy.php"
