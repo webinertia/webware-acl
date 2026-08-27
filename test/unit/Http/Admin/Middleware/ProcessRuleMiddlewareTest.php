@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace WebwareTest\Acl\Admin\Middleware;
+namespace WebwareTest\Acl\Http\Admin\Middleware;
 
 use Laminas\Diactoros\Response\EmptyResponse;
 use Laminas\Diactoros\ServerRequest;
@@ -17,7 +17,7 @@ use Psr\Http\Server\RequestHandlerInterface;
 use Webware\Acl\Admin\Command\DeleteRuleCommand;
 use Webware\Acl\Admin\Command\SaveRuleCommand;
 use Webware\Acl\Admin\Command\UpdateRuleTypeCommand;
-use Webware\Acl\Admin\Middleware\ProcessRuleMiddleware;
+use Webware\Acl\Http\Admin\Middleware\ProcessRuleMiddleware;
 use Webware\Acl\InputFilter\RuleDataFilter;
 use Webware\Acl\RuleType;
 use Webware\Message\SystemMessengerInterface;

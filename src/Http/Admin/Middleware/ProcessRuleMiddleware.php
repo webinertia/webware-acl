@@ -12,7 +12,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Webware\Acl\Admin\Middleware;
+namespace Webware\Acl\Http\Admin\Middleware;
 
 use Laminas\InputFilter;
 use Laminas\InputFilter\Exception\ExceptionInterface;
@@ -22,16 +22,18 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Webware\Acl\Admin\Command\DeleteRoleCommand;
-use Webware\Acl\Admin\Command\SaveRoleCommand;
-use Webware\Acl\InputFilter\RoleDataFilter;
+use Webware\Acl\Admin\Command\DeleteRuleCommand;
+use Webware\Acl\Admin\Command\SaveRuleCommand;
+use Webware\Acl\Admin\Command\UpdateRuleTypeCommand;
+use Webware\Acl\InputFilter\RuleDataFilter;
+use Webware\Acl\RuleType;
 use Webware\Core\Http\Middleware\HttpMethodProcessorTrait;
 use Webware\Message\SystemMessengerInterface;
 use Webware\MessageBus\Command\CommandResult;
 use Webware\MessageBus\MessageBusInterface;
 use Webware\MessageBus\MessageStatus;
 
-final readonly class ProcessRoleMiddleware implements MiddlewareInterface
+final readonly class ProcessRuleMiddleware implements MiddlewareInterface
 {
     use HttpMethodProcessorTrait;
 
@@ -52,20 +54,21 @@ final readonly class ProcessRoleMiddleware implements MiddlewareInterface
         $messenger = $request->getAttribute(SystemMessengerInterface::class);
         /** @var InputFilter\InputFilterPluginManager $filterManager */
         $filterManager = $request->getAttribute(InputFilter\InputFilterPluginManager::class);
-        $filter        = $filterManager->get(RoleDataFilter::class);
+        $filter        = $filterManager->get(RuleDataFilter::class);
         $filter->setValidationGroup([
             'roleId',
+            'resourceId',
         ]);
         $filter->setData($request->getAttributes());
 
-        /** @var array{roleId: string} $filteredData */
+        /** @var array{roleId: string, resourceId: string} $filteredData */
         $filteredData = $filter->getValues();
 
-        $result = $this->commandBus->handle(new DeleteRoleCommand(...$filteredData));
+        $result = $this->commandBus->handle(new DeleteRuleCommand(...$filteredData));
         if ($result->getStatus() === MessageStatus::Success) {
-            $messenger?->success('Role deleted.');
+            $messenger?->success('Rule deleted.');
         } else {
-            $messenger?->warning('Role could not be deleted. Please try again.');
+            $messenger?->warning('Rule could not be deleted. Please try again.');
         }
 
         return $handler->handle($request->withAttribute(CommandResult::class, $result));
@@ -84,11 +87,11 @@ final readonly class ProcessRoleMiddleware implements MiddlewareInterface
         $messenger = $request->getAttribute(SystemMessengerInterface::class);
         /** @var InputFilter\InputFilterPluginManager $filterManager */
         $filterManager = $request->getAttribute(InputFilter\InputFilterPluginManager::class);
-        $filter        = $filterManager->get(RoleDataFilter::class);
+        $filter        = $filterManager->get(RuleDataFilter::class);
         $filter->setValidationGroup([
-            'id',
             'roleId',
-            'parentId',
+            'resourceId',
+            'type',
         ]);
         $filter->setData($request->getParsedBody());
 
@@ -98,14 +101,14 @@ final readonly class ProcessRoleMiddleware implements MiddlewareInterface
             return $handler->handle($request);
         }
 
-        /** @var array{id: int|null, roleId: string, parentId: array<string>|null} $filteredData */
+        /** @var array{roleId: string, resourceId: string, type: RuleType} $filteredData */
         $filteredData = $filter->getValues();
 
-        $result = $this->commandBus->handle(new SaveRoleCommand(...$filteredData));
+        $result = $this->commandBus->handle(new UpdateRuleTypeCommand(...$filteredData));
         if ($result->getStatus() === MessageStatus::Success) {
-            $messenger?->success('Role saved.');
+            $messenger?->success('Rule updated.');
         } else {
-            $messenger?->warning('Role could not be saved. Please try again.');
+            $messenger?->warning('Rule update failed. Please try again.');
         }
 
         return $handler->handle($request->withAttribute(CommandResult::class, $result));
@@ -124,11 +127,12 @@ final readonly class ProcessRoleMiddleware implements MiddlewareInterface
         $messenger = $request->getAttribute(SystemMessengerInterface::class);
         /** @var InputFilter\InputFilterPluginManager $filterManager */
         $filterManager = $request->getAttribute(InputFilter\InputFilterPluginManager::class);
-        $filter        = $filterManager->get(RoleDataFilter::class);
+        $filter        = $filterManager->get(RuleDataFilter::class);
         $filter->setValidationGroup([
-            'id',
             'roleId',
-            'parentId',
+            'resourceId',
+            'type',
+            'assertions',
         ]);
         $filter->setData($request->getParsedBody());
 
@@ -138,14 +142,17 @@ final readonly class ProcessRoleMiddleware implements MiddlewareInterface
             return $handler->handle($request);
         }
 
-        /** @var array{id: int|null, roleId: string, parentId: array<string>|null} $filteredData */
+        /** @var array{roleId: string, resourceId: string, type: RuleType, assertions: array<string>|null} $filteredData */
         $filteredData = $filter->getValues();
 
-        $result = $this->commandBus->handle(new SaveRoleCommand(...$filteredData));
+        $result = $this->commandBus->handle(
+            new SaveRuleCommand(...$filteredData),
+        );
+
         if ($result->getStatus() === MessageStatus::Success) {
-            $messenger?->success('Role saved.');
+            $messenger?->success('Rule saved.');
         } else {
-            $messenger?->warning('Role could not be saved. Please try again.');
+            $messenger?->warning('Rule could not be saved. Please try again.');
         }
 
         return $handler->handle($request->withAttribute(CommandResult::class, $result));

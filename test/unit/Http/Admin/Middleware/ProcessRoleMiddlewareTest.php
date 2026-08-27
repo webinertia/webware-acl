@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace WebwareTest\Acl\Admin\Middleware;
+namespace WebwareTest\Acl\Http\Admin\Middleware;
 
 use Laminas\Diactoros\Response\EmptyResponse;
 use Laminas\Diactoros\ServerRequest;
@@ -16,7 +16,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Webware\Acl\Admin\Command\DeleteRoleCommand;
 use Webware\Acl\Admin\Command\SaveRoleCommand;
-use Webware\Acl\Admin\Middleware\ProcessRoleMiddleware;
+use Webware\Acl\Http\Admin\Middleware\ProcessRoleMiddleware;
 use Webware\Acl\InputFilter\RoleDataFilter;
 use Webware\Message\SystemMessengerInterface;
 use Webware\MessageBus\Command\CommandResult;

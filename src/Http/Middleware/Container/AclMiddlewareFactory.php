@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Webware\Acl\Middleware\Container;
+namespace Webware\Acl\Http\Middleware\Container;
 
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;
-use Webware\Acl\Middleware\AclMiddleware;
+use Webware\Acl\Http\Middleware\AclMiddleware;
 use Webware\Core\AclInterface;
 
 final class AclMiddlewareFactory

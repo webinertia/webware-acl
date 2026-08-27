@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Webware\Acl\Admin\Middleware;
+namespace Webware\Acl\Http\Admin\Middleware;
 
 use Fig\Http\Message\RequestMethodInterface as HttpMethod;
 use Laminas\Permissions\Acl\Acl;

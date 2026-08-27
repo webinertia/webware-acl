@@ -92,9 +92,9 @@ C4Component
 ```mermaid
 flowchart TB
     A["**Admin UI Layer**\nAdmin\\RequestHandler\\* — render only\ntemplates/acl/*.phtml"]
-    B["**Write-Path Middleware Layer**\nAdmin\\Middleware\\Process* — HttpMethodProcessorTrait\nDispatches typed Command; sets CommandResult attribute on request"]
+    B["**Write-Path Middleware Layer**\nHttp\\Admin\\Middleware\\Process* — HttpMethodProcessorTrait\nDispatches typed Command; sets CommandResult attribute on request"]
     BUS["**Command Bus Layer**\nwebware/command-bus — CommandBusInterface\nAdmin\\Command\\* (11 typed commands)\nAdmin\\CommandHandler\\* (11 handlers — 1:1 with commands)"]
-    C["**Access Control Layer**\nMiddleware\\AuthorizationMiddleware\nMiddleware\\IdentityMiddleware\nAcl — isAllowed / isAllowedRoute / isAllowedByRouteName"]
+    C["**Access Control Layer**\nHttp\\Middleware\\AuthorizationMiddleware\nMiddleware\\IdentityMiddleware\nAcl — isAllowed / isAllowedRoute / isAllowedByRouteName"]
     D["**Build & Cache Layer**\nAclBuilder + FileAclCache\nPSR-14 event pipeline — 5 events"]
     E["**Repository Layer**\nAclRepository — implements AclRepositoryInterface\nEntity\\Role, Entity\\Resource, Entity\\Privilege"]
 

@@ -11,16 +11,17 @@ use Mezzio\Router\Route;
 use Mezzio\Router\RouteCollectorInterface;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Test;
+use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Server\MiddlewareInterface;
-use Webware\Acl\Admin\Middleware\OverviewMiddleware;
-use Webware\Acl\Admin\Middleware\ProcessRoleMiddleware;
-use Webware\Acl\Admin\Middleware\ProcessRuleMiddleware;
 use Webware\Acl\Admin\RequestHandler\AclOverviewHandler;
 use Webware\Acl\Admin\RequestHandler\AddRoleModalHandler;
 use Webware\Acl\Admin\RequestHandler\DeleteRuleModalHandler;
 use Webware\Acl\Admin\RequestHandler\EditRoleModalHandler;
 use Webware\Acl\Admin\RequestHandler\RoleListHandler;
+use Webware\Acl\Http\Admin\Middleware\OverviewMiddleware;
+use Webware\Acl\Http\Admin\Middleware\ProcessRoleMiddleware;
+use Webware\Acl\Http\Admin\Middleware\ProcessRuleMiddleware;
 use Webware\Acl\RouteProvider;
 use Webware\Htmx\Middleware\DisableBodyMiddleware;
 
@@ -35,7 +36,7 @@ final class RouteProviderTest extends TestCase
     /** @var list<list<class-string>> */
     private array $preparedMiddleware = [];
 
-    private RouteCollectorInterface $collector;
+    private RouteCollectorInterface&Stub $collector;
 
     #[Test]
     public function baseRouteCarriesNavigationOptions(): void

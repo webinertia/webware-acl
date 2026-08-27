@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace WebwareTest\Acl\Middleware;
+namespace WebwareTest\Acl\Http\Middleware;
 
 use Mezzio\Router\Route;
 use Mezzio\Router\RouteResult;
@@ -14,9 +14,9 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use RuntimeException;
+use Webware\Acl\Http\Middleware\AuthorizationMiddleware;
 use Webware\Acl\Http\RouteResourceFactoryInterface;
 use Webware\Acl\Http\RouteResourceInterface;
-use Webware\Acl\Middleware\AuthorizationMiddleware;
 use Webware\Acl\RequestHandler\ForbiddenHandlerInterface;
 use Webware\Core\AclInterface;
 

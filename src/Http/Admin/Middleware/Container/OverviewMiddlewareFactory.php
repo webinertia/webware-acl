@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Webware\Acl\Admin\Middleware\Container;
+namespace Webware\Acl\Http\Admin\Middleware\Container;
 
 use Mezzio\Router\RouteCollectorInterface;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;
-use Webware\Acl\Admin\Middleware\OverviewMiddleware;
 use Webware\Acl\AssertionManager;
+use Webware\Acl\Http\Admin\Middleware\OverviewMiddleware;
 use Webware\Acl\Repository\RuleRepository;
 
 final class OverviewMiddlewareFactory

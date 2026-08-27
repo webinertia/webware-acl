@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace WebwareTest\Acl\Admin\Middleware\Container;
+namespace WebwareTest\Acl\Http\Admin\Middleware\Container;
 
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
-use Webware\Acl\Admin\Middleware\Container\ProcessRoleMiddlewareFactory;
-use Webware\Acl\Admin\Middleware\ProcessRoleMiddleware;
+use Webware\Acl\Http\Admin\Middleware\Container\ProcessRoleMiddlewareFactory;
+use Webware\Acl\Http\Admin\Middleware\ProcessRoleMiddleware;
 use Webware\MessageBus\MessageBusInterface;
 
 #[CoversClass(ProcessRoleMiddlewareFactory::class)]

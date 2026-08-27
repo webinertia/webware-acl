@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace WebwareTest\Acl\Admin\Middleware\Container;
+namespace WebwareTest\Acl\Http\Admin\Middleware\Container;
 
 use Laminas\ServiceManager\ServiceManager;
 use Mezzio\Router\RouteCollectorInterface;
@@ -10,9 +10,9 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
-use Webware\Acl\Admin\Middleware\Container\OverviewMiddlewareFactory;
-use Webware\Acl\Admin\Middleware\OverviewMiddleware;
 use Webware\Acl\AssertionManager;
+use Webware\Acl\Http\Admin\Middleware\Container\OverviewMiddlewareFactory;
+use Webware\Acl\Http\Admin\Middleware\OverviewMiddleware;
 use Webware\Acl\Repository\RuleRepository;
 use WebwareTest\Acl\Support\PhpDbAdapterMockTrait;
 

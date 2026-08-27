@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace WebwareTest\Acl\Admin\Middleware;
+namespace WebwareTest\Acl\Http\Admin\Middleware;
 
 use Laminas\Diactoros\Response\EmptyResponse;
 use Laminas\Diactoros\ServerRequest;
@@ -16,9 +16,9 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Webware\Acl\Admin\Middleware\OverviewMiddleware;
 use Webware\Acl\Assertion\OwnershipAssertion;
 use Webware\Acl\AssertionManager;
+use Webware\Acl\Http\Admin\Middleware\OverviewMiddleware;
 use Webware\Acl\Repository\RuleRepository;
 use Webware\Core\AclInterface;
 use WebwareTest\Acl\Support\PhpDbAdapterMockTrait;

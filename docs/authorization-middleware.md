@@ -53,7 +53,7 @@ handlers that need to know the current user.
 
 ### Location
 
-`src/Middleware/AuthorizationMiddleware.php`  
+`src/Http/Middleware/AuthorizationMiddleware.php`  
 Registered in: **global pipeline, before Mezzio's `DispatchMiddleware`**.
 
 This middleware is not added to individual route stacks. Every request passes
@@ -240,7 +240,7 @@ handlers that need to know the current user.
 
 ### Location
 
-`src/Middleware/AuthorizationMiddleware.php`  
+`src/Http/Middleware/AuthorizationMiddleware.php`  
 Registered in: **every protected route stack, as the first middleware**.
 
 ### Constructor dependencies

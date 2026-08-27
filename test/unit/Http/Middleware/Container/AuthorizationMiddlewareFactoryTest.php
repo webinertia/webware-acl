@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace WebwareTest\Acl\Middleware\Container;
+namespace WebwareTest\Acl\Http\Middleware\Container;
 
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
+use Webware\Acl\Http\Middleware\AuthorizationMiddleware;
+use Webware\Acl\Http\Middleware\Container\AuthorizationMiddlewareFactory;
 use Webware\Acl\Http\RouteResourceFactoryInterface;
-use Webware\Acl\Middleware\AuthorizationMiddleware;
-use Webware\Acl\Middleware\Container\AuthorizationMiddlewareFactory;
 use Webware\Acl\RequestHandler\ForbiddenHandlerInterface;
 
 #[CoversClass(AuthorizationMiddlewareFactory::class)]

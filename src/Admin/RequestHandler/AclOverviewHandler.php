@@ -11,7 +11,7 @@ use Override;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Webware\Acl\Admin\Middleware\OverviewMiddleware;
+use Webware\Acl\Http\Admin\Middleware\OverviewMiddleware;
 use Webware\MessageBus\Command\CommandResult;
 use Webware\MessageBus\Command\CommandResultInterface;
 use Webware\MessageBus\MessageStatus;

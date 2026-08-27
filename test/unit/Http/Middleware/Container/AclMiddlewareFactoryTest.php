@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace WebwareTest\Acl\Middleware\Container;
+namespace WebwareTest\Acl\Http\Middleware\Container;
 
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
-use Webware\Acl\Middleware\AclMiddleware;
-use Webware\Acl\Middleware\Container\AclMiddlewareFactory;
+use Webware\Acl\Http\Middleware\AclMiddleware;
+use Webware\Acl\Http\Middleware\Container\AclMiddlewareFactory;
 use Webware\Core\AclInterface;
 
 #[CoversClass(AclMiddlewareFactory::class)]

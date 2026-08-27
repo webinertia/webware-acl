@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Webware\Acl\Middleware;
+namespace Webware\Acl\Http\Middleware;
 
 use Override;
 use Psr\Http\Message\ResponseInterface;

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace WebwareTest\Acl\Middleware;
+namespace WebwareTest\Acl\Http\Middleware;
 
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Test;
@@ -10,7 +10,7 @@ use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Webware\Acl\Middleware\AclMiddleware;
+use Webware\Acl\Http\Middleware\AclMiddleware;
 use Webware\Core\AclInterface;
 
 #[CoversClass(AclMiddleware::class)]

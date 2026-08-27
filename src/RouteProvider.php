@@ -10,14 +10,14 @@ use Mezzio\MiddlewareFactoryInterface;
 use Mezzio\Router\RouteCollectorInterface;
 use Mezzio\Router\RouteProviderInterface;
 use Override;
-use Webware\Acl\Admin\Middleware\OverviewMiddleware;
-use Webware\Acl\Admin\Middleware\ProcessRoleMiddleware;
-use Webware\Acl\Admin\Middleware\ProcessRuleMiddleware;
 use Webware\Acl\Admin\RequestHandler\AclOverviewHandler;
 use Webware\Acl\Admin\RequestHandler\AddRoleModalHandler;
 use Webware\Acl\Admin\RequestHandler\DeleteRuleModalHandler;
 use Webware\Acl\Admin\RequestHandler\EditRoleModalHandler;
 use Webware\Acl\Admin\RequestHandler\RoleListHandler;
+use Webware\Acl\Http\Admin\Middleware\OverviewMiddleware;
+use Webware\Acl\Http\Admin\Middleware\ProcessRoleMiddleware;
+use Webware\Acl\Http\Admin\Middleware\ProcessRuleMiddleware;
 use Webware\Htmx\Middleware\DisableBodyMiddleware;
 
 use function rtrim;
