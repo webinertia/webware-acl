@@ -6,8 +6,9 @@ namespace Webware\Acl\Http;
 
 use Laminas\Permissions\Acl\Role\RoleInterface;
 use Mezzio\Router\RouteResult;
+use Override;
 use Psr\Http\Message\ServerRequestInterface;
-use Webware\UserManager\UserInterface;
+use Webware\Core\UserInterface;
 
 /**
  * Bridges a Mezzio RouteResult into a Laminas ACL resource.
@@ -23,6 +24,9 @@ use Webware\UserManager\UserInterface;
  */
 final class RouteResource implements RouteResourceInterface
 {
+    /**
+     * @param array<string, array<string, mixed>> $paramMap
+     */
     public function __construct(
         private readonly RouteResult $routeResult,
         private readonly ServerRequestInterface $request,
@@ -36,11 +40,13 @@ final class RouteResource implements RouteResourceInterface
         // 1. Per-route options array (most specific)
         $matchedRoute = $this->routeResult->getMatchedRoute();
         $routeOptions = false === $matchedRoute ? [] : $matchedRoute->getOptions();
-        $paramName    = $routeOptions['acl']['ownerId']
-            // 2. Global route_param_map config (app-level fallback)
-            ?? $this->paramMap[$routeName]['ownerId']
-                // 3. Convention
-                ?? 'ownerId';
+        /** @var string $paramName */
+        $paramName =
+            $routeOptions['acl']['ownerId']
+                // 2. Global route_param_map config (app-level fallback)
+                ?? $this->paramMap[$routeName]['ownerId']
+                    // 3. Convention
+                    ?? 'ownerId';
 
         return (int) (
 
@@ -52,11 +58,13 @@ final class RouteResource implements RouteResourceInterface
         );
     }
 
+    #[Override]
     public function getResourceId(): string
     {
         return $this->routeResult->getMatchedRouteName();
     }
 
+    #[Override]
     public function getRole(): RoleInterface
     {
         return $this->request->getAttribute(UserInterface::class);

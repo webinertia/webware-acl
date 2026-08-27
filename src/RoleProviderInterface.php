@@ -6,6 +6,9 @@ namespace Webware\Acl;
 
 use Laminas\Permissions\Acl\Role\RoleInterface;
 
+/**
+ * @api
+ */
 interface RoleProviderInterface
 {
     public function getRole(): RoleInterface;

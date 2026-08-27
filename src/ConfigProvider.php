@@ -60,12 +60,54 @@ use Webware\Acl\RequestHandler\Container\ForbiddenHandlerFactory;
 use Webware\Acl\RequestHandler\ForbiddenHandler;
 use Webware\Acl\RequestHandler\ForbiddenHandlerInterface;
 use Webware\Admin\Event\RegisterWidgetEvent;
+use Webware\Core\AclInterface;
 use Webware\MessageBus\ConfigProvider as BusProvider;
 use Webware\MessageBus\MessageBusInterface;
 use Webware\MessageBus\Middleware\MessageHandlerMiddleware;
 
+/**
+ * @type AssertionManagerConfig = array{
+ *   aliases: array<string, class-string>,
+ *   factories: array<class-string, class-string>,
+ * }
+ * @type BusConfig = array{
+ *   command_map: array<class-string, class-string>,
+ *   middleware_pipeline: array<array{middleware: class-string, priority: int}>,
+ * }
+ * @type Dependencies = array{
+ *   aliases: array<class-string, class-string>,
+ *   factories: array<class-string, class-string>,
+ * }
+ * @type DefaultConfig = array{
+ *   route_param_map: array<array-key, mixed>,
+ *   forbidden_redirect: string,
+ *   forbidden_template: null,
+ *   admin_route_segment: string,
+ *   admin_route_name_prefix: string,
+ * }
+ * @type InputFilterConfig = array{factories: array<class-string, class-string>}
+ * @type Listeners = array<class-string, array<array{listener: class-string, priority: int}>>
+ * @type RouteProviders = array{'route-providers': array<class-string>}
+ * @type Templates = array{paths: array{acl: array<string>}}
+ * @type ValidatorConfig = array{factories: array<class-string, class-string>}
+ * @type ProviderConfig = array{
+ *   dependencies: Dependencies,
+ *   input_filters: InputFilterConfig,
+ *   listeners: Listeners,
+ *   router: RouteProviders,
+ *   templates: Templates,
+ *   Webware\Core\AclInterface: DefaultConfig,
+ *   Webware\Acl\AssertionManager: AssertionManagerConfig,
+ *   Webware\MessageBus\MessageBusInterface: BusConfig,
+ *   validators: ValidatorConfig,
+ * }
+ * @internal
+ */
 final class ConfigProvider
 {
+    /**
+     * @return AssertionManagerConfig
+     */
     public function getAssertionManagerConfig(): array
     {
         return [
@@ -79,6 +121,9 @@ final class ConfigProvider
         ];
     }
 
+    /**
+     * @return BusConfig
+     */
     public function getBusConfig(): array
     {
         return [
@@ -102,6 +147,9 @@ final class ConfigProvider
         ];
     }
 
+    /**
+     * @return DefaultConfig
+     */
     public function getDefaultConfig(): array
     {
         return [
@@ -113,6 +161,9 @@ final class ConfigProvider
         ];
     }
 
+    /**
+     * @return Dependencies
+     */
     public function getDependencies(): array
     {
         return [
@@ -153,6 +204,9 @@ final class ConfigProvider
         ];
     }
 
+    /**
+     * @return InputFilterConfig
+     */
     public function getInputFilterConfig(): array
     {
         return [
@@ -163,6 +217,9 @@ final class ConfigProvider
         ];
     }
 
+    /**
+     * @return Listeners
+     */
     public function getListeners(): array
     {
         return [
@@ -172,6 +229,9 @@ final class ConfigProvider
         ];
     }
 
+    /**
+     * @return RouteProviders
+     */
     public function getRouteProviders(): array
     {
         return [
@@ -181,6 +241,9 @@ final class ConfigProvider
         ];
     }
 
+    /**
+     * @return Templates
+     */
     public function getTemplates(): array
     {
         return [
@@ -190,6 +253,9 @@ final class ConfigProvider
         ];
     }
 
+    /**
+     * @return ValidatorConfig
+     */
     public function getValidatorConfig(): array
     {
         return [
@@ -204,6 +270,8 @@ final class ConfigProvider
      *
      * To add a bit of a structure, each section is defined in a separate
      * method which returns an array with its configuration.
+     *
+     * @return ProviderConfig
      */
     public function __invoke(): array
     {

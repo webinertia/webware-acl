@@ -7,50 +7,36 @@ namespace WebwareTest\Acl\Admin\CommandHandler;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
+use RuntimeException;
 use Webware\Acl\Admin\Command\DeleteRoleCommand;
 use Webware\Acl\Admin\CommandHandler\DeleteRoleHandler;
-use Webware\Acl\Repository\AclRepositoryInterface;
-use Webware\MessageBus\Command\CommandResult;
+use Webware\Acl\Repository\RoleRepository;
 use Webware\MessageBus\MessageStatus;
+use WebwareTest\Acl\Support\PhpDbAdapterMockTrait;
 
 #[CoversClass(DeleteRoleHandler::class)]
 final class DeleteRoleHandlerTest extends TestCase
 {
+    use PhpDbAdapterMockTrait;
+
     #[Test]
-    public function handleDeletesRoleIncrementsVersionAndReturnsSuccess(): void
+    public function handleRemovesFromParentsDeletesAndReturnsSuccess(): void
     {
-        $repo = $this->createMock(AclRepositoryInterface::class);
-        $repo->expects($this->once())->method('hasChildren')->with(7)->willReturn(false);
-        $repo->expects($this->once())->method('deleteRole')->with(7);
-        $repo->expects($this->once())->method('incrementVersion');
+        $handler = new DeleteRoleHandler(new RoleRepository($this->createAdapter([[], []])));
+        $result  = $handler->handle(new DeleteRoleCommand('Editor'));
 
-        $command = new DeleteRoleCommand(7);
-        $result  = new DeleteRoleHandler($repo)->handle($command);
-
-        self::assertInstanceOf(CommandResult::class, $result);
         self::assertSame(MessageStatus::Success, $result->getStatus());
-        self::assertNull($result->getResult());
     }
 
     #[Test]
-    public function handleReturnsFailureWhenRoleHasChildren(): void
+    public function handleReturnsFailureWhenRepositoryThrows(): void
     {
-        $repo = $this->createMock(AclRepositoryInterface::class);
-        $repo->expects($this->once())->method('hasChildren')->with(3)->willReturn(true);
-        $repo->expects($this->never())->method('deleteRole');
-        $repo->expects($this->never())->method('incrementVersion');
-
-        $command = new DeleteRoleCommand(3);
-        $result  = new DeleteRoleHandler($repo)->handle($command);
+        $handler = new DeleteRoleHandler(
+            new RoleRepository($this->createAdapter([], [], new RuntimeException('boom'))),
+        );
+        $result = $handler->handle(new DeleteRoleCommand('Editor'));
 
         self::assertSame(MessageStatus::Failure, $result->getStatus());
-        self::assertStringContainsString('child roles', (string) $result->getResult());
-    }
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->markTestSkipped('Blocked on MessageBus query/command refactor of the repository boundary.');
+        self::assertInstanceOf(RuntimeException::class, $result->getResult());
     }
 }

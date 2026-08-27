@@ -5,15 +5,16 @@ declare(strict_types=1);
 namespace Webware\Acl\Middleware;
 
 use Mezzio\Router\RouteResult;
+use Override;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use RuntimeException;
-use Webware\Acl\AclInterface;
 use Webware\Acl\Http\RouteResourceFactoryInterface;
 use Webware\Acl\RequestHandler\ForbiddenHandlerInterface;
-use Webware\UserManager\UserInterface;
+use Webware\Core\AclInterface;
+use Webware\Core\UserInterface;
 
 final class AuthorizationMiddleware implements MiddlewareInterface
 {
@@ -22,8 +23,13 @@ final class AuthorizationMiddleware implements MiddlewareInterface
         private readonly RouteResourceFactoryInterface $routeResourceFactory,
     ) {}
 
+    /**
+     * @throws RuntimeException
+     */
+    #[Override]
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
+        /** @var RouteResult|null $routeResult */
         $routeResult = $request->getAttribute(RouteResult::class);
 
         if (null === $routeResult || $routeResult->isFailure()) {
@@ -37,6 +43,7 @@ final class AuthorizationMiddleware implements MiddlewareInterface
             throw new RuntimeException('AclMiddleware must be in the pipeline before AuthorizationMiddleware.');
         }
 
+        /** @var UserInterface|null $user */
         $user          = $request->getAttribute(UserInterface::class);
         $routeResource = ($this->routeResourceFactory)($routeResult, $request);
 

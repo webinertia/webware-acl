@@ -14,7 +14,6 @@ declare(strict_types=1);
 
 namespace Webware\Acl\Admin\CommandHandler;
 
-use Override;
 use Throwable;
 use Webware\Acl\Admin\Command\DeleteRuleCommand;
 use Webware\Acl\Repository\RuleRepository;
@@ -29,7 +28,6 @@ final class DeleteRuleHandler implements CommandHandlerInterface
         private readonly RuleRepository $ruleRepository,
     ) {}
 
-    #[Override]
     public function handle(DeleteRuleCommand $command): CommandResultInterface
     {
         try {

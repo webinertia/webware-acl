@@ -14,12 +14,18 @@ declare(strict_types=1);
 
 namespace Webware\Acl\Admin\CommandHandler\Container;
 
+use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Webware\Acl\Admin\CommandHandler\SaveRoleHandler;
 use Webware\Acl\Repository\RoleRepository;
 
 final class SaveRoleHandlerFactory
 {
+    /**
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
     public function __invoke(ContainerInterface $container): SaveRoleHandler
     {
         return new SaveRoleHandler(

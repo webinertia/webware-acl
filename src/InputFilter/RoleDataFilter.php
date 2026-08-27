@@ -6,12 +6,18 @@ namespace Webware\Acl\InputFilter;
 
 use Laminas\Filter;
 use Laminas\InputFilter;
+use Laminas\InputFilter\Exception\ExceptionInterface;
+use Override;
 use Webware\Core\InputFilter\SystemMessageTrait;
 
 final class RoleDataFilter extends InputFilter\InputFilter
 {
     use SystemMessageTrait;
 
+    /**
+     * @throws ExceptionInterface
+     */
+    #[Override]
     public function init(): void
     {
         $this->add([

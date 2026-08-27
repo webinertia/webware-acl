@@ -6,6 +6,7 @@ namespace Webware\Acl;
 
 use Laminas\Permissions\Acl\Assertion\AssertionInterface;
 use Laminas\ServiceManager\AbstractSingleInstancePluginManager;
+use Override;
 
 use function array_keys;
 
@@ -16,6 +17,7 @@ final class AssertionManager extends AbstractSingleInstancePluginManager
     /** @var list<string> Alias keys collected from each registered config block. */
     private array $registeredAliases = [];
 
+    #[Override]
     public function configure(array $config): static
     {
         foreach (array_keys($config['aliases'] ?? []) as $alias) {

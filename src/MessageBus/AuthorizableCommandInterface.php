@@ -19,6 +19,9 @@ use Webware\Acl\PrivilegeInterface;
 use Webware\Acl\RoleProviderInterface;
 use Webware\MessageBus\Command\CommandInterface;
 
+/**
+ * @api
+ */
 interface AuthorizableCommandInterface extends
     CommandInterface,
     RoleProviderInterface,

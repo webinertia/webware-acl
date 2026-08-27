@@ -5,16 +5,20 @@ declare(strict_types=1);
 namespace Webware\Acl;
 
 use Laminas\Permissions\Acl\Acl as LaminasAcl;
+use Laminas\Permissions\Acl\Exception\ExceptionInterface;
 use Laminas\Permissions\Acl\Resource\ResourceInterface;
 use Laminas\Permissions\Acl\Role\RoleInterface;
 use Mezzio\Router\RouteCollectorInterface;
 use Override;
+use PhpDb\Sql\Exception\ExceptionInterface as SqlException;
+use ValueError;
 use Webware\Acl\Assertion\AssertionAggregateFactory;
 use Webware\Acl\Exception\RuntimeException;
 use Webware\Acl\Repository\RoleRepository;
 use Webware\Acl\Repository\RuleRepository;
 use Webware\Acl\Role\UserRoleIterator;
-use Webware\UserManager\UserInterface;
+use Webware\Core\AclInterface;
+use Webware\Core\UserInterface;
 
 use function is_array;
 use function sort;
@@ -32,11 +36,20 @@ final class Acl extends LaminasAcl implements AclInterface
         private readonly RouteCollectorInterface $routeCollector,
     ) {}
 
+    /**
+     * @throws RuntimeException
+     */
+    #[Override]
     public function addResource($resource, $parent = null, bool $persist = false)
     {
         throw RuntimeException::forAclAddResource();
     }
 
+    /**
+     * @throws ExceptionInterface
+     * @throws SqlException
+     */
+    #[Override]
     public function addRole($role, $parents = null, bool $persist = false)
     {
         parent::addRole($role, $parents);
@@ -59,6 +72,7 @@ final class Acl extends LaminasAcl implements AclInterface
         return $this;
     }
 
+    #[Override]
     public function getResourceParentId(string $resourceId): ?string
     {
         if (! $this->hasResource($resourceId)) {
@@ -68,6 +82,11 @@ final class Acl extends LaminasAcl implements AclInterface
         return $this->resources[$resourceId]['parent']?->getResourceId();
     }
 
+    /**
+     * @return array<string, array<string>>
+     * @throws ExceptionInterface
+     */
+    #[Override]
     public function getRoles(): array
     {
         $registry = $this->getRoleRegistry();
@@ -83,6 +102,11 @@ final class Acl extends LaminasAcl implements AclInterface
         return $result;
     }
 
+    /**
+     * @throws ExceptionInterface
+     * @throws SqlException
+     * @throws ValueError
+     */
     #[Override]
     public function isAllowed(
         $role = null,
@@ -111,6 +135,11 @@ final class Acl extends LaminasAcl implements AclInterface
         return false;
     }
 
+    /**
+     * @throws ExceptionInterface
+     * @throws SqlException
+     * @throws ValueError
+     */
     #[Override]
     public function isAllowedRoute(
         ?UserInterface $user,
@@ -119,6 +148,10 @@ final class Acl extends LaminasAcl implements AclInterface
         return $this->isAllowed($user, $resource);
     }
 
+    /**
+     * @throws ExceptionInterface
+     */
+    #[Override]
     protected function getRoleRegistry()
     {
         if (null === $this->roleRegistry) {
@@ -128,6 +161,11 @@ final class Acl extends LaminasAcl implements AclInterface
         return $this->roleRegistry;
     }
 
+    /**
+     * @throws ExceptionInterface
+     * @throws SqlException
+     * @throws ValueError
+     */
     private function load(): void
     {
         if ($this->loaded) {

@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace Webware\Acl\Entity;
 
 use Laminas\Permissions\Acl\Role\RoleInterface;
-use RuntimeException;
-use Webware\ResultSet\WithRowDataPrototypeInterface;
+use Override;
+use PhpDb\ResultSet\RowPrototypeInterface;
 
 use function is_string;
 use function json_decode;
 
-final class Role implements RoleInterface, WithRowDataPrototypeInterface
+final class Role implements RoleInterface, RowPrototypeInterface
 {
     public function __construct(
         public private(set) int|string|null $id = null,
@@ -34,33 +34,48 @@ final class Role implements RoleInterface, WithRowDataPrototypeInterface
         },
     ) {}
 
-    public function exchangeArray(array $data): array
-    {
-        throw new RuntimeException('Not implemented');
-    }
-
     public function getId(): int|string|null
     {
         return $this->id;
     }
 
+    /**
+     * @return array<RoleInterface|string>|null
+     */
     public function getParentId(): ?array
     {
         return $this->parentId;
     }
 
+    #[Override]
     public function getRoleId(): int|string|null
     {
         return $this->roleId;
     }
 
+    /**
+     * @param array<string, mixed> $data
+     */
+    #[Override]
+    public function populate(array $data): RoleInterface&RowPrototypeInterface
+    {
+        return new static(...$data);
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    #[Override]
     public function toArray(): array
     {
         return (array) $this;
     }
 
-    public function withRowData(array $withRowData): static
+    /**
+     * @param array<string, mixed> $withRowData
+     */
+    public function withRowData(array $withRowData): RoleInterface&RowPrototypeInterface
     {
-        return new self(...$withRowData);
+        return $this->populate(data: $withRowData);
     }
 }

@@ -7,37 +7,36 @@ namespace WebwareTest\Acl\Admin\CommandHandler;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
+use RuntimeException;
 use Webware\Acl\Admin\Command\SaveRoleCommand;
 use Webware\Acl\Admin\CommandHandler\SaveRoleHandler;
-use Webware\Acl\Repository\AclRepositoryInterface;
-use Webware\MessageBus\Command\CommandResult;
+use Webware\Acl\Repository\RoleRepository;
 use Webware\MessageBus\MessageStatus;
+use WebwareTest\Acl\Support\PhpDbAdapterMockTrait;
 
 #[CoversClass(SaveRoleHandler::class)]
 final class SaveRoleHandlerTest extends TestCase
 {
+    use PhpDbAdapterMockTrait;
+
     #[Test]
-    public function handleSavesRoleIncrementsVersionAndReturnsSuccessWithPk(): void
+    public function handleReturnsFailureWhenRepositoryThrows(): void
     {
-        $repo = $this->createMock(AclRepositoryInterface::class);
-        $repo->expects($this->once())
-            ->method('saveRole')
-            ->with('Editor', 1)
-            ->willReturn(42);
-        $repo->expects($this->once())->method('incrementVersion');
+        $handler = new SaveRoleHandler(
+            new RoleRepository($this->createAdapter([], [], new RuntimeException('boom'))),
+        );
+        $result = $handler->handle(new SaveRoleCommand(null, 'Editor', null));
 
-        $command = new SaveRoleCommand('Editor', 1);
-        $result  = new SaveRoleHandler($repo)->handle($command);
-
-        self::assertInstanceOf(CommandResult::class, $result);
-        self::assertSame(MessageStatus::Success, $result->getStatus());
-        self::assertSame(42, $result->getResult());
+        self::assertSame(MessageStatus::Failure, $result->getStatus());
+        self::assertInstanceOf(RuntimeException::class, $result->getResult());
     }
 
-    protected function setUp(): void
+    #[Test]
+    public function handleSavesRoleAndReturnsSuccess(): void
     {
-        parent::setUp();
+        $handler = new SaveRoleHandler(new RoleRepository($this->createAdapter([[], []])));
+        $result  = $handler->handle(new SaveRoleCommand(null, 'Editor', null));
 
-        $this->markTestSkipped('Blocked on MessageBus query/command refactor of the repository boundary.');
+        self::assertSame(MessageStatus::Success, $result->getStatus());
     }
 }

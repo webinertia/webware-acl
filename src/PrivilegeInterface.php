@@ -6,6 +6,9 @@ namespace Webware\Acl;
 
 use Fig\Http\Message\RequestMethodInterface as HttpMethod;
 
+/**
+ * @api
+ */
 interface PrivilegeInterface
 {
     final public const string READ = 'read';

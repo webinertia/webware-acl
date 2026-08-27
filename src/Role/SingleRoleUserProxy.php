@@ -7,7 +7,7 @@ namespace Webware\Acl\Role;
 use Exception;
 use Laminas\Permissions\Acl\Role\RoleInterface;
 use Override;
-use Webware\UserManager\UserInterface;
+use Webware\Core\UserInterface;
 
 use function is_string;
 
@@ -28,12 +28,6 @@ final class SingleRoleUserProxy implements UserInterface
         private readonly UserInterface $user,
         private readonly RoleInterface|string $roleId,
     ) {}
-
-    #[Override]
-    public function exchangeArray(array $array): array
-    {
-        throw new Exception('Not implemented');
-    }
 
     #[Override]
     public function getDetail(string $name, mixed $default = null): mixed
@@ -77,20 +71,30 @@ final class SingleRoleUserProxy implements UserInterface
         return [is_string($this->roleId) ? $this->roleId : $this->roleId->getRoleId()];
     }
 
+    /**
+     * @param array<string, mixed> $data
+     * @throws Exception
+     */
     #[Override]
-    public function toArray(): array
+    public function populate(array $data): never
     {
         throw new Exception('Not implemented');
     }
 
+    /**
+     * @throws Exception
+     */
     #[Override]
-    public function withId(int|string|null $id): static
+    public function toArray(): never
     {
         throw new Exception('Not implemented');
     }
 
+    /**
+     * @throws Exception
+     */
     #[Override]
-    public function withRowData(array $withRowData): static
+    public function withId(int|string|null $id): never
     {
         throw new Exception('Not implemented');
     }

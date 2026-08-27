@@ -6,4 +6,7 @@ namespace Webware\Acl\RequestHandler;
 
 use Psr\Http\Server\RequestHandlerInterface;
 
+/**
+ * @api
+ */
 interface ForbiddenHandlerInterface extends RequestHandlerInterface {}

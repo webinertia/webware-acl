@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace Webware\Acl\Middleware;
 
+use Override;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Webware\Acl\AclInterface;
+use Webware\Core\AclInterface;
 
 final class AclMiddleware implements MiddlewareInterface
 {
@@ -16,6 +17,7 @@ final class AclMiddleware implements MiddlewareInterface
         private AclInterface $acl,
     ) {}
 
+    #[Override]
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         return $handler->handle(

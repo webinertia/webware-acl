@@ -14,7 +14,7 @@ declare(strict_types=1);
 
 namespace Webware\Acl\Admin\CommandHandler;
 
-use Override;
+use PhpDb\Sql\Exception\ExceptionInterface as SqlException;
 use Throwable;
 use Webware\Acl\Admin\Command\DeleteRoleCommand;
 use Webware\Acl\Repository\RoleRepository;
@@ -29,7 +29,9 @@ final class DeleteRoleHandler implements CommandHandlerInterface
         private readonly RoleRepository $roleRepository,
     ) {}
 
-    #[Override]
+    /**
+     * @throws SqlException
+     */
     public function handle(DeleteRoleCommand $command): CommandResultInterface
     {
         try {

@@ -14,12 +14,18 @@ declare(strict_types=1);
 
 namespace Webware\Acl\Container;
 
+use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
-use Webware\Acl\AclInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Webware\Acl\MessageBus\Middleware\MessageHandlerMiddleware;
+use Webware\Core\AclInterface;
 
 final class MessageHandlerMiddlewareFactory
 {
+    /**
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
     public function __invoke(ContainerInterface $container): MessageHandlerMiddleware
     {
         return new MessageHandlerMiddleware(

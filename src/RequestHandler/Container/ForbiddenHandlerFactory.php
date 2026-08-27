@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace Webware\Acl\RequestHandler\Container;
 
+use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
-use Webware\Acl\AclInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Webware\Acl\RequestHandler\ForbiddenHandler;
-use Webware\UserManager\UserInterface;
+use Webware\Core\AclInterface;
+use Webware\Core\UserInterface;
 
 /**
  * Creates the default ForbiddenHandler.
@@ -30,11 +32,18 @@ use Webware\UserManager\UserInterface;
  */
 final class ForbiddenHandlerFactory
 {
+    /**
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
     public function __invoke(ContainerInterface $container): ForbiddenHandler
     {
+        /** @var array<string, mixed> $config */
         $config = $container->get('config');
-        $acl    = $config[AclInterface::class] ?? [];
-        $user   = $config[UserInterface::class] ?? [];
+        /** @var array<string, mixed> $acl */
+        $acl = $config[AclInterface::class] ?? [];
+        /** @var array<string, mixed> $user */
+        $user = $config[UserInterface::class] ?? [];
 
         return new ForbiddenHandler(
             loginPath        : (string) ($user['login_path'] ?? '/login'),

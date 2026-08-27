@@ -7,34 +7,82 @@ namespace WebwareTest\Acl\Admin\CommandHandler;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
+use RuntimeException;
 use Webware\Acl\Admin\Command\UpdateRuleTypeCommand;
 use Webware\Acl\Admin\CommandHandler\UpdateRuleTypeHandler;
-use Webware\Acl\Repository\AclRepositoryInterface;
-use Webware\MessageBus\Command\CommandResult;
+use Webware\Acl\Repository\RoleRepository;
+use Webware\Acl\Repository\RuleRepository;
+use Webware\Acl\RuleType;
 use Webware\MessageBus\MessageStatus;
+use WebwareTest\Acl\Support\PhpDbAdapterMockTrait;
 
 #[CoversClass(UpdateRuleTypeHandler::class)]
 final class UpdateRuleTypeHandlerTest extends TestCase
 {
+    use PhpDbAdapterMockTrait;
+
     #[Test]
-    public function handleUpdatesRuleTypeIncrementsVersionAndReturnsSuccess(): void
+    public function handleReturnsFailureWhenRepositoryThrows(): void
     {
-        $repo = $this->createMock(AclRepositoryInterface::class);
-        $repo->expects($this->once())->method('updateRuleType')->with(9, 'deny');
-        $repo->expects($this->once())->method('incrementVersion');
+        $handler = new UpdateRuleTypeHandler(
+            new RuleRepository($this->createAdapter([], [], new RuntimeException('boom'))),
+            new RoleRepository($this->createAdapter([])),
+        );
+        $result = $handler->handle(new UpdateRuleTypeCommand('Admin', 'dashboard', RuleType::Deny));
 
-        $command = new UpdateRuleTypeCommand(9, 'deny');
-        $result  = new UpdateRuleTypeHandler($repo)->handle($command);
-
-        self::assertInstanceOf(CommandResult::class, $result);
-        self::assertSame(MessageStatus::Success, $result->getStatus());
-        self::assertNull($result->getResult());
+        self::assertSame(MessageStatus::Failure, $result->getStatus());
     }
 
-    protected function setUp(): void
+    #[Test]
+    public function handleReturnsFailureWhenUpdateAffectsNoRows(): void
     {
-        parent::setUp();
+        $handler = new UpdateRuleTypeHandler(
+            new RuleRepository($this->createAdapter([[]], [0])),
+            new RoleRepository($this->createAdapter([])),
+        );
+        $result = $handler->handle(new UpdateRuleTypeCommand('Admin', 'dashboard', RuleType::Deny));
 
-        $this->markTestSkipped('Blocked on MessageBus query/command refactor of the repository boundary.');
+        self::assertSame(MessageStatus::Failure, $result->getStatus());
+    }
+
+    #[Test]
+    public function handleSkipsChildrenThatAlreadyHaveRules(): void
+    {
+        $handler = new UpdateRuleTypeHandler(
+            new RuleRepository($this->createAdapter([
+                [],
+                [[
+                    'type'       => 'Allow',
+                    'roleId'     => 'Editor',
+                    'resourceId' => 'dashboard',
+                    'assertions' => '["Ownership"]',
+                ]],
+            ])),
+            new RoleRepository($this->createAdapter([
+                [['roleId' => 'Editor']],
+            ])),
+        );
+        $result = $handler->handle(new UpdateRuleTypeCommand('Admin', 'dashboard', RuleType::Deny));
+
+        self::assertSame(MessageStatus::Success, $result->getStatus());
+    }
+
+    #[Test]
+    public function handleUpdatesTypeAndCascadesToChildrenWithoutRules(): void
+    {
+        $handler = new UpdateRuleTypeHandler(
+            new RuleRepository($this->createAdapter([
+                [],
+                [],
+                [],
+                [],
+            ])),
+            new RoleRepository($this->createAdapter([
+                [['roleId' => 'Editor']],
+            ])),
+        );
+        $result = $handler->handle(new UpdateRuleTypeCommand('Admin', 'dashboard', RuleType::Deny));
+
+        self::assertSame(MessageStatus::Success, $result->getStatus());
     }
 }

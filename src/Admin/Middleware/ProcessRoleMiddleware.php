@@ -15,6 +15,9 @@ declare(strict_types=1);
 namespace Webware\Acl\Admin\Middleware;
 
 use Laminas\InputFilter;
+use Laminas\InputFilter\Exception\ExceptionInterface;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
@@ -36,12 +39,18 @@ final readonly class ProcessRoleMiddleware implements MiddlewareInterface
         private MessageBusInterface $commandBus,
     ) {}
 
+    /**
+     * @throws ContainerExceptionInterface
+     * @throws ExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
     public function processDelete(
         ServerRequestInterface $request,
         RequestHandlerInterface $handler,
     ): ResponseInterface {
         /** @var SystemMessengerInterface|null $messenger */
-        $messenger     = $request->getAttribute(SystemMessengerInterface::class);
+        $messenger = $request->getAttribute(SystemMessengerInterface::class);
+        /** @var InputFilter\InputFilterPluginManager $filterManager */
         $filterManager = $request->getAttribute(InputFilter\InputFilterPluginManager::class);
         $filter        = $filterManager->get(RoleDataFilter::class);
         $filter->setValidationGroup([
@@ -49,6 +58,7 @@ final readonly class ProcessRoleMiddleware implements MiddlewareInterface
         ]);
         $filter->setData($request->getAttributes());
 
+        /** @var array{roleId: string} $filteredData */
         $filteredData = $filter->getValues();
 
         $result = $this->commandBus->handle(new DeleteRoleCommand(...$filteredData));
@@ -61,12 +71,18 @@ final readonly class ProcessRoleMiddleware implements MiddlewareInterface
         return $handler->handle($request->withAttribute(CommandResult::class, $result));
     }
 
+    /**
+     * @throws ContainerExceptionInterface
+     * @throws ExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
     public function processPatch(
         ServerRequestInterface $request,
         RequestHandlerInterface $handler,
     ): ResponseInterface {
         /** @var SystemMessengerInterface|null $messenger */
-        $messenger     = $request->getAttribute(SystemMessengerInterface::class);
+        $messenger = $request->getAttribute(SystemMessengerInterface::class);
+        /** @var InputFilter\InputFilterPluginManager $filterManager */
         $filterManager = $request->getAttribute(InputFilter\InputFilterPluginManager::class);
         $filter        = $filterManager->get(RoleDataFilter::class);
         $filter->setValidationGroup([
@@ -82,6 +98,7 @@ final readonly class ProcessRoleMiddleware implements MiddlewareInterface
             return $handler->handle($request);
         }
 
+        /** @var array{id: int|null, roleId: string, parentId: array<string>|null} $filteredData */
         $filteredData = $filter->getValues();
 
         $result = $this->commandBus->handle(new SaveRoleCommand(...$filteredData));
@@ -94,12 +111,18 @@ final readonly class ProcessRoleMiddleware implements MiddlewareInterface
         return $handler->handle($request->withAttribute(CommandResult::class, $result));
     }
 
+    /**
+     * @throws ContainerExceptionInterface
+     * @throws ExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
     public function processPost(
         ServerRequestInterface $request,
         RequestHandlerInterface $handler,
     ): ResponseInterface {
         /** @var SystemMessengerInterface|null $messenger */
-        $messenger     = $request->getAttribute(SystemMessengerInterface::class);
+        $messenger = $request->getAttribute(SystemMessengerInterface::class);
+        /** @var InputFilter\InputFilterPluginManager $filterManager */
         $filterManager = $request->getAttribute(InputFilter\InputFilterPluginManager::class);
         $filter        = $filterManager->get(RoleDataFilter::class);
         $filter->setValidationGroup([
@@ -115,6 +138,7 @@ final readonly class ProcessRoleMiddleware implements MiddlewareInterface
             return $handler->handle($request);
         }
 
+        /** @var array{id: int|null, roleId: string, parentId: array<string>|null} $filteredData */
         $filteredData = $filter->getValues();
 
         $result = $this->commandBus->handle(new SaveRoleCommand(...$filteredData));

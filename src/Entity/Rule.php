@@ -7,14 +7,17 @@ namespace Webware\Acl\Entity;
 use Laminas\Permissions\Acl\Resource\ResourceInterface;
 use Laminas\Permissions\Acl\Role\RoleInterface;
 use Override;
-use RuntimeException;
+use PhpDb\ResultSet\RowPrototypeInterface;
+use ValueError;
 use Webware\Acl\RuleType;
-use Webware\ResultSet\WithRowDataPrototypeInterface;
 
 use function json_decode;
 
-final class Rule implements WithRowDataPrototypeInterface, ResourceInterface, RoleInterface
+final class Rule implements RowPrototypeInterface, ResourceInterface, RoleInterface
 {
+    /**
+     * @param array<string>|null $assertions
+     */
     public function __construct(
         public private(set) int|string|null $id = null,
         public private(set) RuleType $type = RuleType::Allow {
@@ -33,12 +36,6 @@ final class Rule implements WithRowDataPrototypeInterface, ResourceInterface, Ro
     ) {}
 
     #[Override]
-    public function exchangeArray(array $array): array
-    {
-        throw new RuntimeException('Not implemented');
-    }
-
-    #[Override]
     public function getResourceId(): ?string
     {
         return $this->resourceId;
@@ -50,16 +47,35 @@ final class Rule implements WithRowDataPrototypeInterface, ResourceInterface, Ro
         return $this->roleId;
     }
 
+    /**
+     * @param array<string, mixed> $data
+     */
+    #[Override]
+    public function populate(array $data): RowPrototypeInterface
+    {
+        return new static(...$data);
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    #[Override]
     public function toArray(): array
     {
         return (array) $this;
     }
 
+    /**
+     * @param array<string, mixed> $withRowData
+     */
     public function withRowData(array $withRowData): static
     {
-        return new self(...$withRowData);
+        return $this->populate(data: $withRowData);
     }
 
+    /**
+     * @throws ValueError
+     */
     private function resolveType(string|RuleType $type): RuleType
     {
         if ($type instanceof RuleType) {

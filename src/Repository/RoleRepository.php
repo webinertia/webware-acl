@@ -4,11 +4,14 @@ declare(strict_types=1);
 
 namespace Webware\Acl\Repository;
 
+use Laminas\Permissions\Acl\Exception\ExceptionInterface as AclException;
 use Laminas\Permissions\Acl\Role\Registry;
 use PhpDb\Adapter\AdapterInterface;
+use PhpDb\ResultSet\RowPrototypeResultSet;
+use PhpDb\Sql\Exception\ExceptionInterface as SqlException;
+use PhpDb\TableGateway\Exception\ExceptionInterface as TableGatewayException;
 use PhpDb\TableGateway\TableGateway;
 use Webware\Acl\Entity\Role;
-use Webware\ResultSet\WithRowDataResultSet;
 
 use function array_shift;
 use function json_encode;
@@ -17,13 +20,17 @@ final class RoleRepository
 {
     private readonly TableGateway $gateway;
 
+    /**
+     * @throws SqlException
+     * @throws TableGatewayException
+     */
     public function __construct(AdapterInterface $adapter)
     {
         $this->gateway = new TableGateway(
             Schema::Roles->table(),
             $adapter,
             null,
-            new WithRowDataResultSet(
+            new RowPrototypeResultSet(
                 rowPrototype: new Role(),
             ),
         );
@@ -36,6 +43,9 @@ final class RoleRepository
         $sql->prepareStatementForSqlObject($delete)->execute();
     }
 
+    /**
+     * @throws AclException
+     */
     public function fetchAclRoleRegistry(): Registry
     {
         $roles = $this->fetchAll();
@@ -74,7 +84,7 @@ final class RoleRepository
         while ([] !== $queue) {
             $roleId = array_shift($queue);
             $role   = $map[$roleId];
-            $registry->add($role, $role->parentId ?: null);
+            $registry->add($role, $role?->parentId ?: null);
             foreach ($children[$roleId] ?? [] as $childId) {
                 if (--$inDegree[$childId] !== 0) {
                     continue;
@@ -121,6 +131,8 @@ final class RoleRepository
 
     /**
      * Removes the given roleId from the parentId JSON array of any role that lists it as a parent.
+     *
+     * @throws SqlException
      */
     public function removeFromParents(string $roleId): void
     {
@@ -129,6 +141,7 @@ final class RoleRepository
         $select->where->expression('JSON_CONTAINS(parentId, JSON_QUOTE(?))', [$roleId]);
 
         foreach ($sql->prepareStatementForSqlObject($select)->execute() as $row) {
+            /** @var string[] $parents */
             $parents = json_decode($row['parentId'], true) ?? [];
             $parents = array_values(array_filter($parents, static fn($p) => $p !== $roleId));
             $update  = $sql->update()
@@ -142,6 +155,7 @@ final class RoleRepository
      * Insert or update a role. parentId is JSON-encoded inside this method.
      *
      * @param string[]|null $parents
+     * @throws SqlException
      */
     public function save(string $roleId, ?array $parents): int|string|false
     {
@@ -151,6 +165,7 @@ final class RoleRepository
             ->where(['roleId' => $roleId])
             ->limit(1);
 
+        /** @var array{id: int|string}|false|null $row */
         $row = $sql->prepareStatementForSqlObject($exists)->execute()->current();
 
         $data = [

@@ -7,16 +7,18 @@ namespace Webware\Acl\Admin\Middleware;
 use Fig\Http\Message\RequestMethodInterface as HttpMethod;
 use Laminas\Permissions\Acl\Acl;
 use Mezzio\Router\RouteCollectorInterface;
+use Override;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Webware\Acl\AclInterface;
+use ValueError;
 use Webware\Acl\AssertionManager;
 use Webware\Acl\Entity\Role;
 use Webware\Acl\PrivilegeInterface;
 use Webware\Acl\Repository\RuleRepository;
 use Webware\Acl\RuleType;
+use Webware\Core\AclInterface;
 
 use function array_flip;
 use function array_keys;
@@ -53,6 +55,10 @@ final readonly class OverviewMiddleware implements MiddlewareInterface
         private AssertionManager $assertionManager,
     ) {}
 
+    /**
+     * @throws ValueError
+     */
+    #[Override]
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         /** @var Acl&AclInterface $acl */

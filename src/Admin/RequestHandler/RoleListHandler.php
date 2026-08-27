@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace Webware\Acl\Admin\RequestHandler;
 
+use Laminas\Diactoros\Exception\ExceptionInterface;
 use Laminas\Diactoros\Response\HtmlResponse;
 use Mezzio\Template\TemplateRendererInterface;
+use Override;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
@@ -24,6 +26,10 @@ final class RoleListHandler implements RequestHandlerInterface
         private readonly RoleRepository $roleRepository,
     ) {}
 
+    /**
+     * @throws ExceptionInterface
+     */
+    #[Override]
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
         $roles = $this->roleRepository->fetchAll();
@@ -42,6 +48,7 @@ final class RoleListHandler implements RequestHandlerInterface
             'rolesWithChildren' => $rolesWithChildren,
         ]));
 
+        /** @var CommandResultInterface|null $commandResult */
         $commandResult = $request->getAttribute(CommandResult::class);
         if (
             $commandResult instanceof CommandResultInterface

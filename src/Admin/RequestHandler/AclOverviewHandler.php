@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace Webware\Acl\Admin\RequestHandler;
 
+use Laminas\Diactoros\Exception\ExceptionInterface;
 use Laminas\Diactoros\Response\HtmlResponse;
 use Mezzio\Template\TemplateRendererInterface;
+use Override;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
@@ -27,6 +29,10 @@ final class AclOverviewHandler implements RequestHandlerInterface
         private readonly TemplateRendererInterface $template,
     ) {}
 
+    /**
+     * @throws ExceptionInterface
+     */
+    #[Override]
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
         /** @var array<string, mixed> $viewModel */
@@ -35,6 +41,7 @@ final class AclOverviewHandler implements RequestHandlerInterface
         $response = new HtmlResponse($this->template->render('acl::admin-acl', $viewModel));
 
         // Close the wizard modal after a successful POST
+        /** @var CommandResultInterface|null $result */
         $result = $request->getAttribute(CommandResult::class);
         if ($result instanceof CommandResultInterface && $result->getStatus() === MessageStatus::Success) {
             $response = $response->withHeader('HX-Trigger', 'closeModal');

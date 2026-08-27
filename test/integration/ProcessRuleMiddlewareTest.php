@@ -6,99 +6,143 @@ namespace WebwareTestIntegration\Acl;
 
 use Laminas\Diactoros\Response\EmptyResponse;
 use Laminas\Diactoros\ServerRequest;
+use Laminas\InputFilter;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
+use Webware\Acl\Admin\Command\DeleteRuleCommand;
 use Webware\Acl\Admin\Command\SaveRuleCommand;
 use Webware\Acl\Admin\Command\UpdateRuleTypeCommand;
 use Webware\Acl\Admin\Middleware\ProcessRuleMiddleware;
+use Webware\Acl\RuleType;
 use Webware\Message\SystemMessengerInterface;
 use Webware\MessageBus\Command\CommandResult;
 use Webware\MessageBus\MessageBusInterface;
 use Webware\MessageBus\MessageStatus;
+use WebwareTestIntegration\Acl\Support\FilterManagerFactory;
 
 #[CoversClass(ProcessRuleMiddleware::class)]
 final class ProcessRuleMiddlewareTest extends TestCase
 {
+    private InputFilter\InputFilterPluginManager $filterManager;
+
     #[Test]
-    public function patchWithValidBodyDispatchesUpdateRuleTypeCommandAndSetsSuccess(): void
+    public function processDeleteDispatchesDeleteRuleCommand(): void
     {
-        $bus = $this->createMock(MessageBusInterface::class);
+        $captured = null;
+        $bus      = $this->createMock(MessageBusInterface::class);
+        $bus->expects($this->once())
+            ->method('handle')
+            ->with($this->isInstanceOf(DeleteRuleCommand::class))
+            ->willReturnCallback(static function (DeleteRuleCommand $cmd) use (&$captured): CommandResult {
+                $captured = $cmd;
+
+                return new CommandResult($cmd, MessageStatus::Success, null);
+            });
+
+        $handler = $this->capturingHandler();
+
+        new ProcessRuleMiddleware($bus)->process(
+            $this->request('DELETE', [], ['roleId' => 'Admin', 'resourceId' => 'dashboard']),
+            $handler,
+        );
+
+        self::assertInstanceOf(DeleteRuleCommand::class, $captured);
+        self::assertSame('Admin', $captured->roleId);
+        self::assertSame('dashboard', $captured->resourceId);
+    }
+
+    #[Test]
+    public function processPatchDispatchesUpdateRuleTypeCommand(): void
+    {
+        $captured = null;
+        $bus      = $this->createMock(MessageBusInterface::class);
         $bus->expects($this->once())
             ->method('handle')
             ->with($this->isInstanceOf(UpdateRuleTypeCommand::class))
-            ->willReturnCallback(static fn($cmd) => new CommandResult($cmd, MessageStatus::Success, null));
+            ->willReturnCallback(static function (UpdateRuleTypeCommand $cmd) use (&$captured): CommandResult {
+                $captured = $cmd;
 
-        $messenger = $this->createStub(SystemMessengerInterface::class);
+                return new CommandResult($cmd, MessageStatus::Success, null);
+            });
 
-        $request = new ServerRequest([], [], '/', 'PATCH')->withAttribute('id', '7')
-            ->withParsedBody(['type' => 'deny'])
-            ->withAttribute(SystemMessengerInterface::class, $messenger);
+        $handler = $this->capturingHandler();
 
-        $handler    = $this->capturingHandler();
-        $middleware = new ProcessRuleMiddleware($bus);
-        $middleware->processPatch($request, $handler);
+        new ProcessRuleMiddleware($bus)->process(
+            $this->request('PATCH', [
+                'roleId'     => 'Admin',
+                'resourceId' => 'dashboard',
+                'type'       => 'Deny',
+            ]),
+            $handler,
+        );
 
-        $result = $handler->received?->getAttribute(CommandResult::class);
-        self::assertInstanceOf(CommandResult::class, $result);
-        self::assertSame(MessageStatus::Success, $result->getStatus());
+        self::assertInstanceOf(UpdateRuleTypeCommand::class, $captured);
+        self::assertSame('Admin', $captured->roleId);
+        self::assertSame('dashboard', $captured->resourceId);
+        self::assertSame(RuleType::Deny, $captured->type);
     }
 
     #[Test]
-    public function postWithMissingRolePkSetsFailure(): void
+    public function processPostDispatchesSaveRuleCommandWithFilteredValues(): void
     {
-        $bus = $this->createStub(MessageBusInterface::class);
-
-        $request = new ServerRequest([], [], '/', 'POST')->withParsedBody([
-            'resource_pk'  => '2',
-            'privilege_pk' => '3',
-        ]);
-
-        $handler    = $this->capturingHandler();
-        $middleware = new ProcessRuleMiddleware($bus);
-        $middleware->process($request, $handler);
-
-        $result = $handler->received?->getAttribute(CommandResult::class);
-        self::assertInstanceOf(CommandResult::class, $result);
-        self::assertSame(MessageStatus::Failure, $result->getStatus());
-    }
-
-    #[Test]
-    public function postWithValidBodyDispatchesSaveRuleCommandAndSetsSuccess(): void
-    {
-        $bus = $this->createMock(MessageBusInterface::class);
+        $captured = null;
+        $bus      = $this->createMock(MessageBusInterface::class);
         $bus->expects($this->once())
             ->method('handle')
             ->with($this->isInstanceOf(SaveRuleCommand::class))
-            ->willReturnCallback(static fn($cmd) => new CommandResult($cmd, MessageStatus::Success, null));
+            ->willReturnCallback(static function (SaveRuleCommand $cmd) use (&$captured): CommandResult {
+                $captured = $cmd;
 
-        $messenger = $this->createStub(SystemMessengerInterface::class);
+                return new CommandResult($cmd, MessageStatus::Success, null);
+            });
 
-        $request = new ServerRequest([], [], '/', 'POST')->withParsedBody([
-            'role_pk'      => '1',
-            'resource_pk'  => '2',
-            'privilege_pk' => '3',
-            'type'         => 'allow',
-        ])
-            ->withAttribute(SystemMessengerInterface::class, $messenger);
+        $handler = $this->capturingHandler();
 
-        $handler    = $this->capturingHandler();
-        $middleware = new ProcessRuleMiddleware($bus);
-        $middleware->process($request, $handler);
+        new ProcessRuleMiddleware($bus)->process(
+            $this->request('POST', [
+                'roleId'     => 'Admin',
+                'resourceId' => 'dashboard',
+                'type'       => 'Allow',
+                'assertions' => 'Ownership',
+            ]),
+            $handler,
+        );
 
-        $result = $handler->received?->getAttribute(CommandResult::class);
-        self::assertInstanceOf(CommandResult::class, $result);
-        self::assertSame(MessageStatus::Success, $result->getStatus());
+        self::assertInstanceOf(SaveRuleCommand::class, $captured);
+        self::assertSame('Admin', $captured->roleId);
+        self::assertSame('dashboard', $captured->resourceId);
+        self::assertSame(RuleType::Allow, $captured->type);
+        self::assertSame(['Ownership'], $captured->assertions);
+    }
+
+    #[Test]
+    public function processPostSkipsDispatchWhenTypeMissing(): void
+    {
+        $bus = $this->createMock(MessageBusInterface::class);
+        $bus->expects($this->never())->method('handle');
+
+        $messenger = $this->createMock(SystemMessengerInterface::class);
+        $messenger->expects($this->once())->method('warning');
+
+        $handler = $this->capturingHandler();
+
+        new ProcessRuleMiddleware($bus)->process(
+            $this->request('POST', ['roleId' => 'Admin', 'resourceId' => 'dashboard'], [], $messenger),
+            $handler,
+        );
+
+        self::assertNull($handler->received?->getAttribute(CommandResult::class));
     }
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->markTestSkipped('Blocked on MessageBus query/command refactor of the repository boundary.');
+        $this->filterManager = FilterManagerFactory::create();
     }
 
     private function capturingHandler(): RequestHandlerInterface
@@ -113,5 +157,35 @@ final class ProcessRuleMiddlewareTest extends TestCase
                 return new EmptyResponse();
             }
         };
+    }
+
+    /**
+     * @param array<array-key, mixed> $body
+     * @param array<array-key, mixed> $attributes
+     */
+    private function request(
+        string $method,
+        array $body = [],
+        array $attributes = [],
+        ?SystemMessengerInterface $messenger = null,
+    ): ServerRequest {
+        $request = new ServerRequest([], [], '/', $method)->withAttribute(
+            InputFilter\InputFilterPluginManager::class,
+            $this->filterManager,
+        );
+
+        if ([] !== $body) {
+            $request = $request->withParsedBody($body);
+        }
+
+        foreach ($attributes as $name => $value) {
+            $request = $request->withAttribute((string) $name, $value);
+        }
+
+        if (null !== $messenger) {
+            $request = $request->withAttribute(SystemMessengerInterface::class, $messenger);
+        }
+
+        return $request;
     }
 }
