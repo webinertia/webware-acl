@@ -64,6 +64,12 @@ final class AssertionTest extends TestCase
     }
 
     #[Test]
+    public function nullOptionsDefaultToNonNullable(): void
+    {
+        self::assertFalse(new Assertion($this->assertionManager(), null)->isValid(null));
+    }
+
+    #[Test]
     public function unknownAssertionIsInvalid(): void
     {
         self::assertFalse($this->validator()->isValid('Nope'));

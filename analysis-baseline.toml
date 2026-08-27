@@ -801,7 +801,7 @@ count = 1
 [[issues]]
 file = "src/Validator/Assertion.php"
 code = "less-specific-nested-argument-type"
-message = '''Argument type mismatch for argument #1 of `Laminas\Validator\AbstractValidator::__construct`: expected `array{'messages'?: array<string, string>, 'translator'?: Laminas\Translator\TranslatorInterface|null, 'translatorEnabled'?: bool, 'translatorTextDomain'?: null|string, 'valueObscured'?: bool, ...<string, mixed>}`, but provided type `array<string, mixed>|null` is less specific.'''
+message = '''Argument type mismatch for argument #1 of `Laminas\Validator\AbstractValidator::__construct`: expected `array{'messages'?: array<string, string>, 'translator'?: Laminas\Translator\TranslatorInterface|null, 'translatorEnabled'?: bool, 'translatorTextDomain'?: null|string, 'valueObscured'?: bool, ...<string, mixed>}`, but provided type `array<string, mixed>` is less specific.'''
 count = 1
 
 [[issues]]
@@ -831,25 +831,7 @@ count = 1
 [[issues]]
 file = "src/Validator/Assertion.php"
 code = "mixed-property-type-coercion"
-message = "A value with a less specific type `mixed` is being assigned to property `$nullable` (bool)."
-count = 1
-
-[[issues]]
-file = "src/Validator/Assertion.php"
-code = "possibly-null-argument"
-message = '''Argument #1 of method `Laminas\Validator\AbstractValidator::__construct` is possibly `null`, but parameter type `array{'messages'?: array<string, string>, 'translator'?: Laminas\Translator\TranslatorInterface|null, 'translatorEnabled'?: bool, 'translatorTextDomain'?: null|string, 'valueObscured'?: bool, ...<string, mixed>}` does not accept it.'''
-count = 1
-
-[[issues]]
-file = "src/Validator/Assertion.php"
-code = "possibly-null-array-access"
-message = "Cannot perform array access on possibly `null` value."
-count = 1
-
-[[issues]]
-file = "src/Validator/Assertion.php"
-code = "possibly-undefined-string-array-index"
-message = "Possibly undefined array key `string('nullable')` accessed on `array<string, mixed>`."
+message = "A value with a less specific type `nonnull` is being assigned to property `$nullable` (bool)."
 count = 1
 
 [[issues]]

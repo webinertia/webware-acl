@@ -46,8 +46,8 @@ final class Assertion extends Validator\AbstractValidator
         private readonly ContainerInterface&AssertionManager $assertionManager,
         ?array $options = ['nullable' => false],
     ) {
-        $this->nullable = $options['nullable'];
-        parent::__construct($options);
+        $this->nullable = $options['nullable'] ?? false;
+        parent::__construct($options ?? []);
     }
 
     #[Override]
