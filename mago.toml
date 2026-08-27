@@ -7,6 +7,80 @@ baseline = "lint-baseline.toml"
 [analyzer]
 baseline = "analysis-baseline.toml"
 
+# ---------------------------------------------------------------------------
+# Guard rules — Http boundary (Phase 2, TASK-004) and MessageBus classes.
+#
+# Http rules describe the POST-move layout, so `mago guard` stays GREEN until a
+# class lands in the wrong namespace or with the wrong name during the move.
+#
+# MessageBus middleware always lives in MessageBus\Middleware. Commands, queries
+# and their handlers stay in the domain they act on (e.g. Admin\Command,
+# Admin\CommandHandler) — they are NOT centralized under MessageBus\ and are
+# not moved.
+#
+# Phase 3 (TASK-004 c/d, deferred): `Repository\*` denied from Http
+# RequestHandler namespaces (reads go through the bus) — that will be a
+# `perimeter` rule, so switch `mode` to "default" then.
+# ---------------------------------------------------------------------------
+[guard]
+mode = "structural"
+
+# Http\Middleware\ — PSR middleware (non-admin)
+[[guard.structural.rules]]
+on = "Webware\\Acl\\Http\\Middleware\\*"
+target = "class"
+must-be-named = "*Middleware"
+must-implement = "Psr\\Http\\Server\\MiddlewareInterface"
+reason = "HTTP middleware must live in Http\\Middleware and be named *Middleware."
+
+# Http\Admin\Middleware\ — admin PSR middleware
+[[guard.structural.rules]]
+on = "Webware\\Acl\\Http\\Admin\\Middleware\\*"
+target = "class"
+must-be-named = "*Middleware"
+must-implement = "Psr\\Http\\Server\\MiddlewareInterface"
+reason = "Admin HTTP middleware must live in Http\\Admin\\Middleware and be named *Middleware."
+
+# Http\RequestHandlers\ — PSR request handlers (non-admin)
+[[guard.structural.rules]]
+on = "Webware\\Acl\\Http\\RequestHandlers\\*"
+target = "class"
+must-be-named = "*Handler"
+must-implement = "Psr\\Http\\Server\\RequestHandlerInterface"
+reason = "Request handlers must live in Http\\RequestHandlers and be named *Handler."
+
+# Http\Admin\RequestHandlers\ — admin PSR request handlers
+[[guard.structural.rules]]
+on = "Webware\\Acl\\Http\\Admin\\RequestHandlers\\*"
+target = "class"
+must-be-named = "*Handler"
+must-implement = "Psr\\Http\\Server\\RequestHandlerInterface"
+reason = "Admin request handlers must live in Http\\Admin\\RequestHandlers and be named *Handler."
+
+# MessageBus\Middleware\ — ACL-enforcing bus middleware
+[[guard.structural.rules]]
+on = "Webware\\Acl\\MessageBus\\Middleware\\*"
+target = "class"
+must-be-named = "*Middleware"
+must-implement = "Webware\\MessageBus\\MiddlewareInterface"
+reason = "MessageBus middleware must live in MessageBus\\Middleware and be named *Middleware."
+
+# Admin\Command\ — domain commands (stay in the Admin domain, not centralized)
+[[guard.structural.rules]]
+on = "Webware\\Acl\\Admin\\Command\\*"
+target = "class"
+must-be-named = "*Command"
+must-implement = "Webware\\MessageBus\\Command\\NamedCommandInterface"
+reason = "Commands live in the domain they act on and must implement NamedCommandInterface."
+
+# Admin\CommandHandler\ — domain command handlers (stay in the Admin domain)
+[[guard.structural.rules]]
+on = "Webware\\Acl\\Admin\\CommandHandler\\*"
+target = "class"
+must-be-named = "*Handler"
+must-implement = "Webware\\MessageBus\\CommandHandlerInterface"
+reason = "Command handlers live in the domain they act on and must implement CommandHandlerInterface."
+
 [source]
 paths = ["src", "test"]
 includes = ["vendor"]
