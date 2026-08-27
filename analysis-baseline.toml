@@ -307,12 +307,6 @@ message = "Argument #1 of function `json_decode` is possibly `false`, but parame
 count = 1
 
 [[issues]]
-file = "src/Exception/AccessDeniedException.php"
-code = "extend-final-class"
-message = 'Class `Webware\Acl\Exception\AccessDeniedException` cannot extend final class `Webware\Acl\Exception\RuntimeException`'
-count = 1
-
-[[issues]]
 file = "src/Exception/RuntimeException.php"
 code = "possibly-invalid-argument"
 message = 'Possible argument type mismatch for argument #3 of `Exception::__construct`: expected `Throwable|null`, but possibly received `Webware\Acl\Exception\ExceptionInterface|null`.'
