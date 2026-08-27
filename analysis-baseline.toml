@@ -687,7 +687,7 @@ count = 1
 [[issues]]
 file = "src/Repository/RuleRepository.php"
 code = "less-specific-nested-return-statement"
-message = '''Returned type `array{'assertions': nonnull, 'resourceId': string, 'roleId': string, 'type': string}` is less specific than the declared return type `array{'assertions': array<array-key, string>, 'resourceId': string, 'roleId': string, 'type': string}|null` for function `Webware\Acl\Repository\RuleRepository::findByRoleAndResource` due to nested 'mixed'.'''
+message = '''Returned type `array{'assertions': mixed, 'resourceId': string, 'roleId': string, 'type': string}` is less specific than the declared return type `array{'assertions': array<array-key, string>|null, 'resourceId': string, 'roleId': string, 'type': string}|null` for function `Webware\Acl\Repository\RuleRepository::findByRoleAndResource` due to nested 'mixed'.'''
 count = 1
 
 [[issues]]
@@ -731,12 +731,6 @@ file = "src/Repository/RuleRepository.php"
 code = "possible-method-access-on-null"
 message = "Attempting to call a method on `null`."
 count = 5
-
-[[issues]]
-file = "src/Repository/RuleRepository.php"
-code = "possibly-null-argument"
-message = "Argument #1 of function `json_decode` is possibly `null`, but parameter type `string` does not accept it."
-count = 1
 
 [[issues]]
 file = "src/Repository/RuleRepository.php"
