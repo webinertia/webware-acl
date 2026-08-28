@@ -14,8 +14,7 @@ use Webware\Acl\Acl;
 use Webware\Acl\Assertion\AssertionAggregateFactory;
 use Webware\Acl\AssertionManager;
 use Webware\Acl\Container\AclFactory;
-use Webware\Acl\Repository\RoleRepository;
-use Webware\Acl\Repository\RuleRepository;
+use Webware\MessageBus\MessageBusInterface;
 use WebwareTest\Acl\Support\PhpDbAdapterMockTrait;
 
 #[CoversClass(AclFactory::class)]
@@ -30,8 +29,7 @@ final class AclFactoryTest extends TestCase
         $container = $this->createStub(ContainerInterface::class);
         $container->method('get')
             ->willReturnMap([
-                [RoleRepository::class, new RoleRepository($adapter)],
-                [RuleRepository::class, new RuleRepository($adapter)],
+                [MessageBusInterface::class, $this->createQueryBus($adapter)],
                 [
                     AssertionAggregateFactory::class,
                     new AssertionAggregateFactory(new AssertionManager(new ServiceManager())),

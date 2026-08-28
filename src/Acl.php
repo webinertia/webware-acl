@@ -7,18 +7,22 @@ namespace Webware\Acl;
 use Laminas\Permissions\Acl\Acl as LaminasAcl;
 use Laminas\Permissions\Acl\Exception\ExceptionInterface;
 use Laminas\Permissions\Acl\Resource\ResourceInterface;
+use Laminas\Permissions\Acl\Role\Registry;
 use Laminas\Permissions\Acl\Role\RoleInterface;
 use Mezzio\Router\RouteCollectorInterface;
 use Override;
 use PhpDb\Sql\Exception\ExceptionInterface as SqlException;
 use ValueError;
+use Webware\Acl\Admin\Command\SaveRoleCommand;
 use Webware\Acl\Assertion\AssertionAggregateFactory;
 use Webware\Acl\Exception\RuntimeException;
-use Webware\Acl\Repository\RoleRepository;
-use Webware\Acl\Repository\RuleRepository;
+use Webware\Acl\Query\FetchAclRoleRegistry;
+use Webware\Acl\Query\FetchAllRules;
+use Webware\Acl\Query\FetchDistinctResourceIds;
 use Webware\Acl\Role\UserRoleIterator;
 use Webware\Core\AclInterface;
 use Webware\Core\UserInterface;
+use Webware\MessageBus\MessageBusInterface;
 
 use function is_array;
 use function sort;
@@ -30,8 +34,7 @@ final class Acl extends LaminasAcl implements AclInterface
     private bool $loaded = false;
 
     public function __construct(
-        private readonly RoleRepository $roleRepository,
-        private readonly RuleRepository $ruleRepository,
+        private readonly MessageBusInterface $messageBus,
         private readonly AssertionAggregateFactory $factory,
         private readonly RouteCollectorInterface $routeCollector,
     ) {}
@@ -47,7 +50,6 @@ final class Acl extends LaminasAcl implements AclInterface
 
     /**
      * @throws ExceptionInterface
-     * @throws SqlException
      */
     #[Override]
     public function addRole($role, $parents = null, bool $persist = false)
@@ -58,14 +60,15 @@ final class Acl extends LaminasAcl implements AclInterface
             $roleId = $role instanceof RoleInterface ? $role->getRoleId() : $role;
 
             if (null === $parents) {
-                $this->roleRepository->save($roleId, null);
+                $this->messageBus->handle(new SaveRoleCommand(null, $roleId, null));
             } else {
                 $parentIds    = [];
                 $parentsArray = is_array($parents) ? $parents : [$parents];
                 foreach ($parentsArray as $parent) {
+                    /** @var string|RoleInterface $parent */
                     $parentIds[] = $parent instanceof RoleInterface ? $parent->getRoleId() : $parent;
                 }
-                $this->roleRepository->save($roleId, $parentIds);
+                $this->messageBus->handle(new SaveRoleCommand(null, $roleId, $parentIds));
             }
         }
 
@@ -155,7 +158,9 @@ final class Acl extends LaminasAcl implements AclInterface
     protected function getRoleRegistry()
     {
         if (null === $this->roleRegistry) {
-            $this->roleRegistry = $this->roleRepository->fetchAclRoleRegistry();
+            /** @var Registry $registry */
+            $registry           = $this->messageBus->handle(new FetchAclRoleRegistry())->getResult();
+            $this->roleRegistry = $registry;
         }
 
         return $this->roleRegistry;
@@ -172,7 +177,8 @@ final class Acl extends LaminasAcl implements AclInterface
             return;
         }
 
-        $allRules = $this->ruleRepository->fetchAll();
+        /** @var array<int, array{type: string, roleId: string, resourceId: string, assertions: string[], parentResourceId: string|null}> $allRules */
+        $allRules = $this->messageBus->handle(new FetchAllRules())->getResult();
 
         // Build explicit parent map from DB data
         $explicitParents = [];
@@ -184,7 +190,8 @@ final class Acl extends LaminasAcl implements AclInterface
             $explicitParents[$rule['resourceId']] = $rule['parentResourceId'];
         }
 
-        $resourceIds = $this->ruleRepository->fetchDistinctResourceIds();
+        /** @var string[] $resourceIds */
+        $resourceIds = $this->messageBus->handle(new FetchDistinctResourceIds())->getResult();
         sort($resourceIds);
 
         foreach ($resourceIds as $resourceId) {
@@ -222,13 +229,23 @@ final class Acl extends LaminasAcl implements AclInterface
             }
             $candidate = $name;
             $parent    = null;
-            while (($pos = strrpos($candidate, '.')) !== false) {
-                $candidate = substr($candidate, 0, $pos);
+            while (false !== ($pos = strrpos($candidate, '.'))) {
+                $next = substr($candidate, 0, $pos);
+                if ($next === $candidate) {
+                    break;
+                }
+                $candidate = $next;
+
                 if ($this->hasResource($candidate)) {
                     $parent = $candidate;
 
                     break;
                 }
+            }
+            if (null === $parent) {
+                parent::addResource($name);
+
+                continue;
             }
             parent::addResource($name, $parent);
         }

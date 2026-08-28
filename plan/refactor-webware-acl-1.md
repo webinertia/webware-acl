@@ -65,6 +65,14 @@ Reorganize the webware-acl component to remove ambiguity between PSR (HTTP) midd
 | TASK-008 | Migrate reads to query handlers using the vendor query bus: `query_map` sub-key in `getBusConfig()`, `Query\QueryInterface` queries + `QueryHandlerInterface` handlers (optionally `Strategy\ClassnameStrategy`); targets: `Acl::load()`, `OverviewMiddleware`, `AddRoleModalHandler`, `EditRoleModalHandler`, `RoleListHandler` | ⬜ |  |
 | TASK-009 | Migrate reads to query handlers: `Acl::load()` (decision: everything through the bus — resolve DI cycle strategy first, RISK-006), `OverviewMiddleware`, `AddRoleModalHandler`, `EditRoleModalHandler`, `RoleListHandler` | ⬜ |  |
 
+**Phase 3 — read-migration decisions (locked 2026-08-27; full convention in webware-ecosystem-memory):**
+
+- Handlers implement `QueryHandlerInterface`, method `handle()` with NO `#[Override]`, and return the concrete `Query\QueryResult` (`new QueryResult($query, MessageStatus::Success, $payload)`). Repositories stay bus-agnostic — never implement `QueryResultInterface` (`@internal`). Payload is component-owned (arrays/read-models), not php-db result sets.
+- 4 granular queries: `FetchAllRules`, `FetchDistinctResourceIds`, `FetchAclRoleRegistry`, `FetchAllRoles` — namespace `Webware\Acl\Query\*` / `Webware\Acl\QueryHandler\*` (final location TBD).
+- Scope: ALL reads AND the `Acl::addRole()` write go through the bus. `Acl::addRole()` persist dispatches `Admin\Command\SaveRoleCommand` — NOT a direct `RoleRepository::save()`. `Acl` keeps NO repository dependency.
+- DI: `Acl` + `OverviewMiddleware` + the 3 role handlers inject `MessageBusInterface` only; `Repository\*` imports removed from them (RISK-006 resolved — no cycle).
+- Drift found (audit, fix in this pass): `SaveRuleHandler` injects `RoleRepository` but never uses it (dead dep); `SaveRoleHandler` ignores `$command->id` (dead field). `UpdateRuleTypeHandler` reads repos directly in its cascade (`fetchDirectChildren`, `findByRoleAndResource`) — flag: strict "reads via query handlers" would move these too.
+
 ### Implementation Phase 4 — Step 3: Migrations & CLI scripts
 
 - GOAL-004: Move the required CLI scripts and migration classes from IMS into the components that should own them (IMS originals stay). BLOCKED until WSL code is pushed to a branch.
@@ -124,4 +132,4 @@ Reorganize the webware-acl component to remove ambiguity between PSR (HTTP) midd
 - [IMS working branch (WSL) — override-user-manager-update-user-via-ims-store](https://github.com/tyrsson/inventory-management-system/tree/override-user-manager-update-user-via-ims-store)
 - [IMS migrations layer plan — .github/migrations-layer-plan.md](https://github.com/tyrsson/inventory-management-system/blob/override-user-manager-update-user-via-ims-store/.github/migrations-layer-plan.md)
 - [IMS component migration deep audit — docs/module/component-migration-plan.md](https://github.com/tyrsson/inventory-management-system/blob/override-user-manager-update-user-via-ims-store/docs/module/component-migration-plan.md)
-- [webware/message-bus](https://github.com/webinertia/webware-message-bus)
+- [webware/message-bus](https://github.com/webinertia/message-bus)

@@ -10,7 +10,7 @@ use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Webware\Acl\AssertionManager;
 use Webware\Acl\Http\Admin\Middleware\OverviewMiddleware;
-use Webware\Acl\Repository\RuleRepository;
+use Webware\MessageBus\MessageBusInterface;
 
 final class OverviewMiddlewareFactory
 {
@@ -21,7 +21,7 @@ final class OverviewMiddlewareFactory
     public function __invoke(ContainerInterface $container): OverviewMiddleware
     {
         return new OverviewMiddleware(
-            $container->get(RuleRepository::class),
+            $container->get(MessageBusInterface::class),
             $container->get(RouteCollectorInterface::class),
             $container->get(AssertionManager::class),
         );

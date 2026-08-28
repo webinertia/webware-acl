@@ -19,7 +19,6 @@ use Psr\Http\Server\RequestHandlerInterface;
 use Webware\Acl\Assertion\OwnershipAssertion;
 use Webware\Acl\AssertionManager;
 use Webware\Acl\Http\Admin\Middleware\OverviewMiddleware;
-use Webware\Acl\Repository\RuleRepository;
 use Webware\Core\AclInterface;
 use WebwareTest\Acl\Support\PhpDbAdapterMockTrait;
 
@@ -37,7 +36,7 @@ final class OverviewMiddlewareTest extends TestCase
         $acl->method('getRoles')->willReturn(['Admin' => []]);
         $acl->method('hasResource')->willReturnMap([['dashboard', true]]);
 
-        $ruleRepo = new RuleRepository($this->createAdapter([
+        $ruleRepo = $this->createQueryBus($this->createAdapter([
             [
                 [
                     'type'             => 'Deny',
@@ -78,7 +77,7 @@ final class OverviewMiddlewareTest extends TestCase
             ['unprotected', false],
         ]);
 
-        $ruleRepo = new RuleRepository($this->createAdapter([
+        $ruleRepo = $this->createQueryBus($this->createAdapter([
             [
                 [
                     'type'             => 'Allow',
@@ -138,7 +137,7 @@ final class OverviewMiddlewareTest extends TestCase
             ['admin.users', true],
         ]);
 
-        $ruleRepo = new RuleRepository($this->createAdapter([
+        $ruleRepo = $this->createQueryBus($this->createAdapter([
             [
                 [
                     'type'             => 'Allow',
@@ -186,7 +185,7 @@ final class OverviewMiddlewareTest extends TestCase
         $acl->method('getRoles')->willReturn(['Admin' => ['MissingParent']]);
         $acl->method('hasResource')->willReturnMap([]);
 
-        $ruleRepo = new RuleRepository($this->createAdapter([[]]));
+        $ruleRepo = $this->createQueryBus($this->createAdapter([[]]));
 
         $routeCollector = $this->createStub(RouteCollectorInterface::class);
         $routeCollector->method('getRoutes')->willReturn([]);
@@ -214,7 +213,7 @@ final class OverviewMiddlewareTest extends TestCase
         $acl->method('getRoles')->willReturn(['Admin' => []]);
         $acl->method('hasResource')->willReturnMap([['ruleless', true]]);
 
-        $ruleRepo = new RuleRepository($this->createAdapter([[]]));
+        $ruleRepo = $this->createQueryBus($this->createAdapter([[]]));
 
         $routeCollector = $this->createStub(RouteCollectorInterface::class);
         $routeCollector->method('getRoutes')->willReturn([$this->route('ruleless', ['POST'])]);

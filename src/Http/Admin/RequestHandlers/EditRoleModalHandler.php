@@ -21,7 +21,11 @@ use Override;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Webware\Acl\Repository\RoleRepository;
+use Webware\Acl\Entity\Role;
+use Webware\Acl\Query\FetchAllRoles;
+use Webware\MessageBus\MessageBusInterface;
+
+use function array_find;
 
 /**
  * Returns an HTML fragment containing the edit-role modal content.
@@ -33,7 +37,7 @@ final class EditRoleModalHandler implements RequestHandlerInterface
 {
     public function __construct(
         private readonly TemplateRendererInterface $template,
-        private readonly RoleRepository $roleRepository,
+        private readonly MessageBusInterface $messageBus,
     ) {}
 
     /**
@@ -44,18 +48,11 @@ final class EditRoleModalHandler implements RequestHandlerInterface
     {
         /** @var string $roleId */
         $roleId = $request->getAttribute('roleId', '');
-        $roles  = $this->roleRepository->fetchAll();
+        /** @var Role[] $roles */
+        $roles = $this->messageBus->handle(new FetchAllRoles())->getResult();
 
         // Find the role being edited so we can pre-populate the form
-        $role = null;
-        foreach ($roles as $r) {
-            if ($r->getRoleId() !== $roleId) {
-                continue;
-            }
-
-            $role = $r;
-            break;
-        }
+        $role = array_find($roles, static fn(Role $r): bool => $r->getRoleId() === $roleId);
 
         return new HtmlResponse($this->template->render('acl::partials/edit-role-modal', [
             'role'   => $role,

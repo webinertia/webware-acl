@@ -9,7 +9,7 @@ use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Webware\Acl\Http\Admin\RequestHandlers\RoleListHandler;
-use Webware\Acl\Repository\RoleRepository;
+use Webware\MessageBus\MessageBusInterface;
 
 final class RoleListHandlerFactory
 {
@@ -21,7 +21,7 @@ final class RoleListHandlerFactory
     {
         return new RoleListHandler(
             $container->get(TemplateRendererInterface::class),
-            $container->get(RoleRepository::class),
+            $container->get(MessageBusInterface::class),
         );
     }
 }

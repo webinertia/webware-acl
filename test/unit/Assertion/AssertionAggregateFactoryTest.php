@@ -17,12 +17,20 @@ final class AssertionAggregateFactoryTest extends TestCase
 {
     private AssertionAggregateFactory $factory;
 
+    private AssertionManager $assertionManager;
+
     #[Test]
     public function invokeBuildsAggregate(): void
     {
         $aggregate = ($this->factory)(['Ownership']);
 
         self::assertInstanceOf(AssertionAggregate::class, $aggregate);
+        self::assertSame($this->assertionManager, $aggregate->getAssertionManager());
+        self::assertSame(AssertionAggregate::MODE_AT_LEAST_ONE, $aggregate->getMode());
+        self::assertSame(
+            ['Ownership'],
+            new \ReflectionProperty(AssertionAggregate::class, 'assertions')->getValue($aggregate),
+        );
     }
 
     #[Test]
@@ -36,6 +44,7 @@ final class AssertionAggregateFactoryTest extends TestCase
     {
         parent::setUp();
 
-        $this->factory = new AssertionAggregateFactory(new AssertionManager(new ServiceManager()));
+        $this->assertionManager = new AssertionManager(new ServiceManager());
+        $this->factory          = new AssertionAggregateFactory($this->assertionManager);
     }
 }

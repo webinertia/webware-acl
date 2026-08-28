@@ -25,15 +25,15 @@
 | Phase 2 (Http namespace moves) TASK-005/006 | ⬜ not started |
 | Phase 3 (MessageBus changes) TASK-007/008/009 | ⬜ not started |
 | Phase 4 (migrations/CLI) TASK-010 | ⬜ blocked (WSL branch) |
-| Bug fixes #13–#18 | ⬜ post-refactor |
+| Bug fixes #13–#18 | ✅ done (2026-08-28) |
 
 ### TASK-003 results (committed in `9229b8a`)
 - Unit: **244 tests / 471 assertions**, integration: **11 tests / 58 assertions**, 0 skips.
-- Line coverage **98.76% (1198/1213)**. The remaining 15 lines are blocked:
-  - Dead code (11): `SingleRoleUserProxy::$id` set hook (5), `Container\CommandHandlerMiddlewareFactory` (4),
-    `OverviewMiddleware` lines 90 + 238 (2).
-  - Bug-blocked (5): `Validator\Assertion` `return false` after `error()` (4, issue #15),
-    `Entity\Rule::resolveType()` string branch (1, issue #17).
+- Line coverage (unit suite, 2026-08-28) **100% (1241/1241)** — LINE COVERAGE GATE MET.
+  - Dead code removed: `SingleRoleUserProxy::$id` set hook; `OverviewMiddleware` null/empty-name guard +
+    `normalizeRouteList()` flat branch; `Container\CommandHandlerMiddlewareFactory` DELETED.
+  - Bug-blocked (5): RESOLVED — `Validator\Assertion` (issue #15) + `Entity\Rule::resolveType()` (issue #17) covered.
+  - `ProcessRoleMiddleware` invalid-input branch now unit-covered (`processPostSkipsDispatchOnInvalidInput()`).
 - Test helpers: `test/unit/Support/PhpDbAdapterMockTrait.php`, `test/unit/Support/InputFilterHelper.php`,
   `test/integration/Support/FilterManagerFactory.php`.
 - Coverage must NOT be tied to integration tests (user directive).
@@ -119,20 +119,18 @@ host vendor picks up webware-core `c36534f` (with `Webware\Core\UserInterface` +
 
 ## 4. Remaining roadmap (after CI is green)
 
-1. **Line coverage → 100%**: resolve the 15 blocked lines (remove/exclude dead code; fix #15 + #17, or exclude).
-2. **Mutation coverage**: `composer mutation-test` (min MSI currently `0` in the workflow; raise as suite matures).
+1. ~~**Line coverage → 100%**~~ — DONE (2026-08-28): dead code removed, `ProcessRoleMiddleware` invalid-input branch unit-tested.
+2. ~~**Mutation coverage**~~ — DONE (2026-08-28): 100% MSI + 100% MCC (0 escaped, 0 timeouts).
 3. **TASK-004**: Mago Guard rules for the new layout.
 4. **Phase 2**: namespace moves (TASK-005/006).
 5. **Phase 3**: MessageBus read migration + unwiring (TASK-007/008/009).
-6. **Bug fixes** #13–#18 (post-refactor, separate effort).
+6. ~~**Bug fixes** #13–#18 (post-refactor, separate effort)~~ — DONE (2026-08-28).
 
 ## 5. Open decisions
 
-1. `Container\CommandHandlerMiddlewareFactory` is dead code (references nonexistent
-   `Webware\Acl\CommandBus\Middleware\CommandHandlerMiddleware`). Remove it, or exclude from coverage?
-2. Bugs #15 + #17 block 5 coverage lines — fix early, or exclude those lines until the bug-fix effort?
-3. `SingleRoleUserProxy::$id` set hook (5 dead lines) and `OverviewMiddleware` lines 90/238 (2 dead lines) —
-   remove or `@codeCoverageIgnore`?
+1. ~~`Container\CommandHandlerMiddlewareFactory` dead code~~ — DELETED (2026-08-28).
+2. ~~Bugs #15 + #17 block 5 coverage lines~~ — RESOLVED: bugs fixed, lines covered (2026-08-28).
+3. ~~`SingleRoleUserProxy::$id` set hook and `OverviewMiddleware` dead lines~~ — REMOVED (2026-08-28).
 
 ## 6. Bug issues (post-refactor)
 

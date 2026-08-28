@@ -29,6 +29,18 @@ final class OwnershipAssertionTest extends TestCase
     }
 
     #[Test]
+    public function assertDeniesWhenBothOwnersAreNull(): void
+    {
+        $assertion = new OwnershipAssertion();
+
+        self::assertFalse($assertion->assert(
+            $this->createStub(Acl::class),
+            $this->proprietaryRole(null),
+            $this->proprietaryResource(null),
+        ));
+    }
+
+    #[Test]
     public function assertDeniesWhenOwnersDiffer(): void
     {
         $assertion = new OwnershipAssertion();

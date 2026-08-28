@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace WebwareTest\Acl\Admin\CommandHandler;
 
+use PhpDb\Sql\Insert;
+use PhpDb\Sql\Select;
+use PhpDb\Sql\Update;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
@@ -65,6 +68,40 @@ final class UpdateRuleTypeHandlerTest extends TestCase
         $result = $handler->handle(new UpdateRuleTypeCommand('Admin', 'dashboard', RuleType::Deny));
 
         self::assertSame(MessageStatus::Success, $result->getStatus());
+    }
+
+    #[Test]
+    public function handleSkipsChildrenWithRulesAndCascadesToOthers(): void
+    {
+        $handler = new UpdateRuleTypeHandler(
+            new RuleRepository($this->createAdapter([
+                [],
+                [
+                    [
+                        'type'       => 'Allow',
+                        'roleId'     => 'Editor',
+                        'resourceId' => 'dashboard',
+                        'assertions' => '["Ownership"]',
+                    ],
+                ],
+                [],
+                [],
+                [],
+            ])),
+            new RoleRepository($this->createAdapter([
+                [['roleId' => 'Editor'], ['roleId' => 'Viewer']],
+            ])),
+        );
+        $result = $handler->handle(new UpdateRuleTypeCommand('Admin', 'dashboard', RuleType::Deny));
+
+        self::assertSame(MessageStatus::Success, $result->getStatus());
+        self::assertCount(6, $this->preparedSqlObjects);
+        self::assertInstanceOf(Update::class, $this->preparedSqlObjects[0]);
+        self::assertInstanceOf(Select::class, $this->preparedSqlObjects[1]);
+        self::assertInstanceOf(Select::class, $this->preparedSqlObjects[2]);
+        self::assertInstanceOf(Select::class, $this->preparedSqlObjects[3]);
+        self::assertInstanceOf(Select::class, $this->preparedSqlObjects[4]);
+        self::assertInstanceOf(Insert::class, $this->preparedSqlObjects[5]);
     }
 
     #[Test]

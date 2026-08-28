@@ -16,9 +16,10 @@ use ValueError;
 use Webware\Acl\AssertionManager;
 use Webware\Acl\Entity\Role;
 use Webware\Acl\PrivilegeInterface;
-use Webware\Acl\Repository\RuleRepository;
+use Webware\Acl\Query\FetchAllRules;
 use Webware\Acl\RuleType;
 use Webware\Core\AclInterface;
+use Webware\MessageBus\MessageBusInterface;
 
 use function array_flip;
 use function array_keys;
@@ -50,7 +51,7 @@ use function is_int;
 final readonly class OverviewMiddleware implements MiddlewareInterface
 {
     public function __construct(
-        private RuleRepository $ruleRepository,
+        private MessageBusInterface $messageBus,
         private RouteCollectorInterface $routeCollector,
         private AssertionManager $assertionManager,
     ) {}
@@ -62,8 +63,9 @@ final readonly class OverviewMiddleware implements MiddlewareInterface
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         /** @var Acl&AclInterface $acl */
-        $acl      = $request->getAttribute(AclInterface::class);
-        $allRules = $this->ruleRepository->fetchAll();
+        $acl = $request->getAttribute(AclInterface::class);
+        /** @var array<int, array{type: string, roleId: string, resourceId: string, assertions: string[], parentResourceId: string|null}> $allRules */
+        $allRules = $this->messageBus->handle(new FetchAllRules())->getResult();
 
         $configAllow       = [];
         $configDeny        = [];
@@ -90,9 +92,6 @@ final readonly class OverviewMiddleware implements MiddlewareInterface
 
         foreach ($this->routeCollector->getRoutes() as $route) {
             $name = $route->getName();
-            if (null === $name || '' === $name) {
-                continue;
-            }
 
             $methods = $route->getAllowedMethods() ?? [HttpMethod::METHOD_GET];
 
@@ -227,22 +226,14 @@ final readonly class OverviewMiddleware implements MiddlewareInterface
     /**
      * Normalises an allow/deny route list to routeName => assertions[].
      *
-     * Supports two config formats:
-     *   Flat:        [0 => 'route.name', 1 => 'route.other']
-     *   Associative: ['route.name' => ['AssertionFQCN'], ...]
-     *
-     * @param array<int|string, string|string[]> $list
+     * @param array<string, string[]> $list
      * @return array<string, string[]>
      */
     private function normalizeRouteList(array $list): array
     {
         $result = [];
         foreach ($list as $key => $value) {
-            if (is_int($key)) {
-                $result[$value] = [];
-            } else {
-                $result[$key] = $value ?? [];
-            }
+            $result[$key] = $value ?? [];
         }
 
         return $result;

@@ -21,7 +21,9 @@ use Override;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Webware\Acl\Repository\RoleRepository;
+use Webware\Acl\Entity\Role;
+use Webware\Acl\Query\FetchAllRoles;
+use Webware\MessageBus\MessageBusInterface;
 
 /**
  * Returns an HTML fragment containing the add-role modal content.
@@ -33,7 +35,7 @@ final class AddRoleModalHandler implements RequestHandlerInterface
 {
     public function __construct(
         private readonly TemplateRendererInterface $template,
-        private readonly RoleRepository $roleRepository,
+        private readonly MessageBusInterface $messageBus,
     ) {}
 
     /**
@@ -42,8 +44,11 @@ final class AddRoleModalHandler implements RequestHandlerInterface
     #[Override]
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
+        /** @var Role[] $roles */
+        $roles = $this->messageBus->handle(new FetchAllRoles())->getResult();
+
         return new HtmlResponse($this->template->render('acl::partials/add-role-modal', [
-            'roles'  => $this->roleRepository->fetchAll(),
+            'roles'  => $roles,
             'layout' => false,
             'body'   => false,
         ]));

@@ -9,14 +9,6 @@ use Laminas\Permissions\Acl\Resource\ResourceInterface;
 use Laminas\ServiceManager\ServiceManager;
 use Mezzio\Router\Route;
 use Mezzio\Router\RouteCollectorInterface;
-use PhpDb\Adapter\AdapterInterface;
-use PhpDb\Adapter\Driver\ConnectionInterface;
-use PhpDb\Adapter\Driver\DriverInterface;
-use PhpDb\Adapter\Driver\ResultInterface;
-use PhpDb\Adapter\Driver\StatementInterface;
-use PhpDb\Adapter\Platform\PlatformInterface;
-use PhpDb\Sql\Platform\PlatformDecoratorInterface;
-use PhpDb\Sql\PreparableSqlInterface;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
@@ -26,18 +18,17 @@ use Webware\Acl\Assertion\AssertionAggregateFactory;
 use Webware\Acl\AssertionManager;
 use Webware\Acl\Entity\Role;
 use Webware\Acl\Exception\RuntimeException;
-use Webware\Acl\Repository\RoleRepository;
-use Webware\Acl\Repository\RuleRepository;
 use Webware\Core\UserInterface;
+use WebwareTest\Acl\Support\PhpDbAdapterMockTrait;
 
-use function array_fill;
 use function array_map;
-use function count;
 use function json_encode;
 
 #[CoversClass(Acl::class)]
 final class AclTest extends TestCase
 {
+    use PhpDbAdapterMockTrait;
+
     #[Test]
     public function addResourceAlwaysThrowsRuntimeException(): void
     {
@@ -342,41 +333,10 @@ final class AclTest extends TestCase
     ): Acl {
         $adapter = $this->createAdapter($statementResults);
         return new Acl(
-            new RoleRepository($adapter),
-            new RuleRepository($adapter),
+            $this->createQueryBus($adapter),
             new AssertionAggregateFactory($assertionManager ?? $this->createAssertionManager()),
             $this->createRouteCollector($routeNames),
         );
-    }
-
-    private function createAdapter(array $statementResults): AdapterInterface
-    {
-        $adapter    = $this->createStub(AdapterInterface::class);
-        $driver     = $this->createStub(DriverInterface::class);
-        $connection = $this->createStub(ConnectionInterface::class);
-        $platform   = $this->createStub(PlatformInterface::class);
-        $decorator  = $this->createStubForIntersectionOfInterfaces([
-            PlatformDecoratorInterface::class,
-            PreparableSqlInterface::class,
-        ]);
-
-        $adapter->method('getDriver')->willReturn($driver);
-        $adapter->method('getPlatform')->willReturn($platform);
-        $driver->method('getConnection')->willReturn($connection);
-        $connection->method('getLastGeneratedValue')->willReturn(7);
-        $platform->method('getSqlPlatformDecorator')->willReturn($decorator);
-        $decorator->method('setSubject')->willReturnSelf();
-        $decorator->method('prepareStatement')->willReturnArgument(1);
-
-        $statements = array_map(
-            $this->createStatement(...),
-            $statementResults,
-        );
-        if ([] !== $statements) {
-            $driver->method('createStatement')->willReturnOnConsecutiveCalls(...$statements);
-        }
-
-        return $adapter;
     }
 
     /**
@@ -389,25 +349,6 @@ final class AclTest extends TestCase
             $manager->configure(['services' => $services]);
         }
         return $manager;
-    }
-
-    /**
-     * @param list<mixed> $rows Each row is an array (result row) or false (no row).
-     */
-    private function createResult(array $rows): ResultInterface
-    {
-        $result = $this->createStub(ResultInterface::class);
-        $result->method('getFieldCount')->willReturn(0);
-        $result->method('isBuffered')->willReturn(false);
-        $result->method('getAffectedRows')->willReturn(1);
-        $result->method('valid')
-            ->willReturnOnConsecutiveCalls(
-                ...[...array_fill(0, count($rows), value: true), false],
-            );
-        if ([] !== $rows) {
-            $result->method('current')->willReturnOnConsecutiveCalls(...$rows);
-        }
-        return $result;
     }
 
     /**
@@ -427,13 +368,6 @@ final class AclTest extends TestCase
     /**
      * @param list<mixed> $rows Each row is an array (result row) or false (no row).
      */
-    private function createStatement(array $rows): StatementInterface
-    {
-        $statement = $this->createStub(StatementInterface::class);
-        $statement->method('execute')->willReturn($this->createResult($rows));
-        return $statement;
-    }
-
     /**
      * @param list<string> $roles
      */

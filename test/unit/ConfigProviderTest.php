@@ -32,6 +32,14 @@ use Webware\Acl\Http\RouteResourceFactoryInterface;
 use Webware\Acl\InputFilter\Container\RuleDataFilterFactory;
 use Webware\Acl\InputFilter\RoleDataFilter;
 use Webware\Acl\InputFilter\RuleDataFilter;
+use Webware\Acl\Query\FetchAclRoleRegistry;
+use Webware\Acl\Query\FetchAllRoles;
+use Webware\Acl\Query\FetchAllRules;
+use Webware\Acl\Query\FetchDistinctResourceIds;
+use Webware\Acl\QueryHandler\FetchAclRoleRegistryHandler;
+use Webware\Acl\QueryHandler\FetchAllRolesHandler;
+use Webware\Acl\QueryHandler\FetchAllRulesHandler;
+use Webware\Acl\QueryHandler\FetchDistinctResourceIdsHandler;
 use Webware\Acl\Repository\RoleRepository;
 use Webware\Acl\Repository\RuleRepository;
 use Webware\Acl\RouteProvider;
@@ -72,6 +80,15 @@ final class ConfigProviderTest extends TestCase
             ],
             $config[BusProvider::COMMAND_MAP_KEY],
         );
+        self::assertSame(
+            [
+                FetchAllRules::class            => FetchAllRulesHandler::class,
+                FetchDistinctResourceIds::class => FetchDistinctResourceIdsHandler::class,
+                FetchAclRoleRegistry::class     => FetchAclRoleRegistryHandler::class,
+                FetchAllRoles::class            => FetchAllRolesHandler::class,
+            ],
+            $config[BusProvider::QUERY_MAP_KEY],
+        );
         self::assertCount(1, $config[BusProvider::MIDDLEWARE_PIPELINE_KEY]);
     }
 
@@ -107,9 +124,13 @@ final class ConfigProviderTest extends TestCase
             ],
             $deps['aliases'],
         );
-        self::assertCount(25, $deps['factories']);
+        self::assertCount(29, $deps['factories']);
         self::assertArrayHasKey(RoleRepository::class, $deps['factories']);
         self::assertArrayHasKey(RuleRepository::class, $deps['factories']);
+        self::assertArrayHasKey(FetchAllRulesHandler::class, $deps['factories']);
+        self::assertArrayHasKey(FetchDistinctResourceIdsHandler::class, $deps['factories']);
+        self::assertArrayHasKey(FetchAclRoleRegistryHandler::class, $deps['factories']);
+        self::assertArrayHasKey(FetchAllRolesHandler::class, $deps['factories']);
     }
 
     #[Test]
@@ -156,6 +177,7 @@ final class ConfigProviderTest extends TestCase
         self::assertArrayHasKey('paths', $templates);
         self::assertArrayHasKey('acl', $templates['paths']);
         self::assertCount(1, $templates['paths']['acl']);
+        self::assertDirectoryExists($templates['paths']['acl'][0]);
         self::assertStringEndsWith('/templates/acl', $templates['paths']['acl'][0]);
     }
 

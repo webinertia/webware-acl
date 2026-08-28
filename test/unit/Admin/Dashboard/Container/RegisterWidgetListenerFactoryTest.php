@@ -32,6 +32,12 @@ final class RegisterWidgetListenerFactoryTest extends TestCase
                 ],
             ]);
 
-        self::assertInstanceOf(RegisterWidgetListener::class, (new RegisterWidgetListenerFactory())($container));
+        $listener = (new RegisterWidgetListenerFactory())($container);
+
+        self::assertInstanceOf(RegisterWidgetListener::class, $listener);
+        self::assertSame(
+            ['admin_route_name_prefix' => 'acl.'],
+            new \ReflectionProperty(RegisterWidgetListener::class, 'config')->getValue($listener),
+        );
     }
 }
