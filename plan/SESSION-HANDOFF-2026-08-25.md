@@ -21,10 +21,10 @@
 | TASK-001 baseline validation | ✅ done |
 | TASK-002 mago baseline mitigation | ✅ done |
 | TASK-003 characterization/safety-net tests | ✅ done |
-| TASK-004 Guard perimeter rules | ⬜ not started |
-| Phase 2 (Http namespace moves) TASK-005/006 | ⬜ not started |
-| Phase 3 (MessageBus changes) TASK-007/008/009 | ⬜ not started |
-| Phase 4 (migrations/CLI) TASK-010 | ⬜ blocked (WSL branch) |
+| TASK-004 Guard perimeter rules | ✅ done (2026-08-28, PR #24) |
+| Phase 2 (Http namespace moves) TASK-005/006 | ✅ done (2026-08-27, PR #20) |
+| Phase 3 (MessageBus changes) TASK-007/008/009 | ✅ done (2026-08-28, PR #24) |
+| Phase 4 (migrations/CLI) TASK-010 | ⬜ blocked (IMS WSL branch) |
 | Bug fixes #13–#18 | ✅ done (2026-08-28) |
 
 ### TASK-003 results (committed in `9229b8a`)
@@ -121,10 +121,16 @@ host vendor picks up webware-core `c36534f` (with `Webware\Core\UserInterface` +
 
 1. ~~**Line coverage → 100%**~~ — DONE (2026-08-28): dead code removed, `ProcessRoleMiddleware` invalid-input branch unit-tested.
 2. ~~**Mutation coverage**~~ — DONE (2026-08-28): 100% MSI + 100% MCC (0 escaped, 0 timeouts).
-3. **TASK-004**: Mago Guard rules for the new layout.
-4. **Phase 2**: namespace moves (TASK-005/006).
-5. **Phase 3**: MessageBus read migration + unwiring (TASK-007/008/009).
+3. ~~**TASK-004**: Mago Guard rules for the new layout.~~ — DONE (2026-08-28, PR #24).
+4. ~~**Phase 2**: namespace moves (TASK-005/006).~~ — DONE (2026-08-27, PR #20).
+5. ~~**Phase 3**: MessageBus read migration + unwiring (TASK-007/008/009).~~ — DONE (2026-08-28, PR #24).
 6. ~~**Bug fixes** #13–#18 (post-refactor, separate effort)~~ — DONE (2026-08-28).
+
+**Remaining:**
+- **TASK-010 (Phase 4)**: migrations/CLI — blocked on the IMS WSL branch (reference-only).
+- **Phase 3 leftovers (webware-acl #22)**: remove unwired acl-local `MessageBus\*` classes; migrate `UpdateRuleTypeHandler` cascade reads to queries; drop `SaveRuleHandler` dead `RoleRepository` dep; honor `SaveRoleHandler::$command->id`.
+- **RISK-007**: confirm/fix `ProcessRuleMiddleware` `CommandResult` + `RuleFilter` readonly bugs (separate effort).
+- **DEP-005**: `roave/backward-compatibility-check` policy for moved/removed classes.
 
 ## 5. Open decisions
 

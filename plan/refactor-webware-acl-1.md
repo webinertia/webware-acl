@@ -2,15 +2,15 @@
 goal: Reorganize webware-acl (Http boundary namespace, MessageBus read migration, migrations/CLI ownership)
 version: 0.2
 date_created: 2026-08-23
-last_updated: 2026-08-23
+last_updated: 2026-08-28
 owner: Joey Smith
-status: 'Planned'
+status: 'In Progress'
 tags: [refactor, architecture, namespace, message-bus, testing]
 ---
 
 # Introduction
 
-![Status: Planned](https://img.shields.io/badge/status-Planned-blue)
+![Status: In Progress](https://img.shields.io/badge/status-In%20Progress-blue)
 
 Reorganize the webware-acl component to remove ambiguity between PSR (HTTP) middleware/request-handlers and MessageBus middleware/handlers, enforce the read/write boundary through the MessageBus, and move DB migration/CLI assets out of IMS into the component that owns them. This establishes the reference pattern that will be replicated (as speckit tasks) across the remaining webware components, including UserManager.
 
@@ -37,8 +37,8 @@ Reorganize the webware-acl component to remove ambiguity between PSR (HTTP) midd
 |------|-------------|-----------|------|
 | TASK-001 | Run full validation suite (mago format/lint/analyze/guard, unit, integration, mutation) to establish baseline state | ✅ | 2026-08-24 |
 | TASK-002 | Inventory current Mago baseline entries (`lint-baseline.toml`, `analysis-baseline.toml`); fix what can be fixed safely, regenerate baselines for the rest | ✅ | 2026-08-24 |
-| TASK-003 | Write characterization/safety-net tests for every behavior the moves must preserve (see Section 6) | ⬜ |  |
-| TASK-004 | Encode Guard rules for the new layout using `[[guard.perimeter.rules]]` + `[[guard.perimeter.restrictions]]`: (a) PSR `RequestHandlerInterface` usable only from `Http\RequestHandlers\` (+ `Http\Admin\RequestHandlers\`); (b) PSR `MiddlewareInterface` usable only from `Http\Middleware\` (+ `Http\Admin\Middleware\`); (c) vendor `MessageBus\QueryHandlerInterface` \| `MessageBus\CommandHandlerInterface` usable only from the MessageBus-side handler namespace (TBD, Step 2); (d) `Repository\*` denied from Http RequestHandler namespaces (reads via bus only). Verify empirically that `implements` counts as dependency use (Guard docs only show `use`-statement examples) | ⬜ |  |
+| TASK-003 | Write characterization/safety-net tests for every behavior the moves must preserve (see Section 6) | ✅ | 2026-08-25 |
+| TASK-004 | Encode Guard rules for the new layout using `[[guard.perimeter.rules]]` + `[[guard.perimeter.restrictions]]`: (a) PSR `RequestHandlerInterface` usable only from `Http\RequestHandlers\` (+ `Http\Admin\RequestHandlers\`); (b) PSR `MiddlewareInterface` usable only from `Http\Middleware\` (+ `Http\Admin\Middleware\`); (c) vendor `MessageBus\QueryHandlerInterface` \| `MessageBus\CommandHandlerInterface` usable only from the MessageBus-side handler namespace (TBD, Step 2); (d) `Repository\*` denied from Http RequestHandler namespaces (reads via bus only). Verify empirically that `implements` counts as dependency use (Guard docs only show `use`-statement examples) | ✅ | 2026-08-28 |
 
 ### Implementation Phase 2 — Step 1: Http boundary reorganization
 
@@ -51,8 +51,8 @@ Reorganize the webware-acl component to remove ambiguity between PSR (HTTP) midd
 
 | Task | Description | Completed | Date |
 |------|-------------|-----------|------|
-| TASK-005 | Namespace map (decided): `Admin\Middleware\*` → `Http\Admin\Middleware\*`; `Admin\RequestHandler\*` → `Http\Admin\RequestHandlers\*`; root `Middleware\*` (AclMiddleware, AuthorizationMiddleware) → `Http\Middleware\*`; root `RequestHandler\ForbiddenHandler` → `Http\RequestHandlers\*`. Classification verified by implemented interface (current dirs already align). Class NAMES unchanged — namespaces only. `Http\RouteResource*` stays under `Http\` alongside the boundary. BC policy: no aliases, track every move in IMS issue #30 | ⬜ |  |
-| TASK-006 | Move classes in small sets; update tests per set and run suite (CON-002) | ⬜ |  |
+| TASK-005 | Namespace map (decided): `Admin\Middleware\*` → `Http\Admin\Middleware\*`; `Admin\RequestHandler\*` → `Http\Admin\RequestHandlers\*`; root `Middleware\*` (AclMiddleware, AuthorizationMiddleware) → `Http\Middleware\*`; root `RequestHandler\ForbiddenHandler` → `Http\RequestHandlers\*`. Classification verified by implemented interface (current dirs already align). Class NAMES unchanged — namespaces only. `Http\RouteResource*` stays under `Http\` alongside the boundary. BC policy: no aliases, track every move in IMS issue #30 | ✅ | 2026-08-27 |
+| TASK-006 | Move classes in small sets; update tests per set and run suite (CON-002) | ✅ | 2026-08-27 |
 | TASK-007 | **Resolved:** `Admin\Dashboard` (Widget, RegisterWidgetListener) stays in place — admin UI integration, not PSR boundary | ✅ | 2026-08-23 |
 
 ### Implementation Phase 3 — Step 2: MessageBus changes
@@ -61,9 +61,9 @@ Reorganize the webware-acl component to remove ambiguity between PSR (HTTP) midd
 
 | Task | Description | Completed | Date |
 |------|-------------|-----------|------|
-| TASK-007 | MessageBus verification (Step 2): UNWIRE `AclMessageHandlerMiddleware` from `getBusConfig()` pipeline + remove its factory wiring from `getDependencies()`; keep all acl-local classes in place; keep command map as-is | ⬜ |  |
-| TASK-008 | Migrate reads to query handlers using the vendor query bus: `query_map` sub-key in `getBusConfig()`, `Query\QueryInterface` queries + `QueryHandlerInterface` handlers (optionally `Strategy\ClassnameStrategy`); targets: `Acl::load()`, `OverviewMiddleware`, `AddRoleModalHandler`, `EditRoleModalHandler`, `RoleListHandler` | ⬜ |  |
-| TASK-009 | Migrate reads to query handlers: `Acl::load()` (decision: everything through the bus — resolve DI cycle strategy first, RISK-006), `OverviewMiddleware`, `AddRoleModalHandler`, `EditRoleModalHandler`, `RoleListHandler` | ⬜ |  |
+| TASK-007 | MessageBus verification (Step 2): UNWIRE `AclMessageHandlerMiddleware` from `getBusConfig()` pipeline + remove its factory wiring from `getDependencies()`; keep all acl-local classes in place; keep command map as-is | ✅ | 2026-08-28 |
+| TASK-008 | Migrate reads to query handlers using the vendor query bus: `query_map` sub-key in `getBusConfig()`, `Query\QueryInterface` queries + `QueryHandlerInterface` handlers (optionally `Strategy\ClassnameStrategy`); targets: `Acl::load()`, `OverviewMiddleware`, `AddRoleModalHandler`, `EditRoleModalHandler`, `RoleListHandler` | ✅ | 2026-08-28 |
+| TASK-009 | Migrate reads to query handlers: `Acl::load()` (decision: everything through the bus — resolve DI cycle strategy first, RISK-006), `OverviewMiddleware`, `AddRoleModalHandler`, `EditRoleModalHandler`, `RoleListHandler` | ✅ | 2026-08-28 |
 
 **Phase 3 — read-migration decisions (locked 2026-08-27; full convention in webware-ecosystem-memory):**
 

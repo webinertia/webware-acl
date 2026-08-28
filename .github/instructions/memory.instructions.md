@@ -1,11 +1,11 @@
 ---
-description: Session handoff for the webware-acl refactor — plan state, task status, and decisions as of 2026-08-25.
+description: Session handoff for the webware-acl refactor — plan state, task status, and decisions as of 2026-08-28.
 applyTo: '**/*'
 ---
 
 # Webware ACL Memory
 
-Tagline: Refactor plan lives at plan/refactor-webware-acl-1.md; TASK-003 (characterization tests) is substantially underway; 100% line AND mutation coverage is the gate.
+Tagline: Phases 1–3 are DONE and merged (bug fixes #13–#18, Http boundary moves, MessageBus read migration, guard rules); 100% line AND mutation coverage MET. Remaining: Phase 4 migrations/CLI (blocked) + Phase 3 leftovers (webware-acl #22).
 
 ## Session handoff (2026-08-24)
 
@@ -32,8 +32,8 @@ Tagline: Refactor plan lives at plan/refactor-webware-acl-1.md; TASK-003 (charac
 - CONFIRMED BUG (issue #18): `InputFilter\RuleDataFilter` adds `type` with only a `Filter\ToEnum` (no validator); `ToEnum` is case-sensitive and returns unrecognized values unchanged, so any non-`'Allow'`/`'Deny'` value passes `isValid()` and then TypeErrors in `SaveRuleCommand`/`UpdateRuleTypeCommand`. Production templates submit correct case, so this is input-robustness only; the old ui-mockup used lowercase. Fix post-refactor (add enum validator and/or case-insensitive mapping).
 - LATENT (now issue #17): `Entity\Rule` constructor promotes `RuleType $type` (not `string|RuleType`), so `populate(['type' => 'Deny'])` would TypeError; the `resolveType()` string branch is effectively unreachable. Note it, don't fix (CON-001).
 - RISK-007: ProcessRuleMiddleware (processPatch/processDelete CommandResult issues) + RuleFilter readonly-assignment bugs may be stale tracking. Move classes INTACT (CON-001); characterization tests confirm whether the bugs persist; fixes land in a separate, clearly-marked post-refactor effort.
-- RISK-003: boundary violations to fix in Phase 3: AddRoleModalHandler, EditRoleModalHandler, RoleListHandler read RoleRepository directly; OverviewMiddleware reads RuleRepository directly.
-- RISK-004/RISK-006 (decided): acl-local MessageBus classes stay in place but get UNWIRED from getBusConfig() (plus factory wiring removal); ALL reads go through the bus, including Acl::load() — no DI cycle while the ACL-enforcing middleware is unwired.
+- RISK-003: RESOLVED (2026-08-28) — the boundary violations were migrated in Phase 3: `AddRoleModalHandler`/`EditRoleModalHandler`/`RoleListHandler` now read via `FetchAllRoles`; `OverviewMiddleware` via `FetchAllRules`.
+- RISK-004/RISK-006 (decided): acl-local MessageBus classes UNWIRED from `getBusConfig()` (pipeline now uses vendor `MessageHandlerMiddleware`); the classes remain physically present — removal is deferred to webware-acl #22. ALL reads go through the bus, including `Acl::load()` — no DI cycle while the ACL-enforcing middleware is unwired.
 - Phase 2 namespace map (TASK-005, decided): `Admin\Middleware\*` → `Http\Admin\Middleware\*`; `Admin\RequestHandler\*` → `Http\Admin\RequestHandlers\*`; root `Middleware\*` (AclMiddleware, AuthorizationMiddleware) → `Http\Middleware\*`; `RequestHandler\ForbiddenHandler` → `Http\RequestHandlers\*`. Class names unchanged; no BC aliases; every move tracked in IMS issue #30. `Http\RouteResource*` stays under `Http\`; `Admin\Dashboard\*` stays (TASK-007 resolved).
 - acl entities (`Role`, `Rule`) now use the PhpDb `RowPrototypeInterface`/`RowPrototypeResultSet` contract (usermanager-aligned); `RoleRepository`/`RuleRepository` hydrate via `RowPrototypeResultSet`. `SingleRoleUserProxy` updated for the new usermanager `UserInterface` (throws-only methods return `never` with `@throws Exception`). Legacy `withRowData()` proxies kept on the entities.
 - acl composer.json no longer requires webware/webware-resultset; the VCS repository entry was removed and composer.lock refreshed (resolved usermanager 0.1.x-dev 29d8fcd).
