@@ -228,13 +228,11 @@ final class Acl extends LaminasAcl implements AclInterface
                 continue;
             }
             $candidate = $name;
+            $previous  = '';
             $parent    = null;
-            while (false !== ($pos = strrpos($candidate, '.'))) {
-                $next = substr($candidate, 0, $pos);
-                if ($next === $candidate) {
-                    break;
-                }
-                $candidate = $next;
+            while (false !== ($pos = strrpos($candidate, '.')) && $candidate !== $previous) {
+                $previous  = $candidate;
+                $candidate = substr($candidate, 0, $pos);
 
                 if ($this->hasResource($candidate)) {
                     $parent = $candidate;
