@@ -11,7 +11,7 @@ use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 use Webware\Acl\Http\Admin\RequestHandlers\Container\RoleListHandlerFactory;
 use Webware\Acl\Http\Admin\RequestHandlers\RoleListHandler;
-use Webware\Acl\Repository\RoleRepository;
+use Webware\MessageBus\MessageBusInterface;
 use WebwareTest\Acl\Support\PhpDbAdapterMockTrait;
 
 #[CoversClass(RoleListHandlerFactory::class)]
@@ -26,7 +26,7 @@ final class RoleListHandlerFactoryTest extends TestCase
         $container->method('get')
             ->willReturnMap([
                 [TemplateRendererInterface::class, $this->createStub(TemplateRendererInterface::class)],
-                [RoleRepository::class, new RoleRepository($this->createAdapter([]))],
+                [MessageBusInterface::class, $this->createQueryBus($this->createAdapter([]))],
             ]);
 
         self::assertInstanceOf(RoleListHandler::class, (new RoleListHandlerFactory())($container));

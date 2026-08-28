@@ -13,7 +13,7 @@ use Psr\Container\ContainerInterface;
 use Webware\Acl\AssertionManager;
 use Webware\Acl\Http\Admin\Middleware\Container\OverviewMiddlewareFactory;
 use Webware\Acl\Http\Admin\Middleware\OverviewMiddleware;
-use Webware\Acl\Repository\RuleRepository;
+use Webware\MessageBus\MessageBusInterface;
 use WebwareTest\Acl\Support\PhpDbAdapterMockTrait;
 
 #[CoversClass(OverviewMiddlewareFactory::class)]
@@ -27,7 +27,7 @@ final class OverviewMiddlewareFactoryTest extends TestCase
         $container = $this->createStub(ContainerInterface::class);
         $container->method('get')
             ->willReturnMap([
-                [RuleRepository::class, new RuleRepository($this->createAdapter([]))],
+                [MessageBusInterface::class, $this->createQueryBus($this->createAdapter([]))],
                 [RouteCollectorInterface::class, $this->createStub(RouteCollectorInterface::class)],
                 [AssertionManager::class, new AssertionManager(new ServiceManager())],
             ]);

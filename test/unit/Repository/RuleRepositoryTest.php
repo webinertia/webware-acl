@@ -98,6 +98,31 @@ final class RuleRepositoryTest extends TestCase
     }
 
     #[Test]
+    public function findByRoleAndResourceReturnsNullAssertionsWhenNull(): void
+    {
+        $repo = new RuleRepository($this->createAdapter([
+            [
+                [
+                    'type'       => 'Allow',
+                    'roleId'     => 'Admin',
+                    'resourceId' => 'dashboard',
+                    'assertions' => null,
+                ],
+            ],
+        ]));
+
+        self::assertSame(
+            [
+                'type'       => 'Allow',
+                'roleId'     => 'Admin',
+                'resourceId' => 'dashboard',
+                'assertions' => null,
+            ],
+            $repo->findByRoleAndResource('Admin', 'dashboard'),
+        );
+    }
+
+    #[Test]
     public function findByRoleAndResourceReturnsNullWhenMissing(): void
     {
         $repo = new RuleRepository($this->createAdapter([

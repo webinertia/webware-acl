@@ -28,5 +28,10 @@ final class RegisterWidgetListenerTest extends TestCase
         self::assertCount(1, $widgets);
         self::assertInstanceOf(Widget::class, $widgets[0]);
         self::assertSame('admin.acl', $widgets[0]->getResourceId());
+        self::assertSame(0, $widgets[0]->roleCount);
+        self::assertSame(0, $widgets[0]->resourceCount);
+        self::assertSame(0, $widgets[0]->ruleCount);
+        self::assertSame(0, $widgets[0]->assertionCount);
+        self::assertSame(0, $widgets[0]->aclVersion);
     }
 }

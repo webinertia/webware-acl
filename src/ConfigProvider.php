@@ -24,7 +24,6 @@ use Webware\Acl\Admin\CommandHandler\UpdateRuleTypeHandler;
 use Webware\Acl\Admin\Dashboard\Container\RegisterWidgetListenerFactory;
 use Webware\Acl\Admin\Dashboard\RegisterWidgetListener;
 use Webware\Acl\Container\AclFactory;
-use Webware\Acl\Container\MessageHandlerMiddlewareFactory;
 use Webware\Acl\Container\RouteProviderFactory;
 use Webware\Acl\Http\Admin\Middleware\Container\OverviewMiddlewareFactory;
 use Webware\Acl\Http\Admin\Middleware\Container\ProcessRoleMiddlewareFactory;
@@ -54,7 +53,18 @@ use Webware\Acl\Http\RequestHandlers\ForbiddenHandler;
 use Webware\Acl\Http\RequestHandlers\ForbiddenHandlerInterface;
 use Webware\Acl\Http\RouteResourceFactory;
 use Webware\Acl\Http\RouteResourceFactoryInterface;
-use Webware\Acl\MessageBus\Middleware\MessageHandlerMiddleware as AclMessageHandlerMiddleware;
+use Webware\Acl\Query\FetchAclRoleRegistry;
+use Webware\Acl\Query\FetchAllRoles;
+use Webware\Acl\Query\FetchAllRules;
+use Webware\Acl\Query\FetchDistinctResourceIds;
+use Webware\Acl\QueryHandler\Container\FetchAclRoleRegistryHandlerFactory;
+use Webware\Acl\QueryHandler\Container\FetchAllRolesHandlerFactory;
+use Webware\Acl\QueryHandler\Container\FetchAllRulesHandlerFactory;
+use Webware\Acl\QueryHandler\Container\FetchDistinctResourceIdsHandlerFactory;
+use Webware\Acl\QueryHandler\FetchAclRoleRegistryHandler;
+use Webware\Acl\QueryHandler\FetchAllRolesHandler;
+use Webware\Acl\QueryHandler\FetchAllRulesHandler;
+use Webware\Acl\QueryHandler\FetchDistinctResourceIdsHandler;
 use Webware\Acl\Repository\Container\RoleRepositoryFactory;
 use Webware\Acl\Repository\Container\RuleRepositoryFactory;
 use Webware\Acl\Repository\RoleRepository;
@@ -72,6 +82,7 @@ use Webware\MessageBus\Middleware\MessageHandlerMiddleware;
  * }
  * @type BusConfig = array{
  *   command_map: array<class-string, class-string>,
+ *   query_map: array<class-string, class-string>,
  *   middleware_pipeline: array<array{middleware: class-string, priority: int}>,
  * }
  * @type Dependencies = array{
@@ -134,14 +145,16 @@ final class ConfigProvider
                 SaveRuleCommand::class       => SaveRuleHandler::class,
                 UpdateRuleTypeCommand::class => UpdateRuleTypeHandler::class,
             ],
+            BusProvider::QUERY_MAP_KEY           => [
+                FetchAllRules::class            => FetchAllRulesHandler::class,
+                FetchDistinctResourceIds::class => FetchDistinctResourceIdsHandler::class,
+                FetchAclRoleRegistry::class     => FetchAclRoleRegistryHandler::class,
+                FetchAllRoles::class            => FetchAllRolesHandler::class,
+            ],
             BusProvider::MIDDLEWARE_PIPELINE_KEY => [
                 [
                     'middleware' => MessageHandlerMiddleware::class,
                     'priority'   => BusProvider::DEFAULT_PRIORITY,
-                ],
-                [
-                    'middleware' => AclMessageHandlerMiddleware::class,
-                    'priority'   => 10,
                 ],
             ],
         ];
@@ -197,9 +210,12 @@ final class ConfigProvider
                 SaveRoleHandler::class                     => SaveRoleHandlerFactory::class,
                 SaveRuleHandler::class                     => SaveRuleHandlerFactory::class,
                 UpdateRuleTypeHandler::class               => UpdateRuleTypeHandlerFactory::class,
+                FetchAllRulesHandler::class                => FetchAllRulesHandlerFactory::class,
+                FetchDistinctResourceIdsHandler::class     => FetchDistinctResourceIdsHandlerFactory::class,
+                FetchAclRoleRegistryHandler::class         => FetchAclRoleRegistryHandlerFactory::class,
+                FetchAllRolesHandler::class                => FetchAllRolesHandlerFactory::class,
                 RoleRepository::class                      => RoleRepositoryFactory::class,
                 RuleRepository::class                      => RuleRepositoryFactory::class,
-                AclMessageHandlerMiddleware::class         => MessageHandlerMiddlewareFactory::class,
             ],
         ];
     }

@@ -10,7 +10,6 @@ use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ServerRequestInterface;
 use Webware\Acl\Http\Admin\RequestHandlers\RoleListHandler;
-use Webware\Acl\Repository\RoleRepository;
 use Webware\MessageBus\Command\CommandResult;
 use Webware\MessageBus\Command\CommandResultInterface;
 use Webware\MessageBus\MessageStatus;
@@ -38,7 +37,7 @@ final class RoleListHandlerTest extends TestCase
                     : $default,
             );
 
-        $roleRepo = new RoleRepository($this->createAdapter([[]]));
+        $roleRepo = $this->createQueryBus($this->createAdapter([[]]));
         $response = new RoleListHandler($template, $roleRepo)->handle($request);
 
         self::assertSame('{"closeModal":null}', $response->getHeaderLine('HX-Trigger'));
@@ -59,7 +58,7 @@ final class RoleListHandlerTest extends TestCase
                 },
             );
 
-        $roleRepo = new RoleRepository($this->createAdapter([
+        $roleRepo = $this->createQueryBus($this->createAdapter([
             [
                 ['id' => 1, 'roleId' => 'Admin', 'parentId' => null],
                 ['id' => 2, 'roleId' => 'Manager', 'parentId' => '["Admin"]'],

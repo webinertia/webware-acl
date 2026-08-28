@@ -14,6 +14,8 @@ declare(strict_types=1);
 
 namespace Webware\Acl\Exception;
 
+use RuntimeException as SplRuntimeException;
+
 /**
  * Thrown by MessageHandlerMiddleware when an ownership assertion fails.
  *
@@ -22,4 +24,4 @@ namespace Webware\Acl\Exception;
  * unauthorised user to initiate the command, this exception indicates
  * intentional probing and should be logged at critical level.
  */
-final class AccessDeniedException extends RuntimeException {}
+final class AccessDeniedException extends SplRuntimeException implements ExceptionInterface {}

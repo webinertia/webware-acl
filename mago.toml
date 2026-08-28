@@ -18,12 +18,13 @@ baseline = "analysis-baseline.toml"
 # Admin\CommandHandler) — they are NOT centralized under MessageBus\ and are
 # not moved.
 #
-# Phase 3 (TASK-004 c/d, deferred): `Repository\*` denied from Http
-# RequestHandler namespaces (reads go through the bus) — that will be a
-# `perimeter` rule, so switch `mode` to "default" then.
+# Phase 3 (TASK-004 c/d): `Repository\*` is restricted to QueryHandler,
+# Admin\CommandHandler (and their factories), the root Webware\Acl namespace
+# (ConfigProvider DI wiring), and tests — enforced via a `perimeter`
+# restriction, so `mode` is "default".
 # ---------------------------------------------------------------------------
 [guard]
-mode = "structural"
+mode = "default"
 
 # Http\Middleware\ — PSR middleware (non-admin)
 [[guard.structural.rules]]
@@ -80,6 +81,38 @@ target = "class"
 must-be-named = "*Handler"
 must-implement = "Webware\\MessageBus\\CommandHandlerInterface"
 reason = "Command handlers live in the domain they act on and must implement CommandHandlerInterface."
+
+# Query\ — domain queries
+[[guard.structural.rules]]
+on = "Webware\\Acl\\Query\\*"
+target = "class"
+must-implement = "Webware\\MessageBus\\Query\\QueryInterface"
+reason = "Queries live in Query\\ and must implement QueryInterface."
+
+# QueryHandler\ — domain query handlers
+[[guard.structural.rules]]
+on = "Webware\\Acl\\QueryHandler\\*"
+target = "class"
+must-be-named = "*Handler"
+must-implement = "Webware\\MessageBus\\QueryHandlerInterface"
+reason = "Query handlers live in QueryHandler\\ and must implement QueryHandlerInterface."
+
+# Repository\** — repositories usable only from handlers, their factories, the
+# root Webware\Acl namespace (ConfigProvider wires the DI factories), and tests.
+#
+# NOTE: `allow-from` matches source *namespaces* (not individual symbols), and a
+# namespace pattern always prefix-matches sub-namespaces. The glob `Webware\*`
+# matches exactly the two-segment root namespace `Webware\Acl` (ConfigProvider's
+# home) without opening up `Webware\Acl\Http\...` or other sub-namespaces.
+[[guard.perimeter.restrictions]]
+dependency = "Webware\\Acl\\Repository\\**"
+allow-from = [
+    "Webware\\*",
+    "Webware\\Acl\\Repository\\**",
+    "Webware\\Acl\\QueryHandler\\**",
+    "Webware\\Acl\\Admin\\CommandHandler\\**",
+    "WebwareTest\\Acl\\**",
+]
 
 [source]
 paths = ["src", "test"]

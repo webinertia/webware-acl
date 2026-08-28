@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace WebwareTest\Acl\Admin\CommandHandler;
 
+use PhpDb\Sql\Delete;
+use PhpDb\Sql\Select;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
@@ -26,6 +28,9 @@ final class DeleteRoleHandlerTest extends TestCase
         $result  = $handler->handle(new DeleteRoleCommand('Editor'));
 
         self::assertSame(MessageStatus::Success, $result->getStatus());
+        self::assertCount(2, $this->preparedSqlObjects);
+        self::assertInstanceOf(Select::class, $this->preparedSqlObjects[0]);
+        self::assertInstanceOf(Delete::class, $this->preparedSqlObjects[1]);
     }
 
     #[Test]

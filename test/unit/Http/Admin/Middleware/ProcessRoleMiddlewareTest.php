@@ -202,6 +202,30 @@ final class ProcessRoleMiddlewareTest extends TestCase
         );
     }
 
+    #[Test]
+    public function processPostSkipsDispatchOnInvalidInput(): void
+    {
+        $bus = $this->createMock(MessageBusInterface::class);
+        $bus->expects(self::never())->method('handle');
+
+        $messenger = $this->createMock(SystemMessengerInterface::class);
+        $messenger->expects(self::once())->method('warning');
+
+        $request = $this->request(
+            'POST',
+            $this->fakeFilter(
+                valid  : false,
+                message: 'Invalid roleId',
+            ),
+            $messenger,
+        );
+        $handler = $this->capturingHandler();
+
+        new ProcessRoleMiddleware($bus)->processPost($request, $handler);
+
+        self::assertNull($handler->received?->getAttribute(CommandResult::class));
+    }
+
     private function capturingHandler(): RequestHandlerInterface
     {
         return new class() implements RequestHandlerInterface {

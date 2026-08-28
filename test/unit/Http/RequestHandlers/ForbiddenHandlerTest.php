@@ -40,12 +40,32 @@ final class ForbiddenHandlerTest extends TestCase
     {
         $handler   = new ForbiddenHandler('/login', '/denied');
         $messenger = $this->createMock(SystemMessengerInterface::class);
-        $messenger->expects(self::once())->method('warning');
+        $messenger->expects(self::once())
+            ->method('warning')
+            ->with(
+                'You do not have permission to access the requested resource.',
+                1,
+                false,
+            );
 
         $response = $handler->handle($this->request([
             UserInterface::class            => $this->user('joe'),
             SystemMessengerInterface::class => $messenger,
         ]));
+
+        self::assertSame('/denied', $response->getHeaderLine('Location'));
+    }
+
+    #[Test]
+    public function forbiddenRedirectTakesPriorityOverReferer(): void
+    {
+        $handler  = new ForbiddenHandler('/login', '/denied');
+        $response = $handler->handle(
+            $this->request(
+                [UserInterface::class => $this->user('joe')],
+                ['HTTP_REFERER' => '/previous'],
+            ),
+        );
 
         self::assertSame('/denied', $response->getHeaderLine('Location'));
     }

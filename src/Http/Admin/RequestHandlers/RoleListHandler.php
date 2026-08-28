@@ -11,10 +11,12 @@ use Override;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Webware\Acl\Repository\RoleRepository;
+use Webware\Acl\Entity\Role;
+use Webware\Acl\Query\FetchAllRoles;
 use Webware\Htmx\Response\Header;
 use Webware\MessageBus\Command\CommandResult;
 use Webware\MessageBus\Command\CommandResultInterface;
+use Webware\MessageBus\MessageBusInterface;
 use Webware\MessageBus\MessageStatus;
 
 use function json_encode;
@@ -23,7 +25,7 @@ final class RoleListHandler implements RequestHandlerInterface
 {
     public function __construct(
         private readonly TemplateRendererInterface $template,
-        private readonly RoleRepository $roleRepository,
+        private readonly MessageBusInterface $messageBus,
     ) {}
 
     /**
@@ -32,7 +34,8 @@ final class RoleListHandler implements RequestHandlerInterface
     #[Override]
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
-        $roles = $this->roleRepository->fetchAll();
+        /** @var Role[] $roles */
+        $roles = $this->messageBus->handle(new FetchAllRoles())->getResult();
 
         // Build a set of roleIds that appear as a parent in any role's parentId.
         // Used by the template to disable the delete button for roles that have children.

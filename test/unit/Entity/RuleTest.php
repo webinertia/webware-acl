@@ -69,6 +69,22 @@ final class RuleTest extends TestCase
     }
 
     #[Test]
+    public function populateResolvesStringType(): void
+    {
+        /** @var Rule $rule */
+        $rule = new Rule()->populate([
+            'id'               => 1,
+            'type'             => 'Deny',
+            'roleId'           => 'Admin',
+            'resourceId'       => 'dashboard',
+            'assertions'       => null,
+            'parentResourceId' => null,
+        ]);
+
+        self::assertSame(RuleType::Deny, $rule->type);
+    }
+
+    #[Test]
     public function ruleTypeInstanceIsPreserved(): void
     {
         self::assertSame(RuleType::Deny, new Rule(type: RuleType::Deny)->type);

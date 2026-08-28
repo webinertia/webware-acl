@@ -15,13 +15,6 @@ final class SingleRoleUserProxy implements UserInterface
 {
     public private(set) int|string|null $id = null {
         get => $this->id ?? null;
-        set(int|string|null $value) {
-            if (null === $value) {
-                $this->id = null;
-            } else {
-                $this->id = is_string($value) ? (int) $value : $value;
-            }
-        }
     }
 
     public function __construct(

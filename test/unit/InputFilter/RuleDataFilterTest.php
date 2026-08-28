@@ -69,6 +69,26 @@ final class RuleDataFilterTest extends TestCase
     }
 
     #[Test]
+    public function invalidTypeValueIsRejected(): void
+    {
+        $filter = InputFilterHelper::ruleDataFilter();
+        $filter->setValidationGroup(['roleId', 'resourceId', 'type']);
+        $filter->setData(['roleId' => 'Admin', 'resourceId' => 'dashboard', 'type' => 'Grant']);
+
+        self::assertFalse($filter->isValid());
+    }
+
+    #[Test]
+    public function lowercaseTypeValueIsRejected(): void
+    {
+        $filter = InputFilterHelper::ruleDataFilter();
+        $filter->setValidationGroup(['roleId', 'resourceId', 'type']);
+        $filter->setData(['roleId' => 'Admin', 'resourceId' => 'dashboard', 'type' => 'deny']);
+
+        self::assertFalse($filter->isValid());
+    }
+
+    #[Test]
     public function missingTypeIsInvalid(): void
     {
         $filter = InputFilterHelper::ruleDataFilter();

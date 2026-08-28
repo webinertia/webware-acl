@@ -9,14 +9,23 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use RuntimeException as SplRuntimeException;
+use Webware\Acl\Exception\AccessDeniedException;
 use Webware\Acl\Exception\ExceptionInterface;
 use Webware\Acl\Exception\InvalidConfigException;
 use Webware\Acl\Exception\RuntimeException;
 
 #[CoversClass(RuntimeException::class)]
 #[CoversClass(InvalidConfigException::class)]
+#[CoversClass(AccessDeniedException::class)]
 final class ExceptionTest extends TestCase
 {
+    #[Test]
+    public function accessDeniedExtendsSplRuntimeException(): void
+    {
+        self::assertInstanceOf(SplRuntimeException::class, new AccessDeniedException());
+        self::assertInstanceOf(ExceptionInterface::class, new AccessDeniedException());
+    }
+
     #[Test]
     public function forAclAddResourceBuildsRuntimeException(): void
     {

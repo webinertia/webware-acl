@@ -99,7 +99,7 @@ final class RuleRepository
     /**
      * Returns a single rule row for the given (roleId, resourceId) pair, or null.
      *
-     * @return array{type: string, roleId: string, resourceId: string, assertions: string[]}|null
+     * @return array{type: string, roleId: string, resourceId: string, assertions: string[]|null}|null
      * @throws SqlException
      */
     public function findByRoleAndResource(string $roleId, string $resourceId): ?array
@@ -121,7 +121,7 @@ final class RuleRepository
             'type'       => $row['type'],
             'roleId'     => $row['roleId'],
             'resourceId' => $row['resourceId'],
-            'assertions' => json_decode($row['assertions'], true) ?? [],
+            'assertions' => null === $row['assertions'] ? null : json_decode($row['assertions'], true),
         ];
     }
 

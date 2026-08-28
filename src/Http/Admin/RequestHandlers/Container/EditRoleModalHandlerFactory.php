@@ -9,7 +9,7 @@ use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Webware\Acl\Http\Admin\RequestHandlers\EditRoleModalHandler;
-use Webware\Acl\Repository\RoleRepository;
+use Webware\MessageBus\MessageBusInterface;
 
 final class EditRoleModalHandlerFactory
 {
@@ -21,7 +21,7 @@ final class EditRoleModalHandlerFactory
     {
         return new EditRoleModalHandler(
             $container->get(TemplateRendererInterface::class),
-            $container->get(RoleRepository::class),
+            $container->get(MessageBusInterface::class),
         );
     }
 }

@@ -10,7 +10,6 @@ use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ServerRequestInterface;
 use Webware\Acl\Http\Admin\RequestHandlers\AddRoleModalHandler;
-use Webware\Acl\Repository\RoleRepository;
 use WebwareTest\Acl\Support\PhpDbAdapterMockTrait;
 
 #[CoversClass(AddRoleModalHandler::class)]
@@ -33,7 +32,7 @@ final class AddRoleModalHandlerTest extends TestCase
                 },
             );
 
-        $roleRepo = new RoleRepository($this->createAdapter([
+        $roleRepo = $this->createQueryBus($this->createAdapter([
             [['id' => 1, 'roleId' => 'Admin', 'parentId' => null]],
         ]));
 

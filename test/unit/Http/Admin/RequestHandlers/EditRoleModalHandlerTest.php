@@ -10,7 +10,6 @@ use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ServerRequestInterface;
 use Webware\Acl\Http\Admin\RequestHandlers\EditRoleModalHandler;
-use Webware\Acl\Repository\RoleRepository;
 use WebwareTest\Acl\Support\PhpDbAdapterMockTrait;
 
 #[CoversClass(EditRoleModalHandler::class)]
@@ -33,7 +32,7 @@ final class EditRoleModalHandlerTest extends TestCase
                 },
             );
 
-        $roleRepo = new RoleRepository($this->createAdapter([
+        $roleRepo = $this->createQueryBus($this->createAdapter([
             [
                 ['id' => 1, 'roleId' => 'Admin', 'parentId' => null],
                 ['id' => 2, 'roleId' => 'Manager', 'parentId' => '["Admin"]'],
@@ -54,6 +53,8 @@ final class EditRoleModalHandlerTest extends TestCase
         self::assertSame('acl::partials/edit-role-modal', $name);
         self::assertSame('Manager', $params['role']->getRoleId());
         self::assertCount(2, $params['roles']);
+        self::assertFalse($params['layout']);
+        self::assertFalse($params['body']);
     }
 
     #[Test]
@@ -70,7 +71,7 @@ final class EditRoleModalHandlerTest extends TestCase
                 },
             );
 
-        $roleRepo = new RoleRepository($this->createAdapter([
+        $roleRepo = $this->createQueryBus($this->createAdapter([
             [['id' => 1, 'roleId' => 'Admin', 'parentId' => null]],
         ]));
 

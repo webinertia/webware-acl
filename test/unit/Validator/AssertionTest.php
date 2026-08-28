@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace WebwareTest\Acl\Validator;
 
-use Error;
 use Laminas\ServiceManager\ServiceManager;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Test;
@@ -23,17 +22,15 @@ final class AssertionTest extends TestCase
     }
 
     #[Test]
-    public function arrayWithUnknownAssertionThrowsError(): void
+    public function arrayWithUnknownAssertionIsInvalid(): void
     {
-        $this->expectException(Error::class);
-        $this->validator()->isValid(['Ownership', 'Nope']);
+        self::assertFalse($this->validator()->isValid(['Ownership', 'Nope']));
     }
 
     #[Test]
-    public function emptyArrayElementThrowsError(): void
+    public function emptyArrayElementIsInvalid(): void
     {
-        $this->expectException(Error::class);
-        $this->validator()->isValid(['']);
+        self::assertFalse($this->validator()->isValid(['']));
     }
 
     #[Test]
@@ -49,12 +46,9 @@ final class AssertionTest extends TestCase
     }
 
     #[Test]
-    public function nonNullableNullThrowsError(): void
+    public function nonNullableNullIsInvalid(): void
     {
-        // BUG: error() throws because $missingAssertion/$invalidType are private
-        // while messageVariables requires them readable from AbstractValidator.
-        $this->expectException(Error::class);
-        $this->validator()->isValid(null);
+        self::assertFalse($this->validator()->isValid(null));
     }
 
     #[Test]
@@ -70,10 +64,15 @@ final class AssertionTest extends TestCase
     }
 
     #[Test]
-    public function unknownAssertionThrowsError(): void
+    public function nullOptionsDefaultToNonNullable(): void
     {
-        $this->expectException(Error::class);
-        $this->validator()->isValid('Nope');
+        self::assertFalse(new Assertion($this->assertionManager(), null)->isValid(null));
+    }
+
+    #[Test]
+    public function unknownAssertionIsInvalid(): void
+    {
+        self::assertFalse($this->validator()->isValid('Nope'));
     }
 
     private function assertionManager(): AssertionManager
