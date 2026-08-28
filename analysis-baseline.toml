@@ -14,12 +14,6 @@ count = 2
 
 [[issues]]
 file = "src/Acl.php"
-code = "impossible-type-comparison"
-message = "Impossible condition: variable `$explicitParents[$resourceId]` (type `null`) can never be `isset`."
-count = 1
-
-[[issues]]
-file = "src/Acl.php"
 code = "less-specific-argument"
 message = 'Argument type mismatch for argument #1 of `Laminas\Permissions\Acl\Role\Registry::getParents`: expected `Laminas\Permissions\Acl\Role\RoleInterface|string`, but provided type `array-key` is less specific.'
 count = 1
@@ -28,12 +22,6 @@ count = 1
 file = "src/Acl.php"
 code = "less-specific-argument"
 message = 'Argument type mismatch for argument #1 of `Webware\Acl\Role\UserRoleIterator::__construct`: expected `Webware\Core\UserInterface`, but provided type `Laminas\Permissions\Acl\Role\RoleInterface|string` is less specific.'
-count = 1
-
-[[issues]]
-file = "src/Acl.php"
-code = "less-specific-nested-argument-type"
-message = 'Argument type mismatch for argument #2 of `Webware\Acl\Repository\RoleRepository::save`: expected `array<array-key, string>|null`, but provided type `array{}|non-empty-list<mixed>` is less specific.'
 count = 1
 
 [[issues]]
@@ -68,12 +56,6 @@ count = 1
 
 [[issues]]
 file = "src/Acl.php"
-code = "null-argument"
-message = 'Argument #2 of method `Laminas\Permissions\Acl\Acl::addResource` is `null`, but parameter type `Laminas\Permissions\Acl\Resource\ResourceInterface|string` does not accept it.'
-count = 1
-
-[[issues]]
-file = "src/Acl.php"
 code = "possibly-null-argument"
 message = 'Argument #1 of method `Webware\Acl\Acl::isAllowed` is possibly `null`, but parameter type `Laminas\Permissions\Acl\Role\RoleInterface|string` does not accept it.'
 count = 1
@@ -93,20 +75,8 @@ count = 1
 [[issues]]
 file = "src/Acl.php"
 code = "redundant-comparison"
-message = "Redundant `===` comparison: left-hand side is always identical to right-hand side."
-count = 1
-
-[[issues]]
-file = "src/Acl.php"
-code = "redundant-comparison"
 message = "Redundant `===` comparison: left-hand side is never identical to right-hand side."
 count = 4
-
-[[issues]]
-file = "src/Acl.php"
-code = "redundant-condition"
-message = "This condition (type `true`) will always evaluate to true."
-count = 1
 
 [[issues]]
 file = "src/Acl.php"
@@ -119,18 +89,6 @@ file = "src/Acl.php"
 code = "redundant-logical-operation"
 message = "Redundant `||` operation: left operand is always falsy and right operand is always falsy."
 count = 1
-
-[[issues]]
-file = "src/Acl.php"
-code = "redundant-null-coalesce"
-message = "Redundant null coalesce: left-hand side is always `null`."
-count = 1
-
-[[issues]]
-file = "src/Acl.php"
-code = "undefined-string-array-index"
-message = "Undefined array key 'parentResourceId' accessed on `array{'assertions': array<array-key, string>, 'resourceId': string, 'roleId': string, 'type': string}`."
-count = 2
 
 [[issues]]
 file = "src/Admin/CommandHandler/SaveRuleHandler.php"
@@ -314,38 +272,8 @@ count = 1
 
 [[issues]]
 file = "src/Http/Admin/Middleware/OverviewMiddleware.php"
-code = "impossible-condition"
-message = "This condition (type `false`) will always evaluate to false."
-count = 2
-
-[[issues]]
-file = "src/Http/Admin/Middleware/OverviewMiddleware.php"
-code = "impossible-null-type-comparison"
-message = "Impossible condition: variable `$name` (type `non-empty-string`) will always be `null`."
-count = 1
-
-[[issues]]
-file = "src/Http/Admin/Middleware/OverviewMiddleware.php"
-code = "impossible-type-comparison"
-message = "Impossible condition: variable `$parentResourceMap[$name]` (type `null`) can never be `isset`."
-count = 1
-
-[[issues]]
-file = "src/Http/Admin/Middleware/OverviewMiddleware.php"
 code = "invalid-iterator"
 message = "The expression provided to `foreach` is not iterable. It resolved to type `mixed`, which is not iterable."
-count = 1
-
-[[issues]]
-file = "src/Http/Admin/Middleware/OverviewMiddleware.php"
-code = "invalid-return-statement"
-message = 'Invalid return type for function `Webware\Acl\Http\Admin\Middleware\OverviewMiddleware::normalizeRouteList`: expected `array<string, array<array-key, string>>`, but found `array<array<array-key, string>|string, array<array-key, string>|string>`.'
-count = 1
-
-[[issues]]
-file = "src/Http/Admin/Middleware/OverviewMiddleware.php"
-code = "mismatched-array-index"
-message = "Invalid array key type: `array<array-key, string>|string` is not a valid key for this array."
 count = 1
 
 [[issues]]
@@ -380,39 +308,9 @@ count = 1
 
 [[issues]]
 file = "src/Http/Admin/Middleware/OverviewMiddleware.php"
-code = "redundant-comparison"
-message = "Redundant `!==` comparison: left-hand side is never identical to (always false for !==) right-hand side."
-count = 3
-
-[[issues]]
-file = "src/Http/Admin/Middleware/OverviewMiddleware.php"
-code = "redundant-comparison"
-message = "Redundant `===` comparison: left-hand side is never identical to right-hand side."
-count = 2
-
-[[issues]]
-file = "src/Http/Admin/Middleware/OverviewMiddleware.php"
-code = "redundant-logical-operation"
-message = "Redundant `||` operation: left operand is always falsy and right operand is always falsy."
-count = 1
-
-[[issues]]
-file = "src/Http/Admin/Middleware/OverviewMiddleware.php"
 code = "redundant-null-coalesce"
 message = "Redundant null coalesce: left-hand side can never be `null` or undefined."
 count = 1
-
-[[issues]]
-file = "src/Http/Admin/Middleware/OverviewMiddleware.php"
-code = "redundant-null-coalesce"
-message = "Redundant null coalesce: left-hand side is always `null`."
-count = 2
-
-[[issues]]
-file = "src/Http/Admin/Middleware/OverviewMiddleware.php"
-code = "undefined-string-array-index"
-message = "Undefined array key 'parentResourceId' accessed on `array{'assertions': array<array-key, string>, 'resourceId': string, 'roleId': string, 'type': string}`."
-count = 2
 
 [[issues]]
 file = "src/Http/Admin/Middleware/ProcessRoleMiddleware.php"
