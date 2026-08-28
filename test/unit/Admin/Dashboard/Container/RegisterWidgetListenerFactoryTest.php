@@ -8,6 +8,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
+use ReflectionProperty;
 use Webware\Acl\Admin\Dashboard\Container\RegisterWidgetListenerFactory;
 use Webware\Acl\Admin\Dashboard\RegisterWidgetListener;
 use Webware\Admin\Container\Configuration as AdminConfiguration;
@@ -37,7 +38,7 @@ final class RegisterWidgetListenerFactoryTest extends TestCase
         self::assertInstanceOf(RegisterWidgetListener::class, $listener);
         self::assertSame(
             ['admin_route_name_prefix' => 'acl.'],
-            new \ReflectionProperty(RegisterWidgetListener::class, 'config')->getValue($listener),
+            new ReflectionProperty(RegisterWidgetListener::class, 'config')->getValue($listener),
         );
     }
 }

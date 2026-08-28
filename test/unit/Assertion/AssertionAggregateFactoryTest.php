@@ -8,6 +8,7 @@ use Laminas\ServiceManager\ServiceManager;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
+use ReflectionProperty;
 use Webware\Acl\Assertion\AssertionAggregate;
 use Webware\Acl\Assertion\AssertionAggregateFactory;
 use Webware\Acl\AssertionManager;
@@ -29,7 +30,7 @@ final class AssertionAggregateFactoryTest extends TestCase
         self::assertSame(AssertionAggregate::MODE_AT_LEAST_ONE, $aggregate->getMode());
         self::assertSame(
             ['Ownership'],
-            new \ReflectionProperty(AssertionAggregate::class, 'assertions')->getValue($aggregate),
+            new ReflectionProperty(AssertionAggregate::class, 'assertions')->getValue($aggregate),
         );
     }
 

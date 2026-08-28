@@ -9,6 +9,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
+use ReflectionProperty;
 use Webware\Acl\Http\Admin\RequestHandlers\Container\ResourceListHandlerFactory;
 use Webware\Acl\Http\Admin\RequestHandlers\ResourceListHandler;
 use Webware\Core\AclInterface;
@@ -31,7 +32,7 @@ final class ResourceListHandlerFactoryTest extends TestCase
         self::assertInstanceOf(ResourceListHandler::class, $handler);
         self::assertSame(
             ['resources' => ['dashboard']],
-            new \ReflectionProperty(ResourceListHandler::class, 'config')->getValue($handler),
+            new ReflectionProperty(ResourceListHandler::class, 'config')->getValue($handler),
         );
     }
 }

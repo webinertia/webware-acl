@@ -27,7 +27,6 @@ use function array_map;
 use function array_unique;
 use function array_values;
 use function count;
-use function is_int;
 
 /**
  * Assembles the Access Control page view model and attaches it to the request
