@@ -7,7 +7,7 @@ applyTo: '**/*'
 
 Tagline: Phases 1–3 are DONE and merged (bug fixes #13–#18, Http boundary moves, MessageBus read migration, guard rules); 100% line AND mutation coverage MET. Remaining: Phase 4 migrations/CLI (blocked) + Phase 3 leftovers (webware-acl #22).
 
-- Phase 4 direction (2026-08-28): migrations layer abstracted into `webware/migration` (Migration interfaces, requires webware-core) + `webware/console` (TUI only, rewrite from scratch, wraps mezzio-tooling long-term). acl will ship `Migration016AclRole`/`Migration017AclRule` + base-role seed (Guest/Member/Administrator); IMS builds on those. Next step: speckit-plan webware-console + webware-migration in their own repos.
+- Phase 4 direction (2026-08-28): migration tooling lives in `webware/webware-migration` (all migration logic + CLI commands) and `webware/webware-console` (TUI); those repos' constitutions/specs are the source of truth. acl ships `Migration016AclRole`/`Migration017AclRule` + base-role seed (Guest/Member/Administrator); IMS builds on those. Both repos are scaffolded (specify 1.0.1) with constitution PRs open; next step is /speckit-specify.
 
 ## Session handoff (2026-08-24)
 
