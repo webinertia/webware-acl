@@ -81,6 +81,14 @@ Reorganize the webware-acl component to remove ambiguity between PSR (HTTP) midd
 |------|-------------|-----------|------|
 | TASK-010 | Migrate acl migration classes into webware-acl: port `Migration016AclRole`, `Migration017AclRule` (from `src/ims-migration/` on the IMS branch) per the migrations-layer design in `.github/migrations-layer-plan.md` (lightweight PHP system: `MigrationInterface` with getVersion/getDescription/up/down, `schema_migrations` tracking table, `bin/migrate` runner, `Migration{NNN}{PascalDescription}` naming). IMS originals stay. CLI seed scripts + `data/schema/*.sql` ownership: scope TBD | ⬜ |  |
 
+**Phase 4 — architecture decisions (locked 2026-08-28):**
+
+- Migrations layer abstracted out of IMS into TWO shared components (speckit-planned next, in their own repos):
+  - `webware/migration` — holds the `MigrationInterface` + specialized migration types; `require`s `webware-core`.
+  - `webware/console` — TUI ONLY (menu + better help for both webware and mezzio CLI commands). Existing console is proof-of-concept only and will be rewritten from the ground up; long-term it wraps mezzio-tooling.
+- acl owns the schema migrations AND base roles: port `Migration016AclRole` + `Migration017AclRule`, plus a base-role seed (`Guest`, `Member`, `Administrator`). IMS builds on those (adds its own roles + rules); IMS originals stay (CON-010).
+- Runner/tracking (`schema_migrations`, discovery) lives in the mechanism layer; acl ships only migration classes + base-role seed, registered via `ConfigProvider`.
+
 ## 3. Alternatives
 
 - **ALT-001**: TBD
