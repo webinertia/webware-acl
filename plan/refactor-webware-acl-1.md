@@ -84,7 +84,7 @@ Reorganize the webware-acl component to remove ambiguity between PSR (HTTP) midd
 **Phase 4 — architecture decisions (locked 2026-08-28):**
 
 - Migration tooling is extracted from IMS into two shared components — `webware/webware-migration` (all migration logic, contracts, and CLI commands) and `webware/webware-console` (the TUI surfacing Webware + Mezzio CLI commands). Each is spec-kit planned in its own repo; their constitutions/specs are the source of truth for their internals.
-- acl consumes them as its tooling: it ships `Migration016AclRole` + `Migration017AclRule` and a base-role seed (`Guest`, `Member`, `Administrator`), registered via `ConfigProvider`. IMS builds its roles/rules on those; IMS originals stay (CON-010).
+- acl consumes them as its tooling: it ships `Migration016AclRole` + `Migration017AclRule` and seeds the base roles (`Guest`, `Member`, `Administrator`) into the database via its migration/seed workflow. IMS builds its roles/rules on those; IMS originals stay (CON-010).
 
 ## 3. Alternatives
 
