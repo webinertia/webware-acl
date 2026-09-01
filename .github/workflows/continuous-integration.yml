@@ -1,9 +1,11 @@
 name: "Continuous Integration"
 
-# Branch protection blocks direct pushes to release branches, and pull_request
-# already re-triggers on every commit pushed to a PR branch (synchronize), so
-# there's no push:branches trigger here — only PRs (targeting numbered
-# release branches) and pushed version tags.
+# Runs on:
+#   - pull_request targeting release branches (every commit pushed to the PR
+#     re-runs CI via the synchronize activity),
+#   - direct pushes to release branches,
+#   - version-tag pushes.
+# PR/feature branches are excluded from the push trigger to avoid double runs.
 on:
   pull_request:
     branches:
