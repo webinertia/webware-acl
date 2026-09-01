@@ -22,4 +22,11 @@
             <directory suffix=".php">src</directory>
         </include>
     </source>
+    <php>
+        <env name="TESTS_ADAPTER_MYSQL_HOSTNAME" value="127.0.0.1"/>
+        <env name="TESTS_ADAPTER_MYSQL_PORT" value="3306"/>
+        <env name="TESTS_ADAPTER_MYSQL_DATABASE" value="webware"/>
+        <env name="TESTS_ADAPTER_MYSQL_USERNAME" value="webware"/>
+        <env name="TESTS_ADAPTER_MYSQL_PASSWORD" value="webware"/>
+    </php>
 </phpunit>

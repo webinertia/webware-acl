@@ -23,6 +23,8 @@ use Webware\Acl\Admin\CommandHandler\SaveRuleHandler;
 use Webware\Acl\Admin\CommandHandler\UpdateRuleTypeHandler;
 use Webware\Acl\Admin\Dashboard\Container\RegisterWidgetListenerFactory;
 use Webware\Acl\Admin\Dashboard\RegisterWidgetListener;
+use Webware\Acl\Console\Container\InitDBCommandFactory;
+use Webware\Acl\Console\InitDBCommand;
 use Webware\Acl\Container\AclFactory;
 use Webware\Acl\Container\RouteProviderFactory;
 use Webware\Acl\Http\Admin\Middleware\Container\OverviewMiddlewareFactory;
@@ -70,6 +72,7 @@ use Webware\Acl\Repository\Container\RuleRepositoryFactory;
 use Webware\Acl\Repository\RoleRepository;
 use Webware\Acl\Repository\RuleRepository;
 use Webware\Admin\Event\RegisterWidgetEvent;
+use Webware\Console\ConsoleInterface;
 use Webware\Core\AclInterface;
 use Webware\MessageBus\ConfigProvider as BusProvider;
 use Webware\MessageBus\MessageBusInterface;
@@ -101,6 +104,7 @@ use Webware\MessageBus\Middleware\MessageHandlerMiddleware;
  * @type RouteProviders = array{'route-providers': array<class-string>}
  * @type Templates = array{paths: array{acl: array<string>}}
  * @type ValidatorConfig = array{factories: array<class-string, class-string>}
+ * @type ConsoleConfig = array{commands: array<string, class-string>}
  * @type ProviderConfig = array{
  *   dependencies: Dependencies,
  *   input_filters: InputFilterConfig,
@@ -109,6 +113,7 @@ use Webware\MessageBus\Middleware\MessageHandlerMiddleware;
  *   templates: Templates,
  *   Webware\Core\AclInterface: DefaultConfig,
  *   Webware\Acl\AssertionManager: AssertionManagerConfig,
+ *   Webware\Console\ConsoleInterface: ConsoleConfig,
  *   Webware\MessageBus\MessageBusInterface: BusConfig,
  *   validators: ValidatorConfig,
  * }
@@ -216,6 +221,7 @@ final class ConfigProvider
                 FetchAllRolesHandler::class                => FetchAllRolesHandlerFactory::class,
                 RoleRepository::class                      => RoleRepositoryFactory::class,
                 RuleRepository::class                      => RuleRepositoryFactory::class,
+                InitDBCommand::class                       => InitDBCommandFactory::class,
             ],
         ];
     }
@@ -299,6 +305,11 @@ final class ConfigProvider
             'templates'                => $this->getTemplates(),
             AclInterface::class        => $this->getDefaultConfig(),
             AssertionManager::class    => $this->getAssertionManagerConfig(),
+            ConsoleInterface::class    => [
+                'commands' => [
+                    'acl:init-db' => InitDBCommand::class,
+                ],
+            ],
             MessageBusInterface::class => $this->getBusConfig(),
             'validators'               => $this->getValidatorConfig(),
         ];

@@ -24,6 +24,7 @@ use Webware\Acl\Admin\Dashboard\RegisterWidgetListener;
 use Webware\Acl\Assertion\OwnershipAssertion;
 use Webware\Acl\AssertionManager;
 use Webware\Acl\ConfigProvider;
+use Webware\Acl\Console\InitDBCommand;
 use Webware\Acl\Container\Configuration;
 use Webware\Acl\Http\RequestHandlers\ForbiddenHandler;
 use Webware\Acl\Http\RequestHandlers\ForbiddenHandlerInterface;
@@ -46,6 +47,7 @@ use Webware\Acl\RouteProvider;
 use Webware\Acl\Validator\Assertion;
 use Webware\Acl\Validator\Container\AssertionFactory;
 use Webware\Admin\Event\RegisterWidgetEvent;
+use Webware\Console\ConsoleInterface;
 use Webware\Core\AclInterface;
 use Webware\MessageBus\ConfigProvider as BusProvider;
 use Webware\MessageBus\MessageBusInterface;
@@ -124,9 +126,10 @@ final class ConfigProviderTest extends TestCase
             ],
             $deps['aliases'],
         );
-        self::assertCount(29, $deps['factories']);
+        self::assertCount(30, $deps['factories']);
         self::assertArrayHasKey(RoleRepository::class, $deps['factories']);
         self::assertArrayHasKey(RuleRepository::class, $deps['factories']);
+        self::assertArrayHasKey(InitDBCommand::class, $deps['factories']);
         self::assertArrayHasKey(FetchAllRulesHandler::class, $deps['factories']);
         self::assertArrayHasKey(FetchDistinctResourceIdsHandler::class, $deps['factories']);
         self::assertArrayHasKey(FetchAclRoleRegistryHandler::class, $deps['factories']);
@@ -203,6 +206,10 @@ final class ConfigProviderTest extends TestCase
         self::assertSame(new ConfigProvider()->getValidatorConfig(), $config['validators']);
         self::assertSame(new ConfigProvider()->getDefaultConfig(), $config[AclInterface::class]);
         self::assertSame(new ConfigProvider()->getAssertionManagerConfig(), $config[AssertionManager::class]);
+        self::assertSame(
+            ['commands' => ['acl:init-db' => InitDBCommand::class]],
+            $config[ConsoleInterface::class],
+        );
         self::assertSame(new ConfigProvider()->getBusConfig(), $config[MessageBusInterface::class]);
     }
 }
