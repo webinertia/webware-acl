@@ -15,7 +15,7 @@ use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use RuntimeException;
 use Webware\Acl\Http\Middleware\AuthorizationMiddleware;
-use Webware\Acl\Http\RequestHandlers\ForbiddenHandlerInterface;
+use Webware\Acl\Http\RequestHandler\ForbiddenHandlerInterface;
 use Webware\Acl\Http\RouteResourceFactoryInterface;
 use Webware\Acl\Http\RouteResourceInterface;
 use Webware\Core\AclInterface;
