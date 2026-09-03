@@ -14,6 +14,7 @@ use Webware\Acl\Assertion\OwnershipAssertion;
 use Webware\Acl\AssertionManager;
 use Webware\Acl\InputFilter\RoleDataFilter;
 use Webware\Acl\InputFilter\RuleDataFilter;
+use Webware\Acl\InputFilter\RuleDeleteFilter;
 use Webware\Acl\Validator;
 
 /**
@@ -61,6 +62,12 @@ final class FilterManagerFactory
         $inputFilterPluginManager->setFactory(
             RuleDataFilter::class,
             static fn(ContainerInterface $c): RuleDataFilter => new RuleDataFilter(
+                $c->get(InputFilter\Factory::class),
+            ),
+        );
+        $inputFilterPluginManager->setFactory(
+            RuleDeleteFilter::class,
+            static fn(ContainerInterface $c): RuleDeleteFilter => new RuleDeleteFilter(
                 $c->get(InputFilter\Factory::class),
             ),
         );

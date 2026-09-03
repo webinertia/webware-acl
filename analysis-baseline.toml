@@ -451,18 +451,6 @@ message = 'Could not infer a precise return type for function `Webware\Acl\Http\
 count = 1
 
 [[issues]]
-file = "src/InputFilter/RoleDataFilter.php"
-code = "missing-template-parameter"
-message = 'Too few template arguments for `Laminas\InputFilter\InputFilter`: expected at least 1, but found 0.'
-count = 1
-
-[[issues]]
-file = "src/InputFilter/RuleDataFilter.php"
-code = "missing-template-parameter"
-message = 'Too few template arguments for `Laminas\InputFilter\InputFilter`: expected at least 1, but found 0.'
-count = 1
-
-[[issues]]
 file = "src/Repository/RoleRepository.php"
 code = "invalid-operand"
 message = "Decrementing a value of type `null` has no effect."

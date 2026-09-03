@@ -249,29 +249,30 @@ final class ProcessRoleMiddlewareTest extends TestCase
                 private string $message,
             ) {}
 
-            public function getSystemMessage(bool $asJson = false): string
+            public function getSystemMessage(InputFilter\ErrorMessages $messages, bool $asJson = false): string
             {
                 return $this->message;
             }
 
-            public function getValues(): array
+            public function validate(iterable $data, array $context = []): InputFilter\InputFilterValidationResult
             {
-                return $this->values;
-            }
+                if ($this->valid) {
+                    $results = [];
+                    foreach ($this->values as $name => $value) {
+                        $results[$name] = InputFilter\InputValidationResult::pass($name, $value, $value);
+                    }
 
-            public function isValid(?array $context = null): bool
-            {
-                return $this->valid;
-            }
+                    return new InputFilter\InputFilterValidationResult($results);
+                }
 
-            public function setData(?iterable $data): static
-            {
-                return $this;
-            }
-
-            public function setValidationGroup(int|string|array $name): static
-            {
-                return $this;
+                return new InputFilter\InputFilterValidationResult([
+                    'input' => InputFilter\InputValidationResult::fail(
+                        'input',
+                        null,
+                        null,
+                        new InputFilter\ErrorMessages(['input' => $this->message]),
+                    ),
+                ]);
             }
         };
     }

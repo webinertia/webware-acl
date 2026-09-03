@@ -18,18 +18,17 @@ final class RuleDataFilterTest extends TestCase
     public function absentAssertionsFallbackToNull(): void
     {
         $filter = InputFilterHelper::ruleDataFilter();
-        $filter->setValidationGroup(['roleId', 'resourceId', 'type', 'assertions']);
-        $filter->setData(['roleId' => 'Admin', 'resourceId' => 'dashboard', 'type' => 'Allow']);
+        $result = $filter->validate(['roleId' => 'Admin', 'resourceId' => 'dashboard', 'type' => 'Allow']);
 
-        self::assertTrue($filter->isValid());
+        self::assertTrue($result->valid());
         self::assertSame(
             [
-                'roleId'     => 'Admin',
                 'resourceId' => 'dashboard',
                 'type'       => RuleType::Allow,
+                'roleId'     => 'Admin',
                 'assertions' => null,
             ],
-            $filter->getValues(),
+            $result->value(),
         );
     }
 
@@ -37,34 +36,32 @@ final class RuleDataFilterTest extends TestCase
     public function denyTypeIsConvertedToEnum(): void
     {
         $filter = InputFilterHelper::ruleDataFilter();
-        $filter->setValidationGroup(['roleId', 'resourceId', 'type']);
-        $filter->setData(['roleId' => 'Admin', 'resourceId' => 'dashboard', 'type' => 'Deny']);
+        $result = $filter->validate(['roleId' => 'Admin', 'resourceId' => 'dashboard', 'type' => 'Deny']);
 
-        self::assertTrue($filter->isValid());
-        self::assertSame(RuleType::Deny, $filter->getValues()['type']);
+        self::assertTrue($result->valid());
+        self::assertSame(RuleType::Deny, $result->value()['type']);
     }
 
     #[Test]
     public function filtersAndNormalizesRuleData(): void
     {
         $filter = InputFilterHelper::ruleDataFilter();
-        $filter->setValidationGroup(['roleId', 'resourceId', 'type', 'assertions']);
-        $filter->setData([
+        $result = $filter->validate([
             'roleId'     => ' Admin ',
             'resourceId' => 'dashboard',
             'type'       => 'Allow',
             'assertions' => 'Ownership',
         ]);
 
-        self::assertTrue($filter->isValid());
+        self::assertTrue($result->valid());
         self::assertSame(
             [
-                'roleId'     => 'Admin',
                 'resourceId' => 'dashboard',
                 'type'       => RuleType::Allow,
+                'roleId'     => 'Admin',
                 'assertions' => ['Ownership'],
             ],
-            $filter->getValues(),
+            $result->value(),
         );
     }
 
@@ -72,29 +69,26 @@ final class RuleDataFilterTest extends TestCase
     public function invalidTypeValueIsRejected(): void
     {
         $filter = InputFilterHelper::ruleDataFilter();
-        $filter->setValidationGroup(['roleId', 'resourceId', 'type']);
-        $filter->setData(['roleId' => 'Admin', 'resourceId' => 'dashboard', 'type' => 'Grant']);
+        $result = $filter->validate(['roleId' => 'Admin', 'resourceId' => 'dashboard', 'type' => 'Grant']);
 
-        self::assertFalse($filter->isValid());
+        self::assertFalse($result->valid());
     }
 
     #[Test]
     public function lowercaseTypeValueIsRejected(): void
     {
         $filter = InputFilterHelper::ruleDataFilter();
-        $filter->setValidationGroup(['roleId', 'resourceId', 'type']);
-        $filter->setData(['roleId' => 'Admin', 'resourceId' => 'dashboard', 'type' => 'deny']);
+        $result = $filter->validate(['roleId' => 'Admin', 'resourceId' => 'dashboard', 'type' => 'deny']);
 
-        self::assertFalse($filter->isValid());
+        self::assertFalse($result->valid());
     }
 
     #[Test]
     public function missingTypeIsInvalid(): void
     {
         $filter = InputFilterHelper::ruleDataFilter();
-        $filter->setValidationGroup(['roleId', 'resourceId', 'type']);
-        $filter->setData(['roleId' => 'Admin', 'resourceId' => 'dashboard']);
+        $result = $filter->validate(['roleId' => 'Admin', 'resourceId' => 'dashboard']);
 
-        self::assertFalse($filter->isValid());
+        self::assertFalse($result->valid());
     }
 }

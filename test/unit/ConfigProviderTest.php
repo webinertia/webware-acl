@@ -33,6 +33,7 @@ use Webware\Acl\Http\RouteResourceFactoryInterface;
 use Webware\Acl\InputFilter\Container\RuleDataFilterFactory;
 use Webware\Acl\InputFilter\RoleDataFilter;
 use Webware\Acl\InputFilter\RuleDataFilter;
+use Webware\Acl\InputFilter\RuleDeleteFilter;
 use Webware\Acl\Query\FetchAclRoleRegistry;
 use Webware\Acl\Query\FetchAllRoles;
 use Webware\Acl\Query\FetchAllRules;
@@ -142,8 +143,9 @@ final class ConfigProviderTest extends TestCase
         self::assertSame(
             [
                 'factories' => [
-                    RuleDataFilter::class => RuleDataFilterFactory::class,
-                    RoleDataFilter::class => InputFilterFactory::class,
+                    RuleDataFilter::class   => RuleDataFilterFactory::class,
+                    RuleDeleteFilter::class => InputFilterFactory::class,
+                    RoleDataFilter::class   => InputFilterFactory::class,
                 ],
             ],
             new ConfigProvider()->getInputFilterConfig(),

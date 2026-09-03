@@ -26,6 +26,7 @@ use Webware\Acl\Admin\Command\DeleteRuleCommand;
 use Webware\Acl\Admin\Command\SaveRuleCommand;
 use Webware\Acl\Admin\Command\UpdateRuleTypeCommand;
 use Webware\Acl\InputFilter\RuleDataFilter;
+use Webware\Acl\InputFilter\RuleDeleteFilter;
 use Webware\Acl\RuleType;
 use Webware\Core\Http\Middleware\HttpMethodProcessorTrait;
 use Webware\Message\Exception\InvalidHopsValueException;
@@ -33,6 +34,8 @@ use Webware\Message\SystemMessengerInterface;
 use Webware\MessageBus\Command\CommandResult;
 use Webware\MessageBus\MessageBusInterface;
 use Webware\MessageBus\MessageStatus;
+
+use function is_array;
 
 final readonly class ProcessRuleMiddleware implements MiddlewareInterface
 {
@@ -56,17 +59,18 @@ final readonly class ProcessRuleMiddleware implements MiddlewareInterface
         $messenger = $request->getAttribute(SystemMessengerInterface::class);
         /** @var InputFilter\InputFilterPluginManager $filterManager */
         $filterManager = $request->getAttribute(InputFilter\InputFilterPluginManager::class);
-        $filter        = $filterManager->get(RuleDataFilter::class);
-        $filter->setValidationGroup([
-            'roleId',
-            'resourceId',
-        ]);
-        $filter->setData($request->getAttributes());
+        $filter        = $filterManager->get(RuleDeleteFilter::class);
 
-        /** @var array{roleId: string, resourceId: string} $filteredData */
-        $filteredData = $filter->getValues();
+        /** @var array{roleId: string, resourceId: string} $values */
+        $values = $filter->validate([
+            'roleId'     => $request->getAttribute('roleId'),
+            'resourceId' => $request->getAttribute('resourceId'),
+        ])->value();
 
-        $result = $this->commandBus->handle(new DeleteRuleCommand(...$filteredData));
+        $result = $this->commandBus->handle(new DeleteRuleCommand(
+            roleId    : $values['roleId'],
+            resourceId: $values['resourceId'],
+        ));
         if ($result->getStatus() === MessageStatus::Success) {
             $messenger?->success('Rule deleted.');
         } else {
@@ -91,23 +95,24 @@ final readonly class ProcessRuleMiddleware implements MiddlewareInterface
         /** @var InputFilter\InputFilterPluginManager $filterManager */
         $filterManager = $request->getAttribute(InputFilter\InputFilterPluginManager::class);
         $filter        = $filterManager->get(RuleDataFilter::class);
-        $filter->setValidationGroup([
-            'roleId',
-            'resourceId',
-            'type',
-        ]);
-        $filter->setData($request->getParsedBody());
 
-        if (! $filter->isValid()) {
-            $messenger?->warning($filter->getSystemMessage());
+        $body         = $request->getParsedBody();
+        $filterResult = $filter->validate(is_array($body) ? $body : []);
+
+        if (! $filterResult->valid()) {
+            $messenger?->warning($filter->getSystemMessage($filterResult->getMessages()));
 
             return $handler->handle($request);
         }
 
-        /** @var array{roleId: string, resourceId: string, type: RuleType} $filteredData */
-        $filteredData = $filter->getValues();
+        /** @var array{roleId: string, resourceId: string, type: RuleType} $values */
+        $values = $filterResult->value();
 
-        $result = $this->commandBus->handle(new UpdateRuleTypeCommand(...$filteredData));
+        $result = $this->commandBus->handle(new UpdateRuleTypeCommand(
+            roleId    : $values['roleId'],
+            resourceId: $values['resourceId'],
+            type      : $values['type'],
+        ));
         if ($result->getStatus() === MessageStatus::Success) {
             $messenger?->success('Rule updated.');
         } else {
@@ -132,26 +137,25 @@ final readonly class ProcessRuleMiddleware implements MiddlewareInterface
         /** @var InputFilter\InputFilterPluginManager $filterManager */
         $filterManager = $request->getAttribute(InputFilter\InputFilterPluginManager::class);
         $filter        = $filterManager->get(RuleDataFilter::class);
-        $filter->setValidationGroup([
-            'roleId',
-            'resourceId',
-            'type',
-            'assertions',
-        ]);
-        $filter->setData($request->getParsedBody());
 
-        if (! $filter->isValid()) {
-            $messenger?->warning($filter->getSystemMessage());
+        $body         = $request->getParsedBody();
+        $filterResult = $filter->validate(is_array($body) ? $body : []);
+
+        if (! $filterResult->valid()) {
+            $messenger?->warning($filter->getSystemMessage($filterResult->getMessages()));
 
             return $handler->handle($request);
         }
 
-        /** @var array{roleId: string, resourceId: string, type: RuleType, assertions: array<string>|null} $filteredData */
-        $filteredData = $filter->getValues();
+        /** @var array{roleId: string, resourceId: string, type: RuleType, assertions: array<string>|null} $values */
+        $values = $filterResult->value();
 
-        $result = $this->commandBus->handle(
-            new SaveRuleCommand(...$filteredData),
-        );
+        $result = $this->commandBus->handle(new SaveRuleCommand(
+            roleId    : $values['roleId'],
+            resourceId: $values['resourceId'],
+            type      : $values['type'],
+            assertions: $values['assertions'],
+        ));
 
         if ($result->getStatus() === MessageStatus::Success) {
             $messenger?->success('Rule saved.');

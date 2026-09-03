@@ -19,6 +19,7 @@ use Webware\Acl\Admin\Command\SaveRuleCommand;
 use Webware\Acl\Admin\Command\UpdateRuleTypeCommand;
 use Webware\Acl\Http\Admin\Middleware\ProcessRuleMiddleware;
 use Webware\Acl\InputFilter\RuleDataFilter;
+use Webware\Acl\InputFilter\RuleDeleteFilter;
 use Webware\Acl\RuleType;
 use Webware\Message\SystemMessengerInterface;
 use Webware\MessageBus\Command\CommandResult;
@@ -275,29 +276,30 @@ final class ProcessRuleMiddlewareTest extends TestCase
                 private string $message,
             ) {}
 
-            public function getSystemMessage(bool $asJson = false): string
+            public function getSystemMessage(InputFilter\ErrorMessages $messages, bool $asJson = false): string
             {
                 return $this->message;
             }
 
-            public function getValues(): array
+            public function validate(iterable $data, array $context = []): InputFilter\InputFilterValidationResult
             {
-                return $this->values;
-            }
+                if ($this->valid) {
+                    $results = [];
+                    foreach ($this->values as $name => $value) {
+                        $results[$name] = InputFilter\InputValidationResult::pass($name, $value, $value);
+                    }
 
-            public function isValid(?array $context = null): bool
-            {
-                return $this->valid;
-            }
+                    return new InputFilter\InputFilterValidationResult($results);
+                }
 
-            public function setData(?iterable $data): static
-            {
-                return $this;
-            }
-
-            public function setValidationGroup(int|string|array $name): static
-            {
-                return $this;
+                return new InputFilter\InputFilterValidationResult([
+                    'input' => InputFilter\InputValidationResult::fail(
+                        'input',
+                        null,
+                        null,
+                        new InputFilter\ErrorMessages(['input' => $this->message]),
+                    ),
+                ]);
             }
         };
     }
@@ -309,6 +311,7 @@ final class ProcessRuleMiddlewareTest extends TestCase
     ): ServerRequest {
         $filterManager = new InputFilter\InputFilterPluginManager(new ServiceManager());
         $filterManager->setService(RuleDataFilter::class, $filter);
+        $filterManager->setService(RuleDeleteFilter::class, $filter);
 
         $request = new ServerRequest([], [], '/', $method)->withAttribute(
             InputFilter\InputFilterPluginManager::class,

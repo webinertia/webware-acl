@@ -32,6 +32,8 @@ use Webware\MessageBus\Command\CommandResult;
 use Webware\MessageBus\MessageBusInterface;
 use Webware\MessageBus\MessageStatus;
 
+use function is_array;
+
 final readonly class ProcessRoleMiddleware implements MiddlewareInterface
 {
     use HttpMethodProcessorTrait;
@@ -55,15 +57,13 @@ final readonly class ProcessRoleMiddleware implements MiddlewareInterface
         /** @var InputFilter\InputFilterPluginManager $filterManager */
         $filterManager = $request->getAttribute(InputFilter\InputFilterPluginManager::class);
         $filter        = $filterManager->get(RoleDataFilter::class);
-        $filter->setValidationGroup([
-            'roleId',
-        ]);
-        $filter->setData($request->getAttributes());
 
-        /** @var array{roleId: string} $filteredData */
-        $filteredData = $filter->getValues();
+        /** @var array{roleId: string} $values */
+        $values = $filter->validate([
+            'roleId' => $request->getAttribute('roleId'),
+        ])->value();
 
-        $result = $this->commandBus->handle(new DeleteRoleCommand(...$filteredData));
+        $result = $this->commandBus->handle(new DeleteRoleCommand(roleId: $values['roleId']));
         if ($result->getStatus() === MessageStatus::Success) {
             $messenger?->success('Role deleted.');
         } else {
@@ -88,23 +88,24 @@ final readonly class ProcessRoleMiddleware implements MiddlewareInterface
         /** @var InputFilter\InputFilterPluginManager $filterManager */
         $filterManager = $request->getAttribute(InputFilter\InputFilterPluginManager::class);
         $filter        = $filterManager->get(RoleDataFilter::class);
-        $filter->setValidationGroup([
-            'id',
-            'roleId',
-            'parentId',
-        ]);
-        $filter->setData($request->getParsedBody());
 
-        if (! $filter->isValid()) {
-            $messenger?->warning($filter->getSystemMessage());
+        $body         = $request->getParsedBody();
+        $filterResult = $filter->validate(is_array($body) ? $body : []);
+
+        if (! $filterResult->valid()) {
+            $messenger?->warning($filter->getSystemMessage($filterResult->getMessages()));
 
             return $handler->handle($request);
         }
 
-        /** @var array{id: int|null, roleId: string, parentId: array<string>|null} $filteredData */
-        $filteredData = $filter->getValues();
+        /** @var array{id: int|null, roleId: string, parentId: array<string>|null} $values */
+        $values = $filterResult->value();
 
-        $result = $this->commandBus->handle(new SaveRoleCommand(...$filteredData));
+        $result = $this->commandBus->handle(new SaveRoleCommand(
+            id      : $values['id'],
+            roleId  : $values['roleId'],
+            parentId: $values['parentId'],
+        ));
         if ($result->getStatus() === MessageStatus::Success) {
             $messenger?->success('Role saved.');
         } else {
@@ -129,23 +130,24 @@ final readonly class ProcessRoleMiddleware implements MiddlewareInterface
         /** @var InputFilter\InputFilterPluginManager $filterManager */
         $filterManager = $request->getAttribute(InputFilter\InputFilterPluginManager::class);
         $filter        = $filterManager->get(RoleDataFilter::class);
-        $filter->setValidationGroup([
-            'id',
-            'roleId',
-            'parentId',
-        ]);
-        $filter->setData($request->getParsedBody());
 
-        if (! $filter->isValid()) {
-            $messenger?->warning($filter->getSystemMessage());
+        $body         = $request->getParsedBody();
+        $filterResult = $filter->validate(is_array($body) ? $body : []);
+
+        if (! $filterResult->valid()) {
+            $messenger?->warning($filter->getSystemMessage($filterResult->getMessages()));
 
             return $handler->handle($request);
         }
 
-        /** @var array{id: int|null, roleId: string, parentId: array<string>|null} $filteredData */
-        $filteredData = $filter->getValues();
+        /** @var array{id: int|null, roleId: string, parentId: array<string>|null} $values */
+        $values = $filterResult->value();
 
-        $result = $this->commandBus->handle(new SaveRoleCommand(...$filteredData));
+        $result = $this->commandBus->handle(new SaveRoleCommand(
+            id      : $values['id'],
+            roleId  : $values['roleId'],
+            parentId: $values['parentId'],
+        ));
         if ($result->getStatus() === MessageStatus::Success) {
             $messenger?->success('Role saved.');
         } else {
