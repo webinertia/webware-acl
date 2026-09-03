@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d7a1d9ce9993c18c776f45c18e804218",
+    "content-hash": "0afd434e97cfc8f15d12efbf4a036f71",
     "packages": [
         {
             "name": "brick/math",
@@ -3800,16 +3800,16 @@
         },
         {
             "name": "webware/webware-message",
-            "version": "1.0.0-beta.1",
+            "version": "1.0.0-beta.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/webinertia/webware-message.git",
-                "reference": "39c05da2b55dd17f7d5e34221278384b19b8dac2"
+                "reference": "1602d2e62a6b8c36939fb7ed87b6bcade716980d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/webinertia/webware-message/zipball/39c05da2b55dd17f7d5e34221278384b19b8dac2",
-                "reference": "39c05da2b55dd17f7d5e34221278384b19b8dac2",
+                "url": "https://api.github.com/repos/webinertia/webware-message/zipball/1602d2e62a6b8c36939fb7ed87b6bcade716980d",
+                "reference": "1602d2e62a6b8c36939fb7ed87b6bcade716980d",
                 "shasum": ""
             },
             "require": {
@@ -3819,7 +3819,7 @@
                 "webware/message-bus": "^2.0.0-beta.1"
             },
             "require-dev": {
-                "infection/infection": "^0.34.1",
+                "infection/infection": "^0.35.0",
                 "laminas/laminas-diactoros": "^3.6.0",
                 "laminas/laminas-view": "^3.1.0",
                 "phpbench/phpbench": "^1.7",
@@ -3868,9 +3868,9 @@
             "support": {
                 "chat": "https://discord.gg/9TxQ74EPsG",
                 "issues": "https://github.com/webinertia/webware-message/issues",
-                "source": "https://github.com/webinertia/webware-message/tree/1.0.0-beta.1"
+                "source": "https://github.com/webinertia/webware-message/tree/1.0.0-beta.2"
             },
-            "time": "2026-08-18T01:34:05+00:00"
+            "time": "2026-09-03T18:52:13+00:00"
         }
     ],
     "packages-dev": [
