@@ -11,10 +11,11 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use RuntimeException;
-use Webware\Acl\Http\RequestHandlers\ForbiddenHandlerInterface;
+use Webware\Acl\Http\RequestHandler\ForbiddenHandlerInterface;
 use Webware\Acl\Http\RouteResourceFactoryInterface;
 use Webware\Core\AclInterface;
 use Webware\Core\UserInterface;
+use Webware\Message\Exception\InvalidHopsValueException;
 
 final class AuthorizationMiddleware implements MiddlewareInterface
 {
@@ -24,6 +25,7 @@ final class AuthorizationMiddleware implements MiddlewareInterface
     ) {}
 
     /**
+     * @throws InvalidHopsValueException
      * @throws RuntimeException
      */
     #[Override]

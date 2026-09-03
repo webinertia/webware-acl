@@ -9,7 +9,7 @@ use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Webware\Acl\Http\Middleware\AuthorizationMiddleware;
-use Webware\Acl\Http\RequestHandlers\ForbiddenHandlerInterface;
+use Webware\Acl\Http\RequestHandler\ForbiddenHandlerInterface;
 use Webware\Acl\Http\RouteResourceFactoryInterface;
 
 final class AuthorizationMiddlewareFactory

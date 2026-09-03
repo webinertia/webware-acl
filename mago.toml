@@ -42,21 +42,21 @@ must-be-named = "*Middleware"
 must-implement = "Psr\\Http\\Server\\MiddlewareInterface"
 reason = "Admin HTTP middleware must live in Http\\Admin\\Middleware and be named *Middleware."
 
-# Http\RequestHandlers\ — PSR request handlers (non-admin)
+# Http\RequestHandler\ — PSR request handlers (non-admin)
 [[guard.structural.rules]]
-on = "Webware\\Acl\\Http\\RequestHandlers\\*"
+on = "Webware\\Acl\\Http\\RequestHandler\\*"
 target = "class"
 must-be-named = "*Handler"
 must-implement = "Psr\\Http\\Server\\RequestHandlerInterface"
-reason = "Request handlers must live in Http\\RequestHandlers and be named *Handler."
+reason = "Request handlers must live in Http\\RequestHandler and be named *Handler."
 
-# Http\Admin\RequestHandlers\ — admin PSR request handlers
+# Http\Admin\RequestHandler\ — admin PSR request handlers
 [[guard.structural.rules]]
-on = "Webware\\Acl\\Http\\Admin\\RequestHandlers\\*"
+on = "Webware\\Acl\\Http\\Admin\\RequestHandler\\*"
 target = "class"
 must-be-named = "*Handler"
 must-implement = "Psr\\Http\\Server\\RequestHandlerInterface"
-reason = "Admin request handlers must live in Http\\Admin\\RequestHandlers and be named *Handler."
+reason = "Admin request handlers must live in Http\\Admin\\RequestHandler and be named *Handler."
 
 # MessageBus\Middleware\ — ACL-enforcing bus middleware
 [[guard.structural.rules]]

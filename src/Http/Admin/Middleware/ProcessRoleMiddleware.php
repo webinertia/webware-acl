@@ -26,6 +26,7 @@ use Webware\Acl\Admin\Command\DeleteRoleCommand;
 use Webware\Acl\Admin\Command\SaveRoleCommand;
 use Webware\Acl\InputFilter\RoleDataFilter;
 use Webware\Core\Http\Middleware\HttpMethodProcessorTrait;
+use Webware\Message\Exception\InvalidHopsValueException;
 use Webware\Message\SystemMessengerInterface;
 use Webware\MessageBus\Command\CommandResult;
 use Webware\MessageBus\MessageBusInterface;
@@ -42,6 +43,7 @@ final readonly class ProcessRoleMiddleware implements MiddlewareInterface
     /**
      * @throws ContainerExceptionInterface
      * @throws ExceptionInterface
+     * @throws InvalidHopsValueException
      * @throws NotFoundExceptionInterface
      */
     public function processDelete(
@@ -74,6 +76,7 @@ final readonly class ProcessRoleMiddleware implements MiddlewareInterface
     /**
      * @throws ContainerExceptionInterface
      * @throws ExceptionInterface
+     * @throws InvalidHopsValueException
      * @throws NotFoundExceptionInterface
      */
     public function processPatch(
@@ -114,6 +117,7 @@ final readonly class ProcessRoleMiddleware implements MiddlewareInterface
     /**
      * @throws ContainerExceptionInterface
      * @throws ExceptionInterface
+     * @throws InvalidHopsValueException
      * @throws NotFoundExceptionInterface
      */
     public function processPost(

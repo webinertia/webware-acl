@@ -13,11 +13,11 @@ use Override;
 use Webware\Acl\Http\Admin\Middleware\OverviewMiddleware;
 use Webware\Acl\Http\Admin\Middleware\ProcessRoleMiddleware;
 use Webware\Acl\Http\Admin\Middleware\ProcessRuleMiddleware;
-use Webware\Acl\Http\Admin\RequestHandlers\AclOverviewHandler;
-use Webware\Acl\Http\Admin\RequestHandlers\AddRoleModalHandler;
-use Webware\Acl\Http\Admin\RequestHandlers\DeleteRuleModalHandler;
-use Webware\Acl\Http\Admin\RequestHandlers\EditRoleModalHandler;
-use Webware\Acl\Http\Admin\RequestHandlers\RoleListHandler;
+use Webware\Acl\Http\Admin\RequestHandler\AclOverviewHandler;
+use Webware\Acl\Http\Admin\RequestHandler\AddRoleModalHandler;
+use Webware\Acl\Http\Admin\RequestHandler\DeleteRuleModalHandler;
+use Webware\Acl\Http\Admin\RequestHandler\EditRoleModalHandler;
+use Webware\Acl\Http\Admin\RequestHandler\RoleListHandler;
 use Webware\Htmx\Middleware\DisableBodyMiddleware;
 
 use function rtrim;

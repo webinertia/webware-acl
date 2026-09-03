@@ -11,7 +11,7 @@ use Psr\Container\ContainerInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Webware\Acl\Http\Middleware\AuthorizationMiddleware;
 use Webware\Acl\Http\Middleware\Container\AuthorizationMiddlewareFactory;
-use Webware\Acl\Http\RequestHandlers\ForbiddenHandlerInterface;
+use Webware\Acl\Http\RequestHandler\ForbiddenHandlerInterface;
 use Webware\Acl\Http\RouteResourceFactoryInterface;
 
 #[CoversClass(AuthorizationMiddlewareFactory::class)]

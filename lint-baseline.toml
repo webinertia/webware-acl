@@ -157,7 +157,7 @@ message = "Avoid `else` clauses."
 count = 3
 
 [[issues]]
-file = "src/Http/RequestHandlers/Container/ForbiddenHandlerFactory.php"
+file = "src/Http/RequestHandler/Container/ForbiddenHandlerFactory.php"
 code = "no-shorthand-ternary"
 message = "Use of the shorthand ternary operator."
 count = 1
