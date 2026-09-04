@@ -13,6 +13,15 @@ use Webware\Acl\Admin\Command\DeleteRuleCommand;
 final class DeleteRuleCommandTest extends TestCase
 {
     #[Test]
+    public function exposesNotificationMessages(): void
+    {
+        $command = new DeleteRuleCommand('Admin', 'dashboard');
+
+        self::assertSame('Rule deleted.', $command->successMessage);
+        self::assertSame('Rule could not be deleted. Please try again.', $command->failureMessage);
+    }
+
+    #[Test]
     public function exposesRoleAndResourceIds(): void
     {
         $command = new DeleteRuleCommand('Admin', 'dashboard');

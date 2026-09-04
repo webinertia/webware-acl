@@ -33,7 +33,6 @@ use Webware\Message\Exception\InvalidHopsValueException;
 use Webware\Message\SystemMessengerInterface;
 use Webware\MessageBus\Command\CommandResult;
 use Webware\MessageBus\MessageBusInterface;
-use Webware\MessageBus\MessageStatus;
 
 use function is_array;
 
@@ -48,15 +47,12 @@ final readonly class ProcessRuleMiddleware implements MiddlewareInterface
     /**
      * @throws ContainerExceptionInterface
      * @throws ExceptionInterface
-     * @throws InvalidHopsValueException
      * @throws NotFoundExceptionInterface
      */
     public function processDelete(
         ServerRequestInterface $request,
         RequestHandlerInterface $handler,
     ): ResponseInterface {
-        /** @var SystemMessengerInterface|null $messenger */
-        $messenger = $request->getAttribute(SystemMessengerInterface::class);
         /** @var InputFilter\InputFilterPluginManager $filterManager */
         $filterManager = $request->getAttribute(InputFilter\InputFilterPluginManager::class);
         $filter        = $filterManager->get(RuleDeleteFilter::class);
@@ -71,11 +67,6 @@ final readonly class ProcessRuleMiddleware implements MiddlewareInterface
             roleId    : $values['roleId'],
             resourceId: $values['resourceId'],
         ));
-        if ($result->getStatus() === MessageStatus::Success) {
-            $messenger?->success('Rule deleted.');
-        } else {
-            $messenger?->warning('Rule could not be deleted. Please try again.');
-        }
 
         return $handler->handle($request->withAttribute(CommandResult::class, $result));
     }
@@ -113,11 +104,6 @@ final readonly class ProcessRuleMiddleware implements MiddlewareInterface
             resourceId: $values['resourceId'],
             type      : $values['type'],
         ));
-        if ($result->getStatus() === MessageStatus::Success) {
-            $messenger?->success('Rule updated.');
-        } else {
-            $messenger?->warning('Rule update failed. Please try again.');
-        }
 
         return $handler->handle($request->withAttribute(CommandResult::class, $result));
     }
@@ -156,12 +142,6 @@ final readonly class ProcessRuleMiddleware implements MiddlewareInterface
             type      : $values['type'],
             assertions: $values['assertions'],
         ));
-
-        if ($result->getStatus() === MessageStatus::Success) {
-            $messenger?->success('Rule saved.');
-        } else {
-            $messenger?->warning('Rule could not be saved. Please try again.');
-        }
 
         return $handler->handle($request->withAttribute(CommandResult::class, $result));
     }

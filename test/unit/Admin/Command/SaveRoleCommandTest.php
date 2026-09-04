@@ -13,6 +13,15 @@ use Webware\Acl\Admin\Command\SaveRoleCommand;
 final class SaveRoleCommandTest extends TestCase
 {
     #[Test]
+    public function exposesNotificationMessages(): void
+    {
+        $command = new SaveRoleCommand(null, 'Guest');
+
+        self::assertSame('Role saved.', $command->successMessage);
+        self::assertSame('Role could not be saved. Please try again.', $command->failureMessage);
+    }
+
+    #[Test]
     public function exposesRoleData(): void
     {
         $command = new SaveRoleCommand(7, 'Editor', ['Admin']);

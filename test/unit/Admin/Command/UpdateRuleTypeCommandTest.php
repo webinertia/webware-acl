@@ -14,6 +14,15 @@ use Webware\Acl\RuleType;
 final class UpdateRuleTypeCommandTest extends TestCase
 {
     #[Test]
+    public function exposesNotificationMessages(): void
+    {
+        $command = new UpdateRuleTypeCommand('Admin', 'dashboard', RuleType::Deny);
+
+        self::assertSame('Rule updated.', $command->successMessage);
+        self::assertSame('Rule update failed. Please try again.', $command->failureMessage);
+    }
+
+    #[Test]
     public function exposesRuleTypeData(): void
     {
         $command = new UpdateRuleTypeCommand('Admin', 'dashboard', RuleType::Deny);

@@ -19,6 +19,7 @@ use Webware\Acl\Http\Admin\RequestHandler\DeleteRuleModalHandler;
 use Webware\Acl\Http\Admin\RequestHandler\EditRoleModalHandler;
 use Webware\Acl\Http\Admin\RequestHandler\RoleListHandler;
 use Webware\Htmx\Middleware\DisableBodyMiddleware;
+use Webware\Message\Middleware\NotificationMiddleware;
 
 use function rtrim;
 
@@ -136,6 +137,7 @@ final readonly class RouteProvider implements RouteProviderInterface
             $middlewareFactory->prepare(
                 [
                     ProcessRuleMiddleware::class,
+                    NotificationMiddleware::class,
                     OverviewMiddleware::class,
                     AclOverviewHandler::class,
                 ],
@@ -149,6 +151,7 @@ final readonly class RouteProvider implements RouteProviderInterface
                 [
                     BodyParamsMiddleware::class,
                     ProcessRuleMiddleware::class,
+                    NotificationMiddleware::class,
                     OverviewMiddleware::class,
                     AclOverviewHandler::class,
                 ],
@@ -161,6 +164,7 @@ final readonly class RouteProvider implements RouteProviderInterface
             $middlewareFactory->prepare(
                 [
                     ProcessRuleMiddleware::class,
+                    NotificationMiddleware::class,
                     OverviewMiddleware::class,
                     AclOverviewHandler::class,
                 ],
@@ -185,6 +189,7 @@ final readonly class RouteProvider implements RouteProviderInterface
             $middlewareFactory->prepare(
                 [
                     ProcessRoleMiddleware::class,
+                    NotificationMiddleware::class,
                     RoleListHandler::class,
                 ],
             ),
@@ -219,6 +224,7 @@ final readonly class RouteProvider implements RouteProviderInterface
                 [
                     BodyParamsMiddleware::class,
                     ProcessRoleMiddleware::class,
+                    NotificationMiddleware::class,
                     RoleListHandler::class,
                 ],
             ),
@@ -230,6 +236,7 @@ final readonly class RouteProvider implements RouteProviderInterface
             $middlewareFactory->prepare(
                 [
                     ProcessRoleMiddleware::class,
+                    NotificationMiddleware::class,
                     RoleListHandler::class,
                 ],
             ),

@@ -14,15 +14,22 @@ declare(strict_types=1);
 
 namespace Webware\Acl\Admin\Command;
 
+use Webware\Message\NotificationCapableInterface;
 use Webware\MessageBus\Command\NamedCommandInterface;
 use Webware\MessageBus\Command\NamedCommandTrait;
 
-final readonly class DeleteRuleCommand implements NamedCommandInterface
+final readonly class DeleteRuleCommand implements NamedCommandInterface, NotificationCapableInterface
 {
     use NamedCommandTrait;
+
+    public string $successMessage;
+    public string $failureMessage;
 
     public function __construct(
         public string $roleId,
         public string $resourceId,
-    ) {}
+    ) {
+        $this->successMessage = 'Rule deleted.';
+        $this->failureMessage = 'Rule could not be deleted. Please try again.';
+    }
 }

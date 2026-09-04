@@ -22,6 +22,15 @@ final class SaveRuleCommandTest extends TestCase
     }
 
     #[Test]
+    public function exposesNotificationMessages(): void
+    {
+        $command = new SaveRuleCommand('Admin', 'dashboard', RuleType::Allow);
+
+        self::assertSame('Rule saved.', $command->successMessage);
+        self::assertSame('Rule could not be saved. Please try again.', $command->failureMessage);
+    }
+
+    #[Test]
     public function exposesRuleData(): void
     {
         $command = new SaveRuleCommand('Admin', 'dashboard', RuleType::Deny, ['Ownership']);

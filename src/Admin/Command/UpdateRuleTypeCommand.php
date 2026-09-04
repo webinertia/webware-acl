@@ -15,16 +15,23 @@ declare(strict_types=1);
 namespace Webware\Acl\Admin\Command;
 
 use Webware\Acl\RuleType;
+use Webware\Message\NotificationCapableInterface;
 use Webware\MessageBus\Command\NamedCommandInterface;
 use Webware\MessageBus\Command\NamedCommandTrait;
 
-final readonly class UpdateRuleTypeCommand implements NamedCommandInterface
+final readonly class UpdateRuleTypeCommand implements NamedCommandInterface, NotificationCapableInterface
 {
     use NamedCommandTrait;
+
+    public string $successMessage;
+    public string $failureMessage;
 
     public function __construct(
         public string $roleId,
         public string $resourceId,
         public RuleType $type,
-    ) {}
+    ) {
+        $this->successMessage = 'Rule updated.';
+        $this->failureMessage = 'Rule update failed. Please try again.';
+    }
 }

@@ -14,12 +14,16 @@ declare(strict_types=1);
 
 namespace Webware\Acl\Admin\Command;
 
+use Webware\Message\NotificationCapableInterface;
 use Webware\MessageBus\Command\NamedCommandInterface;
 use Webware\MessageBus\Command\NamedCommandTrait;
 
-final readonly class SaveRoleCommand implements NamedCommandInterface
+final readonly class SaveRoleCommand implements NamedCommandInterface, NotificationCapableInterface
 {
     use NamedCommandTrait;
+
+    public string $successMessage;
+    public string $failureMessage;
 
     public function __construct(
         /**
@@ -40,5 +44,8 @@ final readonly class SaveRoleCommand implements NamedCommandInterface
          * @var string[]|null
          */
         public ?array $parentId = null,
-    ) {}
+    ) {
+        $this->successMessage = 'Role saved.';
+        $this->failureMessage = 'Role could not be saved. Please try again.';
+    }
 }
