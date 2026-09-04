@@ -30,7 +30,6 @@ use Webware\Message\Exception\InvalidHopsValueException;
 use Webware\Message\SystemMessengerInterface;
 use Webware\MessageBus\Command\CommandResult;
 use Webware\MessageBus\MessageBusInterface;
-use Webware\MessageBus\MessageStatus;
 
 use function is_array;
 
@@ -45,15 +44,12 @@ final readonly class ProcessRoleMiddleware implements MiddlewareInterface
     /**
      * @throws ContainerExceptionInterface
      * @throws ExceptionInterface
-     * @throws InvalidHopsValueException
      * @throws NotFoundExceptionInterface
      */
     public function processDelete(
         ServerRequestInterface $request,
         RequestHandlerInterface $handler,
     ): ResponseInterface {
-        /** @var SystemMessengerInterface|null $messenger */
-        $messenger = $request->getAttribute(SystemMessengerInterface::class);
         /** @var InputFilter\InputFilterPluginManager $filterManager */
         $filterManager = $request->getAttribute(InputFilter\InputFilterPluginManager::class);
         $filter        = $filterManager->get(RoleDataFilter::class);
@@ -64,11 +60,6 @@ final readonly class ProcessRoleMiddleware implements MiddlewareInterface
         ])->value();
 
         $result = $this->commandBus->handle(new DeleteRoleCommand(roleId: $values['roleId']));
-        if ($result->getStatus() === MessageStatus::Success) {
-            $messenger?->success('Role deleted.');
-        } else {
-            $messenger?->warning('Role could not be deleted. Please try again.');
-        }
 
         return $handler->handle($request->withAttribute(CommandResult::class, $result));
     }
@@ -106,11 +97,6 @@ final readonly class ProcessRoleMiddleware implements MiddlewareInterface
             roleId  : $values['roleId'],
             parentId: $values['parentId'],
         ));
-        if ($result->getStatus() === MessageStatus::Success) {
-            $messenger?->success('Role saved.');
-        } else {
-            $messenger?->warning('Role could not be saved. Please try again.');
-        }
 
         return $handler->handle($request->withAttribute(CommandResult::class, $result));
     }
@@ -148,11 +134,6 @@ final readonly class ProcessRoleMiddleware implements MiddlewareInterface
             roleId  : $values['roleId'],
             parentId: $values['parentId'],
         ));
-        if ($result->getStatus() === MessageStatus::Success) {
-            $messenger?->success('Role saved.');
-        } else {
-            $messenger?->warning('Role could not be saved. Please try again.');
-        }
 
         return $handler->handle($request->withAttribute(CommandResult::class, $result));
     }

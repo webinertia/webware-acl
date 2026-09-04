@@ -24,6 +24,7 @@ use Webware\Acl\Http\Admin\RequestHandler\EditRoleModalHandler;
 use Webware\Acl\Http\Admin\RequestHandler\RoleListHandler;
 use Webware\Acl\RouteProvider;
 use Webware\Htmx\Middleware\DisableBodyMiddleware;
+use Webware\Message\Middleware\NotificationMiddleware;
 
 use function array_map;
 
@@ -88,20 +89,44 @@ final class RouteProviderTest extends TestCase
             [
                 [OverviewMiddleware::class, AclOverviewHandler::class],
                 [RoleListHandler::class],
-                [ProcessRuleMiddleware::class, OverviewMiddleware::class, AclOverviewHandler::class],
                 [
-                    BodyParamsMiddleware::class,
                     ProcessRuleMiddleware::class,
+                    NotificationMiddleware::class,
                     OverviewMiddleware::class,
                     AclOverviewHandler::class,
                 ],
-                [ProcessRuleMiddleware::class, OverviewMiddleware::class, AclOverviewHandler::class],
+                [
+                    BodyParamsMiddleware::class,
+                    ProcessRuleMiddleware::class,
+                    NotificationMiddleware::class,
+                    OverviewMiddleware::class,
+                    AclOverviewHandler::class,
+                ],
+                [
+                    ProcessRuleMiddleware::class,
+                    NotificationMiddleware::class,
+                    OverviewMiddleware::class,
+                    AclOverviewHandler::class,
+                ],
                 [DisableBodyMiddleware::class, DeleteRuleModalHandler::class],
-                [ProcessRoleMiddleware::class, RoleListHandler::class],
+                [
+                    ProcessRoleMiddleware::class,
+                    NotificationMiddleware::class,
+                    RoleListHandler::class,
+                ],
                 [DisableBodyMiddleware::class, AddRoleModalHandler::class],
                 [DisableBodyMiddleware::class, EditRoleModalHandler::class],
-                [BodyParamsMiddleware::class, ProcessRoleMiddleware::class, RoleListHandler::class],
-                [ProcessRoleMiddleware::class, RoleListHandler::class],
+                [
+                    BodyParamsMiddleware::class,
+                    ProcessRoleMiddleware::class,
+                    NotificationMiddleware::class,
+                    RoleListHandler::class,
+                ],
+                [
+                    ProcessRoleMiddleware::class,
+                    NotificationMiddleware::class,
+                    RoleListHandler::class,
+                ],
             ],
             $this->preparedMiddleware,
         );

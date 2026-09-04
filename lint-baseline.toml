@@ -145,18 +145,6 @@ message = "Use of the `isset` construct."
 count = 3
 
 [[issues]]
-file = "src/Http/Admin/Middleware/ProcessRoleMiddleware.php"
-code = "no-else-clause"
-message = "Avoid `else` clauses."
-count = 3
-
-[[issues]]
-file = "src/Http/Admin/Middleware/ProcessRuleMiddleware.php"
-code = "no-else-clause"
-message = "Avoid `else` clauses."
-count = 3
-
-[[issues]]
 file = "src/Http/RequestHandler/Container/ForbiddenHandlerFactory.php"
 code = "no-shorthand-ternary"
 message = "Use of the shorthand ternary operator."

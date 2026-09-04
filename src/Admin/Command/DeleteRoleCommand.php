@@ -14,14 +14,21 @@ declare(strict_types=1);
 
 namespace Webware\Acl\Admin\Command;
 
+use Webware\Message\NotificationCapableInterface;
 use Webware\MessageBus\Command\NamedCommandInterface;
 use Webware\MessageBus\Command\NamedCommandTrait;
 
-final readonly class DeleteRoleCommand implements NamedCommandInterface
+final readonly class DeleteRoleCommand implements NamedCommandInterface, NotificationCapableInterface
 {
     use NamedCommandTrait;
 
+    public string $successMessage;
+    public string $failureMessage;
+
     public function __construct(
         public string $roleId,
-    ) {}
+    ) {
+        $this->successMessage = 'Role deleted.';
+        $this->failureMessage = 'Role could not be deleted. Please try again.';
+    }
 }
