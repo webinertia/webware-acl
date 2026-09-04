@@ -233,8 +233,9 @@ final class ConfigProvider
     {
         return [
             'factories' => [
-                InputFilter\RuleDataFilter::class => InputFilter\Container\RuleDataFilterFactory::class,
-                InputFilter\RoleDataFilter::class => InputFilterFactory::class,
+                InputFilter\RuleDataFilter::class   => InputFilter\Container\RuleDataFilterFactory::class,
+                InputFilter\RuleDeleteFilter::class => InputFilterFactory::class,
+                InputFilter\RoleDataFilter::class   => InputFilterFactory::class,
             ],
         ];
     }

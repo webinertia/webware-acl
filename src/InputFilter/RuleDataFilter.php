@@ -13,6 +13,9 @@ use Webware\Acl\RuleType;
 use Webware\Acl\Validator\Assertion;
 use Webware\Core\InputFilter\SystemMessageTrait;
 
+/**
+ * @extends InputFilter\InputFilter<array{resourceId: string, type: RuleType, roleId: string, assertions: array<string>|null}>
+ */
 final class RuleDataFilter extends InputFilter\InputFilter
 {
     use SystemMessageTrait;
@@ -71,12 +74,9 @@ final class RuleDataFilter extends InputFilter\InputFilter
         ]);
 
         $this->add([
-            'name'              => 'assertions',
-            'allow_empty'       => true,
-            'continue_if_empty' => true,
-            'required'          => false,
-            'fallback_value'    => null,
-            'filters'           => [
+            'name'       => 'assertions',
+            'required'   => false,
+            'filters'    => [
                 ['name' => Filter\ToNull::class],
                 [
                     'name'    => Filter\Callback::class,
@@ -91,12 +91,9 @@ final class RuleDataFilter extends InputFilter\InputFilter
                     ],
                 ],
             ],
-            'validators'        => [
+            'validators' => [
                 [
-                    'name'    => Assertion::class,
-                    'options' => [
-                        'nullable' => true,
-                    ],
+                    'name' => Assertion::class,
                 ],
             ],
         ]);

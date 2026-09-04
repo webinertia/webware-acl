@@ -10,6 +10,9 @@ use Laminas\InputFilter\Exception\ExceptionInterface;
 use Override;
 use Webware\Core\InputFilter\SystemMessageTrait;
 
+/**
+ * @extends InputFilter\InputFilter<array{id: int|null, roleId: string, parentId: array<string>|null}>
+ */
 final class RoleDataFilter extends InputFilter\InputFilter
 {
     use SystemMessageTrait;
@@ -38,12 +41,9 @@ final class RoleDataFilter extends InputFilter\InputFilter
         ]);
 
         $this->add([
-            'name'              => 'parentId',
-            'allow_empty'       => true,
-            'continue_if_empty' => true,
-            'required'          => false,
-            'fallback_value'    => null,
-            'filters'           => [
+            'name'     => 'parentId',
+            'required' => false,
+            'filters'  => [
                 ['name' => Filter\StringTrim::class],
                 [
                     'name'    => Filter\Callback::class,

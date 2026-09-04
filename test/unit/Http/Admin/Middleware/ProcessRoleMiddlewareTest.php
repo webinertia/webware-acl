@@ -41,7 +41,10 @@ final class ProcessRoleMiddlewareTest extends TestCase
                 ),
             );
 
-        $request = $this->request('DELETE', $this->fakeFilter(values: ['roleId' => 'Editor']));
+        $messenger = $this->createMock(SystemMessengerInterface::class);
+        $messenger->expects(self::once())->method('success')->with('Role deleted.');
+
+        $request = $this->request('DELETE', $this->fakeFilter(values: ['roleId' => 'Editor']), $messenger);
         $handler = $this->capturingHandler();
 
         new ProcessRoleMiddleware($bus)->processDelete($request, $handler);
@@ -67,7 +70,10 @@ final class ProcessRoleMiddlewareTest extends TestCase
                 ),
             );
 
-        $request = $this->request('DELETE', $this->fakeFilter(values: ['roleId' => 'Editor']));
+        $messenger = $this->createMock(SystemMessengerInterface::class);
+        $messenger->expects(self::once())->method('warning')->with('Role could not be deleted. Please try again.');
+
+        $request = $this->request('DELETE', $this->fakeFilter(values: ['roleId' => 'Editor']), $messenger);
         $handler = $this->capturingHandler();
 
         new ProcessRoleMiddleware($bus)->processDelete($request, $handler);
@@ -89,9 +95,13 @@ final class ProcessRoleMiddlewareTest extends TestCase
                 static fn(SaveRoleCommand $cmd): CommandResult => new CommandResult($cmd, MessageStatus::Success, null),
             );
 
+        $messenger = $this->createMock(SystemMessengerInterface::class);
+        $messenger->expects(self::once())->method('success')->with('Role saved.');
+
         $request = $this->request(
             'PATCH',
             $this->fakeFilter(values: ['id' => 7, 'roleId' => 'Editor', 'parentId' => ['Admin']]),
+            $messenger,
         );
         $handler = $this->capturingHandler();
 
@@ -114,9 +124,13 @@ final class ProcessRoleMiddlewareTest extends TestCase
                 static fn(SaveRoleCommand $cmd): CommandResult => new CommandResult($cmd, MessageStatus::Failure, null),
             );
 
+        $messenger = $this->createMock(SystemMessengerInterface::class);
+        $messenger->expects(self::once())->method('warning')->with('Role could not be saved. Please try again.');
+
         $request = $this->request(
             'PATCH',
             $this->fakeFilter(values: ['id' => 7, 'roleId' => 'Editor', 'parentId' => ['Admin']]),
+            $messenger,
         );
         $handler = $this->capturingHandler();
 
@@ -163,9 +177,13 @@ final class ProcessRoleMiddlewareTest extends TestCase
                 static fn(SaveRoleCommand $cmd): CommandResult => new CommandResult($cmd, MessageStatus::Success, null),
             );
 
+        $messenger = $this->createMock(SystemMessengerInterface::class);
+        $messenger->expects(self::once())->method('success')->with('Role saved.');
+
         $request = $this->request(
             'POST',
             $this->fakeFilter(values: ['id' => null, 'roleId' => 'Guest', 'parentId' => null]),
+            $messenger,
         );
         $handler = $this->capturingHandler();
 
@@ -188,9 +206,13 @@ final class ProcessRoleMiddlewareTest extends TestCase
                 static fn(SaveRoleCommand $cmd): CommandResult => new CommandResult($cmd, MessageStatus::Failure, null),
             );
 
+        $messenger = $this->createMock(SystemMessengerInterface::class);
+        $messenger->expects(self::once())->method('warning')->with('Role could not be saved. Please try again.');
+
         $request = $this->request(
             'POST',
             $this->fakeFilter(values: ['id' => null, 'roleId' => 'Guest', 'parentId' => null]),
+            $messenger,
         );
         $handler = $this->capturingHandler();
 
@@ -249,29 +271,30 @@ final class ProcessRoleMiddlewareTest extends TestCase
                 private string $message,
             ) {}
 
-            public function getSystemMessage(bool $asJson = false): string
+            public function getSystemMessage(InputFilter\ErrorMessages $messages, bool $asJson = false): string
             {
                 return $this->message;
             }
 
-            public function getValues(): array
+            public function validate(iterable $data, array $context = []): InputFilter\InputFilterValidationResult
             {
-                return $this->values;
-            }
+                if ($this->valid) {
+                    $results = [];
+                    foreach ($this->values as $name => $value) {
+                        $results[$name] = InputFilter\InputValidationResult::pass($name, $value, $value);
+                    }
 
-            public function isValid(?array $context = null): bool
-            {
-                return $this->valid;
-            }
+                    return new InputFilter\InputFilterValidationResult($results);
+                }
 
-            public function setData(?iterable $data): static
-            {
-                return $this;
-            }
-
-            public function setValidationGroup(int|string|array $name): static
-            {
-                return $this;
+                return new InputFilter\InputFilterValidationResult([
+                    'input' => InputFilter\InputValidationResult::fail(
+                        'input',
+                        null,
+                        null,
+                        new InputFilter\ErrorMessages(['input' => $this->message]),
+                    ),
+                ]);
             }
         };
     }

@@ -17,13 +17,12 @@ final class RoleDataFilterTest extends TestCase
     public function absentOptionalFieldsFallbackToNull(): void
     {
         $filter = InputFilterHelper::roleDataFilter();
-        $filter->setValidationGroup(['id', 'roleId', 'parentId']);
-        $filter->setData(['roleId' => 'Guest']);
+        $result = $filter->validate(['roleId' => 'Guest']);
 
-        self::assertTrue($filter->isValid());
+        self::assertTrue($result->valid());
         self::assertSame(
             ['id' => null, 'roleId' => 'Guest', 'parentId' => null],
-            $filter->getValues(),
+            $result->value(),
         );
     }
 
@@ -31,17 +30,16 @@ final class RoleDataFilterTest extends TestCase
     public function filtersAndNormalizesRoleData(): void
     {
         $filter = InputFilterHelper::roleDataFilter();
-        $filter->setValidationGroup(['id', 'roleId', 'parentId']);
-        $filter->setData([
+        $result = $filter->validate([
             'id'       => '7',
             'roleId'   => ' Editor ',
             'parentId' => 'Admin',
         ]);
 
-        self::assertTrue($filter->isValid());
+        self::assertTrue($result->valid());
         self::assertSame(
             ['id' => 7, 'roleId' => 'Editor', 'parentId' => ['Admin']],
-            $filter->getValues(),
+            $result->value(),
         );
     }
 
@@ -49,9 +47,34 @@ final class RoleDataFilterTest extends TestCase
     public function missingRoleIdIsInvalid(): void
     {
         $filter = InputFilterHelper::roleDataFilter();
-        $filter->setValidationGroup(['id', 'roleId', 'parentId']);
-        $filter->setData(['parentId' => 'Admin']);
+        $result = $filter->validate(['parentId' => 'Admin']);
 
-        self::assertFalse($filter->isValid());
+        self::assertFalse($result->valid());
+    }
+
+    #[Test]
+    public function passesThroughArrayParentId(): void
+    {
+        $filter = InputFilterHelper::roleDataFilter();
+        $result = $filter->validate([
+            'roleId'   => 'Guest',
+            'parentId' => ['Admin'],
+        ]);
+
+        self::assertTrue($result->valid());
+        self::assertSame(['Admin'], $result->value()['parentId']);
+    }
+
+    #[Test]
+    public function trimsAndWrapsWhitespaceParentId(): void
+    {
+        $filter = InputFilterHelper::roleDataFilter();
+        $result = $filter->validate([
+            'roleId'   => 'Guest',
+            'parentId' => ' Admin ',
+        ]);
+
+        self::assertTrue($result->valid());
+        self::assertSame(['Admin'], $result->value()['parentId']);
     }
 }

@@ -3549,12 +3549,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/webinertia/webware-core.git",
-                "reference": "c36534f87018993e6b157b3c095157d0fbeb1f0f"
+                "reference": "91410fa4154af9c7a57aaa034dd26bc05696bd01"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/webinertia/webware-core/zipball/c36534f87018993e6b157b3c095157d0fbeb1f0f",
-                "reference": "c36534f87018993e6b157b3c095157d0fbeb1f0f",
+                "url": "https://api.github.com/repos/webinertia/webware-core/zipball/91410fa4154af9c7a57aaa034dd26bc05696bd01",
+                "reference": "91410fa4154af9c7a57aaa034dd26bc05696bd01",
                 "shasum": ""
             },
             "require": {
@@ -3629,7 +3629,7 @@
                 "source": "https://github.com/webinertia/webware-core/tree/0.1.x",
                 "issues": "https://github.com/webinertia/webware-core/issues"
             },
-            "time": "2026-08-26T02:27:57+00:00"
+            "time": "2026-09-04T00:49:38+00:00"
         },
         {
             "name": "webware/webware-htmx",
