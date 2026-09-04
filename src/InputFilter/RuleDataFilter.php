@@ -74,11 +74,9 @@ final class RuleDataFilter extends InputFilter\InputFilter
         ]);
 
         $this->add([
-            'name'           => 'assertions',
-            'allow_empty'    => true,
-            'required'       => false,
-            'fallback_value' => null,
-            'filters'        => [
+            'name'       => 'assertions',
+            'required'   => false,
+            'filters'    => [
                 ['name' => Filter\ToNull::class],
                 [
                     'name'    => Filter\Callback::class,
@@ -93,12 +91,9 @@ final class RuleDataFilter extends InputFilter\InputFilter
                     ],
                 ],
             ],
-            'validators'     => [
+            'validators' => [
                 [
-                    'name'    => Assertion::class,
-                    'options' => [
-                        'nullable' => true,
-                    ],
+                    'name' => Assertion::class,
                 ],
             ],
         ]);

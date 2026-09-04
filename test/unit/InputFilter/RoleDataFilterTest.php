@@ -51,4 +51,30 @@ final class RoleDataFilterTest extends TestCase
 
         self::assertFalse($result->valid());
     }
+
+    #[Test]
+    public function passesThroughArrayParentId(): void
+    {
+        $filter = InputFilterHelper::roleDataFilter();
+        $result = $filter->validate([
+            'roleId'   => 'Guest',
+            'parentId' => ['Admin'],
+        ]);
+
+        self::assertTrue($result->valid());
+        self::assertSame(['Admin'], $result->value()['parentId']);
+    }
+
+    #[Test]
+    public function trimsAndWrapsWhitespaceParentId(): void
+    {
+        $filter = InputFilterHelper::roleDataFilter();
+        $result = $filter->validate([
+            'roleId'   => 'Guest',
+            'parentId' => ' Admin ',
+        ]);
+
+        self::assertTrue($result->valid());
+        self::assertSame(['Admin'], $result->value()['parentId']);
+    }
 }

@@ -41,7 +41,10 @@ final class ProcessRoleMiddlewareTest extends TestCase
                 ),
             );
 
-        $request = $this->request('DELETE', $this->fakeFilter(values: ['roleId' => 'Editor']));
+        $messenger = $this->createMock(SystemMessengerInterface::class);
+        $messenger->expects(self::once())->method('success')->with('Role deleted.');
+
+        $request = $this->request('DELETE', $this->fakeFilter(values: ['roleId' => 'Editor']), $messenger);
         $handler = $this->capturingHandler();
 
         new ProcessRoleMiddleware($bus)->processDelete($request, $handler);
@@ -67,7 +70,10 @@ final class ProcessRoleMiddlewareTest extends TestCase
                 ),
             );
 
-        $request = $this->request('DELETE', $this->fakeFilter(values: ['roleId' => 'Editor']));
+        $messenger = $this->createMock(SystemMessengerInterface::class);
+        $messenger->expects(self::once())->method('warning')->with('Role could not be deleted. Please try again.');
+
+        $request = $this->request('DELETE', $this->fakeFilter(values: ['roleId' => 'Editor']), $messenger);
         $handler = $this->capturingHandler();
 
         new ProcessRoleMiddleware($bus)->processDelete($request, $handler);
@@ -89,9 +95,13 @@ final class ProcessRoleMiddlewareTest extends TestCase
                 static fn(SaveRoleCommand $cmd): CommandResult => new CommandResult($cmd, MessageStatus::Success, null),
             );
 
+        $messenger = $this->createMock(SystemMessengerInterface::class);
+        $messenger->expects(self::once())->method('success')->with('Role saved.');
+
         $request = $this->request(
             'PATCH',
             $this->fakeFilter(values: ['id' => 7, 'roleId' => 'Editor', 'parentId' => ['Admin']]),
+            $messenger,
         );
         $handler = $this->capturingHandler();
 
@@ -114,9 +124,13 @@ final class ProcessRoleMiddlewareTest extends TestCase
                 static fn(SaveRoleCommand $cmd): CommandResult => new CommandResult($cmd, MessageStatus::Failure, null),
             );
 
+        $messenger = $this->createMock(SystemMessengerInterface::class);
+        $messenger->expects(self::once())->method('warning')->with('Role could not be saved. Please try again.');
+
         $request = $this->request(
             'PATCH',
             $this->fakeFilter(values: ['id' => 7, 'roleId' => 'Editor', 'parentId' => ['Admin']]),
+            $messenger,
         );
         $handler = $this->capturingHandler();
 
@@ -163,9 +177,13 @@ final class ProcessRoleMiddlewareTest extends TestCase
                 static fn(SaveRoleCommand $cmd): CommandResult => new CommandResult($cmd, MessageStatus::Success, null),
             );
 
+        $messenger = $this->createMock(SystemMessengerInterface::class);
+        $messenger->expects(self::once())->method('success')->with('Role saved.');
+
         $request = $this->request(
             'POST',
             $this->fakeFilter(values: ['id' => null, 'roleId' => 'Guest', 'parentId' => null]),
+            $messenger,
         );
         $handler = $this->capturingHandler();
 
@@ -188,9 +206,13 @@ final class ProcessRoleMiddlewareTest extends TestCase
                 static fn(SaveRoleCommand $cmd): CommandResult => new CommandResult($cmd, MessageStatus::Failure, null),
             );
 
+        $messenger = $this->createMock(SystemMessengerInterface::class);
+        $messenger->expects(self::once())->method('warning')->with('Role could not be saved. Please try again.');
+
         $request = $this->request(
             'POST',
             $this->fakeFilter(values: ['id' => null, 'roleId' => 'Guest', 'parentId' => null]),
+            $messenger,
         );
         $handler = $this->capturingHandler();
 

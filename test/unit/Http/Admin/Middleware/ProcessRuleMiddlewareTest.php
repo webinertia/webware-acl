@@ -44,10 +44,17 @@ final class ProcessRuleMiddlewareTest extends TestCase
                 ),
             );
 
-        $request = $this->request('DELETE', $this->fakeFilter(values: [
-            'roleId'     => 'Admin',
-            'resourceId' => 'dashboard',
-        ]));
+        $messenger = $this->createMock(SystemMessengerInterface::class);
+        $messenger->expects(self::once())->method('success')->with('Rule deleted.');
+
+        $request = $this->request(
+            'DELETE',
+            $this->fakeFilter(values: [
+                'roleId'     => 'Admin',
+                'resourceId' => 'dashboard',
+            ]),
+            $messenger,
+        );
         $handler = $this->capturingHandler();
 
         new ProcessRuleMiddleware($bus)->processDelete($request, $handler);
@@ -73,10 +80,17 @@ final class ProcessRuleMiddlewareTest extends TestCase
                 ),
             );
 
-        $request = $this->request('DELETE', $this->fakeFilter(values: [
-            'roleId'     => 'Admin',
-            'resourceId' => 'dashboard',
-        ]));
+        $messenger = $this->createMock(SystemMessengerInterface::class);
+        $messenger->expects(self::once())->method('warning')->with('Rule could not be deleted. Please try again.');
+
+        $request = $this->request(
+            'DELETE',
+            $this->fakeFilter(values: [
+                'roleId'     => 'Admin',
+                'resourceId' => 'dashboard',
+            ]),
+            $messenger,
+        );
         $handler = $this->capturingHandler();
 
         new ProcessRuleMiddleware($bus)->processDelete($request, $handler);
@@ -102,9 +116,13 @@ final class ProcessRuleMiddlewareTest extends TestCase
                 ),
             );
 
+        $messenger = $this->createMock(SystemMessengerInterface::class);
+        $messenger->expects(self::once())->method('success')->with('Rule updated.');
+
         $request = $this->request(
             'PATCH',
             $this->fakeFilter(values: ['roleId' => 'Admin', 'resourceId' => 'dashboard', 'type' => RuleType::Deny]),
+            $messenger,
         );
         $handler = $this->capturingHandler();
 
@@ -131,9 +149,13 @@ final class ProcessRuleMiddlewareTest extends TestCase
                 ),
             );
 
+        $messenger = $this->createMock(SystemMessengerInterface::class);
+        $messenger->expects(self::once())->method('warning')->with('Rule update failed. Please try again.');
+
         $request = $this->request(
             'PATCH',
             $this->fakeFilter(values: ['roleId' => 'Admin', 'resourceId' => 'dashboard', 'type' => RuleType::Deny]),
+            $messenger,
         );
         $handler = $this->capturingHandler();
 
@@ -180,6 +202,9 @@ final class ProcessRuleMiddlewareTest extends TestCase
                 static fn(SaveRuleCommand $cmd): CommandResult => new CommandResult($cmd, MessageStatus::Success, null),
             );
 
+        $messenger = $this->createMock(SystemMessengerInterface::class);
+        $messenger->expects(self::once())->method('success')->with('Rule saved.');
+
         $request = $this->request(
             'POST',
             $this->fakeFilter(values: [
@@ -188,6 +213,7 @@ final class ProcessRuleMiddlewareTest extends TestCase
                 'type'       => RuleType::Allow,
                 'assertions' => null,
             ]),
+            $messenger,
         );
         $handler = $this->capturingHandler();
 
@@ -210,6 +236,9 @@ final class ProcessRuleMiddlewareTest extends TestCase
                 static fn(SaveRuleCommand $cmd): CommandResult => new CommandResult($cmd, MessageStatus::Failure, null),
             );
 
+        $messenger = $this->createMock(SystemMessengerInterface::class);
+        $messenger->expects(self::once())->method('warning')->with('Rule could not be saved. Please try again.');
+
         $request = $this->request(
             'POST',
             $this->fakeFilter(values: [
@@ -218,6 +247,7 @@ final class ProcessRuleMiddlewareTest extends TestCase
                 'type'       => RuleType::Allow,
                 'assertions' => null,
             ]),
+            $messenger,
         );
         $handler = $this->capturingHandler();
 

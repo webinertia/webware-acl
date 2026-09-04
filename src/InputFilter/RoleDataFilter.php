@@ -41,11 +41,9 @@ final class RoleDataFilter extends InputFilter\InputFilter
         ]);
 
         $this->add([
-            'name'           => 'parentId',
-            'allow_empty'    => true,
-            'required'       => false,
-            'fallback_value' => null,
-            'filters'        => [
+            'name'     => 'parentId',
+            'required' => false,
+            'filters'  => [
                 ['name' => Filter\StringTrim::class],
                 [
                     'name'    => Filter\Callback::class,
