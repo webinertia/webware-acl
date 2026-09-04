@@ -313,66 +313,6 @@ message = "Redundant null coalesce: left-hand side can never be `null` or undefi
 count = 1
 
 [[issues]]
-file = "src/Http/Admin/Middleware/ProcessRoleMiddleware.php"
-code = "deprecated-method"
-message = 'Call to deprecated method: `Laminas\InputFilter\BaseInputFilter::getValues`.'
-count = 3
-
-[[issues]]
-file = "src/Http/Admin/Middleware/ProcessRoleMiddleware.php"
-code = "deprecated-method"
-message = 'Call to deprecated method: `Laminas\InputFilter\BaseInputFilter::isValid`.'
-count = 2
-
-[[issues]]
-file = "src/Http/Admin/Middleware/ProcessRoleMiddleware.php"
-code = "deprecated-method"
-message = 'Call to deprecated method: `Laminas\InputFilter\BaseInputFilter::setData`.'
-count = 3
-
-[[issues]]
-file = "src/Http/Admin/Middleware/ProcessRoleMiddleware.php"
-code = "deprecated-method"
-message = 'Call to deprecated method: `Laminas\InputFilter\BaseInputFilter::setValidationGroup`.'
-count = 3
-
-[[issues]]
-file = "src/Http/Admin/Middleware/ProcessRoleMiddleware.php"
-code = "possibly-invalid-argument"
-message = 'Possible argument type mismatch for argument #1 of `Laminas\InputFilter\BaseInputFilter::setData`: expected `iterable<array-key, mixed>|null`, but possibly received `array<array-key, mixed>|null|object`.'
-count = 2
-
-[[issues]]
-file = "src/Http/Admin/Middleware/ProcessRuleMiddleware.php"
-code = "deprecated-method"
-message = 'Call to deprecated method: `Laminas\InputFilter\BaseInputFilter::getValues`.'
-count = 3
-
-[[issues]]
-file = "src/Http/Admin/Middleware/ProcessRuleMiddleware.php"
-code = "deprecated-method"
-message = 'Call to deprecated method: `Laminas\InputFilter\BaseInputFilter::isValid`.'
-count = 2
-
-[[issues]]
-file = "src/Http/Admin/Middleware/ProcessRuleMiddleware.php"
-code = "deprecated-method"
-message = 'Call to deprecated method: `Laminas\InputFilter\BaseInputFilter::setData`.'
-count = 3
-
-[[issues]]
-file = "src/Http/Admin/Middleware/ProcessRuleMiddleware.php"
-code = "deprecated-method"
-message = 'Call to deprecated method: `Laminas\InputFilter\BaseInputFilter::setValidationGroup`.'
-count = 3
-
-[[issues]]
-file = "src/Http/Admin/Middleware/ProcessRuleMiddleware.php"
-code = "possibly-invalid-argument"
-message = 'Possible argument type mismatch for argument #1 of `Laminas\InputFilter\BaseInputFilter::setData`: expected `iterable<array-key, mixed>|null`, but possibly received `array<array-key, mixed>|null|object`.'
-count = 2
-
-[[issues]]
 file = "src/Http/Admin/RequestHandler/AclOverviewHandler.php"
 code = "possibly-invalid-argument"
 message = 'Possible argument type mismatch for argument #2 of `Mezzio\Template\TemplateRendererInterface::render`: expected `array<non-empty-string, mixed>|object`, but possibly received `array<string, mixed>`.'
