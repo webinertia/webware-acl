@@ -26,8 +26,8 @@ final class UpdateRuleTypeHandlerFactoryTest extends TestCase
         $container = $this->createStub(ContainerInterface::class);
         $container->method('get')
             ->willReturnMap([
-                [RuleRepository::class, new RuleRepository($adapter)],
-                [RoleRepository::class, new RoleRepository($adapter)],
+                [RuleRepository::class, $this->createRuleRepository($adapter)],
+                [RoleRepository::class, $this->createRoleRepository($adapter)],
             ]);
 
         self::assertInstanceOf(UpdateRuleTypeHandler::class, (new UpdateRuleTypeHandlerFactory())($container));

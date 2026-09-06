@@ -13,8 +13,6 @@ use PHPUnit\Framework\TestCase;
 use RuntimeException;
 use Webware\Acl\Admin\Command\UpdateRuleTypeCommand;
 use Webware\Acl\Admin\CommandHandler\UpdateRuleTypeHandler;
-use Webware\Acl\Repository\RoleRepository;
-use Webware\Acl\Repository\RuleRepository;
 use Webware\Acl\RuleType;
 use Webware\MessageBus\MessageStatus;
 use WebwareTest\Acl\Support\PhpDbAdapterMockTrait;
@@ -28,8 +26,8 @@ final class UpdateRuleTypeHandlerTest extends TestCase
     public function handleReturnsFailureWhenRepositoryThrows(): void
     {
         $handler = new UpdateRuleTypeHandler(
-            new RuleRepository($this->createAdapter([], [], new RuntimeException('boom'))),
-            new RoleRepository($this->createAdapter([])),
+            $this->createRuleRepository($this->createAdapter([], [], new RuntimeException('boom'))),
+            $this->createRoleRepository($this->createAdapter([])),
         );
         $result = $handler->handle(new UpdateRuleTypeCommand('Admin', 'dashboard', RuleType::Deny));
 
@@ -40,8 +38,8 @@ final class UpdateRuleTypeHandlerTest extends TestCase
     public function handleReturnsFailureWhenUpdateAffectsNoRows(): void
     {
         $handler = new UpdateRuleTypeHandler(
-            new RuleRepository($this->createAdapter([[]], [0])),
-            new RoleRepository($this->createAdapter([])),
+            $this->createRuleRepository($this->createAdapter([[]], [0])),
+            $this->createRoleRepository($this->createAdapter([[]])),
         );
         $result = $handler->handle(new UpdateRuleTypeCommand('Admin', 'dashboard', RuleType::Deny));
 
@@ -52,16 +50,11 @@ final class UpdateRuleTypeHandlerTest extends TestCase
     public function handleSkipsChildrenThatAlreadyHaveRules(): void
     {
         $handler = new UpdateRuleTypeHandler(
-            new RuleRepository($this->createAdapter([
+            $this->createRuleRepository($this->createAdapter([
                 [],
-                [[
-                    'type'       => 'Allow',
-                    'roleId'     => 'Editor',
-                    'resourceId' => 'dashboard',
-                    'assertions' => '["Ownership"]',
-                ]],
+                [['id' => 42]],
             ])),
-            new RoleRepository($this->createAdapter([
+            $this->createRoleRepository($this->createAdapter([
                 [['roleId' => 'Editor']],
             ])),
         );
@@ -74,21 +67,14 @@ final class UpdateRuleTypeHandlerTest extends TestCase
     public function handleSkipsChildrenWithRulesAndCascadesToOthers(): void
     {
         $handler = new UpdateRuleTypeHandler(
-            new RuleRepository($this->createAdapter([
+            $this->createRuleRepository($this->createAdapter([
                 [],
-                [
-                    [
-                        'type'       => 'Allow',
-                        'roleId'     => 'Editor',
-                        'resourceId' => 'dashboard',
-                        'assertions' => '["Ownership"]',
-                    ],
-                ],
+                [['id' => 42]],
                 [],
                 [],
                 [],
             ])),
-            new RoleRepository($this->createAdapter([
+            $this->createRoleRepository($this->createAdapter([
                 [['roleId' => 'Editor'], ['roleId' => 'Viewer']],
             ])),
         );
@@ -108,13 +94,13 @@ final class UpdateRuleTypeHandlerTest extends TestCase
     public function handleUpdatesTypeAndCascadesToChildrenWithoutRules(): void
     {
         $handler = new UpdateRuleTypeHandler(
-            new RuleRepository($this->createAdapter([
+            $this->createRuleRepository($this->createAdapter([
                 [],
                 [],
                 [],
                 [],
             ])),
-            new RoleRepository($this->createAdapter([
+            $this->createRoleRepository($this->createAdapter([
                 [['roleId' => 'Editor']],
             ])),
         );

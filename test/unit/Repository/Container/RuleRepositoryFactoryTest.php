@@ -11,6 +11,7 @@ use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 use Webware\Acl\Repository\Container\RuleRepositoryFactory;
 use Webware\Acl\Repository\RuleRepository;
+use Webware\Core\SchemaFactory;
 use WebwareTest\Acl\Support\PhpDbAdapterMockTrait;
 
 #[CoversClass(RuleRepositoryFactory::class)]
@@ -24,6 +25,7 @@ final class RuleRepositoryFactoryTest extends TestCase
         $container = $this->createStub(ContainerInterface::class);
         $container->method('get')
             ->willReturnMap([
+                [SchemaFactory::class, new SchemaFactory([])],
                 [AdapterInterface::class, $this->createAdapter([])],
             ]);
 

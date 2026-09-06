@@ -23,7 +23,7 @@ final class RoleRepositoryTest extends TestCase
     #[Test]
     public function deleteExecutesDeleteStatement(): void
     {
-        $repo = new RoleRepository($this->createAdapter([
+        $repo = $this->createRoleRepository($this->createAdapter([
             [],
         ]));
 
@@ -35,7 +35,7 @@ final class RoleRepositoryTest extends TestCase
     #[Test]
     public function fetchAclRoleRegistryBuildsParentHierarchy(): void
     {
-        $repo = new RoleRepository($this->createAdapter([
+        $repo = $this->createRoleRepository($this->createAdapter([
             [
                 ['id' => 1, 'roleId' => 'Admin', 'parentId' => null],
                 ['id' => 2, 'roleId' => 'Manager', 'parentId' => '["Admin"]'],
@@ -52,7 +52,7 @@ final class RoleRepositoryTest extends TestCase
     #[Test]
     public function fetchAclRoleRegistryHandlesMultipleParents(): void
     {
-        $repo = new RoleRepository($this->createAdapter([
+        $repo = $this->createRoleRepository($this->createAdapter([
             [
                 ['id' => 1, 'roleId' => 'Admin', 'parentId' => null],
                 ['id' => 2, 'roleId' => 'Editor', 'parentId' => null],
@@ -72,7 +72,7 @@ final class RoleRepositoryTest extends TestCase
     #[Test]
     public function fetchAllHydratesRoleEntities(): void
     {
-        $repo = new RoleRepository($this->createAdapter([
+        $repo = $this->createRoleRepository($this->createAdapter([
             [
                 ['id' => 1, 'roleId' => 'Admin', 'parentId' => null],
                 ['id' => 2, 'roleId' => 'Manager', 'parentId' => '["Admin"]'],
@@ -94,7 +94,7 @@ final class RoleRepositoryTest extends TestCase
     #[Test]
     public function fetchDirectChildrenReturnsRoleIds(): void
     {
-        $repo = new RoleRepository($this->createAdapter([
+        $repo = $this->createRoleRepository($this->createAdapter([
             [
                 ['roleId' => 'Editor'],
                 ['roleId' => 'Manager'],
@@ -108,7 +108,7 @@ final class RoleRepositoryTest extends TestCase
     #[Test]
     public function removeFromParentsUpdatesEveryChild(): void
     {
-        $repo = new RoleRepository($this->createAdapter([
+        $repo = $this->createRoleRepository($this->createAdapter([
             [
                 ['id' => 1, 'parentId' => '["Admin","Editor"]'],
                 ['id' => 2, 'parentId' => '["Editor"]'],
@@ -127,7 +127,7 @@ final class RoleRepositoryTest extends TestCase
     #[Test]
     public function saveInsertsNewRoleAndReturnsGeneratedId(): void
     {
-        $repo = new RoleRepository($this->createAdapter([
+        $repo = $this->createRoleRepository($this->createAdapter([
             [],
             [],
         ]));
@@ -140,7 +140,7 @@ final class RoleRepositoryTest extends TestCase
     #[Test]
     public function saveUpdatesExistingRoleAndReturnsRowId(): void
     {
-        $repo = new RoleRepository($this->createAdapter([
+        $repo = $this->createRoleRepository($this->createAdapter([
             [['id' => 42]],
             [],
         ]));

@@ -23,7 +23,7 @@ final class RuleRepositoryTest extends TestCase
     #[Test]
     public function deleteReturnsFalseWhenNoRowsAffected(): void
     {
-        $repo = new RuleRepository($this->createAdapter([
+        $repo = $this->createRuleRepository($this->createAdapter([
             [],
         ], [0]));
 
@@ -33,189 +33,177 @@ final class RuleRepositoryTest extends TestCase
     #[Test]
     public function deleteReturnsTrueWhenRowsAffected(): void
     {
-        $repo = new RuleRepository($this->createAdapter([
+        $repo = $this->createRuleRepository($this->createAdapter([
             [],
         ]));
 
         self::assertTrue($repo->delete('Admin', 'dashboard'));
         self::assertInstanceOf(Delete::class, $this->preparedSqlObjects[0]);
+        self::assertContains('roleId', $this->whereValues(0));
+        self::assertContains('resourceId', $this->whereValues(0));
     }
 
     #[Test]
-    public function fetchAllDecodesAssertions(): void
+    public function hasRuleReturnsFalseWhenMissing(): void
     {
-        $repo = new RuleRepository($this->createAdapter([
-            [
-                [
-                    'type'             => 'Allow',
-                    'roleId'           => 'Admin',
-                    'resourceId'       => 'dashboard',
-                    'assertions'       => '["Ownership"]',
-                    'parentResourceId' => null,
-                ],
-                [
-                    'type'       => 'Deny',
-                    'roleId'     => 'Guest',
-                    'resourceId' => 'dashboard',
-                    'assertions' => null,
-                ],
-            ],
-        ]));
-
-        self::assertSame(
-            [
-                [
-                    'type'             => 'Allow',
-                    'roleId'           => 'Admin',
-                    'resourceId'       => 'dashboard',
-                    'assertions'       => ['Ownership'],
-                    'parentResourceId' => null,
-                ],
-                [
-                    'type'             => 'Deny',
-                    'roleId'           => 'Guest',
-                    'resourceId'       => 'dashboard',
-                    'assertions'       => null,
-                    'parentResourceId' => null,
-                ],
-            ],
-            $repo->fetchAll(),
-        );
-    }
-
-    #[Test]
-    public function fetchDistinctResourceIdsReturnsIds(): void
-    {
-        $repo = new RuleRepository($this->createAdapter([
-            [
-                ['resourceId' => 'dashboard'],
-                ['resourceId' => 'admin'],
-            ],
-        ]));
-
-        self::assertSame(['dashboard', 'admin'], $repo->fetchDistinctResourceIds());
-        self::assertInstanceOf(Select::class, $this->preparedSqlObjects[0]);
-    }
-
-    #[Test]
-    public function findByRoleAndResourceReturnsNullAssertionsWhenNull(): void
-    {
-        $repo = new RuleRepository($this->createAdapter([
-            [
-                [
-                    'type'       => 'Allow',
-                    'roleId'     => 'Admin',
-                    'resourceId' => 'dashboard',
-                    'assertions' => null,
-                ],
-            ],
-        ]));
-
-        self::assertSame(
-            [
-                'type'       => 'Allow',
-                'roleId'     => 'Admin',
-                'resourceId' => 'dashboard',
-                'assertions' => null,
-            ],
-            $repo->findByRoleAndResource('Admin', 'dashboard'),
-        );
-    }
-
-    #[Test]
-    public function findByRoleAndResourceReturnsNullWhenMissing(): void
-    {
-        $repo = new RuleRepository($this->createAdapter([
+        $repo = $this->createRuleRepository($this->createAdapter([
             [],
         ]));
 
-        self::assertNull($repo->findByRoleAndResource('Admin', 'dashboard'));
+        self::assertFalse($repo->hasRule('Admin', 'dashboard'));
     }
 
     #[Test]
-    public function findByRoleAndResourceReturnsRow(): void
+    public function hasRuleReturnsTrueWhenRuleExists(): void
     {
-        $repo = new RuleRepository($this->createAdapter([
-            [
-                [
-                    'type'       => 'Allow',
-                    'roleId'     => 'Admin',
-                    'resourceId' => 'dashboard',
-                    'assertions' => '["Ownership"]',
-                ],
-            ],
+        $repo = $this->createRuleRepository($this->createAdapter([
+            [['id' => 42]],
         ]));
 
-        self::assertSame(
-            [
-                'type'       => 'Allow',
-                'roleId'     => 'Admin',
-                'resourceId' => 'dashboard',
-                'assertions' => ['Ownership'],
-            ],
-            $repo->findByRoleAndResource('Admin', 'dashboard'),
-        );
+        self::assertTrue($repo->hasRule('Admin', 'dashboard'));
+
+        $select = $this->preparedSqlObjects[0];
+        self::assertInstanceOf(Select::class, $select);
+        self::assertSame(['id'], $select->getRawState('columns'));
+        self::assertSame(1, $select->getRawState('limit'));
+        self::assertContains('roleId', $this->whereValues(0));
+        self::assertContains('resourceId', $this->whereValues(0));
     }
 
     #[Test]
     public function saveInsertsNewRuleAndReturnsGeneratedId(): void
     {
-        $repo = new RuleRepository($this->createAdapter([
+        $repo = $this->createRuleRepository($this->createAdapter([
             [],
             [],
         ]));
 
         self::assertSame(7, $repo->save(RuleType::Allow, 'Admin', 'dashboard', ['Ownership'], 'admin'));
         self::assertInstanceOf(Select::class, $this->preparedSqlObjects[0]);
-        self::assertInstanceOf(Insert::class, $this->preparedSqlObjects[1]);
+
+        $insert = $this->preparedSqlObjects[1];
+        self::assertInstanceOf(Insert::class, $insert);
+        self::assertSame(
+            ['type', 'roleId', 'resourceId', 'parentResourceId', 'assertions'],
+            $insert->getRawState('columns'),
+        );
+    }
+
+    #[Test]
+    public function saveReturnsIdWhenUpdateAffectsNoRows(): void
+    {
+        $repo = $this->createRuleRepository($this->createAdapter([
+            [['id' => 42]],
+            [],
+        ], [1, 0]));
+
+        self::assertSame(42, $repo->save(RuleType::Deny, 'Admin', 'dashboard', null, null));
     }
 
     #[Test]
     public function saveTreatsEmptyAssertionsAsNull(): void
     {
-        $repo = new RuleRepository($this->createAdapter([
+        $repo = $this->createRuleRepository($this->createAdapter([
             [],
             [],
         ]));
 
         self::assertSame(7, $repo->save(RuleType::Allow, 'Admin', 'dashboard', [], null));
-        self::assertInstanceOf(Insert::class, $this->preparedSqlObjects[1]);
+
+        $insert = $this->preparedSqlObjects[1];
+        self::assertInstanceOf(Insert::class, $insert);
+        self::assertSame(['type', 'roleId', 'resourceId'], $insert->getRawState('columns'));
+    }
+
+    #[Test]
+    public function saveTreatsSingleEmptyStringAssertionsAsNull(): void
+    {
+        $repo = $this->createRuleRepository($this->createAdapter([
+            [],
+            [],
+        ]));
+
+        self::assertSame(7, $repo->save(RuleType::Allow, 'Admin', 'dashboard', [''], null));
+
+        $insert = $this->preparedSqlObjects[1];
+        self::assertInstanceOf(Insert::class, $insert);
+        self::assertSame(['type', 'roleId', 'resourceId'], $insert->getRawState('columns'));
     }
 
     #[Test]
     public function saveUpdatesExistingRuleAndReturnsRowId(): void
     {
-        $repo = new RuleRepository($this->createAdapter([
+        $repo = $this->createRuleRepository($this->createAdapter([
             [['id' => 42]],
             [],
         ]));
 
         self::assertSame(42, $repo->save(RuleType::Deny, 'Admin', 'dashboard', null, null));
-        self::assertInstanceOf(Select::class, $this->preparedSqlObjects[0]);
-        self::assertInstanceOf(Update::class, $this->preparedSqlObjects[1]);
+
+        $select = $this->preparedSqlObjects[0];
+        self::assertInstanceOf(Select::class, $select);
+        self::assertSame(['id'], $select->getRawState('columns'));
+        self::assertSame(1, $select->getRawState('limit'));
+        self::assertContains('roleId', $this->whereValues(0));
+        self::assertContains('resourceId', $this->whereValues(0));
+
+        $update = $this->preparedSqlObjects[1];
+        self::assertInstanceOf(Update::class, $update);
+        self::assertSame(['type' => 'Deny'], $update->getRawState('set'));
+        self::assertContains('roleId', $this->whereValues(1));
+        self::assertContains('resourceId', $this->whereValues(1));
     }
 
     #[Test]
     public function saveUpdatesExistingRuleIncludingParentAndAssertions(): void
     {
-        $repo = new RuleRepository($this->createAdapter([
+        $repo = $this->createRuleRepository($this->createAdapter([
             [['id' => 42]],
             [],
         ]));
 
         self::assertSame(42, $repo->save(RuleType::Deny, 'Admin', 'dashboard', ['Ownership'], 'admin'));
         self::assertInstanceOf(Select::class, $this->preparedSqlObjects[0]);
-        self::assertInstanceOf(Update::class, $this->preparedSqlObjects[1]);
+
+        $update = $this->preparedSqlObjects[1];
+        self::assertInstanceOf(Update::class, $update);
+        self::assertSame(
+            ['type' => 'Deny', 'parentResourceId' => 'admin', 'assertions' => '["Ownership"]'],
+            $update->getRawState('set'),
+        );
+    }
+
+    #[Test]
+    public function updateTypeReturnsFalseWhenNoRowsAffected(): void
+    {
+        $repo = $this->createRuleRepository($this->createAdapter([[]], [0]));
+
+        self::assertFalse($repo->updateType('Admin', 'dashboard', RuleType::Deny));
     }
 
     #[Test]
     public function updateTypeReturnsTrueWhenRowsAffected(): void
     {
-        $repo = new RuleRepository($this->createAdapter([
+        $repo = $this->createRuleRepository($this->createAdapter([
             [],
         ]));
 
         self::assertTrue($repo->updateType('Admin', 'dashboard', RuleType::Deny));
-        self::assertInstanceOf(Update::class, $this->preparedSqlObjects[0]);
+
+        $update = $this->preparedSqlObjects[0];
+        self::assertInstanceOf(Update::class, $update);
+        self::assertSame(['type' => 'Deny'], $update->getRawState('set'));
+        self::assertContains('roleId', $this->whereValues(0));
+        self::assertContains('resourceId', $this->whereValues(0));
+    }
+
+    private function whereValues(int $index): array
+    {
+        $values = [];
+        foreach ($this->preparedSqlObjects[$index]->getRawState('where')->getExpressionData()['values'] as $argument) {
+            $values[] = $argument->getValue();
+        }
+
+        return $values;
     }
 }

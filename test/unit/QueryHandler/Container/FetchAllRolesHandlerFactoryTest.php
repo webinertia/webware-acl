@@ -24,7 +24,7 @@ final class FetchAllRolesHandlerFactoryTest extends TestCase
         $container = $this->createStub(ContainerInterface::class);
         $container->method('get')
             ->willReturnMap([
-                [RoleRepository::class, new RoleRepository($this->createAdapter([]))],
+                [RoleRepository::class, $this->createRoleRepository($this->createAdapter([]))],
             ]);
 
         self::assertInstanceOf(FetchAllRolesHandler::class, (new FetchAllRolesHandlerFactory())($container));

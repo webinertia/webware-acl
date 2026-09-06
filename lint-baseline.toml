@@ -164,12 +164,6 @@ count = 1
 
 [[issues]]
 file = "src/Repository/RoleRepository.php"
-code = "ambiguous-function-call"
-message = "Ambiguous function call detected."
-count = 3
-
-[[issues]]
-file = "src/Repository/RoleRepository.php"
 code = "cyclomatic-complexity"
 message = "Class has high complexity."
 count = 1
@@ -178,18 +172,6 @@ count = 1
 file = "src/Repository/RoleRepository.php"
 code = "kan-defect"
 message = "Class has a high kan defect score."
-count = 1
-
-[[issues]]
-file = "src/Repository/RoleRepository.php"
-code = "literal-named-argument"
-message = "Literal argument `true` should be passed as a named argument for clarity."
-count = 1
-
-[[issues]]
-file = "src/Repository/RoleRepository.php"
-code = "no-array-accumulation-in-loop"
-message = "`array_values()` called inside a loop reprocesses the entire array every iteration."
 count = 1
 
 [[issues]]
@@ -203,18 +185,6 @@ file = "src/Repository/RoleRepository.php"
 code = "no-shorthand-ternary"
 message = "Use of the shorthand ternary operator."
 count = 1
-
-[[issues]]
-file = "src/Repository/RuleRepository.php"
-code = "cyclomatic-complexity"
-message = "Class has high complexity."
-count = 1
-
-[[issues]]
-file = "src/Repository/RuleRepository.php"
-code = "literal-named-argument"
-message = "Literal argument `true` should be passed as a named argument for clarity."
-count = 2
 
 [[issues]]
 file = "src/Repository/RuleRepository.php"

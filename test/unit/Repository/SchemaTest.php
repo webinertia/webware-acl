@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace WebwareTest\Acl\Repository;
 
-use PhpDb\Sql\TableIdentifier;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
@@ -24,20 +23,11 @@ final class SchemaTest extends TestCase
     public function rolesCaseHasAclRoleValue(): void
     {
         self::assertSame('acl_role', Schema::Roles->value);
-        self::assertSame('acl_role', Schema::Roles->table()->getTable());
     }
 
     #[Test]
     public function rulesCaseHasAclRuleValue(): void
     {
         self::assertSame('acl_rule', Schema::Rules->value);
-        self::assertSame('acl_rule', Schema::Rules->table()->getTable());
-    }
-
-    #[Test]
-    public function tableReturnsTableIdentifier(): void
-    {
-        self::assertInstanceOf(TableIdentifier::class, Schema::Roles->table());
-        self::assertInstanceOf(TableIdentifier::class, Schema::Rules->table());
     }
 }

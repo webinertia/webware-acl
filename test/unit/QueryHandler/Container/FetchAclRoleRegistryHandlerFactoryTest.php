@@ -24,7 +24,7 @@ final class FetchAclRoleRegistryHandlerFactoryTest extends TestCase
         $container = $this->createStub(ContainerInterface::class);
         $container->method('get')
             ->willReturnMap([
-                [RoleRepository::class, new RoleRepository($this->createAdapter([]))],
+                [RoleRepository::class, $this->createRoleRepository($this->createAdapter([]))],
             ]);
 
         self::assertInstanceOf(

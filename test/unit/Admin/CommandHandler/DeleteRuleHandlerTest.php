@@ -10,7 +10,6 @@ use PHPUnit\Framework\TestCase;
 use RuntimeException;
 use Webware\Acl\Admin\Command\DeleteRuleCommand;
 use Webware\Acl\Admin\CommandHandler\DeleteRuleHandler;
-use Webware\Acl\Repository\RuleRepository;
 use Webware\MessageBus\MessageStatus;
 use WebwareTest\Acl\Support\PhpDbAdapterMockTrait;
 
@@ -22,7 +21,7 @@ final class DeleteRuleHandlerTest extends TestCase
     #[Test]
     public function handleDeletesAndReturnsSuccess(): void
     {
-        $handler = new DeleteRuleHandler(new RuleRepository($this->createAdapter([[]])));
+        $handler = new DeleteRuleHandler($this->createRuleRepository($this->createAdapter([[]])));
         $result  = $handler->handle(new DeleteRuleCommand('Admin', 'dashboard'));
 
         self::assertSame(MessageStatus::Success, $result->getStatus());
@@ -31,7 +30,7 @@ final class DeleteRuleHandlerTest extends TestCase
     #[Test]
     public function handleReturnsFailureWhenNothingDeleted(): void
     {
-        $handler = new DeleteRuleHandler(new RuleRepository($this->createAdapter([[]], [0])));
+        $handler = new DeleteRuleHandler($this->createRuleRepository($this->createAdapter([[]], [0])));
         $result  = $handler->handle(new DeleteRuleCommand('Admin', 'dashboard'));
 
         self::assertSame(MessageStatus::Failure, $result->getStatus());
@@ -41,7 +40,7 @@ final class DeleteRuleHandlerTest extends TestCase
     public function handleReturnsFailureWhenRepositoryThrows(): void
     {
         $handler = new DeleteRuleHandler(
-            new RuleRepository($this->createAdapter([], [], new RuntimeException('boom'))),
+            $this->createRuleRepository($this->createAdapter([], [], new RuntimeException('boom'))),
         );
         $result = $handler->handle(new DeleteRuleCommand('Admin', 'dashboard'));
 

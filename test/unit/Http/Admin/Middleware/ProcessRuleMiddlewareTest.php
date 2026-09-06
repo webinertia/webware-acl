@@ -44,17 +44,23 @@ final class ProcessRuleMiddlewareTest extends TestCase
                 ),
             );
 
-        $request = $this->request(
+        $captured = null;
+        $request  = $this->request(
             'DELETE',
-            $this->fakeFilter(values: [
-                'roleId'     => 'Admin',
-                'resourceId' => 'dashboard',
-            ]),
+            $this->fakeFilter(
+                values  : [
+                    'roleId'     => 'Admin',
+                    'resourceId' => 'dashboard',
+                ],
+                captured: $captured,
+            ),
         );
         $handler = $this->capturingHandler();
 
         new ProcessRuleMiddleware($bus)->processDelete($request, $handler);
 
+        self::assertArrayHasKey('roleId', $captured ?? []);
+        self::assertArrayHasKey('resourceId', $captured ?? []);
         self::assertSame(
             MessageStatus::Success,
             $handler->received?->getAttribute(CommandResult::class)?->getStatus(),
@@ -273,14 +279,23 @@ final class ProcessRuleMiddlewareTest extends TestCase
         };
     }
 
-    private function fakeFilter(bool $valid = true, array $values = [], string $message = ''): InputFilter\InputFilter
-    {
-        return new class($valid, $values, $message) extends InputFilter\InputFilter {
+    private function fakeFilter(
+        bool $valid = true,
+        array $values = [],
+        string $message = '',
+        ?array &$captured = null,
+    ): InputFilter\InputFilter {
+        return new class($valid, $values, $message, $captured) extends InputFilter\InputFilter {
+            private ?array $captured;
+
             public function __construct(
                 private bool $valid,
                 private array $values,
                 private string $message,
-            ) {}
+                ?array &$captured,
+            ) {
+                $this->captured = &$captured;
+            }
 
             public function getSystemMessage(InputFilter\ErrorMessages $messages, bool $asJson = false): string
             {
@@ -289,6 +304,8 @@ final class ProcessRuleMiddlewareTest extends TestCase
 
             public function validate(iterable $data, array $context = []): InputFilter\InputFilterValidationResult
             {
+                $this->captured = [...$data];
+
                 if ($this->valid) {
                     $results = [];
                     foreach ($this->values as $name => $value) {
