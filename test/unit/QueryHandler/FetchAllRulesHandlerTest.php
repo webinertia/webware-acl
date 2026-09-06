@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace WebwareTest\Acl\QueryHandler;
 
+use PhpDb\Sql\Select;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Webware\Acl\Query\FetchAllRules;
 use Webware\Acl\QueryHandler\FetchAllRulesHandler;
-use Webware\Acl\Repository\RuleRepository;
 use Webware\MessageBus\MessageStatus;
 use WebwareTest\Acl\Support\PhpDbAdapterMockTrait;
 
@@ -21,7 +21,7 @@ final class FetchAllRulesHandlerTest extends TestCase
     #[Test]
     public function handleReturnsAllRules(): void
     {
-        $handler = new FetchAllRulesHandler(new RuleRepository($this->createAdapter([
+        $handler = new FetchAllRulesHandler($this->createRuleArrayGateway($this->createAdapter([
             [
                 [
                     'type'             => 'Allow',
@@ -37,6 +37,14 @@ final class FetchAllRulesHandlerTest extends TestCase
 
         self::assertSame(MessageStatus::Success, $result->getStatus());
         self::assertSame($query, $result->getQuery());
+
+        $select = $this->preparedSqlObjects[0];
+        self::assertInstanceOf(Select::class, $select);
+        self::assertSame(
+            ['type', 'roleId', 'resourceId', 'assertions', 'parentResourceId'],
+            $select->getRawState('columns'),
+        );
+
         self::assertSame(
             [
                 [

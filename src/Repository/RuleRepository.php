@@ -4,125 +4,40 @@ declare(strict_types=1);
 
 namespace Webware\Acl\Repository;
 
-use PhpDb\Adapter\AdapterInterface;
-use PhpDb\ResultSet\RowPrototypeResultSet;
 use PhpDb\Sql\Exception\ExceptionInterface as SqlException;
-use PhpDb\Sql\Select;
-use PhpDb\TableGateway\Exception\ExceptionInterface as TableGatewayException;
 use PhpDb\TableGateway\TableGateway;
 use Webware\Acl\Entity\Rule;
 use Webware\Acl\RuleType;
 
-use function json_decode;
 use function json_encode;
 
 final class RuleRepository
 {
-    private readonly TableGateway $gateway;
-
-    /**
-     * @throws SqlException
-     * @throws TableGatewayException
-     */
-    public function __construct(AdapterInterface $adapter)
-    {
-        $this->gateway = new TableGateway(
-            Schema::Rules->table(),
-            $adapter,
-            null,
-            new RowPrototypeResultSet(
-                rowPrototype: new Rule(),
-            ),
-        );
-    }
+    public function __construct(
+        private readonly TableGateway $gateway,
+    ) {}
 
     /**
      * Delete the rule for the given (roleId, resourceId) pair.
      */
     public function delete(string $roleId, string $resourceId): bool
     {
-        $sql    = $this->gateway->getSql();
-        $delete = $sql->delete()->where(['roleId' => $roleId, 'resourceId' => $resourceId]);
-        $result = $sql->prepareStatementForSqlObject($delete)->execute();
-
-        return $result->getAffectedRows() > 0;
+        return $this->gateway->delete(['roleId' => $roleId, 'resourceId' => $resourceId]) > 0;
     }
 
     /**
-     * Returns all rules as plain arrays with decoded assertions.
+     * Returns true when a rule already exists for the given (roleId, resourceId) pair.
      *
-     * Each row: ['type' => 'Allow'|'Deny', 'roleId' => string,
-     *             'resourceId' => string, 'assertions' => string[]]
-     *
-     * @return array<int, array{type: string, roleId: string, resourceId: string, assertions: string[]}>
-     */
-    public function fetchAll(): array
-    {
-        $sql    = $this->gateway->getSql();
-        $select = $sql->select()->columns(['type', 'roleId', 'resourceId', 'assertions', 'parentResourceId']);
-
-        $rules = [];
-        foreach ($sql->prepareStatementForSqlObject($select)->execute() as $row) {
-            $rules[] = [
-                'type'             => $row['type'],
-                'roleId'           => $row['roleId'],
-                'resourceId'       => $row['resourceId'],
-                'assertions'       => null === $row['assertions'] ? null : json_decode($row['assertions'], true),
-                'parentResourceId' => $row['parentResourceId'] ?? null,
-            ];
-        }
-
-        return $rules;
-    }
-
-    /**
-     * Returns the distinct set of resourceId values across all rules.
-     *
-     * @return string[]
      * @throws SqlException
      */
-    public function fetchDistinctResourceIds(): array
+    public function hasRule(string $roleId, string $resourceId): bool
     {
-        $sql    = $this->gateway->getSql();
-        $select = $sql->select()
-            ->columns(['resourceId'])
-            ->quantifier(Select::QUANTIFIER_DISTINCT);
-
-        $ids = [];
-        foreach ($sql->prepareStatementForSqlObject($select)->execute() as $row) {
-            $ids[] = $row['resourceId'];
-        }
-
-        return $ids;
-    }
-
-    /**
-     * Returns a single rule row for the given (roleId, resourceId) pair, or null.
-     *
-     * @return array{type: string, roleId: string, resourceId: string, assertions: string[]|null}|null
-     * @throws SqlException
-     */
-    public function findByRoleAndResource(string $roleId, string $resourceId): ?array
-    {
-        $sql    = $this->gateway->getSql();
-        $select = $sql->select()
-            ->columns(['type', 'roleId', 'resourceId', 'assertions'])
+        $select = $this->gateway->getSql()->select();
+        $select->columns(['id'])
             ->where(['roleId' => $roleId, 'resourceId' => $resourceId])
             ->limit(1);
 
-        /** @var array{type: string, roleId: string, resourceId: string, assertions: string|null}|false|null $row */
-        $row = $sql->prepareStatementForSqlObject($select)->execute()->current();
-
-        if (false === $row || null === $row) {
-            return null;
-        }
-
-        return [
-            'type'       => $row['type'],
-            'roleId'     => $row['roleId'],
-            'resourceId' => $row['resourceId'],
-            'assertions' => null === $row['assertions'] ? null : json_decode($row['assertions'], true),
-        ];
+        return null !== $this->gateway->selectWith($select)->current();
     }
 
     /**
@@ -145,15 +60,6 @@ final class RuleRepository
             $assertions = null;
         }
 
-        $sql    = $this->gateway->getSql();
-        $exists = $sql->select()
-            ->columns(['id'])
-            ->where(['roleId' => $roleId, 'resourceId' => $resourceId])
-            ->limit(1);
-
-        /** @var array{id: int|string}|false|null $row */
-        $row = $sql->prepareStatementForSqlObject($exists)->execute()->current();
-
         $data = [
             'type'       => $type->value,
             'roleId'     => $roleId,
@@ -168,11 +74,18 @@ final class RuleRepository
             $data['assertions'] = json_encode($assertions);
         }
 
-        if (false === $row || null === $row) {
-            $insert = $sql->insert()->values($data);
-            $sql->prepareStatementForSqlObject($insert)->execute();
+        $select = $this->gateway->getSql()->select();
+        $select->columns(['id'])
+            ->where(['roleId' => $roleId, 'resourceId' => $resourceId])
+            ->limit(1);
 
-            $id = $this->gateway->getAdapter()->getDriver()->getConnection()->getLastGeneratedValue();
+        /** @var Rule|null $existing */
+        $existing = $this->gateway->selectWith($select)->current();
+
+        if (null === $existing) {
+            $this->gateway->insert($data);
+
+            $id = $this->gateway->getLastInsertValue();
 
             return null !== $id ? (int) $id : false;
         }
@@ -184,12 +97,10 @@ final class RuleRepository
         if (null !== $assertions) {
             $set['assertions'] = json_encode($assertions);
         }
-        $update = $sql->update()
-            ->set($set)
-            ->where(['roleId' => $roleId, 'resourceId' => $resourceId]);
-        $result = $sql->prepareStatementForSqlObject($update)->execute();
 
-        return $result->getAffectedRows() >= 0 ? (int) $row['id'] : false;
+        $result = $this->gateway->update($set, ['roleId' => $roleId, 'resourceId' => $resourceId]);
+
+        return $result >= 0 ? (int) $existing->id : false;
     }
 
     /**
@@ -199,12 +110,9 @@ final class RuleRepository
      */
     public function updateType(string $roleId, string $resourceId, RuleType $newType): bool
     {
-        $sql    = $this->gateway->getSql();
-        $update = $sql->update()
-            ->set(['type' => $newType->value])
-            ->where(['roleId' => $roleId, 'resourceId' => $resourceId]);
-        $result = $sql->prepareStatementForSqlObject($update)->execute();
-
-        return $result->getAffectedRows() > 0;
+        return $this->gateway->update(
+            ['type' => $newType->value],
+            ['roleId' => $roleId, 'resourceId' => $resourceId],
+        ) > 0;
     }
 }

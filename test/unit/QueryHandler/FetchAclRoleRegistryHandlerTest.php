@@ -10,7 +10,6 @@ use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Webware\Acl\Query\FetchAclRoleRegistry;
 use Webware\Acl\QueryHandler\FetchAclRoleRegistryHandler;
-use Webware\Acl\Repository\RoleRepository;
 use Webware\MessageBus\MessageStatus;
 use WebwareTest\Acl\Support\PhpDbAdapterMockTrait;
 
@@ -22,7 +21,7 @@ final class FetchAclRoleRegistryHandlerTest extends TestCase
     #[Test]
     public function handleReturnsRoleRegistry(): void
     {
-        $handler = new FetchAclRoleRegistryHandler(new RoleRepository($this->createAdapter([
+        $handler = new FetchAclRoleRegistryHandler($this->createRoleRepository($this->createAdapter([
             [['id' => 1, 'roleId' => 'Admin', 'parentId' => null]],
         ])));
         $query  = new FetchAclRoleRegistry();

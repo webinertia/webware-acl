@@ -10,7 +10,6 @@ use PHPUnit\Framework\TestCase;
 use RuntimeException;
 use Webware\Acl\Admin\Command\SaveRoleCommand;
 use Webware\Acl\Admin\CommandHandler\SaveRoleHandler;
-use Webware\Acl\Repository\RoleRepository;
 use Webware\MessageBus\MessageStatus;
 use WebwareTest\Acl\Support\PhpDbAdapterMockTrait;
 
@@ -23,7 +22,7 @@ final class SaveRoleHandlerTest extends TestCase
     public function handleReturnsFailureWhenRepositoryThrows(): void
     {
         $handler = new SaveRoleHandler(
-            new RoleRepository($this->createAdapter([], [], new RuntimeException('boom'))),
+            $this->createRoleRepository($this->createAdapter([], [], new RuntimeException('boom'))),
         );
         $result = $handler->handle(new SaveRoleCommand(null, 'Editor', null));
 
@@ -34,7 +33,7 @@ final class SaveRoleHandlerTest extends TestCase
     #[Test]
     public function handleSavesRoleAndReturnsSuccess(): void
     {
-        $handler = new SaveRoleHandler(new RoleRepository($this->createAdapter([[], []])));
+        $handler = new SaveRoleHandler($this->createRoleRepository($this->createAdapter([[], []])));
         $result  = $handler->handle(new SaveRoleCommand(null, 'Editor', null));
 
         self::assertSame(MessageStatus::Success, $result->getStatus());

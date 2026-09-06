@@ -46,7 +46,7 @@ final class UpdateRuleTypeHandler implements CommandHandlerInterface
             // Cascade: children with no explicit rule inherit the parent rule type.
             // Add an explicit old-type rule for each such child so they keep their access.
             foreach ($this->roleRepository->fetchDirectChildren($command->roleId) as $childRole) {
-                if ($this->ruleRepository->findByRoleAndResource($childRole, $command->resourceId) !== null) {
+                if ($this->ruleRepository->hasRule($childRole, $command->resourceId)) {
                     continue;
                 }
 

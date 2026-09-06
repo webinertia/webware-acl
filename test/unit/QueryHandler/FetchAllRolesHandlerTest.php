@@ -9,7 +9,6 @@ use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Webware\Acl\Query\FetchAllRoles;
 use Webware\Acl\QueryHandler\FetchAllRolesHandler;
-use Webware\Acl\Repository\RoleRepository;
 use Webware\MessageBus\MessageStatus;
 use WebwareTest\Acl\Support\PhpDbAdapterMockTrait;
 
@@ -21,7 +20,7 @@ final class FetchAllRolesHandlerTest extends TestCase
     #[Test]
     public function handleReturnsAllRoles(): void
     {
-        $handler = new FetchAllRolesHandler(new RoleRepository($this->createAdapter([
+        $handler = new FetchAllRolesHandler($this->createRoleRepository($this->createAdapter([
             [['id' => 1, 'roleId' => 'Admin', 'parentId' => null]],
         ])));
         $query  = new FetchAllRoles();

@@ -11,22 +11,31 @@ use PhpDb\Adapter\Driver\DriverInterface;
 use PhpDb\Adapter\Driver\ResultInterface;
 use PhpDb\Adapter\Driver\StatementInterface;
 use PhpDb\Adapter\Platform\PlatformInterface;
+use PhpDb\ResultSet\ArrayResultSet;
+use PhpDb\ResultSet\RowPrototypeResultSet;
 use PhpDb\Sql\Platform\PlatformDecoratorInterface;
 use PhpDb\Sql\PreparableSqlInterface;
 use PhpDb\Sql\SqlInterface;
+use PhpDb\Sql\TableIdentifier;
+use PhpDb\TableGateway\TableGateway;
 use Throwable;
 use Webware\Acl\Admin\Command\SaveRoleCommand;
 use Webware\Acl\Admin\CommandHandler\SaveRoleHandler;
+use Webware\Acl\Entity\Role;
+use Webware\Acl\Entity\Rule;
 use Webware\Acl\Query\FetchAclRoleRegistry;
 use Webware\Acl\Query\FetchAllRoles;
 use Webware\Acl\Query\FetchAllRules;
 use Webware\Acl\Query\FetchDistinctResourceIds;
+use Webware\Acl\QueryHandler\FetchAclRoleRegistryHandler;
+use Webware\Acl\QueryHandler\FetchAllRolesHandler;
+use Webware\Acl\QueryHandler\FetchAllRulesHandler;
+use Webware\Acl\QueryHandler\FetchDistinctResourceIdsHandler;
 use Webware\Acl\Repository\RoleRepository;
 use Webware\Acl\Repository\RuleRepository;
+use Webware\Acl\Repository\Schema;
 use Webware\MessageBus\MessageBusInterface;
 use Webware\MessageBus\MessageInterface;
-use Webware\MessageBus\MessageStatus;
-use Webware\MessageBus\Query\QueryResult;
 use Webware\MessageBus\ResultInterface as MessageBusResultInterface;
 
 use function array_fill;
@@ -96,38 +105,34 @@ trait PhpDbAdapterMockTrait
     }
 
     /**
-     * Builds a message-bus fake that dispatches the read/write queries to real
-     * repositories backed by the mocked adapter. Reuses the existing adapter
+     * Builds a message-bus fake that dispatches the read/write queries to the
+     * real handlers backed by the mocked adapter. Reuses the existing adapter
      * fixture machinery so per-statement result queues stay identical.
      */
     protected function createQueryBus(AdapterInterface $adapter): MessageBusInterface
     {
-        $ruleRepository  = new RuleRepository($adapter);
-        $roleRepository  = new RoleRepository($adapter);
+        $ruleGateway     = $this->createRuleArrayGateway($adapter);
+        $roleRepository  = $this->createRoleRepository($adapter);
         $saveRoleHandler = new SaveRoleHandler($roleRepository);
 
         $bus = $this->createStub(MessageBusInterface::class);
         $bus->method('handle')->willReturnCallback(
             static function (MessageInterface $message) use (
-                $ruleRepository,
+                $ruleGateway,
                 $roleRepository,
                 $saveRoleHandler,
             ): MessageBusResultInterface {
                 if ($message instanceof FetchAllRules) {
-                    return new QueryResult($message, MessageStatus::Success, $ruleRepository->fetchAll());
+                    return new FetchAllRulesHandler($ruleGateway)->handle($message);
                 }
                 if ($message instanceof FetchDistinctResourceIds) {
-                    return new QueryResult(
-                        $message,
-                        MessageStatus::Success,
-                        $ruleRepository->fetchDistinctResourceIds(),
-                    );
+                    return new FetchDistinctResourceIdsHandler($ruleGateway)->handle($message);
                 }
                 if ($message instanceof FetchAclRoleRegistry) {
-                    return new QueryResult($message, MessageStatus::Success, $roleRepository->fetchAclRoleRegistry());
+                    return new FetchAclRoleRegistryHandler($roleRepository)->handle($message);
                 }
                 if ($message instanceof FetchAllRoles) {
-                    return new QueryResult($message, MessageStatus::Success, $roleRepository->fetchAll());
+                    return new FetchAllRolesHandler($roleRepository)->handle($message);
                 }
                 if ($message instanceof SaveRoleCommand) {
                     return $saveRoleHandler->handle($message);
@@ -138,6 +143,47 @@ trait PhpDbAdapterMockTrait
         );
 
         return $bus;
+    }
+
+    protected function createRoleGateway(AdapterInterface $adapter): TableGateway
+    {
+        return new TableGateway(
+            table             : new TableIdentifier(Schema::Roles->value),
+            adapter           : $adapter,
+            resultSetPrototype: new RowPrototypeResultSet(
+                rowPrototype: new Role(),
+            ),
+        );
+    }
+
+    protected function createRoleRepository(AdapterInterface $adapter): RoleRepository
+    {
+        return new RoleRepository($this->createRoleGateway($adapter));
+    }
+
+    protected function createRuleArrayGateway(AdapterInterface $adapter): TableGateway
+    {
+        return new TableGateway(
+            table             : new TableIdentifier(Schema::Rules->value),
+            adapter           : $adapter,
+            resultSetPrototype: new ArrayResultSet(),
+        );
+    }
+
+    protected function createRuleGateway(AdapterInterface $adapter): TableGateway
+    {
+        return new TableGateway(
+            table             : new TableIdentifier(Schema::Rules->value),
+            adapter           : $adapter,
+            resultSetPrototype: new RowPrototypeResultSet(
+                rowPrototype: new Rule(),
+            ),
+        );
+    }
+
+    protected function createRuleRepository(AdapterInterface $adapter): RuleRepository
+    {
+        return new RuleRepository($this->createRuleGateway($adapter));
     }
 
     /**

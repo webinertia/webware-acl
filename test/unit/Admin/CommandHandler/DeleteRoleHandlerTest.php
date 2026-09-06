@@ -12,7 +12,6 @@ use PHPUnit\Framework\TestCase;
 use RuntimeException;
 use Webware\Acl\Admin\Command\DeleteRoleCommand;
 use Webware\Acl\Admin\CommandHandler\DeleteRoleHandler;
-use Webware\Acl\Repository\RoleRepository;
 use Webware\MessageBus\MessageStatus;
 use WebwareTest\Acl\Support\PhpDbAdapterMockTrait;
 
@@ -24,7 +23,7 @@ final class DeleteRoleHandlerTest extends TestCase
     #[Test]
     public function handleRemovesFromParentsDeletesAndReturnsSuccess(): void
     {
-        $handler = new DeleteRoleHandler(new RoleRepository($this->createAdapter([[], []])));
+        $handler = new DeleteRoleHandler($this->createRoleRepository($this->createAdapter([[], []])));
         $result  = $handler->handle(new DeleteRoleCommand('Editor'));
 
         self::assertSame(MessageStatus::Success, $result->getStatus());
@@ -37,7 +36,7 @@ final class DeleteRoleHandlerTest extends TestCase
     public function handleReturnsFailureWhenRepositoryThrows(): void
     {
         $handler = new DeleteRoleHandler(
-            new RoleRepository($this->createAdapter([], [], new RuntimeException('boom'))),
+            $this->createRoleRepository($this->createAdapter([], [], new RuntimeException('boom'))),
         );
         $result = $handler->handle(new DeleteRoleCommand('Editor'));
 

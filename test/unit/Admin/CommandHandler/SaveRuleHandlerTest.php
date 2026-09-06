@@ -10,8 +10,6 @@ use PHPUnit\Framework\TestCase;
 use RuntimeException;
 use Webware\Acl\Admin\Command\SaveRuleCommand;
 use Webware\Acl\Admin\CommandHandler\SaveRuleHandler;
-use Webware\Acl\Repository\RoleRepository;
-use Webware\Acl\Repository\RuleRepository;
 use Webware\Acl\RuleType;
 use Webware\MessageBus\MessageStatus;
 use WebwareTest\Acl\Support\PhpDbAdapterMockTrait;
@@ -25,8 +23,8 @@ final class SaveRuleHandlerTest extends TestCase
     public function handleReturnsFailureWhenRepositoryThrows(): void
     {
         $handler = new SaveRuleHandler(
-            new RuleRepository($this->createAdapter([], [], new RuntimeException('boom'))),
-            new RoleRepository($this->createAdapter([])),
+            $this->createRuleRepository($this->createAdapter([], [], new RuntimeException('boom'))),
+            $this->createRoleRepository($this->createAdapter([])),
         );
         $result = $handler->handle(new SaveRuleCommand('Admin', 'dashboard', RuleType::Allow, null));
 
@@ -38,8 +36,8 @@ final class SaveRuleHandlerTest extends TestCase
     public function handleReturnsFailureWhenSaveReturnsFalse(): void
     {
         $handler = new SaveRuleHandler(
-            new RuleRepository($this->createAdapter([[], []], [], null, null)),
-            new RoleRepository($this->createAdapter([])),
+            $this->createRuleRepository($this->createAdapter([[], []], [], null, null)),
+            $this->createRoleRepository($this->createAdapter([])),
         );
         $result = $handler->handle(new SaveRuleCommand('Admin', 'dashboard', RuleType::Allow, null));
 
@@ -50,8 +48,8 @@ final class SaveRuleHandlerTest extends TestCase
     public function handleSavesRuleAndReturnsSuccess(): void
     {
         $handler = new SaveRuleHandler(
-            new RuleRepository($this->createAdapter([[], []])),
-            new RoleRepository($this->createAdapter([])),
+            $this->createRuleRepository($this->createAdapter([[], []])),
+            $this->createRoleRepository($this->createAdapter([])),
         );
         $result = $handler->handle(new SaveRuleCommand('Admin', 'dashboard', RuleType::Allow, null));
 
