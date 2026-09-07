@@ -3473,12 +3473,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/webinertia/webware-admin.git",
-                "reference": "94ae00f20f595ee9a8024d3f5b16a66d95bc7217"
+                "reference": "d923254445ce03307a597b1910255c052bec87c6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/webinertia/webware-admin/zipball/94ae00f20f595ee9a8024d3f5b16a66d95bc7217",
-                "reference": "94ae00f20f595ee9a8024d3f5b16a66d95bc7217",
+                "url": "https://api.github.com/repos/webinertia/webware-admin/zipball/d923254445ce03307a597b1910255c052bec87c6",
+                "reference": "d923254445ce03307a597b1910255c052bec87c6",
                 "shasum": ""
             },
             "require": {
@@ -3541,7 +3541,7 @@
                 "issues": "https://github.com/webinertia/webware-admin/issues",
                 "source": "https://github.com/webinertia/webware-admin/tree/0.1.x"
             },
-            "time": "2026-09-04T15:21:14+00:00"
+            "time": "2026-09-06T09:58:23+00:00"
         },
         {
             "name": "webware/webware-core",
@@ -12853,12 +12853,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/webinertia/webware-console.git",
-                "reference": "86695e611123a7c2889c288b720d2851ffc0f119"
+                "reference": "e142d3f52fad67a641c7bcb91160bc25b2ccfd60"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/webinertia/webware-console/zipball/86695e611123a7c2889c288b720d2851ffc0f119",
-                "reference": "86695e611123a7c2889c288b720d2851ffc0f119",
+                "url": "https://api.github.com/repos/webinertia/webware-console/zipball/e142d3f52fad67a641c7bcb91160bc25b2ccfd60",
+                "reference": "e142d3f52fad67a641c7bcb91160bc25b2ccfd60",
                 "shasum": ""
             },
             "require": {
@@ -12938,7 +12938,7 @@
                 "source": "https://github.com/webinertia/webware-console/tree/0.1.x",
                 "issues": "https://github.com/webinertia/webware-console/issues"
             },
-            "time": "2026-08-31T01:53:10+00:00"
+            "time": "2026-09-06T16:07:05+00:00"
         },
         {
             "name": "webware/webware-tools",
