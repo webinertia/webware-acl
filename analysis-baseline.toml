@@ -26,6 +26,12 @@ count = 1
 
 [[issues]]
 file = "src/Acl.php"
+code = "less-specific-return-statement"
+message = 'Returned type `array<array-key, list<array-key>>` is less specific than the declared return type `array<string, array<array-key, string>>` for function `Webware\Acl\Acl::getRoles`.'
+count = 1
+
+[[issues]]
+file = "src/Acl.php"
 code = "mixed-array-access"
 message = "Unsafe array access on type `mixed`."
 count = 1
@@ -274,6 +280,12 @@ count = 1
 file = "src/Http/Admin/Middleware/OverviewMiddleware.php"
 code = "possibly-undefined-int-array-index"
 message = "Possibly undefined array key `array-key` accessed on `array<array-key, mixed>`."
+count = 1
+
+[[issues]]
+file = "src/Http/Admin/Middleware/OverviewMiddleware.php"
+code = "possibly-undefined-int-array-index"
+message = "Possibly undefined array key `non-negative-int` accessed on `array<non-negative-int, list<non-negative-int>>`."
 count = 1
 
 [[issues]]
