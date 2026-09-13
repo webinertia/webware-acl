@@ -55,10 +55,10 @@ use Webware\Acl\Http\RequestHandler\ForbiddenHandler;
 use Webware\Acl\Http\RequestHandler\ForbiddenHandlerInterface;
 use Webware\Acl\Http\RouteResourceFactory;
 use Webware\Acl\Http\RouteResourceFactoryInterface;
-use Webware\Acl\Query\FetchAclRoleRegistry;
-use Webware\Acl\Query\FetchAllRoles;
-use Webware\Acl\Query\FetchAllRules;
-use Webware\Acl\Query\FetchDistinctResourceIds;
+use Webware\Acl\Query\FetchAclRoleRegistryQuery;
+use Webware\Acl\Query\FetchAllRolesQuery;
+use Webware\Acl\Query\FetchAllRulesQuery;
+use Webware\Acl\Query\FetchDistinctResourceIdsQuery;
 use Webware\Acl\QueryHandler\Container\FetchAclRoleRegistryHandlerFactory;
 use Webware\Acl\QueryHandler\Container\FetchAllRolesHandlerFactory;
 use Webware\Acl\QueryHandler\Container\FetchAllRulesHandlerFactory;
@@ -151,10 +151,10 @@ final class ConfigProvider
                 UpdateRuleTypeCommand::class => UpdateRuleTypeHandler::class,
             ],
             BusProvider::QUERY_MAP_KEY           => [
-                FetchAllRules::class            => FetchAllRulesHandler::class,
-                FetchDistinctResourceIds::class => FetchDistinctResourceIdsHandler::class,
-                FetchAclRoleRegistry::class     => FetchAclRoleRegistryHandler::class,
-                FetchAllRoles::class            => FetchAllRolesHandler::class,
+                FetchAllRulesQuery::class            => FetchAllRulesHandler::class,
+                FetchDistinctResourceIdsQuery::class => FetchDistinctResourceIdsHandler::class,
+                FetchAclRoleRegistryQuery::class     => FetchAclRoleRegistryHandler::class,
+                FetchAllRolesQuery::class            => FetchAllRolesHandler::class,
             ],
             BusProvider::MIDDLEWARE_PIPELINE_KEY => [
                 [

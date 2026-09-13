@@ -9,4 +9,4 @@ use Webware\MessageBus\Query\QueryInterface;
 /**
  * Fetch all roles.
  */
-final readonly class FetchAllRoles implements QueryInterface {}
+final readonly class FetchAllRolesQuery implements QueryInterface {}

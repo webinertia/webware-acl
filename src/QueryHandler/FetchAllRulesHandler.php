@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Webware\Acl\QueryHandler;
 
 use PhpDb\TableGateway\TableGateway;
-use Webware\Acl\Query\FetchAllRules;
+use Webware\Acl\Query\FetchAllRulesQuery;
 use Webware\MessageBus\MessageStatus;
 use Webware\MessageBus\Query\QueryResult;
 use Webware\MessageBus\QueryHandlerInterface;
@@ -26,7 +26,7 @@ final readonly class FetchAllRulesHandler implements QueryHandlerInterface
         private TableGateway $gateway,
     ) {}
 
-    public function handle(FetchAllRules $query): QueryResult
+    public function handle(FetchAllRulesQuery $query): QueryResult
     {
         $rules  = [];
         $select = $this->gateway->getSql()->select();

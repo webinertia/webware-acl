@@ -7,112 +7,11 @@ baseline = "lint-baseline.toml"
 [analyzer]
 baseline = "analysis-baseline.toml"
 
-# ---------------------------------------------------------------------------
-# Guard rules — Http boundary (Phase 2, TASK-004) and MessageBus classes.
-#
-# Http rules describe the POST-move layout, so `mago guard` stays GREEN until a
-# class lands in the wrong namespace or with the wrong name during the move.
-#
-# MessageBus middleware always lives in MessageBus\Middleware. Commands, queries
-# and their handlers stay in the domain they act on (e.g. Admin\Command,
-# Admin\CommandHandler) — they are NOT centralized under MessageBus\ and are
-# not moved.
-#
-# Phase 3 (TASK-004 c/d): `Repository\*` is restricted to QueryHandler,
-# Admin\CommandHandler (and their factories), the root Webware\Acl namespace
-# (ConfigProvider DI wiring), and tests — enforced via a `perimeter`
-# restriction, so `mode` is "default".
-# ---------------------------------------------------------------------------
-[guard]
-mode = "default"
-
-# Http\Middleware\ — PSR middleware (non-admin)
-[[guard.structural.rules]]
-on = "Webware\\Acl\\Http\\Middleware\\*"
-target = "class"
-must-be-named = "*Middleware"
-must-implement = "Psr\\Http\\Server\\MiddlewareInterface"
-reason = "HTTP middleware must live in Http\\Middleware and be named *Middleware."
-
-# Http\Admin\Middleware\ — admin PSR middleware
-[[guard.structural.rules]]
-on = "Webware\\Acl\\Http\\Admin\\Middleware\\*"
-target = "class"
-must-be-named = "*Middleware"
-must-implement = "Psr\\Http\\Server\\MiddlewareInterface"
-reason = "Admin HTTP middleware must live in Http\\Admin\\Middleware and be named *Middleware."
-
-# Http\RequestHandler\ — PSR request handlers (non-admin)
-[[guard.structural.rules]]
-on = "Webware\\Acl\\Http\\RequestHandler\\*"
-target = "class"
-must-be-named = "*Handler"
-must-implement = "Psr\\Http\\Server\\RequestHandlerInterface"
-reason = "Request handlers must live in Http\\RequestHandler and be named *Handler."
-
-# Http\Admin\RequestHandler\ — admin PSR request handlers
-[[guard.structural.rules]]
-on = "Webware\\Acl\\Http\\Admin\\RequestHandler\\*"
-target = "class"
-must-be-named = "*Handler"
-must-implement = "Psr\\Http\\Server\\RequestHandlerInterface"
-reason = "Admin request handlers must live in Http\\Admin\\RequestHandler and be named *Handler."
-
-# MessageBus\Middleware\ — ACL-enforcing bus middleware
-[[guard.structural.rules]]
-on = "Webware\\Acl\\MessageBus\\Middleware\\*"
-target = "class"
-must-be-named = "*Middleware"
-must-implement = "Webware\\MessageBus\\MiddlewareInterface"
-reason = "MessageBus middleware must live in MessageBus\\Middleware and be named *Middleware."
-
-# Admin\Command\ — domain commands (stay in the Admin domain, not centralized)
-[[guard.structural.rules]]
-on = "Webware\\Acl\\Admin\\Command\\*"
-target = "class"
-must-be-named = "*Command"
-must-implement = "Webware\\MessageBus\\Command\\NamedCommandInterface"
-reason = "Commands live in the domain they act on and must implement NamedCommandInterface."
-
-# Admin\CommandHandler\ — domain command handlers (stay in the Admin domain)
-[[guard.structural.rules]]
-on = "Webware\\Acl\\Admin\\CommandHandler\\*"
-target = "class"
-must-be-named = "*Handler"
-must-implement = "Webware\\MessageBus\\CommandHandlerInterface"
-reason = "Command handlers live in the domain they act on and must implement CommandHandlerInterface."
-
-# Query\ — domain queries
-[[guard.structural.rules]]
-on = "Webware\\Acl\\Query\\*"
-target = "class"
-must-implement = "Webware\\MessageBus\\Query\\QueryInterface"
-reason = "Queries live in Query\\ and must implement QueryInterface."
-
-# QueryHandler\ — domain query handlers
-[[guard.structural.rules]]
-on = "Webware\\Acl\\QueryHandler\\*"
-target = "class"
-must-be-named = "*Handler"
-must-implement = "Webware\\MessageBus\\QueryHandlerInterface"
-reason = "Query handlers live in QueryHandler\\ and must implement QueryHandlerInterface."
-
-# Repository\** — repositories usable only from handlers, their factories, the
-# root Webware\Acl namespace (ConfigProvider wires the DI factories), and tests.
-#
-# NOTE: `allow-from` matches source *namespaces* (not individual symbols), and a
-# namespace pattern always prefix-matches sub-namespaces. The glob `Webware\*`
-# matches exactly the two-segment root namespace `Webware\Acl` (ConfigProvider's
-# home) without opening up `Webware\Acl\Http\...` or other sub-namespaces.
-[[guard.perimeter.restrictions]]
-dependency = "Webware\\Acl\\Repository\\**"
-allow-from = [
-    "Webware\\*",
-    "Webware\\Acl\\Repository\\**",
-    "Webware\\Acl\\QueryHandler\\**",
-    "Webware\\Acl\\Admin\\CommandHandler\\**",
-    "WebwareTest\\Acl\\**",
-]
+# Guard rules live in the centre: vendor/webware/webware-tools/mago.toml.
+# The local rules that were here (Http boundary, MessageBus middleware,
+# Admin command/handler namespaces, and the repository perimeter) are general
+# and enforced centrally. Re-add a rule here only if it covers this package's
+# own domain and the centre does not cover it.
 
 [source]
 paths = ["src", "test"]

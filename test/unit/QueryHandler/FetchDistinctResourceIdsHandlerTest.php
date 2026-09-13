@@ -8,7 +8,7 @@ use PhpDb\Sql\Select;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
-use Webware\Acl\Query\FetchDistinctResourceIds;
+use Webware\Acl\Query\FetchDistinctResourceIdsQuery;
 use Webware\Acl\QueryHandler\FetchDistinctResourceIdsHandler;
 use Webware\MessageBus\MessageStatus;
 use WebwareTest\Acl\Support\PhpDbAdapterMockTrait;
@@ -27,7 +27,7 @@ final class FetchDistinctResourceIdsHandlerTest extends TestCase
                 ['resourceId' => 'admin'],
             ],
         ])));
-        $query  = new FetchDistinctResourceIds();
+        $query  = new FetchDistinctResourceIdsQuery();
         $result = $handler->handle($query);
 
         self::assertSame(MessageStatus::Success, $result->getStatus());

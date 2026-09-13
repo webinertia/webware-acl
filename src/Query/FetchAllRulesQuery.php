@@ -9,4 +9,4 @@ use Webware\MessageBus\Query\QueryInterface;
 /**
  * Fetch all rules as plain arrays with decoded assertions.
  */
-final readonly class FetchAllRules implements QueryInterface {}
+final readonly class FetchAllRulesQuery implements QueryInterface {}

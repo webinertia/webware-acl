@@ -22,7 +22,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Webware\Acl\Entity\Role;
-use Webware\Acl\Query\FetchAllRoles;
+use Webware\Acl\Query\FetchAllRolesQuery;
 use Webware\MessageBus\MessageBusInterface;
 
 /**
@@ -45,7 +45,7 @@ final class AddRoleModalHandler implements RequestHandlerInterface
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
         /** @var Role[] $roles */
-        $roles = $this->messageBus->handle(new FetchAllRoles())->getResult();
+        $roles = $this->messageBus->handle(new FetchAllRolesQuery())->getResult();
 
         return new HtmlResponse($this->template->render('acl::partials/add-role-modal', [
             'roles'  => $roles,

@@ -9,4 +9,4 @@ use Webware\MessageBus\Query\QueryInterface;
 /**
  * Fetch the distinct set of resourceId values across all rules.
  */
-final readonly class FetchDistinctResourceIds implements QueryInterface {}
+final readonly class FetchDistinctResourceIdsQuery implements QueryInterface {}

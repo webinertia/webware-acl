@@ -12,7 +12,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Webware\Acl\Entity\Role;
-use Webware\Acl\Query\FetchAllRoles;
+use Webware\Acl\Query\FetchAllRolesQuery;
 use Webware\Htmx\Response\Header;
 use Webware\MessageBus\Command\CommandResult;
 use Webware\MessageBus\Command\CommandResultInterface;
@@ -35,7 +35,7 @@ final class RoleListHandler implements RequestHandlerInterface
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
         /** @var Role[] $roles */
-        $roles = $this->messageBus->handle(new FetchAllRoles())->getResult();
+        $roles = $this->messageBus->handle(new FetchAllRolesQuery())->getResult();
 
         // Build a set of roleIds that appear as a parent in any role's parentId.
         // Used by the template to disable the delete button for roles that have children.
@@ -55,7 +55,7 @@ final class RoleListHandler implements RequestHandlerInterface
         $commandResult = $request->getAttribute(CommandResult::class);
         if (
             $commandResult instanceof CommandResultInterface
-                && $commandResult->getStatus() === MessageStatus::Success
+            && $commandResult->getStatus() === MessageStatus::Success
         ) {
             $response = $response->withHeader(Header::Trigger->value, json_encode(['closeModal' => null]));
         }

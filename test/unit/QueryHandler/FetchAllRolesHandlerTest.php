@@ -7,7 +7,7 @@ namespace WebwareTest\Acl\QueryHandler;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
-use Webware\Acl\Query\FetchAllRoles;
+use Webware\Acl\Query\FetchAllRolesQuery;
 use Webware\Acl\QueryHandler\FetchAllRolesHandler;
 use Webware\MessageBus\MessageStatus;
 use WebwareTest\Acl\Support\PhpDbAdapterMockTrait;
@@ -23,7 +23,7 @@ final class FetchAllRolesHandlerTest extends TestCase
         $handler = new FetchAllRolesHandler($this->createRoleRepository($this->createAdapter([
             [['id' => 1, 'roleId' => 'Admin', 'parentId' => null]],
         ])));
-        $query  = new FetchAllRoles();
+        $query  = new FetchAllRolesQuery();
         $result = $handler->handle($query);
 
         self::assertSame(MessageStatus::Success, $result->getStatus());

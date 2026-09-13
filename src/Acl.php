@@ -16,9 +16,9 @@ use ValueError;
 use Webware\Acl\Admin\Command\SaveRoleCommand;
 use Webware\Acl\Assertion\AssertionAggregateFactory;
 use Webware\Acl\Exception\RuntimeException;
-use Webware\Acl\Query\FetchAclRoleRegistry;
-use Webware\Acl\Query\FetchAllRules;
-use Webware\Acl\Query\FetchDistinctResourceIds;
+use Webware\Acl\Query\FetchAclRoleRegistryQuery;
+use Webware\Acl\Query\FetchAllRulesQuery;
+use Webware\Acl\Query\FetchDistinctResourceIdsQuery;
 use Webware\Acl\Role\UserRoleIterator;
 use Webware\Core\AclInterface;
 use Webware\Core\UserInterface;
@@ -159,7 +159,7 @@ final class Acl extends LaminasAcl implements AclInterface
     {
         if (null === $this->roleRegistry) {
             /** @var Registry $registry */
-            $registry           = $this->messageBus->handle(new FetchAclRoleRegistry())->getResult();
+            $registry           = $this->messageBus->handle(new FetchAclRoleRegistryQuery())->getResult();
             $this->roleRegistry = $registry;
         }
 
@@ -178,7 +178,7 @@ final class Acl extends LaminasAcl implements AclInterface
         }
 
         /** @var array<int, array{type: string, roleId: string, resourceId: string, assertions: string[], parentResourceId: string|null}> $allRules */
-        $allRules = $this->messageBus->handle(new FetchAllRules())->getResult();
+        $allRules = $this->messageBus->handle(new FetchAllRulesQuery())->getResult();
 
         // Build explicit parent map from DB data
         $explicitParents = [];
@@ -191,7 +191,7 @@ final class Acl extends LaminasAcl implements AclInterface
         }
 
         /** @var string[] $resourceIds */
-        $resourceIds = $this->messageBus->handle(new FetchDistinctResourceIds())->getResult();
+        $resourceIds = $this->messageBus->handle(new FetchDistinctResourceIdsQuery())->getResult();
         sort($resourceIds);
 
         foreach ($resourceIds as $resourceId) {

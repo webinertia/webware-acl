@@ -8,7 +8,7 @@ use Laminas\Permissions\Acl\Role\Registry;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
-use Webware\Acl\Query\FetchAclRoleRegistry;
+use Webware\Acl\Query\FetchAclRoleRegistryQuery;
 use Webware\Acl\QueryHandler\FetchAclRoleRegistryHandler;
 use Webware\MessageBus\MessageStatus;
 use WebwareTest\Acl\Support\PhpDbAdapterMockTrait;
@@ -24,7 +24,7 @@ final class FetchAclRoleRegistryHandlerTest extends TestCase
         $handler = new FetchAclRoleRegistryHandler($this->createRoleRepository($this->createAdapter([
             [['id' => 1, 'roleId' => 'Admin', 'parentId' => null]],
         ])));
-        $query  = new FetchAclRoleRegistry();
+        $query  = new FetchAclRoleRegistryQuery();
         $result = $handler->handle($query);
 
         self::assertSame(MessageStatus::Success, $result->getStatus());

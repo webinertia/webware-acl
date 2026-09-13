@@ -23,10 +23,10 @@ use Webware\Acl\Admin\Command\SaveRoleCommand;
 use Webware\Acl\Admin\CommandHandler\SaveRoleHandler;
 use Webware\Acl\Entity\Role;
 use Webware\Acl\Entity\Rule;
-use Webware\Acl\Query\FetchAclRoleRegistry;
-use Webware\Acl\Query\FetchAllRoles;
-use Webware\Acl\Query\FetchAllRules;
-use Webware\Acl\Query\FetchDistinctResourceIds;
+use Webware\Acl\Query\FetchAclRoleRegistryQuery;
+use Webware\Acl\Query\FetchAllRolesQuery;
+use Webware\Acl\Query\FetchAllRulesQuery;
+use Webware\Acl\Query\FetchDistinctResourceIdsQuery;
 use Webware\Acl\QueryHandler\FetchAclRoleRegistryHandler;
 use Webware\Acl\QueryHandler\FetchAllRolesHandler;
 use Webware\Acl\QueryHandler\FetchAllRulesHandler;
@@ -122,16 +122,16 @@ trait PhpDbAdapterMockTrait
                 $roleRepository,
                 $saveRoleHandler,
             ): MessageBusResultInterface {
-                if ($message instanceof FetchAllRules) {
+                if ($message instanceof FetchAllRulesQuery) {
                     return new FetchAllRulesHandler($ruleGateway)->handle($message);
                 }
-                if ($message instanceof FetchDistinctResourceIds) {
+                if ($message instanceof FetchDistinctResourceIdsQuery) {
                     return new FetchDistinctResourceIdsHandler($ruleGateway)->handle($message);
                 }
-                if ($message instanceof FetchAclRoleRegistry) {
+                if ($message instanceof FetchAclRoleRegistryQuery) {
                     return new FetchAclRoleRegistryHandler($roleRepository)->handle($message);
                 }
-                if ($message instanceof FetchAllRoles) {
+                if ($message instanceof FetchAllRolesQuery) {
                     return new FetchAllRolesHandler($roleRepository)->handle($message);
                 }
                 if ($message instanceof SaveRoleCommand) {
