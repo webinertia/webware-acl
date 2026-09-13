@@ -16,7 +16,7 @@ use ValueError;
 use Webware\Acl\AssertionManager;
 use Webware\Acl\Entity\Role;
 use Webware\Acl\PrivilegeInterface;
-use Webware\Acl\Query\FetchAllRules;
+use Webware\Acl\Query\FetchAllRulesQuery;
 use Webware\Acl\RuleType;
 use Webware\Core\AclInterface;
 use Webware\MessageBus\MessageBusInterface;
@@ -64,7 +64,7 @@ final readonly class OverviewMiddleware implements MiddlewareInterface
         /** @var Acl&AclInterface $acl */
         $acl = $request->getAttribute(AclInterface::class);
         /** @var array<int, array{type: string, roleId: string, resourceId: string, assertions: string[], parentResourceId: string|null}> $allRules */
-        $allRules = $this->messageBus->handle(new FetchAllRules())->getResult();
+        $allRules = $this->messageBus->handle(new FetchAllRulesQuery())->getResult();
 
         $configAllow       = [];
         $configDeny        = [];

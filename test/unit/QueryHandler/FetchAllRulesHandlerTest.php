@@ -8,7 +8,7 @@ use PhpDb\Sql\Select;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
-use Webware\Acl\Query\FetchAllRules;
+use Webware\Acl\Query\FetchAllRulesQuery;
 use Webware\Acl\QueryHandler\FetchAllRulesHandler;
 use Webware\MessageBus\MessageStatus;
 use WebwareTest\Acl\Support\PhpDbAdapterMockTrait;
@@ -32,7 +32,7 @@ final class FetchAllRulesHandlerTest extends TestCase
                 ],
             ],
         ])));
-        $query  = new FetchAllRules();
+        $query  = new FetchAllRulesQuery();
         $result = $handler->handle($query);
 
         self::assertSame(MessageStatus::Success, $result->getStatus());

@@ -56,7 +56,7 @@ final class ResourceListHandler implements RequestHandlerInterface
         $commandResult = $request->getAttribute(CommandResult::class);
         if (
             $commandResult instanceof CommandResultInterface
-                && $commandResult->getStatus() === MessageStatus::Success
+            && $commandResult->getStatus() === MessageStatus::Success
         ) {
             $response = $response->withHeader(Header::Trigger->value, json_encode(['closeModal' => null]));
         }

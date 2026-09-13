@@ -34,10 +34,10 @@ use Webware\Acl\InputFilter\Container\RuleDataFilterFactory;
 use Webware\Acl\InputFilter\RoleDataFilter;
 use Webware\Acl\InputFilter\RuleDataFilter;
 use Webware\Acl\InputFilter\RuleDeleteFilter;
-use Webware\Acl\Query\FetchAclRoleRegistry;
-use Webware\Acl\Query\FetchAllRoles;
-use Webware\Acl\Query\FetchAllRules;
-use Webware\Acl\Query\FetchDistinctResourceIds;
+use Webware\Acl\Query\FetchAclRoleRegistryQuery;
+use Webware\Acl\Query\FetchAllRolesQuery;
+use Webware\Acl\Query\FetchAllRulesQuery;
+use Webware\Acl\Query\FetchDistinctResourceIdsQuery;
 use Webware\Acl\QueryHandler\FetchAclRoleRegistryHandler;
 use Webware\Acl\QueryHandler\FetchAllRolesHandler;
 use Webware\Acl\QueryHandler\FetchAllRulesHandler;
@@ -85,10 +85,10 @@ final class ConfigProviderTest extends TestCase
         );
         self::assertSame(
             [
-                FetchAllRules::class            => FetchAllRulesHandler::class,
-                FetchDistinctResourceIds::class => FetchDistinctResourceIdsHandler::class,
-                FetchAclRoleRegistry::class     => FetchAclRoleRegistryHandler::class,
-                FetchAllRoles::class            => FetchAllRolesHandler::class,
+                FetchAllRulesQuery::class            => FetchAllRulesHandler::class,
+                FetchDistinctResourceIdsQuery::class => FetchDistinctResourceIdsHandler::class,
+                FetchAclRoleRegistryQuery::class     => FetchAclRoleRegistryHandler::class,
+                FetchAllRolesQuery::class            => FetchAllRolesHandler::class,
             ],
             $config[BusProvider::QUERY_MAP_KEY],
         );

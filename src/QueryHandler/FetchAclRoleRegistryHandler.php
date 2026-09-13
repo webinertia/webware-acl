@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Webware\Acl\QueryHandler;
 
 use Laminas\Permissions\Acl\Exception\ExceptionInterface as AclException;
-use Webware\Acl\Query\FetchAclRoleRegistry;
+use Webware\Acl\Query\FetchAclRoleRegistryQuery;
 use Webware\Acl\Repository\RoleRepository;
 use Webware\MessageBus\MessageStatus;
 use Webware\MessageBus\Query\QueryResult;
@@ -20,7 +20,7 @@ final readonly class FetchAclRoleRegistryHandler implements QueryHandlerInterfac
     /**
      * @throws AclException
      */
-    public function handle(FetchAclRoleRegistry $query): QueryResult
+    public function handle(FetchAclRoleRegistryQuery $query): QueryResult
     {
         return new QueryResult($query, MessageStatus::Success, $this->roleRepository->fetchAclRoleRegistry());
     }

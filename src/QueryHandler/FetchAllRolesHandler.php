@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Webware\Acl\QueryHandler;
 
-use Webware\Acl\Query\FetchAllRoles;
+use Webware\Acl\Query\FetchAllRolesQuery;
 use Webware\Acl\Repository\RoleRepository;
 use Webware\MessageBus\MessageStatus;
 use Webware\MessageBus\Query\QueryResult;
@@ -16,7 +16,7 @@ final readonly class FetchAllRolesHandler implements QueryHandlerInterface
         private RoleRepository $roleRepository,
     ) {}
 
-    public function handle(FetchAllRoles $query): QueryResult
+    public function handle(FetchAllRolesQuery $query): QueryResult
     {
         return new QueryResult($query, MessageStatus::Success, $this->roleRepository->fetchAll());
     }

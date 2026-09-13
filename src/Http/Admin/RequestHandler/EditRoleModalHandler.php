@@ -22,7 +22,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Webware\Acl\Entity\Role;
-use Webware\Acl\Query\FetchAllRoles;
+use Webware\Acl\Query\FetchAllRolesQuery;
 use Webware\MessageBus\MessageBusInterface;
 
 use function array_find;
@@ -49,7 +49,7 @@ final class EditRoleModalHandler implements RequestHandlerInterface
         /** @var string $roleId */
         $roleId = $request->getAttribute('roleId', '');
         /** @var Role[] $roles */
-        $roles = $this->messageBus->handle(new FetchAllRoles())->getResult();
+        $roles = $this->messageBus->handle(new FetchAllRolesQuery())->getResult();
 
         // Find the role being edited so we can pre-populate the form
         $role = array_find($roles, static fn(Role $r): bool => $r->getRoleId() === $roleId);

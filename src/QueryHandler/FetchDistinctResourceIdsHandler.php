@@ -7,7 +7,7 @@ namespace Webware\Acl\QueryHandler;
 use PhpDb\Sql\Exception\ExceptionInterface as SqlException;
 use PhpDb\Sql\Select;
 use PhpDb\TableGateway\TableGateway;
-use Webware\Acl\Query\FetchDistinctResourceIds;
+use Webware\Acl\Query\FetchDistinctResourceIdsQuery;
 use Webware\MessageBus\MessageStatus;
 use Webware\MessageBus\Query\QueryResult;
 use Webware\MessageBus\QueryHandlerInterface;
@@ -21,7 +21,7 @@ final readonly class FetchDistinctResourceIdsHandler implements QueryHandlerInte
     /**
      * @throws SqlException
      */
-    public function handle(FetchDistinctResourceIds $query): QueryResult
+    public function handle(FetchDistinctResourceIdsQuery $query): QueryResult
     {
         $select = $this->gateway->getSql()->select();
         $select->columns(['resourceId'])->quantifier(Select::QUANTIFIER_DISTINCT);

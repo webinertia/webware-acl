@@ -9,4 +9,4 @@ use Webware\MessageBus\Query\QueryInterface;
 /**
  * Fetch the ACL role registry built from persisted roles.
  */
-final readonly class FetchAclRoleRegistry implements QueryInterface {}
+final readonly class FetchAclRoleRegistryQuery implements QueryInterface {}
