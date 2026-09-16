@@ -18,12 +18,12 @@ use Webware\Message\NotificationCapableInterface;
 use Webware\MessageBus\Command\NamedCommandInterface;
 use Webware\MessageBus\Command\NamedCommandTrait;
 
-final readonly class SaveRoleCommand implements NamedCommandInterface, NotificationCapableInterface
+final class SaveRoleCommand implements NamedCommandInterface, NotificationCapableInterface
 {
     use NamedCommandTrait;
 
-    public string $successMessage;
-    public string $failureMessage;
+    public readonly string $successMessage;
+    public readonly string $failureMessage;
 
     public function __construct(
         /**
@@ -31,19 +31,19 @@ final readonly class SaveRoleCommand implements NamedCommandInterface, Notificat
          *
          * @var int|null
          */
-        public ?int $id,
+        public readonly ?int $id,
         /**
          * The role identifier.
          *
          * @var string
          */
-        public string $roleId,
+        public readonly string $roleId,
         /**
          * The parent role identifiers.
          *
          * @var string[]|null
          */
-        public ?array $parentId = null,
+        public readonly ?array $parentId = null,
     ) {
         $this->successMessage = 'Role saved.';
         $this->failureMessage = 'Role could not be saved. Please try again.';
