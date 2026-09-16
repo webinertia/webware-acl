@@ -18,15 +18,15 @@ use Webware\Message\NotificationCapableInterface;
 use Webware\MessageBus\Command\NamedCommandInterface;
 use Webware\MessageBus\Command\NamedCommandTrait;
 
-final readonly class DeleteRoleCommand implements NamedCommandInterface, NotificationCapableInterface
+final class DeleteRoleCommand implements NamedCommandInterface, NotificationCapableInterface
 {
     use NamedCommandTrait;
 
-    public string $successMessage;
-    public string $failureMessage;
+    public readonly string $successMessage;
+    public readonly string $failureMessage;
 
     public function __construct(
-        public string $roleId,
+        public readonly string $roleId,
     ) {
         $this->successMessage = 'Role deleted.';
         $this->failureMessage = 'Role could not be deleted. Please try again.';

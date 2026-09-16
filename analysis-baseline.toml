@@ -557,33 +557,3 @@ file = "src/Validator/Container/AssertionFactory.php"
 code = "unused-parameter"
 message = "Parameter `$requestedName` is never used."
 count = 1
-
-[[issues]]
-file = "vendor/webware/message-bus/src/Command/NamedCommandTrait.php"
-code = "uninitialized-property"
-message = 'Property `$name` is not initialized in the constructor of class `Webware\Acl\Admin\Command\DeleteRoleCommand`.'
-count = 1
-
-[[issues]]
-file = "vendor/webware/message-bus/src/Command/NamedCommandTrait.php"
-code = "uninitialized-property"
-message = 'Property `$name` is not initialized in the constructor of class `Webware\Acl\Admin\Command\DeleteRuleCommand`.'
-count = 1
-
-[[issues]]
-file = "vendor/webware/message-bus/src/Command/NamedCommandTrait.php"
-code = "uninitialized-property"
-message = 'Property `$name` is not initialized in the constructor of class `Webware\Acl\Admin\Command\SaveRoleCommand`.'
-count = 1
-
-[[issues]]
-file = "vendor/webware/message-bus/src/Command/NamedCommandTrait.php"
-code = "uninitialized-property"
-message = 'Property `$name` is not initialized in the constructor of class `Webware\Acl\Admin\Command\SaveRuleCommand`.'
-count = 1
-
-[[issues]]
-file = "vendor/webware/message-bus/src/Command/NamedCommandTrait.php"
-code = "uninitialized-property"
-message = 'Property `$name` is not initialized in the constructor of class `Webware\Acl\Admin\Command\UpdateRuleTypeCommand`.'
-count = 1
