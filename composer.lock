@@ -3477,12 +3477,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/webinertia/webware-admin.git",
-                "reference": "b1fdb8a6dbaa68985102cd446eb8e6b04cc0ce64"
+                "reference": "ccd0b80ee063a40b7faa811f318146c8d780d345"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/webinertia/webware-admin/zipball/b1fdb8a6dbaa68985102cd446eb8e6b04cc0ce64",
-                "reference": "b1fdb8a6dbaa68985102cd446eb8e6b04cc0ce64",
+                "url": "https://api.github.com/repos/webinertia/webware-admin/zipball/ccd0b80ee063a40b7faa811f318146c8d780d345",
+                "reference": "ccd0b80ee063a40b7faa811f318146c8d780d345",
                 "shasum": ""
             },
             "require": {
@@ -3545,7 +3545,7 @@
                 "issues": "https://github.com/webinertia/webware-admin/issues",
                 "source": "https://github.com/webinertia/webware-admin/tree/0.1.x"
             },
-            "time": "2026-09-17T00:58:09+00:00"
+            "time": "2026-09-17T01:10:03+00:00"
         },
         {
             "name": "webware/webware-core",
