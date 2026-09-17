@@ -59,20 +59,6 @@
             "WebwareTestIntegration\\Acl\\": "test/integration/"
         }
     },
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/webinertia/webware-console"
-        },
-        {
-            "type": "vcs",
-            "url": "https://github.com/webinertia/webware-core"
-        },
-        {
-            "type": "vcs",
-            "url": "https://github.com/webinertia/webware-htmx"
-        }
-    ],
     "minimum-stability": "dev",
     "prefer-stable": true,
     "config": {
