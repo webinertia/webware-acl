@@ -193,18 +193,6 @@ message = "Negated ternary condition."
 count = 1
 
 [[issues]]
-file = "src/Role/SingleRoleUserProxy.php"
-code = "too-many-methods"
-message = "Class has too many methods."
-count = 1
-
-[[issues]]
-file = "src/Role/UserRoleIterator.php"
-code = "no-isset"
-message = "Use of the `isset` construct."
-count = 1
-
-[[issues]]
 file = "src/RouteProvider.php"
 code = "literal-named-argument"
 message = "Literal argument `'.'` should be passed as a named argument for clarity."

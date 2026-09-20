@@ -282,9 +282,9 @@ final class AclTest extends TestCase
         $acl = $this->createAcl([
             [],
             [$this->resourceIdRow('admin')],
-            [],
+            [$this->roleRow(1, 'Admin', null)],
         ], ['admin.users', 'admin.users.edit']);
-        $acl->isAllowed($this->createUser([]), 'admin.users');
+        $acl->isAllowed($this->createUser('Admin'), 'admin.users');
         self::assertSame('admin', $acl->getResourceParentId('admin.users'));
         self::assertSame('admin.users', $acl->getResourceParentId('admin.users.edit'));
     }
@@ -292,34 +292,23 @@ final class AclTest extends TestCase
     #[Test]
     public function routeWithoutAncestorIsRegisteredAsRoot(): void
     {
-        $acl = $this->createAcl([[], [], []], ['dashboard.index']);
-        $acl->isAllowed($this->createUser([]), 'dashboard.index');
+        $acl = $this->createAcl([[], [], [$this->roleRow(1, 'Admin', null)]], ['dashboard.index']);
+        $acl->isAllowed($this->createUser('Admin'), 'dashboard.index');
         self::assertNull($acl->getResourceParentId('dashboard.index'));
     }
 
     #[Test]
-    public function userWithMultipleRolesIsAllowedWhenAnyRolePasses(): void
+    public function userWhoseRoleHasNoMatchingRuleIsDenied(): void
     {
         $acl = $this->createAcl([
             [$this->ruleRow('Allow', 'Admin', 'dashboard')],
             [$this->resourceIdRow('dashboard')],
             [
-                $this->roleRow(1, 'Guest', null),
-                $this->roleRow(2, 'Admin', null),
+                $this->roleRow(1, 'Admin', null),
+                $this->roleRow(2, 'Guest', null),
             ],
         ]);
-        self::assertTrue($acl->isAllowed($this->createUser(['Guest', 'Admin']), 'dashboard'));
-    }
-
-    #[Test]
-    public function userWithNoRolesIsDenied(): void
-    {
-        $acl = $this->createAcl([
-            [$this->ruleRow('Allow', 'Admin', 'dashboard')],
-            [$this->resourceIdRow('dashboard')],
-            [$this->roleRow(1, 'Admin', null)],
-        ]);
-        self::assertFalse($acl->isAllowed($this->createUser([]), 'dashboard'));
+        self::assertFalse($acl->isAllowed($this->createUser('Guest'), 'dashboard'));
     }
 
     /**
@@ -369,12 +358,19 @@ final class AclTest extends TestCase
      * @param list<mixed> $rows Each row is an array (result row) or false (no row).
      */
     /**
-     * @param list<string> $roles
+     * The contract carries exactly one role, so the fixture derives both the single
+     * role id and the Mezzio roles list from one value.
+     *
+     * @param string|list<string> $roles
      */
-    private function createUser(array $roles): UserInterface
+    private function createUser(string|array $roles): UserInterface
     {
+        $roleIds = (array) $roles;
+
         $user = $this->createStub(UserInterface::class);
-        $user->method('getRoles')->willReturn($roles);
+        $user->method('getRoleId')->willReturn($roleIds[0] ?? '');
+        $user->method('getRoles')->willReturn($roleIds);
+
         return $user;
     }
 
