@@ -19,7 +19,6 @@ use Webware\Acl\Exception\RuntimeException;
 use Webware\Acl\Query\FetchAclRoleRegistryQuery;
 use Webware\Acl\Query\FetchAllRulesQuery;
 use Webware\Acl\Query\FetchDistinctResourceIdsQuery;
-use Webware\Acl\Role\UserRoleIterator;
 use Webware\Core\AclInterface;
 use Webware\Core\UserInterface;
 use Webware\MessageBus\MessageBusInterface;
@@ -129,13 +128,7 @@ final class Acl extends LaminasAcl implements AclInterface
             return false;
         }
 
-        foreach (new UserRoleIterator($role) as $roleProxy) {
-            if (parent::isAllowed($roleProxy, $resource, $privilege)) {
-                return true;
-            }
-        }
-
-        return false;
+        return parent::isAllowed($role, $resource, $privilege);
     }
 
     /**
