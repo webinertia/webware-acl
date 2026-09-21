@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e7f6f55b633cbb4da0304d275bb30ca2",
+    "content-hash": "0bc996805f957f1abf59d78ed4019652",
     "packages": [
         {
             "name": "brick/math",
@@ -3762,16 +3762,16 @@
         },
         {
             "name": "webware/webware-message",
-            "version": "1.0.0-beta.2",
+            "version": "1.0.0-beta.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/webinertia/webware-message.git",
-                "reference": "1602d2e62a6b8c36939fb7ed87b6bcade716980d"
+                "reference": "58535d4b8901a98e449ebbf346653831aad3d459"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/webinertia/webware-message/zipball/1602d2e62a6b8c36939fb7ed87b6bcade716980d",
-                "reference": "1602d2e62a6b8c36939fb7ed87b6bcade716980d",
+                "url": "https://api.github.com/repos/webinertia/webware-message/zipball/58535d4b8901a98e449ebbf346653831aad3d459",
+                "reference": "58535d4b8901a98e449ebbf346653831aad3d459",
                 "shasum": ""
             },
             "require": {
@@ -3830,9 +3830,9 @@
             "support": {
                 "chat": "https://discord.gg/9TxQ74EPsG",
                 "issues": "https://github.com/webinertia/webware-message/issues",
-                "source": "https://github.com/webinertia/webware-message/tree/1.0.0-beta.2"
+                "source": "https://github.com/webinertia/webware-message/tree/1.0.0-beta.3"
             },
-            "time": "2026-09-03T18:52:13+00:00"
+            "time": "2026-09-18T18:16:31+00:00"
         }
     ],
     "packages-dev": [
