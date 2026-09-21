@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "97a6aa9b40caeaa84a00c0073aa3e62a",
+    "content-hash": "0bc996805f957f1abf59d78ed4019652",
     "packages": [
         {
             "name": "brick/math",
@@ -3549,16 +3549,16 @@
         },
         {
             "name": "webware/webware-core",
-            "version": "1.0.0-alpha.1",
+            "version": "1.0.0-alpha.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/webinertia/webware-core.git",
-                "reference": "e74d76469b74a74ef40e8f12d6fb79590b32d6de"
+                "reference": "46b8325250b1d0852de2b7c293452fafccf7a729"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/webinertia/webware-core/zipball/e74d76469b74a74ef40e8f12d6fb79590b32d6de",
-                "reference": "e74d76469b74a74ef40e8f12d6fb79590b32d6de",
+                "url": "https://api.github.com/repos/webinertia/webware-core/zipball/46b8325250b1d0852de2b7c293452fafccf7a729",
+                "reference": "46b8325250b1d0852de2b7c293452fafccf7a729",
                 "shasum": ""
             },
             "require": {
@@ -3585,7 +3585,7 @@
                 "phpunit/phpunit": "^13.3",
                 "roave/backward-compatibility-check": "^8.21.0",
                 "roave/security-advisories": "dev-master",
-                "webware/webware-tools": "^0.1.x-dev"
+                "webware/webware-tools": "^1.0.0-beta.2"
             },
             "type": "library",
             "autoload": {
@@ -3612,9 +3612,9 @@
             ],
             "support": {
                 "issues": "https://github.com/webinertia/webware-core/issues",
-                "source": "https://github.com/webinertia/webware-core/tree/1.0.0-alpha.1"
+                "source": "https://github.com/webinertia/webware-core/tree/1.0.0-alpha.6"
             },
-            "time": "2026-09-17T00:15:21+00:00"
+            "time": "2026-09-21T03:09:42+00:00"
         },
         {
             "name": "webware/webware-htmx",
@@ -3762,16 +3762,16 @@
         },
         {
             "name": "webware/webware-message",
-            "version": "1.0.0-beta.2",
+            "version": "1.0.0-beta.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/webinertia/webware-message.git",
-                "reference": "1602d2e62a6b8c36939fb7ed87b6bcade716980d"
+                "reference": "58535d4b8901a98e449ebbf346653831aad3d459"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/webinertia/webware-message/zipball/1602d2e62a6b8c36939fb7ed87b6bcade716980d",
-                "reference": "1602d2e62a6b8c36939fb7ed87b6bcade716980d",
+                "url": "https://api.github.com/repos/webinertia/webware-message/zipball/58535d4b8901a98e449ebbf346653831aad3d459",
+                "reference": "58535d4b8901a98e449ebbf346653831aad3d459",
                 "shasum": ""
             },
             "require": {
@@ -3830,9 +3830,9 @@
             "support": {
                 "chat": "https://discord.gg/9TxQ74EPsG",
                 "issues": "https://github.com/webinertia/webware-message/issues",
-                "source": "https://github.com/webinertia/webware-message/tree/1.0.0-beta.2"
+                "source": "https://github.com/webinertia/webware-message/tree/1.0.0-beta.3"
             },
-            "time": "2026-09-03T18:52:13+00:00"
+            "time": "2026-09-18T18:16:31+00:00"
         }
     ],
     "packages-dev": [

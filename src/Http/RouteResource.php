@@ -45,15 +45,15 @@ final class RouteResource implements RouteResourceInterface
             $routeOptions['acl']['ownerId']
                 // 2. Global route_param_map config (app-level fallback)
                 ?? $this->paramMap[$routeName]['ownerId']
-                    // 3. Convention
-                    ?? 'ownerId';
+                // 3. Convention
+                ?? 'ownerId';
 
         return (int) (
 
                 $this->routeResult->getMatchedParams()[$paramName]
                 ?? $this->request->getQueryParams()[$paramName]
-                    ?? $this->request->getAttribute($paramName)
-                        ?? 0
+                ?? $this->request->getAttribute($paramName)
+                ?? 0
 
         );
     }

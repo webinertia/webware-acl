@@ -19,7 +19,7 @@ use Webware\Acl\Http\Admin\RequestHandler\DeleteRuleModalHandler;
 use Webware\Acl\Http\Admin\RequestHandler\EditRoleModalHandler;
 use Webware\Acl\Http\Admin\RequestHandler\RoleListHandler;
 use Webware\Htmx\Middleware\DisableBodyMiddleware;
-use Webware\Message\Middleware\NotificationMiddleware;
+use Webware\Message\Http\Middleware\NotificationMiddleware;
 
 use function rtrim;
 

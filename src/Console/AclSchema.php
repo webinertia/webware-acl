@@ -15,17 +15,17 @@ use PhpDb\Sql\Literal;
 use Webware\Acl\Console\Ddl\Column\Enum;
 use Webware\Acl\Container\Configuration;
 use Webware\Acl\RuleType;
-use Webware\Core\AclInterface;
+use Webware\Core\Role;
 
 use function rtrim;
 
 /**
  * Builds the ACL database schema and seed data.
  *
- * The base seed covers only the roles and rules webware-acl itself owns:
- * the Guest/Member/Administrator/Developer role chain and the ACL manager
- * resources owned by the Developer role. Host applications (e.g. IMS) layer
- * their own roles and rules on top of this base.
+ * The base seed covers only the roles and rules webware-acl itself owns: the
+ * default role chain from {@see Role::getRoles()} and the ACL manager resources
+ * owned by the Developer role. Host applications (e.g. IMS) layer their own roles
+ * and rules on top of this base.
  */
 final class AclSchema
 {
@@ -37,19 +37,6 @@ final class AclSchema
         return [
             new DropTable(table: 'acl_rule')->ifExists(),
             new DropTable(table: 'acl_role')->ifExists(),
-        ];
-    }
-
-    /**
-     * @return list<array{roleId: string, parentId: string}>
-     */
-    public function roleSeeds(): array
-    {
-        return [
-            ['roleId' => 'Guest', 'parentId' => '[]'],
-            ['roleId' => 'Member', 'parentId' => '["Guest"]'],
-            ['roleId' => 'Administrator', 'parentId' => '["Member"]'],
-            ['roleId' => AclInterface::DEVELOPER_ROLE_ID, 'parentId' => '["Administrator"]'],
         ];
     }
 
@@ -111,7 +98,7 @@ final class AclSchema
         $seeds = [
             [
                 'type'             => RuleType::Allow->value,
-                'roleId'           => AclInterface::DEVELOPER_ROLE_ID,
+                'roleId'           => Role::Developer->value,
                 'resourceId'       => $manager,
                 'assertions'       => null,
                 'parentResourceId' => null,
@@ -132,7 +119,7 @@ final class AclSchema
         ] as $resource) {
             $seeds[] = [
                 'type'             => RuleType::Allow->value,
-                'roleId'           => AclInterface::DEVELOPER_ROLE_ID,
+                'roleId'           => Role::Developer->value,
                 'resourceId'       => $prefix . $resource,
                 'assertions'       => null,
                 'parentResourceId' => $manager,

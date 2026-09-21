@@ -20,6 +20,7 @@ use Webware\Acl\Query\FetchAclRoleRegistryQuery;
 use Webware\Acl\Query\FetchAllRulesQuery;
 use Webware\Acl\Query\FetchDistinctResourceIdsQuery;
 use Webware\Core\AclInterface;
+use Webware\Core\Role;
 use Webware\Core\UserInterface;
 use Webware\MessageBus\MessageBusInterface;
 
@@ -209,8 +210,8 @@ final class Acl extends LaminasAcl implements AclInterface
             );
         }
 
-        if ($this->hasRole(self::DEVELOPER_ROLE_ID)) {
-            $this->setRule(self::OP_ADD, self::TYPE_ALLOW, self::DEVELOPER_ROLE_ID);
+        if ($this->hasRole(Role::Developer->value)) {
+            $this->setRule(self::OP_ADD, self::TYPE_ALLOW, Role::Developer->value);
         }
 
         // Register all known routes as resources so the full hierarchy is available.
