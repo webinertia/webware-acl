@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0bc996805f957f1abf59d78ed4019652",
+    "content-hash": "df9d06d5720830f71bac2f08a3866b72",
     "packages": [
         {
             "name": "brick/math",
@@ -3477,12 +3477,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/webinertia/webware-admin.git",
-                "reference": "b1fdb8a6dbaa68985102cd446eb8e6b04cc0ce64"
+                "reference": "efb928e47f4a67e1caae037257876e82aeb8b359"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/webinertia/webware-admin/zipball/b1fdb8a6dbaa68985102cd446eb8e6b04cc0ce64",
-                "reference": "b1fdb8a6dbaa68985102cd446eb8e6b04cc0ce64",
+                "url": "https://api.github.com/repos/webinertia/webware-admin/zipball/efb928e47f4a67e1caae037257876e82aeb8b359",
+                "reference": "efb928e47f4a67e1caae037257876e82aeb8b359",
                 "shasum": ""
             },
             "require": {
@@ -3511,7 +3511,7 @@
                 "roave/backward-compatibility-check": "^8.21.0",
                 "roave/security-advisories": "dev-master",
                 "webware/coding-standard": "^0.1.0",
-                "webware/webware-tools": "^0.1.x-dev"
+                "webware/webware-tools": "^1.0.0-beta.2"
             },
             "suggest": {
                 "webware/webware-acl": "Provides the ACL implementation and ACL configuration consumed by the dashboard widget filtering, plus the ACL management UI."
@@ -3545,7 +3545,7 @@
                 "issues": "https://github.com/webinertia/webware-admin/issues",
                 "source": "https://github.com/webinertia/webware-admin/tree/0.1.x"
             },
-            "time": "2026-09-17T00:58:09+00:00"
+            "time": "2026-09-21T07:05:10+00:00"
         },
         {
             "name": "webware/webware-core",
@@ -4686,27 +4686,25 @@
         },
         {
             "name": "doctrine/lexer",
-            "version": "3.0.1",
+            "version": "3.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/lexer.git",
-                "reference": "31ad66abc0fc9e1a1f2d9bc6a42668d2fbbcd6dd"
+                "reference": "e96fe45e92a54233726014a7cc7340abf29bb14c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/lexer/zipball/31ad66abc0fc9e1a1f2d9bc6a42668d2fbbcd6dd",
-                "reference": "31ad66abc0fc9e1a1f2d9bc6a42668d2fbbcd6dd",
+                "url": "https://api.github.com/repos/doctrine/lexer/zipball/e96fe45e92a54233726014a7cc7340abf29bb14c",
+                "reference": "e96fe45e92a54233726014a7cc7340abf29bb14c",
                 "shasum": ""
             },
             "require": {
                 "php": "^8.1"
             },
             "require-dev": {
-                "doctrine/coding-standard": "^12",
-                "phpstan/phpstan": "^1.10",
-                "phpunit/phpunit": "^10.5",
-                "psalm/plugin-phpunit": "^0.18.3",
-                "vimeo/psalm": "^5.21"
+                "doctrine/coding-standard": "^14",
+                "phpstan/phpstan": "^2",
+                "phpunit/phpunit": "^10.5.58 || ^12.5.4"
             },
             "type": "library",
             "autoload": {
@@ -4743,7 +4741,7 @@
             ],
             "support": {
                 "issues": "https://github.com/doctrine/lexer/issues",
-                "source": "https://github.com/doctrine/lexer/tree/3.0.1"
+                "source": "https://github.com/doctrine/lexer/tree/3.0.2"
             },
             "funding": [
                 {
@@ -4759,7 +4757,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-02-05T11:56:58+00:00"
+            "time": "2026-06-14T20:44:06+00:00"
         },
         {
             "name": "fidry/cpu-core-counter",
@@ -8403,12 +8401,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Roave/SecurityAdvisories.git",
-                "reference": "eddf5ff07ff44f9c121b404971f5577e81602779"
+                "reference": "f1dd47da8977aa9dcb913f443ed6c26042da059f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/eddf5ff07ff44f9c121b404971f5577e81602779",
-                "reference": "eddf5ff07ff44f9c121b404971f5577e81602779",
+                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/f1dd47da8977aa9dcb913f443ed6c26042da059f",
+                "reference": "f1dd47da8977aa9dcb913f443ed6c26042da059f",
                 "shasum": ""
             },
             "conflict": {
@@ -8516,7 +8514,7 @@
                 "cadmium-org/cadmium-cms": "<=0.4.9",
                 "cakephp/authentication": "<2.11.1|>=3,<3.3.6|>=4,<4.1.1",
                 "cakephp/cakephp": "<4.5.12|>=4.6,<4.6.5|>=5,<5.1.10|>=5.2,<5.2.15|>=5.3,<5.3.7",
-                "cakephp/database": ">=4.2,<4.2.12|>=4.3,<4.3.11|>=4.4,<4.4.10|>=5.1,<5.1.10|>=5.2,<5.2.15|>=5.3,<5.3.7",
+                "cakephp/database": "<4.5.12|>=4.6,<4.6.5|>=5,<5.1.10|>=5.2,<5.2.15|>=5.3,<5.3.7",
                 "cakephp/debug_kit": "<4.10.3|>=5,<5.2.4",
                 "cakephp/queue": ">=0.1.10,<2.3.1",
                 "cardgate/magento2": "<2.0.33",
@@ -8530,6 +8528,7 @@
                 "centreon/centreon": "<22.10.15",
                 "cesargb/laravel-magiclink": ">=2,<2.25.1",
                 "cesnet/simplesamlphp-module-proxystatistics": "<3.1",
+                "chamilo/chamilo-lms": "<=2",
                 "chriskacerguis/codeigniter-restserver": "<=2.7.1",
                 "chrome-php/chrome": "<1.14",
                 "ci4-cms-erp/ci4ms": "<=0.31.8",
@@ -8935,7 +8934,7 @@
                 "mediawiki/data-transfer": ">=1.39,<1.39.11|>=1.41,<1.41.3|>=1.42,<1.42.2",
                 "mediawiki/maps": "<12.1.3",
                 "mediawiki/matomo": "<2.4.3",
-                "mediawiki/semantic-media-wiki": "<4.0.2",
+                "mediawiki/semantic-media-wiki": "<=7.2.1",
                 "mehrwert/phpmyadmin": "<3.2",
                 "melisplatform/melis-asset-manager": "<5.0.1",
                 "melisplatform/melis-cms": "<5.3.4",
@@ -9039,7 +9038,7 @@
                 "paragonie/random_compat": "<2",
                 "paragonie/sodium_compat": "<1.24.1|>=2,<2.5.1",
                 "passbolt/passbolt_api": "<4.6.2",
-                "paymenter/paymenter": "<=1.5.4",
+                "paymenter/paymenter": "<=1.5.6",
                 "paypal/adaptivepayments-sdk-php": "<=3.9.2",
                 "paypal/invoice-sdk-php": "<=3.9",
                 "paypal/merchant-sdk-php": "<3.12",
@@ -9540,7 +9539,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-09-14T17:48:00+00:00"
+            "time": "2026-09-18T20:28:15+00:00"
         },
         {
             "name": "sanmai/di-container",
@@ -12814,12 +12813,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/webinertia/webware-console.git",
-                "reference": "45f36547711cd7d0281af580e6365fef42be3ba0"
+                "reference": "489bd826feaecebec12cecac06b7211a66df35e3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/webinertia/webware-console/zipball/45f36547711cd7d0281af580e6365fef42be3ba0",
-                "reference": "45f36547711cd7d0281af580e6365fef42be3ba0",
+                "url": "https://api.github.com/repos/webinertia/webware-console/zipball/489bd826feaecebec12cecac06b7211a66df35e3",
+                "reference": "489bd826feaecebec12cecac06b7211a66df35e3",
                 "shasum": ""
             },
             "require": {
@@ -12832,7 +12831,7 @@
             "require-dev": {
                 "infection/infection": "^0.35",
                 "phpunit/phpunit": "^13.3",
-                "webware/webware-tools": "^0.1.x-dev"
+                "webware/webware-tools": "^1.0.0-beta.2"
             },
             "default-branch": true,
             "bin": [
@@ -12867,7 +12866,7 @@
                 "issues": "https://github.com/webinertia/webware-console/issues",
                 "source": "https://github.com/webinertia/webware-console/tree/0.1.x"
             },
-            "time": "2026-09-16T00:38:19+00:00"
+            "time": "2026-09-21T07:29:44+00:00"
         },
         {
             "name": "webware/webware-tools",
