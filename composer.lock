@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "fb62254e4f9efbe35ac8606a976a9527",
+    "content-hash": "cf4b183c326edbd60f3f1ba8c9eafa20",
     "packages": [
         {
             "name": "brick/math",
@@ -3549,16 +3549,16 @@
         },
         {
             "name": "webware/webware-core",
-            "version": "1.0.0-alpha.1",
+            "version": "1.0.0-alpha.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/webinertia/webware-core.git",
-                "reference": "e74d76469b74a74ef40e8f12d6fb79590b32d6de"
+                "reference": "46b8325250b1d0852de2b7c293452fafccf7a729"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/webinertia/webware-core/zipball/e74d76469b74a74ef40e8f12d6fb79590b32d6de",
-                "reference": "e74d76469b74a74ef40e8f12d6fb79590b32d6de",
+                "url": "https://api.github.com/repos/webinertia/webware-core/zipball/46b8325250b1d0852de2b7c293452fafccf7a729",
+                "reference": "46b8325250b1d0852de2b7c293452fafccf7a729",
                 "shasum": ""
             },
             "require": {
@@ -3585,7 +3585,7 @@
                 "phpunit/phpunit": "^13.3",
                 "roave/backward-compatibility-check": "^8.21.0",
                 "roave/security-advisories": "dev-master",
-                "webware/webware-tools": "^0.1.x-dev"
+                "webware/webware-tools": "^1.0.0-beta.2"
             },
             "type": "library",
             "autoload": {
@@ -3612,9 +3612,9 @@
             ],
             "support": {
                 "issues": "https://github.com/webinertia/webware-core/issues",
-                "source": "https://github.com/webinertia/webware-core/tree/1.0.0-alpha.1"
+                "source": "https://github.com/webinertia/webware-core/tree/1.0.0-alpha.6"
             },
-            "time": "2026-09-17T00:15:21+00:00"
+            "time": "2026-09-21T03:09:42+00:00"
         },
         {
             "name": "webware/webware-htmx",

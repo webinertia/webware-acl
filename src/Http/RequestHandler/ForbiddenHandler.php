@@ -9,6 +9,7 @@ use Override;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
+use Webware\Core\Role;
 use Webware\Core\UserInterface;
 use Webware\Message\Exception\InvalidHopsValueException;
 use Webware\Message\SystemMessengerInterface;
@@ -31,7 +32,7 @@ final readonly class ForbiddenHandler implements RequestHandlerInterface, Forbid
         $user = $request->getAttribute(UserInterface::class);
 
         // Guest identity — silent redirect to login, no toast
-        if (null === $user->getIdentity()) {
+        if (Role::Guest === Role::tryFrom($user->getRoleId())) {
             return new RedirectResponse($this->loginPath);
         }
 
@@ -46,10 +47,7 @@ final readonly class ForbiddenHandler implements RequestHandlerInterface, Forbid
 
         $serverParams = $request->getServerParams();
         /** @var string $redirect */
-        $redirect =
-            $this->forbiddenRedirect
-                ?? $serverParams['HTTP_REFERER']
-                    ?? '/';
+        $redirect = $this->forbiddenRedirect ?? $serverParams['HTTP_REFERER'] ?? '/';
 
         return new RedirectResponse($redirect);
     }
