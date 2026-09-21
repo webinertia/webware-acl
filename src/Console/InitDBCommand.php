@@ -18,6 +18,9 @@ use Symfony\Component\Console\Exception\LogicException as ConsoleLogicException;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Webware\Core\Role;
+
+use function json_encode;
 
 #[AsCommand(
     name       : 'acl:init-db',
@@ -72,8 +75,11 @@ final class InitDBCommand extends Command
         $this->executeDdl($sql, $this->schema->ruleTable());
 
         $output->writeln('Seeding ACL roles...');
-        foreach ($this->schema->roleSeeds() as $seed) {
-            $this->executeInsert($sql, table: 'acl_role', row: $seed);
+        foreach (Role::getRoles() as $seed) {
+            $this->executeInsert($sql, table: 'acl_role', row: [
+                'roleId'   => $seed['roleId'],
+                'parentId' => json_encode($seed['parentIds']),
+            ]);
         }
 
         $output->writeln('Seeding ACL rules...');

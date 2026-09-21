@@ -43,20 +43,6 @@ final class AclSchemaTest extends TestCase
     }
 
     #[Test]
-    public function roleSeedsDefinesBaseRoleChain(): void
-    {
-        self::assertSame(
-            [
-                ['roleId' => 'Guest', 'parentId' => '[]'],
-                ['roleId' => 'Member', 'parentId' => '["Guest"]'],
-                ['roleId' => 'Administrator', 'parentId' => '["Member"]'],
-                ['roleId' => 'Developer', 'parentId' => '["Administrator"]'],
-            ],
-            new AclSchema()->roleSeeds(),
-        );
-    }
-
-    #[Test]
     public function roleTableBuildsAclRoleSchema(): void
     {
         $table = new AclSchema()->roleTable();

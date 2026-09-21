@@ -9,6 +9,7 @@ use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ServerRequestInterface;
 use Webware\Acl\Http\RequestHandler\ForbiddenHandler;
+use Webware\Core\Role;
 use Webware\Core\UserInterface;
 use Webware\Message\SystemMessengerInterface;
 
@@ -19,7 +20,7 @@ final class ForbiddenHandlerTest extends TestCase
     public function deniedUserDefaultsToSlash(): void
     {
         $handler  = new ForbiddenHandler('/login', null);
-        $response = $handler->handle($this->request([UserInterface::class => $this->user('joe')]));
+        $response = $handler->handle($this->request([UserInterface::class => $this->user(Role::Member->value)]));
 
         self::assertSame('/', $response->getHeaderLine('Location'));
     }
@@ -29,7 +30,7 @@ final class ForbiddenHandlerTest extends TestCase
     {
         $handler  = new ForbiddenHandler('/login', null);
         $response = $handler->handle(
-            $this->request([UserInterface::class => $this->user('joe')], ['HTTP_REFERER' => '/previous']),
+            $this->request([UserInterface::class => $this->user(Role::Member->value)], ['HTTP_REFERER' => '/previous']),
         );
 
         self::assertSame('/previous', $response->getHeaderLine('Location'));
@@ -49,7 +50,7 @@ final class ForbiddenHandlerTest extends TestCase
             );
 
         $response = $handler->handle($this->request([
-            UserInterface::class            => $this->user('joe'),
+            UserInterface::class            => $this->user(Role::Member->value),
             SystemMessengerInterface::class => $messenger,
         ]));
 
@@ -62,7 +63,7 @@ final class ForbiddenHandlerTest extends TestCase
         $handler  = new ForbiddenHandler('/login', '/denied');
         $response = $handler->handle(
             $this->request(
-                [UserInterface::class => $this->user('joe')],
+                [UserInterface::class => $this->user(Role::Member->value)],
                 ['HTTP_REFERER' => '/previous'],
             ),
         );
@@ -74,9 +75,18 @@ final class ForbiddenHandlerTest extends TestCase
     public function guestIsSilentlyRedirectedToLogin(): void
     {
         $handler  = new ForbiddenHandler();
-        $response = $handler->handle($this->request([UserInterface::class => $this->user(null)]));
+        $response = $handler->handle($this->request([UserInterface::class => $this->user(Role::Guest->value)]));
 
         self::assertSame('/login', $response->getHeaderLine('Location'));
+    }
+
+    #[Test]
+    public function roleOutsideTheCoreEnumIsTreatedAsAuthenticatedNotGuest(): void
+    {
+        $handler  = new ForbiddenHandler('/login', '/denied');
+        $response = $handler->handle($this->request([UserInterface::class => $this->user('Manager')]));
+
+        self::assertSame('/denied', $response->getHeaderLine('Location'));
     }
 
     /**
@@ -95,10 +105,10 @@ final class ForbiddenHandlerTest extends TestCase
         return $request;
     }
 
-    private function user(?string $identity): UserInterface
+    private function user(string $roleId): UserInterface
     {
         $user = $this->createStub(UserInterface::class);
-        $user->method('getIdentity')->willReturn($identity);
+        $user->method('getRoleId')->willReturn($roleId);
 
         return $user;
     }

@@ -12,6 +12,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use Webware\Acl\Http\RequestHandler\Container\ForbiddenHandlerFactory;
 use Webware\Acl\Http\RequestHandler\ForbiddenHandler;
 use Webware\Core\AclInterface;
+use Webware\Core\Role;
 use Webware\Core\UserInterface;
 
 #[CoversClass(ForbiddenHandlerFactory::class)]
@@ -34,8 +35,14 @@ final class ForbiddenHandlerFactoryTest extends TestCase
 
         $handler = (new ForbiddenHandlerFactory())($container);
 
-        self::assertSame('/signin', $handler->handle($this->request($this->user(null)))->getHeaderLine('Location'));
-        self::assertSame('/denied', $handler->handle($this->request($this->user('joe')))->getHeaderLine('Location'));
+        self::assertSame(
+            '/signin',
+            $handler->handle($this->request($this->user(Role::Guest->value)))->getHeaderLine('Location'),
+        );
+        self::assertSame(
+            '/denied',
+            $handler->handle($this->request($this->user(Role::Member->value)))->getHeaderLine('Location'),
+        );
     }
 
     #[Test]
@@ -47,8 +54,14 @@ final class ForbiddenHandlerFactoryTest extends TestCase
         $handler = (new ForbiddenHandlerFactory())($container);
 
         self::assertInstanceOf(ForbiddenHandler::class, $handler);
-        self::assertSame('/login', $handler->handle($this->request($this->user(null)))->getHeaderLine('Location'));
-        self::assertSame('/', $handler->handle($this->request($this->user('joe')))->getHeaderLine('Location'));
+        self::assertSame(
+            '/login',
+            $handler->handle($this->request($this->user(Role::Guest->value)))->getHeaderLine('Location'),
+        );
+        self::assertSame(
+            '/',
+            $handler->handle($this->request($this->user(Role::Member->value)))->getHeaderLine('Location'),
+        );
     }
 
     private function request(UserInterface $user): ServerRequestInterface
@@ -63,10 +76,10 @@ final class ForbiddenHandlerFactoryTest extends TestCase
         return $request;
     }
 
-    private function user(?string $identity): UserInterface
+    private function user(string $roleId): UserInterface
     {
         $user = $this->createStub(UserInterface::class);
-        $user->method('getIdentity')->willReturn($identity);
+        $user->method('getRoleId')->willReturn($roleId);
 
         return $user;
     }
