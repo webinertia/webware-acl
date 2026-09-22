@@ -531,20 +531,20 @@
         },
         {
             "name": "laminas/laminas-httphandlerrunner",
-            "version": "2.13.0",
+            "version": "2.14.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laminas/laminas-httphandlerrunner.git",
-                "reference": "181eaeeb838ad3d80fbbcfb0657a46bc212bbd4e"
+                "reference": "14d5182a4ba180c998dfbba9d19f9a70337c02b4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-httphandlerrunner/zipball/181eaeeb838ad3d80fbbcfb0657a46bc212bbd4e",
-                "reference": "181eaeeb838ad3d80fbbcfb0657a46bc212bbd4e",
+                "url": "https://api.github.com/repos/laminas/laminas-httphandlerrunner/zipball/14d5182a4ba180c998dfbba9d19f9a70337c02b4",
+                "reference": "14d5182a4ba180c998dfbba9d19f9a70337c02b4",
                 "shasum": ""
             },
             "require": {
-                "php": "~8.1.0 || ~8.2.0 || ~8.3.0 || ~8.4.0 || ~8.5.0",
+                "php": "~8.2.0 || ~8.3.0 || ~8.4.0 || ~8.5.0",
                 "psr/http-message": "^1.0 || ^2.0",
                 "psr/http-message-implementation": "^1.0 || ^2.0",
                 "psr/http-server-handler": "^1.0"
@@ -590,11 +590,11 @@
             },
             "funding": [
                 {
-                    "url": "https://funding.communitybridge.org/projects/laminas-project",
-                    "type": "community_bridge"
+                    "url": "https://crowdfunding.linuxfoundation.org/initiatives/laminas-project",
+                    "type": "custom"
                 }
             ],
-            "time": "2025-10-12T20:58:29+00:00"
+            "time": "2026-09-21T10:14:52+00:00"
         },
         {
             "name": "laminas/laminas-hydrator",
@@ -3477,12 +3477,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/webinertia/webware-admin.git",
-                "reference": "efb928e47f4a67e1caae037257876e82aeb8b359"
+                "reference": "cd945a030da3bdd70856d7967c2367c5b972ec34"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/webinertia/webware-admin/zipball/efb928e47f4a67e1caae037257876e82aeb8b359",
-                "reference": "efb928e47f4a67e1caae037257876e82aeb8b359",
+                "url": "https://api.github.com/repos/webinertia/webware-admin/zipball/cd945a030da3bdd70856d7967c2367c5b972ec34",
+                "reference": "cd945a030da3bdd70856d7967c2367c5b972ec34",
                 "shasum": ""
             },
             "require": {
@@ -3545,7 +3545,7 @@
                 "issues": "https://github.com/webinertia/webware-admin/issues",
                 "source": "https://github.com/webinertia/webware-admin/tree/0.1.x"
             },
-            "time": "2026-09-21T07:05:10+00:00"
+            "time": "2026-09-21T21:43:09+00:00"
         },
         {
             "name": "webware/webware-core",
@@ -3622,12 +3622,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/webinertia/webware-htmx.git",
-                "reference": "4cfc365431e454a1ba5de7401697d4cffa3f65cc"
+                "reference": "cc00c802d500a244e626c4db9332a277a1b607b0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/webinertia/webware-htmx/zipball/4cfc365431e454a1ba5de7401697d4cffa3f65cc",
-                "reference": "4cfc365431e454a1ba5de7401697d4cffa3f65cc",
+                "url": "https://api.github.com/repos/webinertia/webware-htmx/zipball/cc00c802d500a244e626c4db9332a277a1b607b0",
+                "reference": "cc00c802d500a244e626c4db9332a277a1b607b0",
                 "shasum": ""
             },
             "require": {
@@ -3680,7 +3680,7 @@
                 "issues": "https://github.com/webinertia/webware-htmx/issues",
                 "source": "https://github.com/webinertia/webware-htmx/tree/0.1.x"
             },
-            "time": "2026-09-21T07:05:15+00:00"
+            "time": "2026-09-21T21:43:24+00:00"
         },
         {
             "name": "webware/webware-log",
@@ -12813,12 +12813,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/webinertia/webware-console.git",
-                "reference": "489bd826feaecebec12cecac06b7211a66df35e3"
+                "reference": "7ec447b1755523dabf67783c314c8d9ddfb90320"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/webinertia/webware-console/zipball/489bd826feaecebec12cecac06b7211a66df35e3",
-                "reference": "489bd826feaecebec12cecac06b7211a66df35e3",
+                "url": "https://api.github.com/repos/webinertia/webware-console/zipball/7ec447b1755523dabf67783c314c8d9ddfb90320",
+                "reference": "7ec447b1755523dabf67783c314c8d9ddfb90320",
                 "shasum": ""
             },
             "require": {
@@ -12866,7 +12866,7 @@
                 "issues": "https://github.com/webinertia/webware-console/issues",
                 "source": "https://github.com/webinertia/webware-console/tree/0.1.x"
             },
-            "time": "2026-09-21T07:29:44+00:00"
+            "time": "2026-09-21T21:43:13+00:00"
         },
         {
             "name": "webware/webware-tools",
