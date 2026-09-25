@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Webware\Acl\Console;
+namespace Webware\Acl\Console\Schema;
 
 use PhpDb\Sql\Ddl\Column\Integer;
 use PhpDb\Sql\Ddl\Column\Json;

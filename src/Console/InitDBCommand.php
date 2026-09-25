@@ -18,6 +18,7 @@ use Symfony\Component\Console\Exception\LogicException as ConsoleLogicException;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Webware\Acl\Console\Schema\AclSchema;
 use Webware\Core\Role;
 
 use function json_encode;
