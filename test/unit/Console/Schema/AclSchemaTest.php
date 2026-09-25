@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace WebwareTest\Acl\Console;
+namespace WebwareTest\Acl\Console\Schema;
 
 use PhpDb\Adapter\Driver\ConnectionInterface;
 use PhpDb\Adapter\Driver\DriverInterface;
@@ -21,8 +21,8 @@ use PhpDb\Sql\Literal;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
-use Webware\Acl\Console\AclSchema;
 use Webware\Acl\Console\Ddl\Column\Enum;
+use Webware\Acl\Console\Schema\AclSchema;
 
 use function array_keys;
 
