@@ -76,7 +76,6 @@ use Webware\Console\ConsoleInterface;
 use Webware\Core\AclInterface;
 use Webware\MessageBus\ConfigProvider as BusProvider;
 use Webware\MessageBus\MessageBusInterface;
-use Webware\MessageBus\Middleware\MessageHandlerMiddleware;
 
 /**
  * @type AssertionManagerConfig = array{
@@ -86,7 +85,6 @@ use Webware\MessageBus\Middleware\MessageHandlerMiddleware;
  * @type BusConfig = array{
  *   command_map: array<class-string, class-string>,
  *   query_map: array<class-string, class-string>,
- *   middleware_pipeline: array<array{middleware: class-string, priority: int}>,
  * }
  * @type Dependencies = array{
  *   aliases: array<class-string, class-string>,
@@ -143,24 +141,18 @@ final class ConfigProvider
     public function getBusConfig(): array
     {
         return [
-            BusProvider::COMMAND_MAP_KEY         => [
+            BusProvider::COMMAND_MAP_KEY => [
                 SaveRoleCommand::class       => SaveRoleHandler::class,
                 DeleteRoleCommand::class     => DeleteRoleHandler::class,
                 DeleteRuleCommand::class     => DeleteRuleHandler::class,
                 SaveRuleCommand::class       => SaveRuleHandler::class,
                 UpdateRuleTypeCommand::class => UpdateRuleTypeHandler::class,
             ],
-            BusProvider::QUERY_MAP_KEY           => [
+            BusProvider::QUERY_MAP_KEY   => [
                 FetchAllRulesQuery::class            => FetchAllRulesHandler::class,
                 FetchDistinctResourceIdsQuery::class => FetchDistinctResourceIdsHandler::class,
                 FetchAclRoleRegistryQuery::class     => FetchAclRoleRegistryHandler::class,
                 FetchAllRolesQuery::class            => FetchAllRolesHandler::class,
-            ],
-            BusProvider::MIDDLEWARE_PIPELINE_KEY => [
-                [
-                    'middleware' => MessageHandlerMiddleware::class,
-                    'priority'   => BusProvider::DEFAULT_PRIORITY,
-                ],
             ],
         ];
     }
