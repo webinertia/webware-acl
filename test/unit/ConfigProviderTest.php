@@ -92,7 +92,7 @@ final class ConfigProviderTest extends TestCase
             ],
             $config[BusProvider::QUERY_MAP_KEY],
         );
-        self::assertCount(1, $config[BusProvider::MIDDLEWARE_PIPELINE_KEY]);
+        self::assertArrayNotHasKey(BusProvider::MIDDLEWARE_PIPELINE_KEY, $config);
     }
 
     #[Test]
