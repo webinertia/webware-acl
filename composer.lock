@@ -3477,12 +3477,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/webinertia/webware-admin.git",
-                "reference": "aeed15a72d6e3c744750b94018058fb5f7089e46"
+                "reference": "3c94b389ed59473d374f3417054fe3b35bb6bdca"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/webinertia/webware-admin/zipball/aeed15a72d6e3c744750b94018058fb5f7089e46",
-                "reference": "aeed15a72d6e3c744750b94018058fb5f7089e46",
+                "url": "https://api.github.com/repos/webinertia/webware-admin/zipball/3c94b389ed59473d374f3417054fe3b35bb6bdca",
+                "reference": "3c94b389ed59473d374f3417054fe3b35bb6bdca",
                 "shasum": ""
             },
             "require": {
@@ -3545,20 +3545,20 @@
                 "issues": "https://github.com/webinertia/webware-admin/issues",
                 "source": "https://github.com/webinertia/webware-admin/tree/1.0.x"
             },
-            "time": "2026-09-26T22:49:40+00:00"
+            "time": "2026-09-29T22:14:50+00:00"
         },
         {
             "name": "webware/webware-core",
-            "version": "1.0.0-alpha.6",
+            "version": "1.0.0-alpha.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/webinertia/webware-core.git",
-                "reference": "46b8325250b1d0852de2b7c293452fafccf7a729"
+                "reference": "24862518befea292d6d441576d3b55525ac3c0a0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/webinertia/webware-core/zipball/46b8325250b1d0852de2b7c293452fafccf7a729",
-                "reference": "46b8325250b1d0852de2b7c293452fafccf7a729",
+                "url": "https://api.github.com/repos/webinertia/webware-core/zipball/24862518befea292d6d441576d3b55525ac3c0a0",
+                "reference": "24862518befea292d6d441576d3b55525ac3c0a0",
                 "shasum": ""
             },
             "require": {
@@ -3612,9 +3612,9 @@
             ],
             "support": {
                 "issues": "https://github.com/webinertia/webware-core/issues",
-                "source": "https://github.com/webinertia/webware-core/tree/1.0.0-alpha.6"
+                "source": "https://github.com/webinertia/webware-core/tree/1.0.0-alpha.7"
             },
-            "time": "2026-09-21T03:09:42+00:00"
+            "time": "2026-09-29T22:14:45+00:00"
         },
         {
             "name": "webware/webware-htmx",

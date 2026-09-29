@@ -12,7 +12,6 @@ use ReflectionProperty;
 use Webware\Acl\Container\RouteProviderFactory;
 use Webware\Acl\RouteProvider;
 use Webware\Admin\Container\Configuration as AdminConfiguration;
-use Webware\Core\AclInterface;
 
 #[CoversClass(RouteProviderFactory::class)]
 final class RouteProviderFactoryTest extends TestCase
@@ -20,29 +19,36 @@ final class RouteProviderFactoryTest extends TestCase
     #[Test]
     public function invokeCombinesAdminAndModuleRouteSegments(): void
     {
+        $provider = (new RouteProviderFactory())($this->container([]));
+
+        self::assertSame('admin/acl', $this->readProperty($provider, 'adminRouteSegment'));
+        self::assertSame('admin.acl.', $this->readProperty($provider, 'adminRouteNamePrefix'));
+    }
+
+    #[Test]
+    public function invokeFollowsAConfiguredAdminNamespace(): void
+    {
+        $provider = (new RouteProviderFactory())($this->container([
+            AdminConfiguration::ADMIN_NAME_KEY => 'control-panel',
+        ]));
+
+        self::assertSame('control-panel/acl', $this->readProperty($provider, 'adminRouteSegment'));
+        self::assertSame('control-panel.acl.', $this->readProperty($provider, 'adminRouteNamePrefix'));
+    }
+
+    /**
+     * @param array<string, mixed> $adminConfig
+     */
+    private function container(array $adminConfig): ContainerInterface
+    {
         $container = $this->createStub(ContainerInterface::class);
         $container->method('has')->willReturnMap([['config', true]]);
         $container->method('get')
             ->willReturnMap([
-                [
-                    'config',
-                    [
-                        AdminConfiguration::CONFIG_KEY => [
-                            'admin_route_segment'     => 'admin',
-                            'admin_route_name_prefix' => 'admin.',
-                        ],
-                        AclInterface::class            => [
-                            'admin_route_segment'     => 'acl',
-                            'admin_route_name_prefix' => 'acl.',
-                        ],
-                    ],
-                ],
+                ['config', [AdminConfiguration::CONFIG_KEY => $adminConfig]],
             ]);
 
-        $provider = (new RouteProviderFactory())($container);
-
-        self::assertSame('admin/acl', $this->readProperty($provider, 'adminRouteSegment'));
-        self::assertSame('admin.acl.', $this->readProperty($provider, 'adminRouteNamePrefix'));
+        return $container;
     }
 
     private function readProperty(RouteProvider $provider, string $name): string

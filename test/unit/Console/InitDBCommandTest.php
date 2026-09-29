@@ -25,7 +25,10 @@ final class InitDBCommandTest extends TestCase
     #[Test]
     public function configureDefinesCommandNameDescriptionAndDropOption(): void
     {
-        $command = new InitDBCommand($this->createStub(AdapterInterface::class));
+        $command = new InitDBCommand(
+            adapter  : $this->createStub(AdapterInterface::class),
+            adminName: 'admin',
+        );
 
         $definition = $command->getDefinition();
 
@@ -41,10 +44,13 @@ final class InitDBCommandTest extends TestCase
     #[Test]
     public function executeCreatesSchemaAndSeedsWithoutDropping(): void
     {
-        $command = new InitDBCommand($this->createAdapter(
-            queryCalls         : 2,
-            statementExecutions: 15,
-        ));
+        $command = new InitDBCommand(
+            adapter  : $this->createAdapter(
+                queryCalls         : 2,
+                statementExecutions: 15,
+            ),
+            adminName: 'admin',
+        );
 
         $tester = new CommandTester($command);
         $tester->execute([]);
@@ -60,10 +66,13 @@ final class InitDBCommandTest extends TestCase
     #[Test]
     public function executeDropsTablesWhenRequested(): void
     {
-        $command = new InitDBCommand($this->createAdapter(
-            queryCalls         : 4,
-            statementExecutions: 15,
-        ));
+        $command = new InitDBCommand(
+            adapter  : $this->createAdapter(
+                queryCalls         : 4,
+                statementExecutions: 15,
+            ),
+            adminName: 'admin',
+        );
 
         $tester = new CommandTester($command);
         $tester->execute(['--drop' => true]);

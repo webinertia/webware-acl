@@ -16,9 +16,8 @@ final readonly class Configuration extends Config
 {
     public const string CONFIG_KEY = AclInterface::class;
 
-    public const string ADMIN_ROUTE_SEGMENT_VALUE = 'acl.manager';
-
-    public const string ADMIN_ROUTE_NAME_PREFIX_VALUE = 'acl.manager.';
+    /** This component's own name. Its routes are the ACL manager's admin surface. */
+    public const string COMPONENT_NAME = 'acl';
 
     /**
      * @return array<string, mixed>

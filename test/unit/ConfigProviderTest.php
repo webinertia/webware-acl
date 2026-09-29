@@ -25,7 +25,6 @@ use Webware\Acl\Assertion\OwnershipAssertion;
 use Webware\Acl\AssertionManager;
 use Webware\Acl\ConfigProvider;
 use Webware\Acl\Console\InitDBCommand;
-use Webware\Acl\Container\Configuration;
 use Webware\Acl\Http\RequestHandler\ForbiddenHandler;
 use Webware\Acl\Http\RequestHandler\ForbiddenHandlerInterface;
 use Webware\Acl\Http\RouteResourceFactory;
@@ -52,6 +51,8 @@ use Webware\Console\ConsoleInterface;
 use Webware\Core\AclInterface;
 use Webware\MessageBus\ConfigProvider as BusProvider;
 use Webware\MessageBus\MessageBusInterface;
+
+use function array_keys;
 
 #[CoversClass(ConfigProvider::class)]
 final class ConfigProviderTest extends TestCase
@@ -104,12 +105,8 @@ final class ConfigProviderTest extends TestCase
         self::assertSame('/', $config['forbidden_redirect']);
         self::assertNull($config['forbidden_template']);
         self::assertSame(
-            Configuration::ADMIN_ROUTE_SEGMENT_VALUE,
-            $config[Configuration::ADMIN_ROUTE_SEGMENT_KEY],
-        );
-        self::assertSame(
-            Configuration::ADMIN_ROUTE_NAME_PREFIX_VALUE,
-            $config[Configuration::ADMIN_ROUTE_NAME_PREFIX_KEY],
+            ['route_param_map', 'forbidden_redirect', 'forbidden_template'],
+            array_keys($config),
         );
     }
 

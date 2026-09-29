@@ -10,6 +10,7 @@ use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Symfony\Component\Console\Exception\LogicException;
 use Webware\Acl\Console\InitDBCommand;
+use Webware\Admin\Container\Configuration as AdminConfiguration;
 
 final readonly class InitDBCommandFactory
 {
@@ -21,7 +22,8 @@ final readonly class InitDBCommandFactory
     public function __invoke(ContainerInterface $container): InitDBCommand
     {
         return new InitDBCommand(
-            $container->get(AdapterInterface::class),
+            adapter  : $container->get(AdapterInterface::class),
+            adminName: AdminConfiguration::getAdminName($container, self::class),
         );
     }
 }
