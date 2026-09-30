@@ -186,7 +186,7 @@ final class RuleSeederIntegrationTest extends TestCase
 
     protected function setUp(): void
     {
-        if (! getenv(name: 'TESTS_PHPDB_ADAPTER_MYSQL')) {
+        if (! getenv(name: 'TESTS_ADAPTER_MYSQL_HOSTNAME')) {
             self::markTestSkipped('MySQL adapter is not configured.');
         }
 
@@ -224,17 +224,17 @@ final class RuleSeederIntegrationTest extends TestCase
             AdapterInterface::class => [
                 'driver'     => Mysql\Pdo\Driver::class,
                 'connection' => [
-                    'hostname' => (string) getenv(name: 'TESTS_PHPDB_ADAPTER_MYSQL_HOSTNAME'),
-                    'port'     => (string) getenv(name: 'TESTS_PHPDB_ADAPTER_MYSQL_PORT'),
-                    'username' => (string) getenv(name: 'TESTS_PHPDB_ADAPTER_MYSQL_USERNAME'),
-                    'password' => (string) getenv(name: 'TESTS_PHPDB_ADAPTER_MYSQL_PASSWORD'),
-                    'database' => (string) getenv(name: 'TESTS_PHPDB_ADAPTER_MYSQL_DATABASE'),
+                    'host'     => (string) getenv(name: 'TESTS_ADAPTER_MYSQL_HOSTNAME'),
+                    'port'     => (string) getenv(name: 'TESTS_ADAPTER_MYSQL_PORT'),
+                    'username' => (string) getenv(name: 'TESTS_ADAPTER_MYSQL_USERNAME'),
+                    'password' => (string) getenv(name: 'TESTS_ADAPTER_MYSQL_PASSWORD'),
+                    'dbname'   => (string) getenv(name: 'TESTS_ADAPTER_MYSQL_DATABASE'),
                 ],
             ],
             SchemaInterface::class  => [
                 'prefix'    => 'ww',
                 'separator' => '_',
-                'schema'    => (string) getenv(name: 'TESTS_PHPDB_ADAPTER_MYSQL_DATABASE'),
+                'schema'    => (string) getenv(name: 'TESTS_ADAPTER_MYSQL_DATABASE'),
             ],
         ]);
 

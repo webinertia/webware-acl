@@ -15,6 +15,7 @@ use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Tester\CommandTester;
 use Webware\Acl\Console\InitDBCommand;
+use WebwareTestIntegration\Acl\Support\SeedRunnerTrait;
 
 use function getenv;
 
@@ -25,14 +26,16 @@ use function getenv;
 #[CoversClass(InitDBCommand::class)]
 final class InitDBCommandIntegrationTest extends TestCase
 {
+    use SeedRunnerTrait;
+
     #[Test]
     public function commandCreatesSchemaAndSeedsBaseData(): void
     {
         $adapter = $this->createAdapter();
 
         $tester = new CommandTester(new InitDBCommand(
-            adapter  : $adapter,
-            adminName: 'admin',
+            adapter: $adapter,
+            runner : $this->seedRunner($adapter),
         ));
         $tester->execute(['--drop' => true]);
 
