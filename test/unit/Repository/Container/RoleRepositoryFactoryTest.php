@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace WebwareTest\Acl\Repository\Container;
 
 use PhpDb\Adapter\AdapterInterface;
+use PhpDb\SchemaFactory;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 use Webware\Acl\Repository\Container\RoleRepositoryFactory;
 use Webware\Acl\Repository\RoleRepository;
-use Webware\Core\SchemaFactory;
 use WebwareTest\Acl\Support\PhpDbAdapterMockTrait;
 
 #[CoversClass(RoleRepositoryFactory::class)]

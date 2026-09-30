@@ -6,6 +6,7 @@ namespace Webware\Acl\QueryHandler\Container;
 
 use PhpDb\Adapter\AdapterInterface;
 use PhpDb\ResultSet\ArrayResultSet;
+use PhpDb\SchemaFactory;
 use PhpDb\Sql\Exception\ExceptionInterface as SqlException;
 use PhpDb\TableGateway\Exception\ExceptionInterface as TableGatewayException;
 use PhpDb\TableGateway\TableGateway;
@@ -15,7 +16,6 @@ use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Webware\Acl\QueryHandler\FetchAllRulesHandler;
 use Webware\Acl\Repository\Schema;
-use Webware\Core\SchemaFactory;
 
 final readonly class FetchAllRulesHandlerFactory
 {

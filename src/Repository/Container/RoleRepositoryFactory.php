@@ -6,6 +6,7 @@ namespace Webware\Acl\Repository\Container;
 
 use PhpDb\Adapter\AdapterInterface;
 use PhpDb\ResultSet\RowPrototypeResultSet;
+use PhpDb\SchemaFactory;
 use PhpDb\Sql\Exception\ExceptionInterface as SqlException;
 use PhpDb\TableGateway\Exception\ExceptionInterface as TableGatewayException;
 use PhpDb\TableGateway\TableGateway;
@@ -16,7 +17,6 @@ use Psr\Container\NotFoundExceptionInterface;
 use Webware\Acl\Entity\Role;
 use Webware\Acl\Repository\RoleRepository;
 use Webware\Acl\Repository\Schema;
-use Webware\Core\SchemaFactory;
 
 final class RoleRepositoryFactory
 {
