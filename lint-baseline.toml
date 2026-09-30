@@ -43,12 +43,6 @@ message = "Avoid `else` clauses."
 count = 1
 
 [[issues]]
-file = "src/Admin/Dashboard/Container/RegisterWidgetListenerFactory.php"
-code = "literal-named-argument"
-message = "Literal argument `'.'` should be passed as a named argument for clarity."
-count = 1
-
-[[issues]]
 file = "src/Admin/Dashboard/Widget.php"
 code = "excessive-parameter-list"
 message = "Parameter list is too long."

@@ -94,8 +94,6 @@ use Webware\MessageBus\MessageBusInterface;
  *   route_param_map: array<array-key, mixed>,
  *   forbidden_redirect: string,
  *   forbidden_template: null,
- *   admin_route_segment: string,
- *   admin_route_name_prefix: string,
  * }
  * @type InputFilterConfig = array{factories: array<class-string, class-string>}
  * @type Listeners = array<class-string, array<array{listener: class-string, priority: int}>>
@@ -163,11 +161,9 @@ final class ConfigProvider
     public function getDefaultConfig(): array
     {
         return [
-            'route_param_map'                                    => [],
-            'forbidden_redirect'                                 => '/',
-            'forbidden_template'                                 => null,
-            Container\Configuration::ADMIN_ROUTE_SEGMENT_KEY     => Container\Configuration::ADMIN_ROUTE_SEGMENT_VALUE,
-            Container\Configuration::ADMIN_ROUTE_NAME_PREFIX_KEY => Container\Configuration::ADMIN_ROUTE_NAME_PREFIX_VALUE,
+            'route_param_map'    => [],
+            'forbidden_redirect' => '/',
+            'forbidden_template' => null,
         ];
     }
 

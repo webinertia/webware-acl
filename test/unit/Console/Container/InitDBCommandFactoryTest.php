@@ -11,6 +11,7 @@ use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 use Webware\Acl\Console\Container\InitDBCommandFactory;
 use Webware\Acl\Console\InitDBCommand;
+use Webware\Admin\AdminInterface;
 
 #[CoversClass(InitDBCommandFactory::class)]
 final class InitDBCommandFactoryTest extends TestCase
@@ -19,9 +20,11 @@ final class InitDBCommandFactoryTest extends TestCase
     public function invokeBuildsCommandWithAdapter(): void
     {
         $container = $this->createStub(ContainerInterface::class);
+        $container->method('has')->willReturn(true);
         $container->method('get')
             ->willReturnMap([
                 [AdapterInterface::class, $this->createStub(AdapterInterface::class)],
+                ['config', [AdminInterface::class => []]],
             ]);
 
         self::assertInstanceOf(InitDBCommand::class, (new InitDBCommandFactory())($container));

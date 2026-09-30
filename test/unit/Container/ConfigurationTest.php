@@ -20,8 +20,7 @@ final class ConfigurationTest extends TestCase
     public function exposesConfigConstants(): void
     {
         self::assertSame(AclInterface::class, Configuration::CONFIG_KEY);
-        self::assertSame('acl.manager', Configuration::ADMIN_ROUTE_SEGMENT_VALUE);
-        self::assertSame('acl.manager.', Configuration::ADMIN_ROUTE_NAME_PREFIX_VALUE);
+        self::assertSame('acl', Configuration::COMPONENT_NAME);
     }
 
     #[Test]

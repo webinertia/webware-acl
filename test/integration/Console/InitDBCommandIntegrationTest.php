@@ -30,7 +30,10 @@ final class InitDBCommandIntegrationTest extends TestCase
     {
         $adapter = $this->createAdapter();
 
-        $tester = new CommandTester(new InitDBCommand($adapter));
+        $tester = new CommandTester(new InitDBCommand(
+            adapter  : $adapter,
+            adminName: 'admin',
+        ));
         $tester->execute(['--drop' => true]);
 
         self::assertSame(Command::SUCCESS, $tester->getStatusCode());
@@ -46,8 +49,8 @@ final class InitDBCommandIntegrationTest extends TestCase
             $resources[] = $row['resourceId'];
         }
         self::assertCount(11, $resources);
-        self::assertSame('acl.manager', $resources[0]);
-        self::assertSame('acl.manager.rule.delete.modal', $resources[10]);
+        self::assertSame('admin.acl', $resources[0]);
+        self::assertSame('admin.acl.rule.delete.modal', $resources[10]);
     }
 
     private function createAdapter(): AdapterInterface

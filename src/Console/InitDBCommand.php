@@ -19,6 +19,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Webware\Acl\Console\Schema\AclSchema;
+use Webware\Acl\Container\Configuration;
 use Webware\Core\Role;
 
 use function json_encode;
@@ -36,6 +37,7 @@ final class InitDBCommand extends Command
      */
     public function __construct(
         private readonly AdapterInterface $adapter,
+        private readonly string $adminName,
     ) {
         $this->schema = new AclSchema();
 
@@ -84,7 +86,9 @@ final class InitDBCommand extends Command
         }
 
         $output->writeln('Seeding ACL rules...');
-        foreach ($this->schema->ruleSeeds() as $seed) {
+        foreach ($this->schema->ruleSeeds(
+            Configuration::getAdminRouteNamePrefix($this->adminName),
+        ) as $seed) {
             $this->executeInsert($sql, table: 'acl_rule', row: $seed);
         }
 

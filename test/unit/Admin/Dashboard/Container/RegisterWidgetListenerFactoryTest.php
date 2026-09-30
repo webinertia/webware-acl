@@ -20,6 +20,28 @@ final class RegisterWidgetListenerFactoryTest extends TestCase
     #[Test]
     public function invokeBuildsListener(): void
     {
+        $listener = (new RegisterWidgetListenerFactory())($this->container(['acl_config' => true]));
+
+        self::assertInstanceOf(RegisterWidgetListener::class, $listener);
+        self::assertSame('admin.acl', $this->property($listener, 'resourceId'));
+        self::assertSame(['acl_config' => true], $this->property($listener, 'config'));
+    }
+
+    #[Test]
+    public function theResourceIdFollowsAConfiguredAdminNamespace(): void
+    {
+        $listener = (new RegisterWidgetListenerFactory())($this->container([], 'control-panel'));
+
+        self::assertSame('control-panel.acl', $this->property($listener, 'resourceId'));
+    }
+
+    /**
+     * @param array<string, mixed> $aclConfig
+     */
+    private function container(array $aclConfig, ?string $adminName = null): ContainerInterface
+    {
+        $adminConfig = null === $adminName ? [] : [AdminConfiguration::ADMIN_NAME_KEY => $adminName];
+
         $container = $this->createStub(ContainerInterface::class);
         $container->method('has')->willReturnMap([['config', true]]);
         $container->method('get')
@@ -27,18 +49,17 @@ final class RegisterWidgetListenerFactoryTest extends TestCase
                 [
                     'config',
                     [
-                        AdminConfiguration::CONFIG_KEY => ['admin_route_name_prefix' => 'admin.'],
-                        AclInterface::class            => ['admin_route_name_prefix' => 'acl.'],
+                        AdminConfiguration::CONFIG_KEY => $adminConfig,
+                        AclInterface::class            => $aclConfig,
                     ],
                 ],
             ]);
 
-        $listener = (new RegisterWidgetListenerFactory())($container);
+        return $container;
+    }
 
-        self::assertInstanceOf(RegisterWidgetListener::class, $listener);
-        self::assertSame(
-            ['admin_route_name_prefix' => 'acl.'],
-            new ReflectionProperty(RegisterWidgetListener::class, 'config')->getValue($listener),
-        );
+    private function property(RegisterWidgetListener $listener, string $name): mixed
+    {
+        return new ReflectionProperty(RegisterWidgetListener::class, $name)->getValue($listener);
     }
 }

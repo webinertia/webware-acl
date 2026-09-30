@@ -13,7 +13,6 @@ use PhpDb\Sql\Ddl\CreateTable;
 use PhpDb\Sql\Ddl\DropTable;
 use PhpDb\Sql\Literal;
 use Webware\Acl\Console\Ddl\Column\Enum;
-use Webware\Acl\Container\Configuration;
 use Webware\Acl\RuleType;
 use Webware\Core\Role;
 
@@ -79,6 +78,8 @@ final class AclSchema
     }
 
     /**
+     * @param string $adminRouteNamePrefix the composed admin prefix, e.g. `admin.acl.`
+     *
      * @return list<array{
      *   type: string,
      *   roleId: string,
@@ -87,9 +88,9 @@ final class AclSchema
      *   parentResourceId: string|null
      * }>
      */
-    public function ruleSeeds(): array
+    public function ruleSeeds(string $adminRouteNamePrefix): array
     {
-        $prefix  = Configuration::ADMIN_ROUTE_NAME_PREFIX_VALUE;
+        $prefix  = $adminRouteNamePrefix;
         $manager = rtrim(
             string    : $prefix,
             characters: '.',

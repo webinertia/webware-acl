@@ -65,7 +65,7 @@ final class AclAuthorizationIntegrationTest extends TestCase
         self::assertTrue(
             $acl->isAllowedRoute(
                 $this->user(Role::Developer->value),
-                new RouteResource('acl.manager', Role::Developer),
+                new RouteResource('admin.acl', Role::Developer),
             ),
         );
 
@@ -73,7 +73,7 @@ final class AclAuthorizationIntegrationTest extends TestCase
         self::assertFalse(
             $acl->isAllowedRoute(
                 $this->user(Role::Guest->value),
-                new RouteResource('acl.manager', Role::Guest),
+                new RouteResource('admin.acl', Role::Guest),
             ),
         );
 
@@ -222,7 +222,10 @@ final class AclAuthorizationIntegrationTest extends TestCase
 
     private function initDb(AdapterInterface $adapter): void
     {
-        $tester = new CommandTester(new InitDBCommand($adapter));
+        $tester = new CommandTester(new InitDBCommand(
+            adapter  : $adapter,
+            adminName: 'admin',
+        ));
 
         self::assertSame(Command::SUCCESS, $tester->execute(['--drop' => true]));
     }

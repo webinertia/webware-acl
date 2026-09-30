@@ -49,14 +49,14 @@ final readonly class RouteProvider implements RouteProviderInterface
          * but rather as part of the ACL managers workflow.
          *
          * "ACL Manager"
-         * /webware.admin/acl.manager (GET) read
-         * route name / resourceId {route_prefix admin.}acl.manager
+         * /admin/acl (GET) read
+         * route name / resourceId admin.acl
          *
          * ------------------------------------------------------------------------------
          *
          * "Sub Resource - child route" Role
-         * /webware.admin/acl.manager/role (GET) read
-         * route name / resourceId {route_prefix admin.}acl.manager.role.list
+         * /admin/acl/roles (GET) read
+         * route name / resourceId admin.acl.role.read
          *
          * List of roles, returns template fragment
          * showing all roles etc. This could be part of the ACL Manager page but having it as a separate
@@ -65,14 +65,14 @@ final readonly class RouteProvider implements RouteProviderInterface
          *
          * "Sub Resource - child route" Role CRUD
          *
-         * /webware.admin/acl.manager/role/{role_id} (PATCH/PUT) update
-         * route name / resourceId {route_prefix admin.}acl.manager.update.role
+         * /admin/acl/role/{roleId} (PATCH/PUT) update
+         * route name / resourceId admin.acl.role.update
          *
-         * /webware.admin/acl.manager/role (POST) create
-         * route name / resourceId {route_prefix admin.}acl.manager.create.role
+         * /admin/acl/role (POST) create
+         * route name / resourceId admin.acl.role.create
          *
-         * /webware.admin/acl.manager/role/{role_id} (DELETE) delete
-         * route name / resourceId {route_prefix admin.}acl.manager.delete.role
+         * /admin/acl/role/{roleId} (DELETE) delete
+         * route name / resourceId admin.acl.role.delete
          */
         $routeCollector->get(
             "/{$this->adminRouteSegment}",
