@@ -8,7 +8,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Webware\Acl\InputFilter\RuleDataFilter;
-use Webware\Acl\RuleType;
+use Webware\Core\Acl\RuleType;
 use WebwareTest\Acl\Support\InputFilterHelper;
 
 #[CoversClass(RuleDataFilter::class)]

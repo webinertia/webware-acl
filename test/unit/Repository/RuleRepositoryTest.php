@@ -12,7 +12,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Webware\Acl\Repository\RuleRepository;
-use Webware\Acl\RuleType;
+use Webware\Core\Acl\RuleType;
 use WebwareTest\Acl\Support\PhpDbAdapterMockTrait;
 
 #[CoversClass(RuleRepository::class)]

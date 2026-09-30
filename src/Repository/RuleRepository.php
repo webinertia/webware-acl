@@ -7,7 +7,7 @@ namespace Webware\Acl\Repository;
 use PhpDb\Sql\Exception\ExceptionInterface as SqlException;
 use PhpDb\TableGateway\TableGateway;
 use Webware\Acl\Entity\Rule;
-use Webware\Acl\RuleType;
+use Webware\Core\Acl\RuleType;
 
 use function json_encode;
 

@@ -4,10 +4,13 @@ declare(strict_types=1);
 
 namespace Webware\Acl\Console;
 
+use JsonException;
 use Override;
 use PhpDb\Adapter\AdapterInterface;
+use PhpDb\Adapter\Exception\ExceptionInterface as AdapterException;
 use PhpDb\Sql\Ddl\CreateTable;
 use PhpDb\Sql\Ddl\DropTable;
+use PhpDb\Sql\Exception\ExceptionInterface as SqlException;
 use PhpDb\Sql\Exception\InvalidArgumentException as SqlInvalidArgumentException;
 use PhpDb\Sql\InsertIgnore;
 use PhpDb\Sql\Sql;
@@ -19,7 +22,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Webware\Acl\Console\Schema\AclSchema;
-use Webware\Acl\Container\Configuration;
+use Webware\Acl\Console\Seed\SeedRunner;
 use Webware\Core\Role;
 
 use function json_encode;
@@ -37,7 +40,7 @@ final class InitDBCommand extends Command
      */
     public function __construct(
         private readonly AdapterInterface $adapter,
-        private readonly string $adminName,
+        private readonly SeedRunner $runner,
     ) {
         $this->schema = new AclSchema();
 
@@ -58,7 +61,10 @@ final class InitDBCommand extends Command
     }
 
     /**
+     * @throws AdapterException
      * @throws ConsoleInvalidArgumentException
+     * @throws JsonException
+     * @throws SqlException
      * @throws SqlInvalidArgumentException
      */
     #[Override]
@@ -86,10 +92,14 @@ final class InitDBCommand extends Command
         }
 
         $output->writeln('Seeding ACL rules...');
-        foreach ($this->schema->ruleSeeds(
-            Configuration::getAdminRouteNamePrefix($this->adminName),
-        ) as $seed) {
-            $this->executeInsert($sql, table: 'acl_rule', row: $seed);
+        $result = $this->runner->run();
+
+        if ($result->hasViolations()) {
+            foreach ($result->violations as $violation) {
+                $output->writeln("<error>{$violation}</error>");
+            }
+
+            return Command::FAILURE;
         }
 
         $output->writeln('ACL database initialized.');

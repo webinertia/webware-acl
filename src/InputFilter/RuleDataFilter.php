@@ -9,8 +9,8 @@ use Laminas\InputFilter;
 use Laminas\InputFilter\Exception\ExceptionInterface;
 use Laminas\Validator;
 use Override;
-use Webware\Acl\RuleType;
 use Webware\Acl\Validator\Assertion;
+use Webware\Core\Acl\RuleType;
 use Webware\Core\InputFilter\SystemMessageTrait;
 
 /**

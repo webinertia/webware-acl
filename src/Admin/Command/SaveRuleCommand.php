@@ -14,7 +14,7 @@ declare(strict_types=1);
 
 namespace Webware\Acl\Admin\Command;
 
-use Webware\Acl\RuleType;
+use Webware\Core\Acl\RuleType;
 use Webware\Message\NotificationCapableInterface;
 use Webware\MessageBus\Command\NamedCommandInterface;
 use Webware\MessageBus\Command\NamedCommandTrait;

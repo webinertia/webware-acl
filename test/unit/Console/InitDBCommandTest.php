@@ -18,16 +18,25 @@ use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Tester\CommandTester;
 use Webware\Acl\Console\InitDBCommand;
+use Webware\Core\Acl\RuleSeed;
+use Webware\Core\Acl\RuleSeedProviderInterface;
+use Webware\Core\Acl\RuleType;
+use Webware\Core\Role;
+use WebwareTest\Acl\Support\SeedRunnerTrait;
+
+use function count;
 
 #[CoversClass(InitDBCommand::class)]
 final class InitDBCommandTest extends TestCase
 {
+    use SeedRunnerTrait;
+
     #[Test]
     public function configureDefinesCommandNameDescriptionAndDropOption(): void
     {
         $command = new InitDBCommand(
-            adapter  : $this->createStub(AdapterInterface::class),
-            adminName: 'admin',
+            adapter: $this->createStub(AdapterInterface::class),
+            runner : $this->seedRunner(),
         );
 
         $definition = $command->getDefinition();
@@ -45,11 +54,11 @@ final class InitDBCommandTest extends TestCase
     public function executeCreatesSchemaAndSeedsWithoutDropping(): void
     {
         $command = new InitDBCommand(
-            adapter  : $this->createAdapter(
+            adapter: $this->createAdapter(
                 queryCalls         : 2,
-                statementExecutions: 15,
+                statementExecutions: count(Role::getRoles()),
             ),
-            adminName: 'admin',
+            runner : $this->seedRunner(),
         );
 
         $tester = new CommandTester($command);
@@ -67,11 +76,11 @@ final class InitDBCommandTest extends TestCase
     public function executeDropsTablesWhenRequested(): void
     {
         $command = new InitDBCommand(
-            adapter  : $this->createAdapter(
+            adapter: $this->createAdapter(
                 queryCalls         : 4,
-                statementExecutions: 15,
+                statementExecutions: count(Role::getRoles()),
             ),
-            adminName: 'admin',
+            runner : $this->seedRunner(),
         );
 
         $tester = new CommandTester($command);
@@ -82,6 +91,38 @@ final class InitDBCommandTest extends TestCase
         self::assertStringContainsString('Seeding ACL roles', $tester->getDisplay());
         self::assertStringContainsString('Seeding ACL rules', $tester->getDisplay());
         self::assertStringContainsString('ACL database initialized', $tester->getDisplay());
+    }
+
+    #[Test]
+    public function executeFailsWhenThePublishedRulesAreInvalid(): void
+    {
+        $provider = $this->createStub(RuleSeedProviderInterface::class);
+        $provider->method('ruleSeeds')
+            ->willReturn([
+                new RuleSeed(
+                    type      : RuleType::Allow,
+                    roleId    : 'Guest',
+                    resourceId: 'nowhere',
+                ),
+            ]);
+
+        $command = new InitDBCommand(
+            adapter: $this->createAdapter(
+                queryCalls         : 2,
+                statementExecutions: count(Role::getRoles()),
+            ),
+            runner: $this->seedRunner(
+                providers: [$provider],
+                tables: ['acl_rule'],
+            ),
+        );
+
+        $tester = new CommandTester($command);
+        $tester->execute([]);
+
+        self::assertSame(Command::FAILURE, $tester->getStatusCode());
+        self::assertStringContainsString('Anchor node "nowhere"', $tester->getDisplay());
+        self::assertStringNotContainsString('ACL database initialized', $tester->getDisplay());
     }
 
     private function createAdapter(int $queryCalls, int $statementExecutions): AdapterInterface

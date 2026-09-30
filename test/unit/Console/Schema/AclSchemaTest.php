@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace WebwareTest\Acl\Console\Schema;
 
-use Mezzio\MiddlewareFactoryInterface;
-use Mezzio\Router\Route;
-use Mezzio\Router\RouteCollectorInterface;
 use PhpDb\Adapter\Driver\ConnectionInterface;
 use PhpDb\Adapter\Driver\DriverInterface;
 use PhpDb\Mysql\AdapterPlatform;
@@ -24,14 +21,9 @@ use PhpDb\Sql\Literal;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
-use Psr\Http\Server\MiddlewareInterface;
 use Webware\Acl\Console\Ddl\Column\Enum;
 use Webware\Acl\Console\Schema\AclSchema;
-use Webware\Acl\Container\Configuration;
-use Webware\Acl\RouteProvider;
-use Webware\Admin\Container\Configuration as AdminConfiguration;
 
-use function array_column;
 use function array_keys;
 
 #[CoversClass(AclSchema::class)]
@@ -48,52 +40,6 @@ final class AclSchemaTest extends TestCase
         self::assertTrue($tables[1]->getIfExists());
         self::assertStringContainsString('acl_rule', $tables[0]->getSqlString());
         self::assertStringContainsString('acl_role', $tables[1]->getSqlString());
-    }
-
-    /**
-     * The invariant the seed exists to satisfy: a rule can only grant access to a route
-     * that exists, so every seeded resource id must be a name the RouteProvider registers.
-     */
-    #[Test]
-    public function everySeededResourceIdIsARegisteredRouteName(): void
-    {
-        /** @var list<string|null> $names */
-        $names = [];
-
-        $collector = $this->createStub(RouteCollectorInterface::class);
-
-        foreach (['get', 'post', 'patch', 'delete', 'route'] as $method) {
-            $collector->method($method)
-                ->willReturnCallback(
-                    static function (
-                        string $path,
-                        MiddlewareInterface $middleware,
-                        ?string $name = null,
-                    ) use (&$names): Route {
-                        $names[] = $name;
-
-                        return new Route($path, $middleware, ['GET'], $name);
-                    },
-                );
-        }
-
-        $middlewareFactory = $this->createStub(MiddlewareFactoryInterface::class);
-        $middlewareFactory->method('prepare')
-            ->willReturn(
-                $this->createStub(MiddlewareInterface::class),
-            );
-
-        $adminName  = AdminConfiguration::ADMIN_NAME;
-        $namePrefix = Configuration::getAdminRouteNamePrefix($adminName);
-
-        new RouteProvider(
-            Configuration::getAdminRouteSegment($adminName),
-            $namePrefix,
-        )->registerRoutes($collector, $middlewareFactory);
-
-        $seeded = array_column(new AclSchema()->ruleSeeds($namePrefix), 'resourceId');
-
-        self::assertEqualsCanonicalizing($names, $seeded);
     }
 
     #[Test]
@@ -153,93 +99,6 @@ final class AclSchemaTest extends TestCase
         self::assertStringContainsString('uq_role_id', $sql);
         self::assertStringContainsString('ENGINE = InnoDB', $sql);
         self::assertStringContainsString('utf8mb4_0900_ai_ci', $sql);
-    }
-
-    #[Test]
-    public function ruleSeedsDefinesAclManagerResourcesForDeveloper(): void
-    {
-        self::assertSame(
-            [
-                [
-                    'type'             => 'Allow',
-                    'roleId'           => 'Developer',
-                    'resourceId'       => 'admin.acl',
-                    'assertions'       => null,
-                    'parentResourceId' => null,
-                ],
-                [
-                    'type'             => 'Allow',
-                    'roleId'           => 'Developer',
-                    'resourceId'       => 'admin.acl.role.read',
-                    'assertions'       => null,
-                    'parentResourceId' => 'admin.acl',
-                ],
-                [
-                    'type'             => 'Allow',
-                    'roleId'           => 'Developer',
-                    'resourceId'       => 'admin.acl.role.add.modal',
-                    'assertions'       => null,
-                    'parentResourceId' => 'admin.acl',
-                ],
-                [
-                    'type'             => 'Allow',
-                    'roleId'           => 'Developer',
-                    'resourceId'       => 'admin.acl.role.edit.modal',
-                    'assertions'       => null,
-                    'parentResourceId' => 'admin.acl',
-                ],
-                [
-                    'type'             => 'Allow',
-                    'roleId'           => 'Developer',
-                    'resourceId'       => 'admin.acl.role.create',
-                    'assertions'       => null,
-                    'parentResourceId' => 'admin.acl',
-                ],
-                [
-                    'type'             => 'Allow',
-                    'roleId'           => 'Developer',
-                    'resourceId'       => 'admin.acl.role.update',
-                    'assertions'       => null,
-                    'parentResourceId' => 'admin.acl',
-                ],
-                [
-                    'type'             => 'Allow',
-                    'roleId'           => 'Developer',
-                    'resourceId'       => 'admin.acl.role.delete',
-                    'assertions'       => null,
-                    'parentResourceId' => 'admin.acl',
-                ],
-                [
-                    'type'             => 'Allow',
-                    'roleId'           => 'Developer',
-                    'resourceId'       => 'admin.acl.rule.create',
-                    'assertions'       => null,
-                    'parentResourceId' => 'admin.acl',
-                ],
-                [
-                    'type'             => 'Allow',
-                    'roleId'           => 'Developer',
-                    'resourceId'       => 'admin.acl.rule.update',
-                    'assertions'       => null,
-                    'parentResourceId' => 'admin.acl',
-                ],
-                [
-                    'type'             => 'Allow',
-                    'roleId'           => 'Developer',
-                    'resourceId'       => 'admin.acl.rule.delete',
-                    'assertions'       => null,
-                    'parentResourceId' => 'admin.acl',
-                ],
-                [
-                    'type'             => 'Allow',
-                    'roleId'           => 'Developer',
-                    'resourceId'       => 'admin.acl.rule.delete.modal',
-                    'assertions'       => null,
-                    'parentResourceId' => 'admin.acl',
-                ],
-            ],
-            new AclSchema()->ruleSeeds(Configuration::getAdminRouteNamePrefix(AdminConfiguration::ADMIN_NAME)),
-        );
     }
 
     #[Test]

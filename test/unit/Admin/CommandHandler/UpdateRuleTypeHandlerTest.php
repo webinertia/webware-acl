@@ -13,7 +13,7 @@ use PHPUnit\Framework\TestCase;
 use RuntimeException;
 use Webware\Acl\Admin\Command\UpdateRuleTypeCommand;
 use Webware\Acl\Admin\CommandHandler\UpdateRuleTypeHandler;
-use Webware\Acl\RuleType;
+use Webware\Core\Acl\RuleType;
 use Webware\MessageBus\MessageStatus;
 use WebwareTest\Acl\Support\PhpDbAdapterMockTrait;
 

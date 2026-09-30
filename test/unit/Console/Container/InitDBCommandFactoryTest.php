@@ -11,20 +11,22 @@ use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 use Webware\Acl\Console\Container\InitDBCommandFactory;
 use Webware\Acl\Console\InitDBCommand;
-use Webware\Admin\AdminInterface;
+use Webware\Acl\Console\Seed\SeedRunner;
+use WebwareTest\Acl\Support\SeedRunnerTrait;
 
 #[CoversClass(InitDBCommandFactory::class)]
 final class InitDBCommandFactoryTest extends TestCase
 {
+    use SeedRunnerTrait;
+
     #[Test]
     public function invokeBuildsCommandWithAdapter(): void
     {
         $container = $this->createStub(ContainerInterface::class);
-        $container->method('has')->willReturn(true);
         $container->method('get')
             ->willReturnMap([
                 [AdapterInterface::class, $this->createStub(AdapterInterface::class)],
-                ['config', [AdminInterface::class => []]],
+                [SeedRunner::class, $this->seedRunner()],
             ]);
 
         self::assertInstanceOf(InitDBCommand::class, (new InitDBCommandFactory())($container));

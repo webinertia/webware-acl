@@ -8,7 +8,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Webware\Acl\Admin\Command\UpdateRuleTypeCommand;
-use Webware\Acl\RuleType;
+use Webware\Core\Acl\RuleType;
 
 #[CoversClass(UpdateRuleTypeCommand::class)]
 final class UpdateRuleTypeCommandTest extends TestCase
