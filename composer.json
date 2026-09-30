@@ -33,8 +33,8 @@
         "psr/http-server-handler": "^1.0",
         "psr/http-server-middleware": "^1.0",
         "webware/message-bus": "^2.0.0-beta.3",
-        "webware/webware-admin": "1.0.x-dev",
-        "webware/webware-core": "^1.0.0-alpha.6",
+        "webware/webware-admin": "^1.0.0-alpha.1",
+        "webware/webware-core": "^1.0.0-alpha.7",
         "webware/webware-htmx": "1.0.x-dev",
         "webware/webware-log": "^2.0.0-alpha.1",
         "webware/webware-message": "^1.0.0-beta.3"
