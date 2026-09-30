@@ -13,18 +13,13 @@ use PhpDb\Sql\Ddl\CreateTable;
 use PhpDb\Sql\Ddl\DropTable;
 use PhpDb\Sql\Literal;
 use Webware\Acl\Console\Ddl\Column\Enum;
-use Webware\Acl\RuleType;
 use Webware\Core\Role;
 
-use function rtrim;
-
 /**
- * Builds the ACL database schema and seed data.
+ * Builds the ACL database schema.
  *
- * The base seed covers only the roles and rules webware-acl itself owns: the
- * default role chain from {@see Role::getRoles()} and the ACL manager resources
- * owned by the Developer role. Host applications (e.g. IMS) layer their own roles
- * and rules on top of this base.
+ * The role chain comes from {@see Role::getRoles()}. Rules are seeded from the
+ * providers published under the ACL config key's `rule_seed_providers` entry.
  */
 final class AclSchema
 {
@@ -75,59 +70,6 @@ final class AclSchema
         ]);
 
         return $table;
-    }
-
-    /**
-     * @param string $adminRouteNamePrefix the composed admin prefix, e.g. `admin.acl.`
-     *
-     * @return list<array{
-     *   type: string,
-     *   roleId: string,
-     *   resourceId: string,
-     *   assertions: null,
-     *   parentResourceId: string|null
-     * }>
-     */
-    public function ruleSeeds(string $adminRouteNamePrefix): array
-    {
-        $prefix  = $adminRouteNamePrefix;
-        $manager = rtrim(
-            string    : $prefix,
-            characters: '.',
-        );
-
-        $seeds = [
-            [
-                'type'             => RuleType::Allow->value,
-                'roleId'           => Role::Developer->value,
-                'resourceId'       => $manager,
-                'assertions'       => null,
-                'parentResourceId' => null,
-            ],
-        ];
-
-        foreach ([
-            'role.read',
-            'role.add.modal',
-            'role.edit.modal',
-            'role.create',
-            'role.update',
-            'role.delete',
-            'rule.create',
-            'rule.update',
-            'rule.delete',
-            'rule.delete.modal',
-        ] as $resource) {
-            $seeds[] = [
-                'type'             => RuleType::Allow->value,
-                'roleId'           => Role::Developer->value,
-                'resourceId'       => $prefix . $resource,
-                'assertions'       => null,
-                'parentResourceId' => $manager,
-            ];
-        }
-
-        return $seeds;
     }
 
     public function ruleTable(): CreateTable

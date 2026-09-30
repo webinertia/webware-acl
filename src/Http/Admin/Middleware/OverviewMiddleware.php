@@ -17,7 +17,7 @@ use Webware\Acl\AssertionManager;
 use Webware\Acl\Entity\Role;
 use Webware\Acl\PrivilegeInterface;
 use Webware\Acl\Query\FetchAllRulesQuery;
-use Webware\Acl\RuleType;
+use Webware\Core\Acl\RuleType;
 use Webware\Core\AclInterface;
 use Webware\MessageBus\MessageBusInterface;
 

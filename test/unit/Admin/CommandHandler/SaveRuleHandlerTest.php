@@ -10,7 +10,7 @@ use PHPUnit\Framework\TestCase;
 use RuntimeException;
 use Webware\Acl\Admin\Command\SaveRuleCommand;
 use Webware\Acl\Admin\CommandHandler\SaveRuleHandler;
-use Webware\Acl\RuleType;
+use Webware\Core\Acl\RuleType;
 use Webware\MessageBus\MessageStatus;
 use WebwareTest\Acl\Support\PhpDbAdapterMockTrait;
 

@@ -4,26 +4,22 @@ declare(strict_types=1);
 
 namespace Webware\Acl\Console\Container;
 
-use PhpDb\Adapter\AdapterInterface;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Symfony\Component\Console\Exception\LogicException;
-use Webware\Acl\Console\InitDBCommand;
 use Webware\Acl\Console\Seed\SeedRunner;
+use Webware\Acl\Console\SeedCommand;
 
-final readonly class InitDBCommandFactory
+final readonly class SeedCommandFactory
 {
     /**
      * @throws ContainerExceptionInterface
      * @throws LogicException
      * @throws NotFoundExceptionInterface
      */
-    public function __invoke(ContainerInterface $container): InitDBCommand
+    public function __invoke(ContainerInterface $container): SeedCommand
     {
-        return new InitDBCommand(
-            adapter: $container->get(AdapterInterface::class),
-            runner : $container->get(SeedRunner::class),
-        );
+        return new SeedCommand(runner: $container->get(SeedRunner::class));
     }
 }

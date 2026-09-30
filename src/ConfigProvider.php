@@ -6,6 +6,7 @@ namespace Webware\Acl;
 
 use Laminas\InputFilter\InputFilterFactory;
 use Laminas\Permissions\Acl\AclInterface as LaminasAclInterface;
+use Laminas\ServiceManager\Factory\InvokableFactory;
 use Webware\Acl\Admin\Command\DeleteRoleCommand;
 use Webware\Acl\Admin\Command\DeleteRuleCommand;
 use Webware\Acl\Admin\Command\SaveRoleCommand;
@@ -24,7 +25,15 @@ use Webware\Acl\Admin\CommandHandler\UpdateRuleTypeHandler;
 use Webware\Acl\Admin\Dashboard\Container\RegisterWidgetListenerFactory;
 use Webware\Acl\Admin\Dashboard\RegisterWidgetListener;
 use Webware\Acl\Console\Container\InitDBCommandFactory;
+use Webware\Acl\Console\Container\RuleSeedCollectorFactory;
+use Webware\Acl\Console\Container\RuleSeederFactory;
+use Webware\Acl\Console\Container\SeedCommandFactory;
+use Webware\Acl\Console\Container\SeedRunnerFactory;
 use Webware\Acl\Console\InitDBCommand;
+use Webware\Acl\Console\Seed\RuleSeedCollector;
+use Webware\Acl\Console\Seed\RuleSeeder;
+use Webware\Acl\Console\Seed\SeedRunner;
+use Webware\Acl\Console\SeedCommand;
 use Webware\Acl\Container\AclFactory;
 use Webware\Acl\Container\RouteProviderFactory;
 use Webware\Acl\Http\Admin\Middleware\Container\OverviewMiddlewareFactory;
@@ -94,6 +103,7 @@ use Webware\MessageBus\MessageBusInterface;
  *   route_param_map: array<array-key, mixed>,
  *   forbidden_redirect: string,
  *   forbidden_template: null,
+ *   rule_seed_providers: list<class-string>,
  * }
  * @type InputFilterConfig = array{factories: array<class-string, class-string>}
  * @type Listeners = array<class-string, array<array{listener: class-string, priority: int}>>
@@ -161,9 +171,12 @@ final class ConfigProvider
     public function getDefaultConfig(): array
     {
         return [
-            'route_param_map'    => [],
-            'forbidden_redirect' => '/',
-            'forbidden_template' => null,
+            'route_param_map'     => [],
+            'forbidden_redirect'  => '/',
+            'forbidden_template'  => null,
+            'rule_seed_providers' => [
+                Acl\RuleSeeds::class,
+            ],
         ];
     }
 
@@ -210,6 +223,11 @@ final class ConfigProvider
                 RoleRepository::class                      => RoleRepositoryFactory::class,
                 RuleRepository::class                      => RuleRepositoryFactory::class,
                 InitDBCommand::class                       => InitDBCommandFactory::class,
+                SeedCommand::class                         => SeedCommandFactory::class,
+                SeedRunner::class                          => SeedRunnerFactory::class,
+                RuleSeeder::class                          => RuleSeederFactory::class,
+                RuleSeedCollector::class                   => RuleSeedCollectorFactory::class,
+                Acl\RuleSeeds::class                       => InvokableFactory::class,
             ],
         ];
     }
@@ -297,6 +315,7 @@ final class ConfigProvider
             ConsoleInterface::class    => [
                 'commands' => [
                     'acl:init-db' => InitDBCommand::class,
+                    'acl:seed'    => SeedCommand::class,
                 ],
             ],
             MessageBusInterface::class => $this->getBusConfig(),

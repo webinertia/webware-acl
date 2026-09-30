@@ -17,7 +17,7 @@ use Webware\Acl\Admin\Command\DeleteRuleCommand;
 use Webware\Acl\Admin\Command\SaveRuleCommand;
 use Webware\Acl\Admin\Command\UpdateRuleTypeCommand;
 use Webware\Acl\Http\Admin\Middleware\ProcessRuleMiddleware;
-use Webware\Acl\RuleType;
+use Webware\Core\Acl\RuleType;
 use Webware\Message\SystemMessengerInterface;
 use Webware\MessageBus\Command\CommandResult;
 use Webware\MessageBus\MessageBusInterface;

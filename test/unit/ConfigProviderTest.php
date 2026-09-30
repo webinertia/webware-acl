@@ -10,6 +10,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Webware\Acl\Acl;
+use Webware\Acl\Acl\RuleSeeds;
 use Webware\Acl\Admin\Command\DeleteRoleCommand;
 use Webware\Acl\Admin\Command\DeleteRuleCommand;
 use Webware\Acl\Admin\Command\SaveRoleCommand;
@@ -25,6 +26,10 @@ use Webware\Acl\Assertion\OwnershipAssertion;
 use Webware\Acl\AssertionManager;
 use Webware\Acl\ConfigProvider;
 use Webware\Acl\Console\InitDBCommand;
+use Webware\Acl\Console\Seed\RuleSeedCollector;
+use Webware\Acl\Console\Seed\RuleSeeder;
+use Webware\Acl\Console\Seed\SeedRunner;
+use Webware\Acl\Console\SeedCommand;
 use Webware\Acl\Http\RequestHandler\ForbiddenHandler;
 use Webware\Acl\Http\RequestHandler\ForbiddenHandlerInterface;
 use Webware\Acl\Http\RouteResourceFactory;
@@ -104,8 +109,9 @@ final class ConfigProviderTest extends TestCase
         self::assertSame([], $config['route_param_map']);
         self::assertSame('/', $config['forbidden_redirect']);
         self::assertNull($config['forbidden_template']);
+        self::assertSame([RuleSeeds::class], $config['rule_seed_providers']);
         self::assertSame(
-            ['route_param_map', 'forbidden_redirect', 'forbidden_template'],
+            ['route_param_map', 'forbidden_redirect', 'forbidden_template', 'rule_seed_providers'],
             array_keys($config),
         );
     }
@@ -124,10 +130,15 @@ final class ConfigProviderTest extends TestCase
             ],
             $deps['aliases'],
         );
-        self::assertCount(30, $deps['factories']);
+        self::assertCount(35, $deps['factories']);
         self::assertArrayHasKey(RoleRepository::class, $deps['factories']);
         self::assertArrayHasKey(RuleRepository::class, $deps['factories']);
         self::assertArrayHasKey(InitDBCommand::class, $deps['factories']);
+        self::assertArrayHasKey(SeedCommand::class, $deps['factories']);
+        self::assertArrayHasKey(SeedRunner::class, $deps['factories']);
+        self::assertArrayHasKey(RuleSeeder::class, $deps['factories']);
+        self::assertArrayHasKey(RuleSeedCollector::class, $deps['factories']);
+        self::assertArrayHasKey(RuleSeeds::class, $deps['factories']);
         self::assertArrayHasKey(FetchAllRulesHandler::class, $deps['factories']);
         self::assertArrayHasKey(FetchDistinctResourceIdsHandler::class, $deps['factories']);
         self::assertArrayHasKey(FetchAclRoleRegistryHandler::class, $deps['factories']);
@@ -206,7 +217,7 @@ final class ConfigProviderTest extends TestCase
         self::assertSame(new ConfigProvider()->getDefaultConfig(), $config[AclInterface::class]);
         self::assertSame(new ConfigProvider()->getAssertionManagerConfig(), $config[AssertionManager::class]);
         self::assertSame(
-            ['commands' => ['acl:init-db' => InitDBCommand::class]],
+            ['commands' => ['acl:init-db' => InitDBCommand::class, 'acl:seed' => SeedCommand::class]],
             $config[ConsoleInterface::class],
         );
         self::assertSame(new ConfigProvider()->getBusConfig(), $config[MessageBusInterface::class]);

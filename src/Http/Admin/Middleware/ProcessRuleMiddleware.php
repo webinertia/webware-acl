@@ -27,7 +27,7 @@ use Webware\Acl\Admin\Command\SaveRuleCommand;
 use Webware\Acl\Admin\Command\UpdateRuleTypeCommand;
 use Webware\Acl\InputFilter\RuleDataFilter;
 use Webware\Acl\InputFilter\RuleDeleteFilter;
-use Webware\Acl\RuleType;
+use Webware\Core\Acl\RuleType;
 use Webware\Core\Http\Middleware\HttpMethodProcessorTrait;
 use Webware\Message\Exception\InvalidHopsValueException;
 use Webware\Message\SystemMessengerInterface;

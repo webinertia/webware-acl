@@ -37,6 +37,7 @@ use Webware\Core\UserInterface;
 use Webware\MessageBus\MessageBusInterface;
 use Webware\MessageBus\MessageInterface;
 use Webware\MessageBus\Query\QueryResult;
+use WebwareTestIntegration\Acl\Support\SeedRunnerTrait;
 use WebwareTestIntegration\Acl\TestAsset\RouteResource;
 
 use function getenv;
@@ -51,6 +52,8 @@ use function sprintf;
 #[CoversClass(Acl::class)]
 final class AclAuthorizationIntegrationTest extends TestCase
 {
+    use SeedRunnerTrait;
+
     private const string LOGIN_ROUTE = 'user.manager.session.read';
 
     #[Test]
@@ -223,8 +226,8 @@ final class AclAuthorizationIntegrationTest extends TestCase
     private function initDb(AdapterInterface $adapter): void
     {
         $tester = new CommandTester(new InitDBCommand(
-            adapter  : $adapter,
-            adminName: 'admin',
+            adapter: $adapter,
+            runner : $this->seedRunner($adapter),
         ));
 
         self::assertSame(Command::SUCCESS, $tester->execute(['--drop' => true]));

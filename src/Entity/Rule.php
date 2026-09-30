@@ -9,7 +9,7 @@ use Laminas\Permissions\Acl\Role\RoleInterface;
 use Override;
 use PhpDb\ResultSet\RowPrototypeInterface;
 use ValueError;
-use Webware\Acl\RuleType;
+use Webware\Core\Acl\RuleType;
 
 use function json_decode;
 

@@ -8,7 +8,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Webware\Acl\Entity\Rule;
-use Webware\Acl\RuleType;
+use Webware\Core\Acl\RuleType;
 
 #[CoversClass(Rule::class)]
 final class RuleTest extends TestCase
