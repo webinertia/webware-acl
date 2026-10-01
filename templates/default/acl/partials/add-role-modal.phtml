@@ -18,7 +18,7 @@
 <div class="modal-body">
     <form
         id="addRoleForm"
-        hx-post="<?= $this->escapeHtmlAttr($this->adminUrl('acl.manager.role.create')) ?>"
+        hx-post="<?= $this->escapeHtmlAttr($this->adminUrl('acl.role.create')) ?>"
         hx-target="main"
         hx-swap="innerHTML"
         hx-push-url="false"

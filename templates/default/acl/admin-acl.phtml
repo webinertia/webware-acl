@@ -228,7 +228,7 @@ $filters = $this->routeFilters ?? ['all' => 0, 'unprotected' => 0, 'protected' =
                                         ?>
                                         <button type="button"
                                                 class="btn py-0 px-1 badge border badge-xs acl-rule-type-toggle <?= $toggleClass ?>"
-                                                hx-patch="<?= $this->adminUrl('acl.manager.rule.update') ?>"
+                                                hx-patch="<?= $this->adminUrl('acl.rule.update') ?>"
                                                 hx-vals="<?= $this->escapeHtmlAttr($toggleVals) ?>"
                                                 hx-target="main"
                                                 title="Toggle to <?= $this->escapeHtmlAttr($newRuleType) ?>">
@@ -252,7 +252,7 @@ $filters = $this->routeFilters ?? ['all' => 0, 'unprotected' => 0, 'protected' =
                                 <td class="align-middle text-end">
                                     <?php if (! $isInherited): ?>
                                         <button class="btn btn-sm btn-outline-danger py-0 px-1"
-                                                hx-get="<?= $this->escapeHtmlAttr($this->adminUrl('acl.manager.rule.delete.modal', ['roleId' => $rule['roleId'], 'resourceId' => $rule['resourceId']])) ?>"
+                                                hx-get="<?= $this->escapeHtmlAttr($this->adminUrl('acl.rule.delete.modal', ['roleId' => $rule['roleId'], 'resourceId' => $rule['resourceId']])) ?>"
                                                 hx-target="#sharedModalDialog"
                                                 hx-swap="innerHTML"
                                                 hx-push-url="false"
@@ -301,7 +301,7 @@ $filters = $this->routeFilters ?? ['all' => 0, 'unprotected' => 0, 'protected' =
     'assertions'   => $this->assertions,
     // TODO: was 'acl.resources.protect' (ProtectRouteCommand, now deleted).
     // Protecting a resource = creating a rule, so this now points to rule.create.
-    'protectUrl'   => $this->adminUrl('acl.manager.rule.create'),
+    'protectUrl'   => $this->adminUrl('acl.rule.create'),
 ]) ?>
 
 <script src="<?= $this->escapeHtmlAttr($this->asset('acl.js')) ?>"></script>

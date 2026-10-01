@@ -92,7 +92,7 @@ foreach ($this->privileges as $priv) {
                 <div class="accordion-body py-2 px-3">
                     <form
                         <?php /* TODO: was 'acl.resources.protect' (ProtectRouteCommand, deleted). Protecting = creating a rule. */ ?>
-                        hx-post="<?= $this->adminUrl('acl.manager.rule.create') ?>"
+                        hx-post="<?= $this->adminUrl('acl.rule.create') ?>"
                         hx-target="main"
                         hx-swap="innerHTML"
                         hx-push-url="false"
