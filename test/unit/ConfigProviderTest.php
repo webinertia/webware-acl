@@ -191,7 +191,7 @@ final class ConfigProviderTest extends TestCase
         self::assertArrayHasKey('acl', $templates['paths']);
         self::assertCount(1, $templates['paths']['acl']);
         self::assertDirectoryExists($templates['paths']['acl'][0]);
-        self::assertStringEndsWith('/templates/acl', $templates['paths']['acl'][0]);
+        self::assertStringEndsWith('/templates/default/acl', $templates['paths']['acl'][0]);
     }
 
     #[Test]
@@ -221,5 +221,15 @@ final class ConfigProviderTest extends TestCase
             $config[ConsoleInterface::class],
         );
         self::assertSame(new ConfigProvider()->getBusConfig(), $config[MessageBusInterface::class]);
+    }
+
+    #[Test]
+    public function invokeRegistersTheAclPageScriptForTheDefaultTheme(): void
+    {
+        self::assertSame(
+            ['assets' => ['default' => ['acl.js' => 'component/acl/js/acl.js']]],
+            (new ConfigProvider())()['theme'],
+        );
+        self::assertFileExists(__DIR__ . '/../../assets/default/js/acl.js');
     }
 }

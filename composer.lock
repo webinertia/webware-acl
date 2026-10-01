@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c2be845671298496342e9a2151692ccd",
+    "content-hash": "599b0268d46b04796afbe662cb5d4e10",
     "packages": [
         {
             "name": "brick/math",
@@ -3894,6 +3894,69 @@
                 "source": "https://github.com/webinertia/webware-phpdb/tree/1.0.0-alpha.1"
             },
             "time": "2026-09-30T16:58:19+00:00"
+        },
+        {
+            "name": "webware/webware-theme",
+            "version": "1.0.0-alpha.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/webinertia/webware-theme.git",
+                "reference": "d0ffc68983e6876660c86b27b6a42994edc9bdf8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/webinertia/webware-theme/zipball/d0ffc68983e6876660c86b27b6a42994edc9bdf8",
+                "reference": "d0ffc68983e6876660c86b27b6a42994edc9bdf8",
+                "shasum": ""
+            },
+            "require": {
+                "laminas/laminas-view": "^3.0",
+                "mezzio/mezzio-laminasviewrenderer": "^3.0",
+                "php": "~8.4.1 || ~8.5.0",
+                "psr/container": "^2.0"
+            },
+            "require-dev": {
+                "infection/infection": "^0.35.0",
+                "phpbench/phpbench": "^1.7",
+                "phpunit/phpunit": "^13.3",
+                "roave/backward-compatibility-check": "^8.21.0",
+                "roave/security-advisories": "dev-master",
+                "webware/webware-tools": "^1.0.0-beta.3"
+            },
+            "type": "library",
+            "extra": {
+                "laminas": {
+                    "config-provider": "Webware\\Theme\\ConfigProvider"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Webware\\Theme\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Joey Smith",
+                    "email": "jsmith@webinertia.net",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Provides theme support via laminas-view to webware applications.",
+            "keywords": [
+                "laminas-view",
+                "mezzio",
+                "theme",
+                "webware"
+            ],
+            "support": {
+                "issues": "https://github.com/webinertia/webware-theme/issues",
+                "source": "https://github.com/webinertia/webware-theme/tree/1.0.0-alpha.1"
+            },
+            "time": "2026-10-01T07:44:15+00:00"
         }
     ],
     "packages-dev": [

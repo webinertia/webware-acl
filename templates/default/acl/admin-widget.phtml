@@ -13,7 +13,7 @@ $this->headTitle('Admin Dashboard');
         <div class="card-header d-flex align-items-center gap-2 py-2">
             <i class="bi bi-shield-lock text-primary"></i>
             <span class="fw-semibold small">ACL Management</span>
-            <a href="<?= $this->adminUrl('acl.manager') ?>" class="ms-auto btn btn-sm btn-outline-secondary py-0 px-2 ims-widget-manage-link">
+            <a href="<?= $this->adminUrl('acl.manager') ?>" class="ms-auto btn btn-sm btn-outline-secondary py-0 px-2 widget-manage-link">
                 Manage <i class="bi bi-arrow-right"></i>
             </a>
         </div>
@@ -22,19 +22,19 @@ $this->headTitle('Admin Dashboard');
             <div class="row row-cols-2 g-2 mb-3">
                 <div class="col text-center">
                     <div class="fs-3 fw-bold text-primary"><?= $this->roleCount ?></div>
-                    <div class="text-secondary ims-widget-stat-label">Roles</div>
+                    <div class="text-secondary widget-stat-label">Roles</div>
                 </div>
                 <div class="col text-center">
                     <div class="fs-3 fw-bold text-primary"><?= $this->resourceCount ?></div>
-                    <div class="text-secondary ims-widget-stat-label">Resources</div>
+                    <div class="text-secondary widget-stat-label">Resources</div>
                 </div>
                 <div class="col text-center">
                     <div class="fs-3 fw-bold text-primary"><?= $this->ruleCount ?></div>
-                    <div class="text-secondary ims-widget-stat-label">Rules</div>
+                    <div class="text-secondary widget-stat-label">Rules</div>
                 </div>
                 <div class="col text-center">
                     <div class="fs-3 fw-bold text-primary"><?= $this->assertionCount ?></div>
-                    <div class="text-secondary ims-widget-stat-label">Assertions</div>
+                    <div class="text-secondary widget-stat-label">Assertions</div>
                 </div>
             </div>
             <!-- Quick links -->
@@ -50,7 +50,7 @@ $this->headTitle('Admin Dashboard');
                 </a>
             </div>
         </div>
-        <div class="card-footer py-1 text-secondary ims-widget-footer-text">
+        <div class="card-footer py-1 text-secondary widget-footer-text">
             Cache version: <strong class="text-body"><?= $this->aclVersion ?></strong>
         </div>
     </div>
