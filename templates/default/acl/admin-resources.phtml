@@ -80,7 +80,7 @@ foreach ($this->privileges as $priv) {
                         <code class="small"><?= $this->escapeHtml($routeName) ?></code>
                         <div class="d-flex gap-1 ms-auto">
                             <?php foreach ($privileges as $priv): ?>
-                                <span class="badge bg-transparent border border-<?= $privilegeColor[$priv] ?> text-<?= $privilegeColor[$priv] ?> ims-badge-xs">
+                                <span class="badge bg-transparent border border-<?= $privilegeColor[$priv] ?> text-<?= $privilegeColor[$priv] ?> badge-xs">
                                     <?= ucfirst($priv) ?>
                                 </span>
                             <?php endforeach; ?>

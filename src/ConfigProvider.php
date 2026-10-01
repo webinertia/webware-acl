@@ -109,6 +109,7 @@ use Webware\MessageBus\MessageBusInterface;
  * @type Listeners = array<class-string, array<array{listener: class-string, priority: int}>>
  * @type RouteProviders = array{'route-providers': array<class-string>}
  * @type Templates = array{paths: array{acl: array<string>}}
+ * @type ThemeConfig = array{assets: array{default: array<string, string>}}
  * @type ValidatorConfig = array{factories: array<class-string, class-string>}
  * @type ConsoleConfig = array{commands: array<string, class-string>}
  * @type ProviderConfig = array{
@@ -117,6 +118,7 @@ use Webware\MessageBus\MessageBusInterface;
  *   listeners: Listeners,
  *   router: RouteProviders,
  *   templates: Templates,
+ *   theme: ThemeConfig,
  *   Webware\Core\AclInterface: DefaultConfig,
  *   Webware\Acl\AssertionManager: AssertionManagerConfig,
  *   Webware\Console\ConsoleInterface: ConsoleConfig,
@@ -310,6 +312,10 @@ final class ConfigProvider
             'listeners'                => $this->getListeners(),
             'router'                   => $this->getRouteProviders(),
             'templates'                => $this->getTemplates(),
+            'theme'                    => [
+                // The ACL page script ships with this component, published per theme (webware-theme).
+                'assets' => ['default' => ['acl.js' => 'component/acl/js/acl.js']],
+            ],
             AclInterface::class        => $this->getDefaultConfig(),
             AssertionManager::class    => $this->getAssertionManagerConfig(),
             ConsoleInterface::class    => [

@@ -49,24 +49,24 @@ $filters = $this->routeFilters ?? ['all' => 0, 'unprotected' => 0, 'protected' =
 
 <!-- Search + filter bar -->
 <div class="d-flex gap-2 mb-3 flex-wrap">
-    <div class="input-group input-group-sm ims-acl-search-box">
+    <div class="input-group input-group-sm acl-search-box">
         <span class="input-group-text bg-body-tertiary border-secondary-subtle">
             <i class="bi bi-search text-secondary"></i>
         </span>
         <input type="search" class="form-control bg-body-tertiary border-secondary-subtle"
-               id="ims-acl-route-search" placeholder="Search routes…" autocomplete="off">
+               id="acl-route-search" placeholder="Search routes…" autocomplete="off">
     </div>
     <div class="d-flex gap-1">
-        <button class="btn btn-sm btn-outline-secondary active" id="ims-acl-filter-all"
+        <button class="btn btn-sm btn-outline-secondary active" id="acl-filter-all"
                 data-acl-filter="all">All
             <span class="badge bg-secondary ms-1"><?= (int) $filters['all'] ?></span>
         </button>
-        <button class="btn btn-sm btn-outline-warning" id="ims-acl-filter-unprotected"
+        <button class="btn btn-sm btn-outline-warning" id="acl-filter-unprotected"
                 data-acl-filter="unprotected">
             <i class="bi bi-shield-exclamation me-1"></i>Unprotected
             <span class="badge bg-warning text-dark ms-1"><?= (int) $filters['unprotected'] ?></span>
         </button>
-        <button class="btn btn-sm btn-outline-success" id="ims-acl-filter-protected"
+        <button class="btn btn-sm btn-outline-success" id="acl-filter-protected"
                 data-acl-filter="protected">
             <i class="bi bi-shield-check me-1"></i>Protected
             <span class="badge bg-success ms-1"><?= (int) $filters['protected'] ?></span>
@@ -76,7 +76,7 @@ $filters = $this->routeFilters ?? ['all' => 0, 'unprotected' => 0, 'protected' =
 
 <!-- ── UNPROTECTED ROUTES ───────────────────────────────── -->
 <?php if (! empty($this->unprotectedRoutes)): ?>
-<div class="card border-warning mb-3 overflow-hidden" id="ims-acl-section-unprotected">
+<div class="card border-warning mb-3 overflow-hidden" id="acl-section-unprotected">
     <div class="card-header d-flex align-items-center gap-2 py-2 bg-transparent border-warning">
         <i class="bi bi-shield-exclamation text-warning"></i>
         <span class="fw-semibold small text-warning">Unprotected Routes</span>
@@ -96,15 +96,15 @@ $filters = $this->routeFilters ?? ['all' => 0, 'unprotected' => 0, 'protected' =
                 $methods,
             )));
             ?>
-            <div class="ims-acl-route-row ims-acl-route-entry"
+            <div class="acl-route-row acl-route-entry"
                  data-status="unprotected"
                  data-route-name="<?= $this->escapeHtmlAttr($routeName) ?>">
-                <span class="ims-acl-route-name"><?= $this->escapeHtml($routeName) ?></span>
+                <span class="acl-route-name"><?= $this->escapeHtml($routeName) ?></span>
                 <?php foreach ($methods as $method): ?>
-                    <span class="ims-acl-method-pill ims-acl-method-<?= $this->escapeHtmlAttr($method) ?>"><?= $this->escapeHtml($method) ?></span>
+                    <span class="acl-method-pill acl-method-<?= $this->escapeHtmlAttr($method) ?>"><?= $this->escapeHtml($method) ?></span>
                 <?php endforeach; ?>
                 <?php foreach ($privs as $priv): ?>
-                    <span class="badge bg-transparent border ims-acl-priv-<?= $this->escapeHtmlAttr($priv) ?> ims-badge-xs"><?= $this->escapeHtml($priv) ?></span>
+                    <span class="badge bg-transparent border acl-priv-<?= $this->escapeHtmlAttr($priv) ?> badge-xs"><?= $this->escapeHtml($priv) ?></span>
                 <?php endforeach; ?>
                 <span class="ms-auto">
                     <button class="btn btn-sm btn-outline-warning py-0 px-2"
@@ -120,7 +120,7 @@ $filters = $this->routeFilters ?? ['all' => 0, 'unprotected' => 0, 'protected' =
     </div>
 </div>
 <?php else: ?>
-<div class="alert alert-success d-flex align-items-center gap-2 mb-3" id="ims-acl-section-unprotected">
+<div class="alert alert-success d-flex align-items-center gap-2 mb-3" id="acl-section-unprotected">
     <i class="bi bi-shield-check-fill text-success"></i>
     <span class="small">All routes are protected.</span>
 </div>
@@ -128,7 +128,7 @@ $filters = $this->routeFilters ?? ['all' => 0, 'unprotected' => 0, 'protected' =
 
 <!-- ── PROTECTED ROUTES ─────────────────────────────────── -->
 <?php if (! empty($this->protectedRoutes)): ?>
-<div class="card border-secondary overflow-hidden" id="ims-acl-section-protected">
+<div class="card border-secondary overflow-hidden" id="acl-section-protected">
     <div class="card-header d-flex align-items-center gap-2 py-2 bg-transparent">
         <i class="bi bi-shield-check text-success"></i>
         <span class="fw-semibold small">Protected Routes</span>
@@ -143,29 +143,29 @@ $filters = $this->routeFilters ?? ['all' => 0, 'unprotected' => 0, 'protected' =
             $roleIds    = $routeData['roles'];
             $hasAssert  = $routeData['hasAssertions'];
             ?>
-            <div class="ims-acl-route-row ims-acl-route-entry"
+            <div class="acl-route-row acl-route-entry"
                  data-status="protected"
                  data-route-name="<?= $this->escapeHtmlAttr($routeName) ?>">
-                <span class="ims-acl-route-name"><?= $this->escapeHtml($routeName) ?></span>
+                <span class="acl-route-name"><?= $this->escapeHtml($routeName) ?></span>
                 <?php foreach ($methods as $method): ?>
-                    <span class="ims-acl-method-pill ims-acl-method-<?= $this->escapeHtmlAttr($method) ?>"><?= $this->escapeHtml($method) ?></span>
+                    <span class="acl-method-pill acl-method-<?= $this->escapeHtmlAttr($method) ?>"><?= $this->escapeHtml($method) ?></span>
                 <?php endforeach; ?>
                 <?php foreach ($privs as $priv): ?>
-                    <span class="badge bg-transparent border ims-acl-priv-<?= $this->escapeHtmlAttr($priv) ?> ims-badge-xs"><?= $this->escapeHtml($priv) ?></span>
+                    <span class="badge bg-transparent border acl-priv-<?= $this->escapeHtmlAttr($priv) ?> badge-xs"><?= $this->escapeHtml($priv) ?></span>
                 <?php endforeach; ?>
                 <?php foreach ($roleIds as $roleId): ?>
-                    <span class="badge bg-primary-subtle border border-primary-subtle text-primary-emphasis ims-badge-xs">
+                    <span class="badge bg-primary-subtle border border-primary-subtle text-primary-emphasis badge-xs">
                         <i class="bi bi-people-fill me-1"></i><?= $this->escapeHtml($roleId) ?>
                     </span>
                 <?php endforeach; ?>
                 <?php if ($hasAssert): ?>
-                    <span class="badge bg-info-subtle border border-info-subtle text-info-emphasis ims-badge-xs">
+                    <span class="badge bg-info-subtle border border-info-subtle text-info-emphasis badge-xs">
                         <i class="bi bi-key me-1"></i>assertion
                     </span>
                 <?php endif; ?>
                 <span class="ms-auto d-flex gap-1">
-                    <button class="btn btn-sm btn-outline-secondary py-0 px-2 ims-acl-rules-offcanvas-trigger"
-                            data-rules-panel="ims-rules-panel-<?= $this->escapeHtmlAttr(str_replace('.', '-', $routeName)) ?>"
+                    <button class="btn btn-sm btn-outline-secondary py-0 px-2 acl-rules-offcanvas-trigger"
+                            data-rules-panel="acl-rules-panel-<?= $this->escapeHtmlAttr(str_replace('.', '-', $routeName)) ?>"
                             data-route-name="<?= $this->escapeHtmlAttr($routeName) ?>"
                             data-methods="<?= $this->escapeHtmlAttr((string) json_encode($methods)) ?>"
                             data-privs="<?= $this->escapeHtmlAttr((string) json_encode($privs)) ?>">
@@ -174,8 +174,8 @@ $filters = $this->routeFilters ?? ['all' => 0, 'unprotected' => 0, 'protected' =
                     </button>
                 </span>
             </div>
-            <div class="ims-acl-rules-panel d-none"
-                 id="ims-rules-panel-<?= $this->escapeHtmlAttr(str_replace('.', '-', $routeName)) ?>"
+            <div class="acl-rules-panel d-none"
+                 id="acl-rules-panel-<?= $this->escapeHtmlAttr(str_replace('.', '-', $routeName)) ?>"
                  aria-hidden="true">
                 <div class="d-flex align-items-center justify-content-end mb-2">
                     <button class="btn btn-sm btn-outline-primary py-0 px-2"
@@ -188,7 +188,7 @@ $filters = $this->routeFilters ?? ['all' => 0, 'unprotected' => 0, 'protected' =
                 </div>
                 <?php if (! empty($routeData['rules'])): ?>
                 <?php $inheritedHeaderShown = false; ?>
-                <table class="table table-sm table-borderless mb-0 ims-acl-rules-table">
+                <table class="table table-sm table-borderless mb-0 acl-rules-table">
                     <thead class="text-secondary small">
                         <tr>
                             <th>Type</th>
@@ -203,20 +203,20 @@ $filters = $this->routeFilters ?? ['all' => 0, 'unprotected' => 0, 'protected' =
                             <?php $isInherited = ! empty($rule['inherited']); ?>
                             <?php if ($isInherited && ! $inheritedHeaderShown): ?>
                                 <?php $inheritedHeaderShown = true; ?>
-                                <tr class="ims-acl-rules-inherited-header">
+                                <tr class="acl-rules-inherited-header">
                                     <td colspan="5" class="py-1 small text-secondary">
                                         <i class="bi bi-diagram-2 me-1"></i>Inherited from
-                                        <code class="ims-badge-xs"><?= $this->escapeHtml($rule['inherited_from']) ?></code>
+                                        <code class="badge-xs"><?= $this->escapeHtml($rule['inherited_from']) ?></code>
                                     </td>
                                 </tr>
                             <?php endif; ?>
-                            <tr class="<?= $isInherited ? 'ims-acl-rule-inherited' : '' ?>">
+                            <tr class="<?= $isInherited ? 'acl-rule-inherited' : '' ?>">
                                 <td class="align-middle">
                                     <?php if ($isInherited): ?>
                                         <?php if ($rule['type'] === 'Allow'): ?>
-                                            <span class="badge bg-success-subtle border border-success-subtle text-success-emphasis ims-badge-xs">allow</span>
+                                            <span class="badge bg-success-subtle border border-success-subtle text-success-emphasis badge-xs">allow</span>
                                         <?php else: ?>
-                                            <span class="badge bg-danger-subtle border border-danger-subtle text-danger-emphasis ims-badge-xs">deny</span>
+                                            <span class="badge bg-danger-subtle border border-danger-subtle text-danger-emphasis badge-xs">deny</span>
                                         <?php endif; ?>
                                     <?php else: ?>
                                         <?php
@@ -227,7 +227,7 @@ $filters = $this->routeFilters ?? ['all' => 0, 'unprotected' => 0, 'protected' =
                                                 : 'bg-danger-subtle border-danger-subtle text-danger-emphasis';
                                         ?>
                                         <button type="button"
-                                                class="btn py-0 px-1 badge border ims-badge-xs ims-acl-rule-type-toggle <?= $toggleClass ?>"
+                                                class="btn py-0 px-1 badge border badge-xs acl-rule-type-toggle <?= $toggleClass ?>"
                                                 hx-patch="<?= $this->adminUrl('acl.manager.rule.update') ?>"
                                                 hx-vals="<?= $this->escapeHtmlAttr($toggleVals) ?>"
                                                 hx-target="main"
@@ -240,11 +240,11 @@ $filters = $this->routeFilters ?? ['all' => 0, 'unprotected' => 0, 'protected' =
                                     <?= $this->escapeHtml($rule['roleId']) ?>
                                 </td>
                                 <td class="align-middle">
-                                    <code class="ims-badge-xs"><?= $this->escapeHtml($rule['resourceId']) ?></code>
+                                    <code class="badge-xs"><?= $this->escapeHtml($rule['resourceId']) ?></code>
                                 </td>
                                 <td class="align-middle">
                                     <?php foreach ($rule['assertions'] as $assertion): ?>
-                                        <span class="badge bg-info-subtle border border-info-subtle text-info-emphasis ims-badge-xs d-inline-block mb-1">
+                                        <span class="badge bg-info-subtle border border-info-subtle text-info-emphasis badge-xs d-inline-block mb-1">
                                             <i class="bi bi-key me-1"></i><?= $this->escapeHtml($assertion) ?>
                                         </span>
                                     <?php endforeach; ?>
@@ -273,23 +273,23 @@ $filters = $this->routeFilters ?? ['all' => 0, 'unprotected' => 0, 'protected' =
     </div>
 </div>
 <?php else: ?>
-<div class="alert alert-secondary d-flex align-items-center gap-2" id="ims-acl-section-protected">
+<div class="alert alert-secondary d-flex align-items-center gap-2" id="acl-section-protected">
     <i class="bi bi-info-circle"></i>
     <span class="small">No routes are protected yet. Use the <strong>Protect</strong> button above to add ACL rules.</span>
 </div>
 <?php endif; ?>
 
 <!-- ── Rules offcanvas ─────────────────────────────────── -->
-<div class="offcanvas offcanvas-end" tabindex="-1" id="ims-acl-rule-offcanvas"
-     aria-labelledby="ims-acl-rule-offcanvas-label">
+<div class="offcanvas offcanvas-end" tabindex="-1" id="acl-rule-offcanvas"
+     aria-labelledby="acl-rule-offcanvas-label">
     <div class="offcanvas-header border-bottom py-2">
-        <h6 class="offcanvas-title fw-semibold mb-0" id="ims-acl-rule-offcanvas-label">
+        <h6 class="offcanvas-title fw-semibold mb-0" id="acl-rule-offcanvas-label">
             <i class="bi bi-shield-check text-success me-1"></i>
-            <span id="ims-acl-offcanvas-route-name" class="font-monospace"></span>
+            <span id="acl-offcanvas-route-name" class="font-monospace"></span>
         </h6>
         <button type="button" class="btn-close ms-2" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
-    <div class="offcanvas-body p-3" id="ims-acl-offcanvas-body">
+    <div class="offcanvas-body p-3" id="acl-offcanvas-body">
     </div>
 </div>
 
@@ -303,3 +303,5 @@ $filters = $this->routeFilters ?? ['all' => 0, 'unprotected' => 0, 'protected' =
     // Protecting a resource = creating a rule, so this now points to rule.create.
     'protectUrl'   => $this->adminUrl('acl.manager.rule.create'),
 ]) ?>
+
+<script src="<?= $this->escapeHtmlAttr($this->asset('acl.js')) ?>"></script>

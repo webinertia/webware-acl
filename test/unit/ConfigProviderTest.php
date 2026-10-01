@@ -222,4 +222,14 @@ final class ConfigProviderTest extends TestCase
         );
         self::assertSame(new ConfigProvider()->getBusConfig(), $config[MessageBusInterface::class]);
     }
+
+    #[Test]
+    public function invokeRegistersTheAclPageScriptForTheDefaultTheme(): void
+    {
+        self::assertSame(
+            ['assets' => ['default' => ['acl.js' => 'component/acl/js/acl.js']]],
+            (new ConfigProvider())()['theme'],
+        );
+        self::assertFileExists(__DIR__ . '/../../assets/default/js/acl.js');
+    }
 }

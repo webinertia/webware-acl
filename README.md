@@ -118,7 +118,9 @@ src/webware-acl/
 │   │   ├── AclRepositoryInterface.php
 │   │   └── AclRepository.php
 │   └── Widget/
-└── templates/acl/
+├── assets/default/js/
+│   └── acl.js                     ← ACL page behaviour; published per theme as component/acl/js/acl.js
+└── templates/default/acl/         ← The default theme's templates (neutral acl-* hooks, no IMS coupling)
     ├── admin-acl.phtml            ← Overview dashboard
     ├── admin-roles.phtml
     ├── admin-resources.phtml
