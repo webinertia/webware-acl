@@ -25,7 +25,7 @@ $this->headTitle('Roles');
     </div>
     <button
         class="btn btn-primary btn-sm"
-        hx-get="<?= $this->escapeHtmlAttr($this->adminUrl('acl.manager.role.add.modal')) ?>"
+        hx-get="<?= $this->escapeHtmlAttr($this->adminUrl('acl.role.add.modal')) ?>"
         hx-target="#sharedModalDialog"
         hx-swap="innerHTML"
         hx-push-url="false"
@@ -76,7 +76,7 @@ $this->headTitle('Roles');
                             <?php else: ?>
                                 <button
                                     class="btn btn-sm btn-outline-secondary py-0 px-2"
-                                    hx-get="<?= $this->escapeHtmlAttr($this->adminUrl('acl.manager.role.edit.modal', ['roleId' => $role->getRoleId()])) ?>"
+                                    hx-get="<?= $this->escapeHtmlAttr($this->adminUrl('acl.role.edit.modal', ['roleId' => $role->getRoleId()])) ?>"
                                     hx-target="#sharedModalDialog"
                                     hx-swap="innerHTML"
                                     hx-push-url="false"

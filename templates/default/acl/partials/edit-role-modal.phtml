@@ -8,8 +8,8 @@
  * @var \Webware\Acl\Entity\Role[]            $roles  All roles (for parent select)
  */
 $currentRoleId = $role?->getRoleId() ?? '';
-$patchUrl      = $this->escapeHtmlAttr($this->adminUrl('acl.manager.role.update', ['roleId' => $currentRoleId]));
-$deleteUrl     = $this->escapeHtmlAttr($this->adminUrl('acl.manager.role.delete', ['roleId' => $currentRoleId]));
+$patchUrl      = $this->escapeHtmlAttr($this->adminUrl('acl.role.update', ['roleId' => $currentRoleId]));
+$deleteUrl     = $this->escapeHtmlAttr($this->adminUrl('acl.role.delete', ['roleId' => $currentRoleId]));
 ?>
 <div class="modal-dialog modal-sm">
 <div class="modal-content">
