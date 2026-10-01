@@ -277,7 +277,7 @@ final class ConfigProvider
     {
         return [
             'paths' => [
-                'acl' => [__DIR__ . '/../templates/acl'],
+                'acl' => [__DIR__ . '/../templates/default/acl'],
             ],
         ];
     }

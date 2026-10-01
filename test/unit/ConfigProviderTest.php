@@ -191,7 +191,7 @@ final class ConfigProviderTest extends TestCase
         self::assertArrayHasKey('acl', $templates['paths']);
         self::assertCount(1, $templates['paths']['acl']);
         self::assertDirectoryExists($templates['paths']['acl'][0]);
-        self::assertStringEndsWith('/templates/acl', $templates['paths']['acl'][0]);
+        self::assertStringEndsWith('/templates/default/acl', $templates['paths']['acl'][0]);
     }
 
     #[Test]
