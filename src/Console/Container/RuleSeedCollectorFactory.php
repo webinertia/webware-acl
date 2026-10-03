@@ -11,19 +11,19 @@ use Webware\Acl\Console\Seed\RuleSeedCollector;
 use Webware\Acl\Container\Configuration;
 use Webware\Admin\Container\Configuration as AdminConfiguration;
 use Webware\Core\Acl\RuleSeedProviderInterface;
-use Webware\Core\Exception\ContainerException;
+use Webware\Core\Exception\ConfigurationException;
 
 use function get_debug_type;
 
 final readonly class RuleSeedCollectorFactory
 {
     /**
-     * @throws ContainerExceptionInterface
+     * @throws ConfigurationException
      */
     private static function provider(mixed $candidate): RuleSeedProviderInterface
     {
         if (! $candidate instanceof RuleSeedProviderInterface) {
-            throw ContainerException::forInvalidConfigType(
+            throw ConfigurationException::forInvalidConfigType(
                 'rule_seed_providers',
                 RuleSeedProviderInterface::class,
                 get_debug_type($candidate),
@@ -35,6 +35,7 @@ final readonly class RuleSeedCollectorFactory
     }
 
     /**
+     * @throws ConfigurationException
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */

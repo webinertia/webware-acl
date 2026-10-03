@@ -11,7 +11,7 @@ use Psr\Container\ContainerInterface;
 use Webware\Acl\AssertionManager;
 use Webware\Acl\Container\Configuration;
 use Webware\Core\AclInterface;
-use Webware\Core\Exception\ContainerException;
+use Webware\Core\Exception\ConfigurationException;
 
 #[CoversClass(Configuration::class)]
 final class ConfigurationTest extends TestCase
@@ -37,7 +37,7 @@ final class ConfigurationTest extends TestCase
     #[Test]
     public function throwsWhenAssertionManagerConfigIsEmpty(): void
     {
-        $this->expectException(ContainerException::class);
+        $this->expectException(ConfigurationException::class);
 
         Configuration::getAssertionManagerConfig(
             $this->containerWith([AssertionManager::class => []]),
@@ -48,7 +48,7 @@ final class ConfigurationTest extends TestCase
     #[Test]
     public function throwsWhenAssertionManagerConfigIsNotAnArray(): void
     {
-        $this->expectException(ContainerException::class);
+        $this->expectException(ConfigurationException::class);
 
         Configuration::getAssertionManagerConfig(
             $this->containerWith([AssertionManager::class => 'nope']),
@@ -59,7 +59,7 @@ final class ConfigurationTest extends TestCase
     #[Test]
     public function throwsWhenAssertionManagerKeyMissing(): void
     {
-        $this->expectException(ContainerException::class);
+        $this->expectException(ConfigurationException::class);
 
         Configuration::getAssertionManagerConfig($this->containerWith([]), 'TestFactory');
     }

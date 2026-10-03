@@ -22,6 +22,7 @@ final readonly class Configuration extends Config
     /**
      * @return array<string, mixed>
      * @throws ContainerExceptionInterface
+     * @throws Exception\ExceptionInterface
      * @throws NotFoundExceptionInterface
      */
     public static function getAssertionManagerConfig(
@@ -32,11 +33,11 @@ final readonly class Configuration extends Config
         $config = $container->get('config');
 
         if (! isset($config[AssertionManager::class])) {
-            throw Exception\ContainerException::forMissingConfigKey(AssertionManager::class, $callingFactory);
+            throw Exception\ConfigurationException::forMissingConfigKey(AssertionManager::class, $callingFactory);
         }
 
         if (! is_array($config[AssertionManager::class]) || [] === $config[AssertionManager::class]) {
-            throw Exception\ContainerException::forInvalidConfigType(
+            throw Exception\ConfigurationException::forInvalidConfigType(
                 AssertionManager::class,
                 'array',
                 get_debug_type($config[AssertionManager::class]),
