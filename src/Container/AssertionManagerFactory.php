@@ -8,11 +8,13 @@ use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Webware\Acl\AssertionManager;
+use Webware\Core\Exception;
 
 final readonly class AssertionManagerFactory
 {
     /**
      * @throws ContainerExceptionInterface
+     * @throws Exception\ExceptionInterface
      * @throws NotFoundExceptionInterface
      */
     public function __invoke(ContainerInterface $container): AssertionManager

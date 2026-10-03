@@ -17,7 +17,7 @@ use Webware\Core\Acl\RuleSeed;
 use Webware\Core\Acl\RuleSeedProviderInterface;
 use Webware\Core\Acl\RuleType;
 use Webware\Core\AclInterface;
-use Webware\Core\Exception\ContainerException;
+use Webware\Core\Exception\ConfigurationException;
 
 #[CoversClass(RuleSeedCollectorFactory::class)]
 #[CoversMethod(RuleSeedCollectorFactory::class, '__invoke')]
@@ -34,7 +34,7 @@ final class RuleSeedCollectorFactoryTest extends TestCase
     #[Test]
     public function invokeRejectsAPublishedServiceThatIsNotAProvider(): void
     {
-        $this->expectException(ContainerException::class);
+        $this->expectException(ConfigurationException::class);
 
         (new RuleSeedCollectorFactory())($this->container(
             providers: ['not.a.provider'],
