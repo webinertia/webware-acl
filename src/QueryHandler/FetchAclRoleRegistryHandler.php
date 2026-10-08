@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Webware\Acl\QueryHandler;
 
 use Laminas\Permissions\Acl\Exception\ExceptionInterface as AclException;
+use PhpDb\Exception\ExceptionInterface as PhpDbException;
 use Webware\Acl\Query\FetchAclRoleRegistryQuery;
 use Webware\Acl\Repository\RoleRepository;
 use Webware\MessageBus\MessageStatus;
@@ -19,6 +20,7 @@ final readonly class FetchAclRoleRegistryHandler implements QueryHandlerInterfac
 
     /**
      * @throws AclException
+     * @throws PhpDbException
      */
     public function handle(FetchAclRoleRegistryQuery $query): QueryResult
     {

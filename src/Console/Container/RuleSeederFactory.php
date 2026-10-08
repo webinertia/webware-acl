@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Webware\Acl\Console\Container;
 
 use PhpDb\Adapter\AdapterInterface;
+use PhpDb\Exception\ExceptionInterface as PhpDbException;
 use PhpDb\Metadata\MetadataInterface;
 use PhpDb\SchemaFactory;
-use PhpDb\Sql\Exception\ExceptionInterface as SqlException;
 use Psl\Type\Exception\ExceptionInterface as PslTypeException;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
@@ -21,7 +21,7 @@ final readonly class RuleSeederFactory
     /**
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
-     * @throws SqlException
+     * @throws PhpDbException
      * @throws PslTypeException
      */
     public function __invoke(ContainerInterface $container): RuleSeeder

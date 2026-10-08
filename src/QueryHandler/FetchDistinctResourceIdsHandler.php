@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Webware\Acl\QueryHandler;
 
-use PhpDb\Sql\Exception\ExceptionInterface as SqlException;
+use PhpDb\Exception\ExceptionInterface as PhpDbException;
 use PhpDb\Sql\Select;
 use PhpDb\TableGateway\TableGateway;
 use Webware\Acl\Query\FetchDistinctResourceIdsQuery;
@@ -19,7 +19,7 @@ final readonly class FetchDistinctResourceIdsHandler implements QueryHandlerInte
     ) {}
 
     /**
-     * @throws SqlException
+     * @throws PhpDbException
      */
     public function handle(FetchDistinctResourceIdsQuery $query): QueryResult
     {

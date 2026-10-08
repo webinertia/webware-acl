@@ -5,10 +5,9 @@ declare(strict_types=1);
 namespace Webware\Acl\Repository\Container;
 
 use PhpDb\Adapter\AdapterInterface;
+use PhpDb\Exception\ExceptionInterface as PhpDbException;
 use PhpDb\ResultSet\RowPrototypeResultSet;
 use PhpDb\SchemaFactory;
-use PhpDb\Sql\Exception\ExceptionInterface as SqlException;
-use PhpDb\TableGateway\Exception\ExceptionInterface as TableGatewayException;
 use PhpDb\TableGateway\TableGateway;
 use Psl\Type\Exception\ExceptionInterface as PslTypeException;
 use Psr\Container\ContainerExceptionInterface;
@@ -23,8 +22,7 @@ final class RuleRepositoryFactory
     /**
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
-     * @throws SqlException
-     * @throws TableGatewayException
+     * @throws PhpDbException
      * @throws PslTypeException
      */
     public function __invoke(ContainerInterface $container): RuleRepository

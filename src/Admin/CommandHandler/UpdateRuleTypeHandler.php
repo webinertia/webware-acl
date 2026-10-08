@@ -14,7 +14,7 @@ declare(strict_types=1);
 
 namespace Webware\Acl\Admin\CommandHandler;
 
-use PhpDb\Sql\Exception\ExceptionInterface as SqlException;
+use PhpDb\Exception\ExceptionInterface as PhpDbException;
 use Throwable;
 use Webware\Acl\Admin\Command\UpdateRuleTypeCommand;
 use Webware\Acl\Repository\RoleRepository;
@@ -32,7 +32,7 @@ final class UpdateRuleTypeHandler implements CommandHandlerInterface
     ) {}
 
     /**
-     * @throws SqlException
+     * @throws PhpDbException
      */
     public function handle(UpdateRuleTypeCommand $command): CommandResultInterface
     {

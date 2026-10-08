@@ -6,8 +6,7 @@ namespace Webware\Acl\Console\Seed;
 
 use JsonException;
 use Mezzio\Router\RouteCollectorInterface;
-use PhpDb\Adapter\Exception\ExceptionInterface as AdapterException;
-use PhpDb\Sql\Exception\ExceptionInterface as SqlException;
+use PhpDb\Exception\ExceptionInterface as PhpDbException;
 
 /**
  * Collects every provider's seeds and writes them against the registered routes.
@@ -24,8 +23,7 @@ final readonly class SeedRunner
 
     /**
      * @throws JsonException
-     * @throws SqlException
-     * @throws AdapterException
+     * @throws PhpDbException
      */
     public function run(): SeedResult
     {

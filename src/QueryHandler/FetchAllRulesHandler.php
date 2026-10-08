@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Webware\Acl\QueryHandler;
 
+use PhpDb\Exception\ExceptionInterface as PhpDbException;
 use PhpDb\TableGateway\TableGateway;
 use Webware\Acl\Query\FetchAllRulesQuery;
 use Webware\MessageBus\MessageStatus;
@@ -26,6 +27,9 @@ final readonly class FetchAllRulesHandler implements QueryHandlerInterface
         private TableGateway $gateway,
     ) {}
 
+    /**
+     * @throws PhpDbException
+     */
     public function handle(FetchAllRulesQuery $query): QueryResult
     {
         $rules  = [];
