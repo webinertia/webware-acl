@@ -29,6 +29,9 @@ use Webware\Acl\Console\Seed\RuleSeedCollector;
 use Webware\Acl\Console\Seed\RuleSeeder;
 use Webware\Acl\Console\Seed\SeedRunner;
 use Webware\Acl\Console\SeedCommand;
+use Webware\Acl\Http\Admin\Middleware\AddRoleModalMiddleware;
+use Webware\Acl\Http\Admin\Middleware\EditRoleModalMiddleware;
+use Webware\Acl\Http\Admin\Middleware\RoleListMiddleware;
 use Webware\Acl\Http\RequestHandler\ForbiddenHandler;
 use Webware\Acl\Http\RequestHandler\ForbiddenHandlerInterface;
 use Webware\Acl\Http\RouteResourceFactory;
@@ -130,7 +133,10 @@ final class ConfigProviderTest extends TestCase
             ],
             $deps['aliases'],
         );
-        self::assertCount(35, $deps['factories']);
+        self::assertCount(38, $deps['factories']);
+        self::assertArrayHasKey(RoleListMiddleware::class, $deps['factories']);
+        self::assertArrayHasKey(AddRoleModalMiddleware::class, $deps['factories']);
+        self::assertArrayHasKey(EditRoleModalMiddleware::class, $deps['factories']);
         self::assertArrayHasKey(RoleRepository::class, $deps['factories']);
         self::assertArrayHasKey(RuleRepository::class, $deps['factories']);
         self::assertArrayHasKey(InitDBCommand::class, $deps['factories']);

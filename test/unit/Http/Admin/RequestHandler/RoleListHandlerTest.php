@@ -9,17 +9,15 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ServerRequestInterface;
+use Webware\Acl\Http\Admin\Middleware\RoleListMiddleware;
 use Webware\Acl\Http\Admin\RequestHandler\RoleListHandler;
 use Webware\MessageBus\Command\CommandResult;
 use Webware\MessageBus\Command\CommandResultInterface;
 use Webware\MessageBus\MessageStatus;
-use WebwareTest\Acl\Support\PhpDbAdapterMockTrait;
 
 #[CoversClass(RoleListHandler::class)]
 final class RoleListHandlerTest extends TestCase
 {
-    use PhpDbAdapterMockTrait;
-
     #[Test]
     public function handleAddsCloseModalTriggerOnSuccess(): void
     {
@@ -37,14 +35,13 @@ final class RoleListHandlerTest extends TestCase
                     : $default,
             );
 
-        $roleRepo = $this->createQueryBus($this->createAdapter([[]]));
-        $response = new RoleListHandler($template, $roleRepo)->handle($request);
+        $response = new RoleListHandler($template)->handle($request);
 
         self::assertSame('{"closeModal":null}', $response->getHeaderLine('HX-Trigger'));
     }
 
     #[Test]
-    public function handleComputesRolesWithChildrenAndRenders(): void
+    public function handleRendersTheAttachedViewModel(): void
     {
         [$name, $params] = [null, null];
         $template = $this->createStub(TemplateRendererInterface::class);
@@ -58,16 +55,17 @@ final class RoleListHandlerTest extends TestCase
                 },
             );
 
-        $roleRepo = $this->createQueryBus($this->createAdapter([
-            [
-                ['id' => 1, 'roleId' => 'Admin', 'parentId' => null],
-                ['id' => 2, 'roleId' => 'Manager', 'parentId' => '["Admin"]'],
-            ],
-        ]));
+        $viewModel = ['roles' => [], 'rolesWithChildren' => ['Admin' => true]];
 
-        $response = new RoleListHandler($template, $roleRepo)->handle(
-            $this->createStub(ServerRequestInterface::class),
-        );
+        $request = $this->createStub(ServerRequestInterface::class);
+        $request->method('getAttribute')
+            ->willReturnCallback(
+                static fn(string $attribute, mixed $default = null): mixed => RoleListMiddleware::class === $attribute
+                    ? $viewModel
+                    : $default,
+            );
+
+        $response = new RoleListHandler($template)->handle($request);
 
         self::assertSame('<main>roles</main>', (string) $response->getBody());
         self::assertSame('acl::admin-roles', $name);

@@ -9,7 +9,6 @@ use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Webware\Acl\Http\Admin\RequestHandler\EditRoleModalHandler;
-use Webware\MessageBus\MessageBusInterface;
 
 final class EditRoleModalHandlerFactory
 {
@@ -21,7 +20,6 @@ final class EditRoleModalHandlerFactory
     {
         return new EditRoleModalHandler(
             $container->get(TemplateRendererInterface::class),
-            $container->get(MessageBusInterface::class),
         );
     }
 }

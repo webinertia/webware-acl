@@ -10,9 +10,12 @@ use Mezzio\MiddlewareFactoryInterface;
 use Mezzio\Router\RouteCollectorInterface;
 use Mezzio\Router\RouteProviderInterface;
 use Override;
+use Webware\Acl\Http\Admin\Middleware\AddRoleModalMiddleware;
+use Webware\Acl\Http\Admin\Middleware\EditRoleModalMiddleware;
 use Webware\Acl\Http\Admin\Middleware\OverviewMiddleware;
 use Webware\Acl\Http\Admin\Middleware\ProcessRoleMiddleware;
 use Webware\Acl\Http\Admin\Middleware\ProcessRuleMiddleware;
+use Webware\Acl\Http\Admin\Middleware\RoleListMiddleware;
 use Webware\Acl\Http\Admin\RequestHandler\AclOverviewHandler;
 use Webware\Acl\Http\Admin\RequestHandler\AddRoleModalHandler;
 use Webware\Acl\Http\Admin\RequestHandler\DeleteRuleModalHandler;
@@ -96,6 +99,7 @@ final readonly class RouteProvider implements RouteProviderInterface
             "/{$this->adminRouteSegment}/roles",
             $middlewareFactory->prepare(
                 [
+                    RoleListMiddleware::class,
                     RoleListHandler::class,
                 ],
             ),
@@ -190,6 +194,7 @@ final readonly class RouteProvider implements RouteProviderInterface
                 [
                     ProcessRoleMiddleware::class,
                     NotificationMiddleware::class,
+                    RoleListMiddleware::class,
                     RoleListHandler::class,
                 ],
             ),
@@ -201,6 +206,7 @@ final readonly class RouteProvider implements RouteProviderInterface
             $middlewareFactory->prepare(
                 [
                     DisableBodyMiddleware::class,
+                    AddRoleModalMiddleware::class,
                     AddRoleModalHandler::class,
                 ],
             ),
@@ -212,6 +218,7 @@ final readonly class RouteProvider implements RouteProviderInterface
             $middlewareFactory->prepare(
                 [
                     DisableBodyMiddleware::class,
+                    EditRoleModalMiddleware::class,
                     EditRoleModalHandler::class,
                 ],
             ),
@@ -225,6 +232,7 @@ final readonly class RouteProvider implements RouteProviderInterface
                     BodyParamsMiddleware::class,
                     ProcessRoleMiddleware::class,
                     NotificationMiddleware::class,
+                    RoleListMiddleware::class,
                     RoleListHandler::class,
                 ],
             ),
@@ -237,6 +245,7 @@ final readonly class RouteProvider implements RouteProviderInterface
                 [
                     ProcessRoleMiddleware::class,
                     NotificationMiddleware::class,
+                    RoleListMiddleware::class,
                     RoleListHandler::class,
                 ],
             ),

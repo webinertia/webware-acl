@@ -11,14 +11,10 @@ use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 use Webware\Acl\Http\Admin\RequestHandler\Container\EditRoleModalHandlerFactory;
 use Webware\Acl\Http\Admin\RequestHandler\EditRoleModalHandler;
-use Webware\MessageBus\MessageBusInterface;
-use WebwareTest\Acl\Support\PhpDbAdapterMockTrait;
 
 #[CoversClass(EditRoleModalHandlerFactory::class)]
 final class EditRoleModalHandlerFactoryTest extends TestCase
 {
-    use PhpDbAdapterMockTrait;
-
     #[Test]
     public function invokeBuildsHandler(): void
     {
@@ -26,7 +22,6 @@ final class EditRoleModalHandlerFactoryTest extends TestCase
         $container->method('get')
             ->willReturnMap([
                 [TemplateRendererInterface::class, $this->createStub(TemplateRendererInterface::class)],
-                [MessageBusInterface::class, $this->createQueryBus($this->createAdapter([]))],
             ]);
 
         self::assertInstanceOf(EditRoleModalHandler::class, (new EditRoleModalHandlerFactory())($container));

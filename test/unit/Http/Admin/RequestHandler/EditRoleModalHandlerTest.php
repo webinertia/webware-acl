@@ -9,14 +9,13 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ServerRequestInterface;
+use Webware\Acl\Entity\Role;
+use Webware\Acl\Http\Admin\Middleware\EditRoleModalMiddleware;
 use Webware\Acl\Http\Admin\RequestHandler\EditRoleModalHandler;
-use WebwareTest\Acl\Support\PhpDbAdapterMockTrait;
 
 #[CoversClass(EditRoleModalHandler::class)]
 final class EditRoleModalHandlerTest extends TestCase
 {
-    use PhpDbAdapterMockTrait;
-
     #[Test]
     public function handleFindsTheRequestedRoleAndRendersModal(): void
     {
@@ -32,22 +31,35 @@ final class EditRoleModalHandlerTest extends TestCase
                 },
             );
 
-        $roleRepo = $this->createQueryBus($this->createAdapter([
-            [
-                ['id' => 1, 'roleId' => 'Admin', 'parentId' => null],
-                ['id' => 2, 'roleId' => 'Manager', 'parentId' => '["Admin"]'],
+        $viewModel = [
+            'role'  => new Role(
+                id      : 2,
+                roleId  : 'Manager',
+                parentId: '["Admin"]',
+            ),
+            'roles' => [
+                new Role(
+                    id    : 1,
+                    roleId: 'Admin',
+                ),
+                new Role(
+                    id      : 2,
+                    roleId  : 'Manager',
+                    parentId: '["Admin"]',
+                ),
             ],
-        ]));
+        ];
 
         $request = $this->createStub(ServerRequestInterface::class);
         $request->method('getAttribute')
             ->willReturnCallback(
-                static fn(string $attribute, mixed $default = null): mixed => 'roleId' === $attribute
-                    ? 'Manager'
-                    : $default,
+                static fn(string $attribute, mixed $default = null): mixed => EditRoleModalMiddleware::class
+                    === $attribute
+                        ? $viewModel
+                        : $default,
             );
 
-        $response = new EditRoleModalHandler($template, $roleRepo)->handle($request);
+        $response = new EditRoleModalHandler($template)->handle($request);
 
         self::assertSame('<div>modal</div>', (string) $response->getBody());
         self::assertSame('acl::partials/edit-role-modal', $name);
@@ -71,19 +83,23 @@ final class EditRoleModalHandlerTest extends TestCase
                 },
             );
 
-        $roleRepo = $this->createQueryBus($this->createAdapter([
-            [['id' => 1, 'roleId' => 'Admin', 'parentId' => null]],
-        ]));
-
         $request = $this->createStub(ServerRequestInterface::class);
         $request->method('getAttribute')
             ->willReturnCallback(
-                static fn(string $attribute, mixed $default = null): mixed => 'roleId' === $attribute
-                    ? 'Missing'
-                    : $default,
+                static fn(string $attribute, mixed $default = null): mixed => (
+                    EditRoleModalMiddleware::class === $attribute
+                        ? [
+                            'role'  => null,
+                            'roles' => [new Role(
+                                id    : 1,
+                                roleId: 'Admin',
+                            )],
+                        ]
+                        : $default
+                ),
             );
 
-        new EditRoleModalHandler($template, $roleRepo)->handle($request);
+        new EditRoleModalHandler($template)->handle($request);
 
         self::assertNull($params['role']);
     }

@@ -11,14 +11,10 @@ use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 use Webware\Acl\Http\Admin\RequestHandler\Container\RoleListHandlerFactory;
 use Webware\Acl\Http\Admin\RequestHandler\RoleListHandler;
-use Webware\MessageBus\MessageBusInterface;
-use WebwareTest\Acl\Support\PhpDbAdapterMockTrait;
 
 #[CoversClass(RoleListHandlerFactory::class)]
 final class RoleListHandlerFactoryTest extends TestCase
 {
-    use PhpDbAdapterMockTrait;
-
     #[Test]
     public function invokeBuildsHandler(): void
     {
@@ -26,7 +22,6 @@ final class RoleListHandlerFactoryTest extends TestCase
         $container->method('get')
             ->willReturnMap([
                 [TemplateRendererInterface::class, $this->createStub(TemplateRendererInterface::class)],
-                [MessageBusInterface::class, $this->createQueryBus($this->createAdapter([]))],
             ]);
 
         self::assertInstanceOf(RoleListHandler::class, (new RoleListHandlerFactory())($container));

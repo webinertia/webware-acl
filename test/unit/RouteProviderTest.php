@@ -14,9 +14,12 @@ use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Server\MiddlewareInterface;
+use Webware\Acl\Http\Admin\Middleware\AddRoleModalMiddleware;
+use Webware\Acl\Http\Admin\Middleware\EditRoleModalMiddleware;
 use Webware\Acl\Http\Admin\Middleware\OverviewMiddleware;
 use Webware\Acl\Http\Admin\Middleware\ProcessRoleMiddleware;
 use Webware\Acl\Http\Admin\Middleware\ProcessRuleMiddleware;
+use Webware\Acl\Http\Admin\Middleware\RoleListMiddleware;
 use Webware\Acl\Http\Admin\RequestHandler\AclOverviewHandler;
 use Webware\Acl\Http\Admin\RequestHandler\AddRoleModalHandler;
 use Webware\Acl\Http\Admin\RequestHandler\DeleteRuleModalHandler;
@@ -88,7 +91,7 @@ final class RouteProviderTest extends TestCase
         self::assertSame(
             [
                 [OverviewMiddleware::class, AclOverviewHandler::class],
-                [RoleListHandler::class],
+                [RoleListMiddleware::class, RoleListHandler::class],
                 [
                     ProcessRuleMiddleware::class,
                     NotificationMiddleware::class,
@@ -112,19 +115,22 @@ final class RouteProviderTest extends TestCase
                 [
                     ProcessRoleMiddleware::class,
                     NotificationMiddleware::class,
+                    RoleListMiddleware::class,
                     RoleListHandler::class,
                 ],
-                [DisableBodyMiddleware::class, AddRoleModalHandler::class],
-                [DisableBodyMiddleware::class, EditRoleModalHandler::class],
+                [DisableBodyMiddleware::class, AddRoleModalMiddleware::class, AddRoleModalHandler::class],
+                [DisableBodyMiddleware::class, EditRoleModalMiddleware::class, EditRoleModalHandler::class],
                 [
                     BodyParamsMiddleware::class,
                     ProcessRoleMiddleware::class,
                     NotificationMiddleware::class,
+                    RoleListMiddleware::class,
                     RoleListHandler::class,
                 ],
                 [
                     ProcessRoleMiddleware::class,
                     NotificationMiddleware::class,
+                    RoleListMiddleware::class,
                     RoleListHandler::class,
                 ],
             ],
