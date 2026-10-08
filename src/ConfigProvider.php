@@ -177,7 +177,7 @@ final class ConfigProvider
             'forbidden_redirect'  => '/',
             'forbidden_template'  => null,
             'rule_seed_providers' => [
-                Acl\RuleSeeds::class,
+                RuleSeeds::class,
             ],
         ];
     }
@@ -229,7 +229,7 @@ final class ConfigProvider
                 SeedRunner::class                          => SeedRunnerFactory::class,
                 RuleSeeder::class                          => RuleSeederFactory::class,
                 RuleSeedCollector::class                   => RuleSeedCollectorFactory::class,
-                Acl\RuleSeeds::class                       => InvokableFactory::class,
+                RuleSeeds::class                           => InvokableFactory::class,
             ],
         ];
     }

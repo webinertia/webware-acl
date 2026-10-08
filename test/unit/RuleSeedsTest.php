@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace WebwareTest\Acl\Acl;
+namespace WebwareTest\Acl;
 
 use Mezzio\MiddlewareFactoryInterface;
 use Mezzio\Router\Route;
@@ -12,9 +12,9 @@ use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Server\MiddlewareInterface;
-use Webware\Acl\Acl\RuleSeeds;
 use Webware\Acl\Container\Configuration;
 use Webware\Acl\RouteProvider;
+use Webware\Acl\RuleSeeds;
 use Webware\Core\Acl\RuleSeed;
 use Webware\Core\Acl\RuleType;
 use Webware\Core\Role;
