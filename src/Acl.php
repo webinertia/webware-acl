@@ -11,7 +11,7 @@ use Laminas\Permissions\Acl\Role\Registry;
 use Laminas\Permissions\Acl\Role\RoleInterface;
 use Mezzio\Router\RouteCollectorInterface;
 use Override;
-use PhpDb\Sql\Exception\ExceptionInterface as SqlException;
+use PhpDb\Exception\ExceptionInterface as PhpDbException;
 use ValueError;
 use Webware\Acl\Admin\Command\SaveRoleCommand;
 use Webware\Acl\Assertion\AssertionAggregateFactory;
@@ -107,7 +107,7 @@ final class Acl extends LaminasAcl implements AclInterface
 
     /**
      * @throws ExceptionInterface
-     * @throws SqlException
+     * @throws PhpDbException
      * @throws ValueError
      */
     #[Override]
@@ -134,7 +134,7 @@ final class Acl extends LaminasAcl implements AclInterface
 
     /**
      * @throws ExceptionInterface
-     * @throws SqlException
+     * @throws PhpDbException
      * @throws ValueError
      */
     #[Override]
@@ -162,7 +162,7 @@ final class Acl extends LaminasAcl implements AclInterface
 
     /**
      * @throws ExceptionInterface
-     * @throws SqlException
+     * @throws PhpDbException
      * @throws ValueError
      */
     private function load(): void

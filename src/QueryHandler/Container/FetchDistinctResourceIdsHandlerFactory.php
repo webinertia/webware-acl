@@ -5,10 +5,9 @@ declare(strict_types=1);
 namespace Webware\Acl\QueryHandler\Container;
 
 use PhpDb\Adapter\AdapterInterface;
+use PhpDb\Exception\ExceptionInterface as PhpDbException;
 use PhpDb\ResultSet\ArrayResultSet;
 use PhpDb\SchemaFactory;
-use PhpDb\Sql\Exception\ExceptionInterface as SqlException;
-use PhpDb\TableGateway\Exception\ExceptionInterface as TableGatewayException;
 use PhpDb\TableGateway\TableGateway;
 use Psl\Type\Exception\ExceptionInterface as PslTypeException;
 use Psr\Container\ContainerExceptionInterface;
@@ -22,8 +21,7 @@ final readonly class FetchDistinctResourceIdsHandlerFactory
     /**
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
-     * @throws SqlException
-     * @throws TableGatewayException
+     * @throws PhpDbException
      * @throws PslTypeException
      */
     public function __invoke(ContainerInterface $container): FetchDistinctResourceIdsHandler

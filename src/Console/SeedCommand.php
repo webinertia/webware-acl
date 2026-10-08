@@ -6,8 +6,7 @@ namespace Webware\Acl\Console;
 
 use JsonException;
 use Override;
-use PhpDb\Adapter\Exception\ExceptionInterface as AdapterException;
-use PhpDb\Sql\Exception\ExceptionInterface as SqlException;
+use PhpDb\Exception\ExceptionInterface as PhpDbException;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Exception\LogicException as ConsoleLogicException;
@@ -32,8 +31,7 @@ final class SeedCommand extends Command
 
     /**
      * @throws JsonException
-     * @throws SqlException
-     * @throws AdapterException
+     * @throws PhpDbException
      */
     #[Override]
     protected function execute(InputInterface $input, OutputInterface $output): int

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Webware\Acl\Acl;
+namespace Webware\Acl;
 
 use Override;
 use Webware\Acl\Container\Configuration;

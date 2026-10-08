@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Webware\Acl\QueryHandler;
 
+use PhpDb\Exception\ExceptionInterface as PhpDbException;
 use Webware\Acl\Query\FetchAllRolesQuery;
 use Webware\Acl\Repository\RoleRepository;
 use Webware\MessageBus\MessageStatus;
@@ -16,6 +17,9 @@ final readonly class FetchAllRolesHandler implements QueryHandlerInterface
         private RoleRepository $roleRepository,
     ) {}
 
+    /**
+     * @throws PhpDbException
+     */
     public function handle(FetchAllRolesQuery $query): QueryResult
     {
         return new QueryResult($query, MessageStatus::Success, $this->roleRepository->fetchAll());

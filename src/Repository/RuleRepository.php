@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Webware\Acl\Repository;
 
-use PhpDb\Sql\Exception\ExceptionInterface as SqlException;
+use PhpDb\Exception\ExceptionInterface as PhpDbException;
 use PhpDb\TableGateway\TableGateway;
 use Webware\Acl\Entity\Rule;
 use Webware\Core\Acl\RuleType;
@@ -19,6 +19,8 @@ final class RuleRepository
 
     /**
      * Delete the rule for the given (roleId, resourceId) pair.
+     *
+     * @throws PhpDbException
      */
     public function delete(string $roleId, string $resourceId): bool
     {
@@ -28,7 +30,7 @@ final class RuleRepository
     /**
      * Returns true when a rule already exists for the given (roleId, resourceId) pair.
      *
-     * @throws SqlException
+     * @throws PhpDbException
      */
     public function hasRule(string $roleId, string $resourceId): bool
     {
@@ -47,7 +49,7 @@ final class RuleRepository
      * $this->allow(Role, Resource, Privilege, Assertions) in the ACL corresponds to save(RuleType::Allow, Role, Resource, Assertions) here.;
      *
      * @param string[] $assertions
-     * @throws SqlException
+     * @throws PhpDbException
      */
     public function save(
         RuleType $type,
@@ -106,7 +108,7 @@ final class RuleRepository
     /**
      * Update only the type column for a specific (roleId, resourceId) pair.
      *
-     * @throws SqlException
+     * @throws PhpDbException
      */
     public function updateType(string $roleId, string $resourceId, RuleType $newType): bool
     {

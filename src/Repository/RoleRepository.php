@@ -6,7 +6,7 @@ namespace Webware\Acl\Repository;
 
 use Laminas\Permissions\Acl\Exception\ExceptionInterface as AclException;
 use Laminas\Permissions\Acl\Role\Registry;
-use PhpDb\Sql\Exception\ExceptionInterface as SqlException;
+use PhpDb\Exception\ExceptionInterface as PhpDbException;
 use PhpDb\TableGateway\TableGateway;
 use Webware\Acl\Entity\Role;
 
@@ -19,6 +19,9 @@ final class RoleRepository
         private readonly TableGateway $gateway,
     ) {}
 
+    /**
+     * @throws PhpDbException
+     */
     public function delete(string $roleId): void
     {
         $this->gateway->delete(['roleId' => $roleId]);
@@ -26,6 +29,7 @@ final class RoleRepository
 
     /**
      * @throws AclException
+     * @throws PhpDbException
      */
     public function fetchAclRoleRegistry(): Registry
     {
@@ -80,10 +84,13 @@ final class RoleRepository
 
     /**
      * @return Role[]
+     *
+     * @throws PhpDbException
      */
     public function fetchAll(): array
     {
         $roles = [];
+        /** @var Role $role */
         foreach ($this->gateway->select() as $role) {
             $roles[] = $role;
         }
@@ -95,6 +102,8 @@ final class RoleRepository
      * Returns all role_ids whose parent_id JSON array contains the given roleId.
      *
      * @return string[]
+     *
+     * @throws PhpDbException
      */
     public function fetchDirectChildren(string $roleId): array
     {
@@ -113,15 +122,15 @@ final class RoleRepository
     /**
      * Removes the given roleId from the parentId JSON array of any role that lists it as a parent.
      *
-     * @throws SqlException
+     * @throws PhpDbException
      */
     public function removeFromParents(string $roleId): void
     {
         $select = $this->gateway->getSql()->select()->columns(['id', 'parentId']);
         $select->where->expression('JSON_CONTAINS(parentId, JSON_QUOTE(?))', [$roleId]);
 
+        /** @var Role $role */
         foreach ($this->gateway->selectWith($select) as $role) {
-            /** @var Role $role */
             $parents = [];
             foreach ($role->getParentId() ?? [] as $parent) {
                 /** @var Role $parent */
@@ -139,7 +148,7 @@ final class RoleRepository
      * Insert or update a role. parentId is JSON-encoded inside this method.
      *
      * @param string[]|null $parents
-     * @throws SqlException
+     * @throws PhpDbException
      */
     public function save(string $roleId, ?array $parents): int|string|false
     {

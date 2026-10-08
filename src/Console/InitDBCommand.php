@@ -7,10 +7,9 @@ namespace Webware\Acl\Console;
 use JsonException;
 use Override;
 use PhpDb\Adapter\AdapterInterface;
-use PhpDb\Adapter\Exception\ExceptionInterface as AdapterException;
+use PhpDb\Exception\ExceptionInterface as PhpDbException;
 use PhpDb\Sql\Ddl\CreateTable;
 use PhpDb\Sql\Ddl\DropTable;
-use PhpDb\Sql\Exception\ExceptionInterface as SqlException;
 use PhpDb\Sql\Exception\InvalidArgumentException as SqlInvalidArgumentException;
 use PhpDb\Sql\InsertIgnore;
 use PhpDb\Sql\Sql;
@@ -61,10 +60,9 @@ final class InitDBCommand extends Command
     }
 
     /**
-     * @throws AdapterException
      * @throws ConsoleInvalidArgumentException
      * @throws JsonException
-     * @throws SqlException
+     * @throws PhpDbException
      * @throws SqlInvalidArgumentException
      */
     #[Override]

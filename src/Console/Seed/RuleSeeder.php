@@ -6,9 +6,8 @@ namespace Webware\Acl\Console\Seed;
 
 use JsonException;
 use PhpDb\Adapter\AdapterInterface;
-use PhpDb\Adapter\Exception\ExceptionInterface as AdapterException;
+use PhpDb\Exception\ExceptionInterface as PhpDbException;
 use PhpDb\Metadata\MetadataInterface;
-use PhpDb\Sql\Exception\ExceptionInterface as SqlException;
 use PhpDb\Sql\InsertIgnore;
 use PhpDb\Sql\Sql;
 use PhpDb\Sql\TableIdentifier;
@@ -84,8 +83,7 @@ final readonly class RuleSeeder
      * @param list<string>   $routeNames the registered route names the seeds are checked against
      *
      * @throws JsonException If an assertion list cannot be encoded.
-     * @throws SqlException If a statement cannot be built.
-     * @throws AdapterException If a statement cannot be executed.
+     * @throws PhpDbException If a statement cannot be built or executed.
      */
     public function seed(array $ruleSeeds, array $routeNames): SeedResult
     {
@@ -116,8 +114,7 @@ final readonly class RuleSeeder
 
     /**
      * @throws JsonException
-     * @throws SqlException
-     * @throws AdapterException
+     * @throws PhpDbException
      */
     private function write(Sql $sql, RuleSeed $ruleSeed): void
     {

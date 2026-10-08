@@ -10,11 +10,11 @@ use PhpDb\Adapter\AdapterInterface;
 use PhpDb\Mysql\Metadata\Source;
 use PhpDb\Sql\TableIdentifier;
 use Psr\Http\Server\MiddlewareInterface;
-use Webware\Acl\Acl\RuleSeeds;
 use Webware\Acl\Console\Seed\RuleSeedCollector;
 use Webware\Acl\Console\Seed\RuleSeeder;
 use Webware\Acl\Console\Seed\RuleSeedValidator;
 use Webware\Acl\Console\Seed\SeedRunner;
+use Webware\Acl\RuleSeeds;
 
 /**
  * A real seeding stack over a live adapter.
