@@ -308,26 +308,8 @@ count = 1
 
 [[issues]]
 file = "src/Http/Admin/RequestHandler/RoleListHandler.php"
-code = "mixed-assignment"
-message = "Assigning `mixed` type to a variable may lead to unexpected behavior."
-count = 1
-
-[[issues]]
-file = "src/Http/Admin/RequestHandler/RoleListHandler.php"
-code = "mixed-method-access"
-message = "Attempting to access a method on a non-object type (`mixed`)."
-count = 1
-
-[[issues]]
-file = "src/Http/Admin/RequestHandler/RoleListHandler.php"
 code = "possibly-false-argument"
 message = 'Argument #2 of method `Laminas\Diactoros\MessageTrait::withHeader` is possibly `false`, but parameter type `array<array-key, string>|string` does not accept it.'
-count = 1
-
-[[issues]]
-file = "src/Http/Admin/RequestHandler/RoleListHandler.php"
-code = "possibly-invalid-iterator"
-message = 'The expression provided to `foreach` (type `array<array-key, Laminas\Permissions\Acl\Role\RoleInterface|string>|string`) might not be iterable at runtime.'
 count = 1
 
 [[issues]]

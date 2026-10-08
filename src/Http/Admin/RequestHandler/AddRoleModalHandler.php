@@ -22,11 +22,14 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Webware\Acl\Entity\Role;
-use Webware\Acl\Query\FetchAllRolesQuery;
-use Webware\MessageBus\MessageBusInterface;
+use Webware\Acl\Http\Admin\Middleware\AddRoleModalMiddleware;
 
 /**
- * Returns an HTML fragment containing the add-role modal content.
+ * Renders the add-role modal from the view model AddRoleModalMiddleware
+ * attached.
+ *
+ * Render-only: the roles are assembled by the middleware that runs ahead of this
+ * handler in the pipeline.
  *
  * Intended for HTMX GET requests only. The response is swapped into
  * #sharedModalDialog, then the caller shows #sharedModal.
@@ -35,7 +38,6 @@ final class AddRoleModalHandler implements RequestHandlerInterface
 {
     public function __construct(
         private readonly TemplateRendererInterface $template,
-        private readonly MessageBusInterface $messageBus,
     ) {}
 
     /**
@@ -44,11 +46,11 @@ final class AddRoleModalHandler implements RequestHandlerInterface
     #[Override]
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
-        /** @var Role[] $roles */
-        $roles = $this->messageBus->handle(new FetchAllRolesQuery())->getResult();
+        /** @var array{roles: Role[]} $viewModel */
+        $viewModel = $request->getAttribute(AddRoleModalMiddleware::class, ['roles' => []]);
 
         return new HtmlResponse($this->template->render('acl::partials/add-role-modal', [
-            'roles'  => $roles,
+            'roles'  => $viewModel['roles'],
             'layout' => false,
             'body'   => false,
         ]));

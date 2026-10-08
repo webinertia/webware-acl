@@ -9,14 +9,13 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ServerRequestInterface;
+use Webware\Acl\Entity\Role;
+use Webware\Acl\Http\Admin\Middleware\AddRoleModalMiddleware;
 use Webware\Acl\Http\Admin\RequestHandler\AddRoleModalHandler;
-use WebwareTest\Acl\Support\PhpDbAdapterMockTrait;
 
 #[CoversClass(AddRoleModalHandler::class)]
 final class AddRoleModalHandlerTest extends TestCase
 {
-    use PhpDbAdapterMockTrait;
-
     #[Test]
     public function handleRendersModalWithAllRoles(): void
     {
@@ -32,13 +31,20 @@ final class AddRoleModalHandlerTest extends TestCase
                 },
             );
 
-        $roleRepo = $this->createQueryBus($this->createAdapter([
-            [['id' => 1, 'roleId' => 'Admin', 'parentId' => null]],
-        ]));
+        $request = $this->createStub(ServerRequestInterface::class);
+        $request->method('getAttribute')
+            ->willReturnCallback(
+                static fn(string $attribute, mixed $default = null): mixed => (
+                    AddRoleModalMiddleware::class === $attribute
+                        ? ['roles' => [new Role(
+                            id    : 1,
+                            roleId: 'Admin',
+                        )]]
+                        : $default
+                ),
+            );
 
-        $response = new AddRoleModalHandler($template, $roleRepo)->handle(
-            $this->createStub(ServerRequestInterface::class),
-        );
+        $response = new AddRoleModalHandler($template)->handle($request);
 
         self::assertSame('<div>modal</div>', (string) $response->getBody());
         self::assertSame('acl::partials/add-role-modal', $name);

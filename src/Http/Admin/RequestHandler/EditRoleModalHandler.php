@@ -22,13 +22,14 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Webware\Acl\Entity\Role;
-use Webware\Acl\Query\FetchAllRolesQuery;
-use Webware\MessageBus\MessageBusInterface;
-
-use function array_find;
+use Webware\Acl\Http\Admin\Middleware\EditRoleModalMiddleware;
 
 /**
- * Returns an HTML fragment containing the edit-role modal content.
+ * Renders the edit-role modal from the view model EditRoleModalMiddleware
+ * attached.
+ *
+ * Render-only: the roles and the role being edited are assembled by the
+ * middleware that runs ahead of this handler in the pipeline.
  *
  * Intended for HTMX GET requests only. The response is swapped into
  * #sharedModalDialog, then the caller shows #sharedModal.
@@ -37,7 +38,6 @@ final class EditRoleModalHandler implements RequestHandlerInterface
 {
     public function __construct(
         private readonly TemplateRendererInterface $template,
-        private readonly MessageBusInterface $messageBus,
     ) {}
 
     /**
@@ -46,17 +46,12 @@ final class EditRoleModalHandler implements RequestHandlerInterface
     #[Override]
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
-        /** @var string $roleId */
-        $roleId = $request->getAttribute('roleId', '');
-        /** @var Role[] $roles */
-        $roles = $this->messageBus->handle(new FetchAllRolesQuery())->getResult();
-
-        // Find the role being edited so we can pre-populate the form
-        $role = array_find($roles, static fn(Role $r): bool => $r->getRoleId() === $roleId);
+        /** @var array{role: ?Role, roles: Role[]} $viewModel */
+        $viewModel = $request->getAttribute(EditRoleModalMiddleware::class, ['role' => null, 'roles' => []]);
 
         return new HtmlResponse($this->template->render('acl::partials/edit-role-modal', [
-            'role'   => $role,
-            'roles'  => $roles,
+            'role'   => $viewModel['role'],
+            'roles'  => $viewModel['roles'],
             'layout' => false,
             'body'   => false,
         ]));

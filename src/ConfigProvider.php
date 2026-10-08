@@ -36,12 +36,18 @@ use Webware\Acl\Console\Seed\SeedRunner;
 use Webware\Acl\Console\SeedCommand;
 use Webware\Acl\Container\AclFactory;
 use Webware\Acl\Container\RouteProviderFactory;
+use Webware\Acl\Http\Admin\Middleware\AddRoleModalMiddleware;
+use Webware\Acl\Http\Admin\Middleware\Container\AddRoleModalMiddlewareFactory;
+use Webware\Acl\Http\Admin\Middleware\Container\EditRoleModalMiddlewareFactory;
 use Webware\Acl\Http\Admin\Middleware\Container\OverviewMiddlewareFactory;
 use Webware\Acl\Http\Admin\Middleware\Container\ProcessRoleMiddlewareFactory;
 use Webware\Acl\Http\Admin\Middleware\Container\ProcessRuleMiddlewareFactory;
+use Webware\Acl\Http\Admin\Middleware\Container\RoleListMiddlewareFactory;
+use Webware\Acl\Http\Admin\Middleware\EditRoleModalMiddleware;
 use Webware\Acl\Http\Admin\Middleware\OverviewMiddleware;
 use Webware\Acl\Http\Admin\Middleware\ProcessRoleMiddleware;
 use Webware\Acl\Http\Admin\Middleware\ProcessRuleMiddleware;
+use Webware\Acl\Http\Admin\Middleware\RoleListMiddleware;
 use Webware\Acl\Http\Admin\RequestHandler\AclOverviewHandler;
 use Webware\Acl\Http\Admin\RequestHandler\AddRoleModalHandler;
 use Webware\Acl\Http\Admin\RequestHandler\Container\AclOverviewHandlerFactory;
@@ -200,6 +206,9 @@ final class ConfigProvider
                 AssertionManager::class                    => Container\AssertionManagerFactory::class,
                 RouteResourceFactory::class                => RouteResourceFactoryFactory::class,
                 OverviewMiddleware::class                  => OverviewMiddlewareFactory::class,
+                RoleListMiddleware::class                  => RoleListMiddlewareFactory::class,
+                AddRoleModalMiddleware::class              => AddRoleModalMiddlewareFactory::class,
+                EditRoleModalMiddleware::class             => EditRoleModalMiddlewareFactory::class,
                 ForbiddenHandler::class                    => ForbiddenHandlerFactory::class,
                 AclOverviewHandler::class                  => AclOverviewHandlerFactory::class,
                 DeleteRuleModalHandler::class              => DeleteRuleModalHandlerFactory::class,
