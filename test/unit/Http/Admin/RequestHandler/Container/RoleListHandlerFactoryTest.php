@@ -24,6 +24,6 @@ final class RoleListHandlerFactoryTest extends TestCase
                 [TemplateRendererInterface::class, $this->createStub(TemplateRendererInterface::class)],
             ]);
 
-        self::assertInstanceOf(RoleListHandler::class, (new RoleListHandlerFactory())($container));
+        self::assertInstanceOf(RoleListHandler::class, new RoleListHandlerFactory()($container));
     }
 }

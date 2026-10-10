@@ -25,6 +25,6 @@ final class AssertionAggregateFactoryFactoryTest extends TestCase
                 [AssertionManager::class, new AssertionManager(new ServiceManager())],
             ]);
 
-        self::assertInstanceOf(AssertionAggregateFactory::class, (new AssertionAggregateFactoryFactory())($container));
+        self::assertInstanceOf(AssertionAggregateFactory::class, new AssertionAggregateFactoryFactory()($container));
     }
 }

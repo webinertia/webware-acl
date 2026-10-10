@@ -26,7 +26,7 @@ final class RuleSeedCollectorFactoryTest extends TestCase
     #[Test]
     public function invokeCollectsNothingWhenNoProviderIsPublished(): void
     {
-        $collector = (new RuleSeedCollectorFactory())($this->container(providers: null));
+        $collector = new RuleSeedCollectorFactory()($this->container(providers: null));
 
         self::assertSame([], $collector->collect());
     }
@@ -36,7 +36,7 @@ final class RuleSeedCollectorFactoryTest extends TestCase
     {
         $this->expectException(ConfigurationException::class);
 
-        (new RuleSeedCollectorFactory())($this->container(
+        new RuleSeedCollectorFactory()($this->container(
             providers: ['not.a.provider'],
             services: ['not.a.provider' => new stdClass()],
         ));
@@ -53,7 +53,7 @@ final class RuleSeedCollectorFactoryTest extends TestCase
         $provider = $this->createMock(RuleSeedProviderInterface::class);
         $provider->expects($this->once())->method('ruleSeeds')->with('admin')->willReturn([$seed]);
 
-        $collector = (new RuleSeedCollectorFactory())($this->container(
+        $collector = new RuleSeedCollectorFactory()($this->container(
             providers: ['provider.one'],
             services: ['provider.one' => $provider],
         ));

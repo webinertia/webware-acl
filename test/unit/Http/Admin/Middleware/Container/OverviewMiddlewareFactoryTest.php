@@ -32,6 +32,6 @@ final class OverviewMiddlewareFactoryTest extends TestCase
                 [AssertionManager::class, new AssertionManager(new ServiceManager())],
             ]);
 
-        self::assertInstanceOf(OverviewMiddleware::class, (new OverviewMiddlewareFactory())($container));
+        self::assertInstanceOf(OverviewMiddleware::class, new OverviewMiddlewareFactory()($container));
     }
 }

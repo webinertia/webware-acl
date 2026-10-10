@@ -49,12 +49,10 @@ final class RouteResource implements RouteResourceInterface
                 ?? 'ownerId';
 
         return (int) (
-
-                $this->routeResult->getMatchedParams()[$paramName]
-                ?? $this->request->getQueryParams()[$paramName]
-                ?? $this->request->getAttribute($paramName)
-                ?? 0
-
+            $this->routeResult->getMatchedParams()[$paramName]
+            ?? $this->request->getQueryParams()[$paramName]
+            ?? $this->request->getAttribute($paramName)
+            ?? 0
         );
     }
 

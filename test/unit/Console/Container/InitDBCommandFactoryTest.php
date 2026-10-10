@@ -29,6 +29,6 @@ final class InitDBCommandFactoryTest extends TestCase
                 [SeedRunner::class, $this->seedRunner()],
             ]);
 
-        self::assertInstanceOf(InitDBCommand::class, (new InitDBCommandFactory())($container));
+        self::assertInstanceOf(InitDBCommand::class, new InitDBCommandFactory()($container));
     }
 }

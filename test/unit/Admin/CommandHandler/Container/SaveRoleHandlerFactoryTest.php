@@ -27,6 +27,6 @@ final class SaveRoleHandlerFactoryTest extends TestCase
                 [RoleRepository::class, $this->createRoleRepository($this->createAdapter([]))],
             ]);
 
-        self::assertInstanceOf(SaveRoleHandler::class, (new SaveRoleHandlerFactory())($container));
+        self::assertInstanceOf(SaveRoleHandler::class, new SaveRoleHandlerFactory()($container));
     }
 }

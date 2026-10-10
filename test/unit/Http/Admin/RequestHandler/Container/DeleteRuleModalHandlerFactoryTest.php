@@ -24,6 +24,6 @@ final class DeleteRuleModalHandlerFactoryTest extends TestCase
                 [TemplateRendererInterface::class, $this->createStub(TemplateRendererInterface::class)],
             ]);
 
-        self::assertInstanceOf(DeleteRuleModalHandler::class, (new DeleteRuleModalHandlerFactory())($container));
+        self::assertInstanceOf(DeleteRuleModalHandler::class, new DeleteRuleModalHandlerFactory()($container));
     }
 }

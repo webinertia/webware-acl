@@ -27,7 +27,7 @@ final class ResourceListHandlerFactoryTest extends TestCase
                 [TemplateRendererInterface::class, $this->createStub(TemplateRendererInterface::class)],
             ]);
 
-        $handler = (new ResourceListHandlerFactory())($container);
+        $handler = new ResourceListHandlerFactory()($container);
 
         self::assertInstanceOf(ResourceListHandler::class, $handler);
         self::assertSame(

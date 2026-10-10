@@ -19,7 +19,7 @@ final class RouteProviderFactoryTest extends TestCase
     #[Test]
     public function invokeCombinesAdminAndModuleRouteSegments(): void
     {
-        $provider = (new RouteProviderFactory())($this->container([]));
+        $provider = new RouteProviderFactory()($this->container([]));
 
         self::assertSame('admin/acl', $this->readProperty($provider, 'adminRouteSegment'));
         self::assertSame('admin.acl.', $this->readProperty($provider, 'adminRouteNamePrefix'));
@@ -28,7 +28,7 @@ final class RouteProviderFactoryTest extends TestCase
     #[Test]
     public function invokeFollowsAConfiguredAdminNamespace(): void
     {
-        $provider = (new RouteProviderFactory())($this->container([
+        $provider = new RouteProviderFactory()($this->container([
             AdminConfiguration::ADMIN_NAME_KEY => 'control-panel',
         ]));
 

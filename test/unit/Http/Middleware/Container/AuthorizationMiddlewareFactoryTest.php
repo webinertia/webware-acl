@@ -33,6 +33,6 @@ final class AuthorizationMiddlewareFactoryTest extends TestCase
                 [RouteResourceFactoryInterface::class, $this->createStub(RouteResourceFactoryInterface::class)],
             ]);
 
-        self::assertInstanceOf(AuthorizationMiddleware::class, (new AuthorizationMiddlewareFactory())($container));
+        self::assertInstanceOf(AuthorizationMiddleware::class, new AuthorizationMiddlewareFactory()($container));
     }
 }

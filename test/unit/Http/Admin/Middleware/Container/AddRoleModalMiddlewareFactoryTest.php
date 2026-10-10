@@ -27,6 +27,6 @@ final class AddRoleModalMiddlewareFactoryTest extends TestCase
                 [MessageBusInterface::class, $this->createQueryBus($this->createAdapter([]))],
             ]);
 
-        self::assertInstanceOf(AddRoleModalMiddleware::class, (new AddRoleModalMiddlewareFactory())($container));
+        self::assertInstanceOf(AddRoleModalMiddleware::class, new AddRoleModalMiddlewareFactory()($container));
     }
 }

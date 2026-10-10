@@ -27,6 +27,6 @@ final class FetchAllRolesHandlerFactoryTest extends TestCase
                 [RoleRepository::class, $this->createRoleRepository($this->createAdapter([]))],
             ]);
 
-        self::assertInstanceOf(FetchAllRolesHandler::class, (new FetchAllRolesHandlerFactory())($container));
+        self::assertInstanceOf(FetchAllRolesHandler::class, new FetchAllRolesHandlerFactory()($container));
     }
 }

@@ -24,6 +24,6 @@ final class MessageHandlerMiddlewareFactoryTest extends TestCase
                 [AclInterface::class, $this->createStub(AclInterface::class)],
             ]);
 
-        self::assertInstanceOf(MessageHandlerMiddleware::class, (new MessageHandlerMiddlewareFactory())($container));
+        self::assertInstanceOf(MessageHandlerMiddleware::class, new MessageHandlerMiddlewareFactory()($container));
     }
 }

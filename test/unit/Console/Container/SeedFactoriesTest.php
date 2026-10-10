@@ -36,7 +36,7 @@ final class SeedFactoriesTest extends TestCase
         $container = $this->createStub(ContainerInterface::class);
         $container->method('get')->willReturnMap([[SeedRunner::class, $this->seedRunner()]]);
 
-        self::assertInstanceOf(SeedCommand::class, (new SeedCommandFactory())($container));
+        self::assertInstanceOf(SeedCommand::class, new SeedCommandFactory()($container));
     }
 
     #[Test]
@@ -58,6 +58,6 @@ final class SeedFactoriesTest extends TestCase
                 [RouteCollectorInterface::class, $this->createStub(RouteCollectorInterface::class)],
             ]);
 
-        self::assertInstanceOf(SeedRunner::class, (new SeedRunnerFactory())($container));
+        self::assertInstanceOf(SeedRunner::class, new SeedRunnerFactory()($container));
     }
 }

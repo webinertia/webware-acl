@@ -24,6 +24,6 @@ final class AclMiddlewareFactoryTest extends TestCase
                 [AclInterface::class, $this->createStub(AclInterface::class)],
             ]);
 
-        self::assertInstanceOf(AclMiddleware::class, (new AclMiddlewareFactory())($container));
+        self::assertInstanceOf(AclMiddleware::class, new AclMiddlewareFactory()($container));
     }
 }

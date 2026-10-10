@@ -24,6 +24,6 @@ final class AclOverviewHandlerFactoryTest extends TestCase
                 [TemplateRendererInterface::class, $this->createStub(TemplateRendererInterface::class)],
             ]);
 
-        self::assertInstanceOf(AclOverviewHandler::class, (new AclOverviewHandlerFactory())($container));
+        self::assertInstanceOf(AclOverviewHandler::class, new AclOverviewHandlerFactory()($container));
     }
 }

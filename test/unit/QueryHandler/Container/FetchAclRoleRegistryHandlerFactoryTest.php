@@ -29,7 +29,7 @@ final class FetchAclRoleRegistryHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(
             FetchAclRoleRegistryHandler::class,
-            (new FetchAclRoleRegistryHandlerFactory())($container),
+            new FetchAclRoleRegistryHandlerFactory()($container),
         );
     }
 }

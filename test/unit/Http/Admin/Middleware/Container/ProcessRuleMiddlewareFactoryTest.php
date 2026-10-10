@@ -24,6 +24,6 @@ final class ProcessRuleMiddlewareFactoryTest extends TestCase
                 [MessageBusInterface::class, $this->createStub(MessageBusInterface::class)],
             ]);
 
-        self::assertInstanceOf(ProcessRuleMiddleware::class, (new ProcessRuleMiddlewareFactory())($container));
+        self::assertInstanceOf(ProcessRuleMiddleware::class, new ProcessRuleMiddlewareFactory()($container));
     }
 }
