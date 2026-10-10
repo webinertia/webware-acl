@@ -33,7 +33,7 @@ final class ForbiddenHandlerFactoryTest extends TestCase
                 ],
             ]);
 
-        $handler = (new ForbiddenHandlerFactory())($container);
+        $handler = new ForbiddenHandlerFactory()($container);
 
         self::assertSame(
             '/signin',
@@ -51,7 +51,7 @@ final class ForbiddenHandlerFactoryTest extends TestCase
         $container = $this->createStub(ContainerInterface::class);
         $container->method('get')->willReturnMap([['config', []]]);
 
-        $handler = (new ForbiddenHandlerFactory())($container);
+        $handler = new ForbiddenHandlerFactory()($container);
 
         self::assertInstanceOf(ForbiddenHandler::class, $handler);
         self::assertSame(

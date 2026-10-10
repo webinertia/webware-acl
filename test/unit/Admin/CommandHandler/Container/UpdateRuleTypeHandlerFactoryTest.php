@@ -30,6 +30,6 @@ final class UpdateRuleTypeHandlerFactoryTest extends TestCase
                 [RoleRepository::class, $this->createRoleRepository($adapter)],
             ]);
 
-        self::assertInstanceOf(UpdateRuleTypeHandler::class, (new UpdateRuleTypeHandlerFactory())($container));
+        self::assertInstanceOf(UpdateRuleTypeHandler::class, new UpdateRuleTypeHandlerFactory()($container));
     }
 }

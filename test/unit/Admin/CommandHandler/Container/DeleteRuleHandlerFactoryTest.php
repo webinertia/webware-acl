@@ -27,6 +27,6 @@ final class DeleteRuleHandlerFactoryTest extends TestCase
                 [RuleRepository::class, $this->createRuleRepository($this->createAdapter([]))],
             ]);
 
-        self::assertInstanceOf(DeleteRuleHandler::class, (new DeleteRuleHandlerFactory())($container));
+        self::assertInstanceOf(DeleteRuleHandler::class, new DeleteRuleHandlerFactory()($container));
     }
 }

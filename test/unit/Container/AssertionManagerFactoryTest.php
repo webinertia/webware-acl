@@ -32,6 +32,6 @@ final class AssertionManagerFactoryTest extends TestCase
                 ],
             ]);
 
-        self::assertInstanceOf(AssertionManager::class, (new AssertionManagerFactory())($container));
+        self::assertInstanceOf(AssertionManager::class, new AssertionManagerFactory()($container));
     }
 }

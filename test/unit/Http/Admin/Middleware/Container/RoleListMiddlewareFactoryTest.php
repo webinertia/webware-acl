@@ -27,6 +27,6 @@ final class RoleListMiddlewareFactoryTest extends TestCase
                 [MessageBusInterface::class, $this->createQueryBus($this->createAdapter([]))],
             ]);
 
-        self::assertInstanceOf(RoleListMiddleware::class, (new RoleListMiddlewareFactory())($container));
+        self::assertInstanceOf(RoleListMiddleware::class, new RoleListMiddlewareFactory()($container));
     }
 }

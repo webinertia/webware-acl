@@ -21,7 +21,7 @@ final class RouteResourceFactoryFactoryTest extends TestCase
         $container = $this->createStub(ContainerInterface::class);
         $container->method('get')->willReturnMap([['config', []]]);
 
-        self::assertInstanceOf(RouteResourceFactory::class, (new RouteResourceFactoryFactory())($container));
+        self::assertInstanceOf(RouteResourceFactory::class, new RouteResourceFactoryFactory()($container));
     }
 
     #[Test]
@@ -36,6 +36,6 @@ final class RouteResourceFactoryFactoryTest extends TestCase
                 ],
             ]);
 
-        self::assertInstanceOf(RouteResourceFactory::class, (new RouteResourceFactoryFactory())($container));
+        self::assertInstanceOf(RouteResourceFactory::class, new RouteResourceFactoryFactory()($container));
     }
 }

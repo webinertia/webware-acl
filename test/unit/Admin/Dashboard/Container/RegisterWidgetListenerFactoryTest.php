@@ -20,7 +20,7 @@ final class RegisterWidgetListenerFactoryTest extends TestCase
     #[Test]
     public function invokeBuildsListener(): void
     {
-        $listener = (new RegisterWidgetListenerFactory())($this->container(['acl_config' => true]));
+        $listener = new RegisterWidgetListenerFactory()($this->container(['acl_config' => true]));
 
         self::assertInstanceOf(RegisterWidgetListener::class, $listener);
         self::assertSame('admin.acl', $this->property($listener, 'resourceId'));
@@ -30,7 +30,7 @@ final class RegisterWidgetListenerFactoryTest extends TestCase
     #[Test]
     public function theResourceIdFollowsAConfiguredAdminNamespace(): void
     {
-        $listener = (new RegisterWidgetListenerFactory())($this->container([], 'control-panel'));
+        $listener = new RegisterWidgetListenerFactory()($this->container([], 'control-panel'));
 
         self::assertSame('control-panel.acl', $this->property($listener, 'resourceId'));
     }

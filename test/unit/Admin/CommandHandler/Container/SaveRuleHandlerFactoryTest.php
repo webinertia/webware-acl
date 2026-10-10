@@ -30,6 +30,6 @@ final class SaveRuleHandlerFactoryTest extends TestCase
                 [RoleRepository::class, $this->createRoleRepository($adapter)],
             ]);
 
-        self::assertInstanceOf(SaveRuleHandler::class, (new SaveRuleHandlerFactory())($container));
+        self::assertInstanceOf(SaveRuleHandler::class, new SaveRuleHandlerFactory()($container));
     }
 }

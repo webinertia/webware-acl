@@ -212,7 +212,7 @@ final class ConfigProviderTest extends TestCase
     #[Test]
     public function invokeMergesAllConfigSections(): void
     {
-        $config = (new ConfigProvider())();
+        $config = new ConfigProvider()();
 
         self::assertSame(new ConfigProvider()->getDependencies(), $config['dependencies']);
         self::assertSame(new ConfigProvider()->getInputFilterConfig(), $config['input_filters']);
@@ -234,7 +234,7 @@ final class ConfigProviderTest extends TestCase
     {
         self::assertSame(
             ['assets' => ['default' => ['acl.js' => 'component/acl/js/acl.js']]],
-            (new ConfigProvider())()['theme'],
+            new ConfigProvider()()['theme'],
         );
         self::assertFileExists(__DIR__ . '/../../assets/default/js/acl.js');
     }

@@ -33,7 +33,7 @@ final class RuleSeederFactoryTest extends TestCase
                 [MetadataInterface::class, $metadata],
             ]);
 
-        $seeder = (new RuleSeederFactory())($container);
+        $seeder = new RuleSeederFactory()($container);
 
         self::assertInstanceOf(RuleSeeder::class, $seeder);
         self::assertTrue($seeder->ruleTableExists());

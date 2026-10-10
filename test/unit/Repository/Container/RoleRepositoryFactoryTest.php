@@ -29,6 +29,6 @@ final class RoleRepositoryFactoryTest extends TestCase
                 [AdapterInterface::class, $this->createAdapter([])],
             ]);
 
-        self::assertInstanceOf(RoleRepository::class, (new RoleRepositoryFactory())($container));
+        self::assertInstanceOf(RoleRepository::class, new RoleRepositoryFactory()($container));
     }
 }

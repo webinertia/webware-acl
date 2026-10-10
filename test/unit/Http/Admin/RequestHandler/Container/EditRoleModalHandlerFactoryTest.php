@@ -24,6 +24,6 @@ final class EditRoleModalHandlerFactoryTest extends TestCase
                 [TemplateRendererInterface::class, $this->createStub(TemplateRendererInterface::class)],
             ]);
 
-        self::assertInstanceOf(EditRoleModalHandler::class, (new EditRoleModalHandlerFactory())($container));
+        self::assertInstanceOf(EditRoleModalHandler::class, new EditRoleModalHandlerFactory()($container));
     }
 }

@@ -27,7 +27,7 @@ final class AssertionFactoryTest extends TestCase
 
         self::assertInstanceOf(
             Assertion::class,
-            (new AssertionFactory())($container, Assertion::class, ['nullable' => true]),
+            new AssertionFactory()($container, Assertion::class, ['nullable' => true]),
         );
     }
 }

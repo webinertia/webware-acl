@@ -29,6 +29,6 @@ final class RuleRepositoryFactoryTest extends TestCase
                 [AdapterInterface::class, $this->createAdapter([])],
             ]);
 
-        self::assertInstanceOf(RuleRepository::class, (new RuleRepositoryFactory())($container));
+        self::assertInstanceOf(RuleRepository::class, new RuleRepositoryFactory()($container));
     }
 }

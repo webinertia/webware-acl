@@ -31,7 +31,7 @@ final class FetchDistinctResourceIdsHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(
             FetchDistinctResourceIdsHandler::class,
-            (new FetchDistinctResourceIdsHandlerFactory())($container),
+            new FetchDistinctResourceIdsHandlerFactory()($container),
         );
     }
 }

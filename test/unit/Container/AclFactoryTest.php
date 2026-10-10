@@ -37,6 +37,6 @@ final class AclFactoryTest extends TestCase
                 [RouteCollectorInterface::class, $this->createStub(RouteCollectorInterface::class)],
             ]);
 
-        self::assertInstanceOf(Acl::class, (new AclFactory())($container));
+        self::assertInstanceOf(Acl::class, new AclFactory()($container));
     }
 }

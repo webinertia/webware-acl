@@ -219,7 +219,7 @@ final class RuleSeederIntegrationTest extends TestCase
         $container = new ServiceManager();
         $container->configure(new PhpDbConfigProvider()->getDependencies());
         $container->configure(new Mysql\ConfigProvider()->getDependencies());
-        $container->configure((new WebwareProvider())()['dependencies']);
+        $container->configure(new WebwareProvider()()['dependencies']);
         $container->setService('config', [
             AdapterInterface::class => [
                 'driver'     => Mysql\Pdo\Driver::class,

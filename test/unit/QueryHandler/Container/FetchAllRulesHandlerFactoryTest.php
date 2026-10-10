@@ -29,6 +29,6 @@ final class FetchAllRulesHandlerFactoryTest extends TestCase
                 [AdapterInterface::class, $this->createAdapter([])],
             ]);
 
-        self::assertInstanceOf(FetchAllRulesHandler::class, (new FetchAllRulesHandlerFactory())($container));
+        self::assertInstanceOf(FetchAllRulesHandler::class, new FetchAllRulesHandlerFactory()($container));
     }
 }

@@ -24,6 +24,6 @@ final class AddRoleModalHandlerFactoryTest extends TestCase
                 [TemplateRendererInterface::class, $this->createStub(TemplateRendererInterface::class)],
             ]);
 
-        self::assertInstanceOf(AddRoleModalHandler::class, (new AddRoleModalHandlerFactory())($container));
+        self::assertInstanceOf(AddRoleModalHandler::class, new AddRoleModalHandlerFactory()($container));
     }
 }

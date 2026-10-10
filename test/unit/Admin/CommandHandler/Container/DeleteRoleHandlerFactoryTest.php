@@ -27,6 +27,6 @@ final class DeleteRoleHandlerFactoryTest extends TestCase
                 [RoleRepository::class, $this->createRoleRepository($this->createAdapter([]))],
             ]);
 
-        self::assertInstanceOf(DeleteRoleHandler::class, (new DeleteRoleHandlerFactory())($container));
+        self::assertInstanceOf(DeleteRoleHandler::class, new DeleteRoleHandlerFactory()($container));
     }
 }

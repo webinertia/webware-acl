@@ -26,6 +26,6 @@ final class RuleDataFilterFactoryTest extends TestCase
                 [InputFilter\Factory::class, $factory],
             ]);
 
-        self::assertInstanceOf(RuleDataFilter::class, (new RuleDataFilterFactory())($container));
+        self::assertInstanceOf(RuleDataFilter::class, new RuleDataFilterFactory()($container));
     }
 }
