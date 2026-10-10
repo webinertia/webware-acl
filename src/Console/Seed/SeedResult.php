@@ -11,7 +11,7 @@ namespace Webware\Acl\Console\Seed;
  * package that owns the DDL, and a seeding command must be able to warn and
  * carry on when it runs before that package's schema exists.
  *
- * `$violations` are integrity problems found *before* anything was written —
+ * `$violations` are integrity problems found *before* anything was written -
  * a resource that answers to no registered route, a parent that resolves to
  * nothing, two providers claiming the same role and resource with different
  * values. Each of these is fatal later, at ACL load time, when the information

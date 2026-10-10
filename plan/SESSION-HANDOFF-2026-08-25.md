@@ -1,4 +1,4 @@
-# Webware ACL Refactor — Session Handoff (2026-08-25)
+# Webware ACL Refactor: Session Handoff (2026-08-25)
 
 > Written so the work can be resumed from WSL. Read this first; it is the
 > authoritative "where we are" snapshot.
@@ -25,14 +25,14 @@
 | Phase 2 (Http namespace moves) TASK-005/006 | ✅ done (2026-08-27, PR #20) |
 | Phase 3 (MessageBus changes) TASK-007/008/009 | ✅ done (2026-08-28, PR #24) |
 | Phase 4 (migrations/CLI) TASK-010 | ⬜ blocked (IMS WSL branch) |
-| Bug fixes #13–#18 | ✅ done (2026-08-28) |
+| Bug fixes #13 - #18 | ✅ done (2026-08-28) |
 
 ### TASK-003 results (committed in `9229b8a`)
 - Unit: **244 tests / 471 assertions**, integration: **11 tests / 58 assertions**, 0 skips.
-- Line coverage (unit suite, 2026-08-28) **100% (1241/1241)** — LINE COVERAGE GATE MET.
+- Line coverage (unit suite, 2026-08-28) **100% (1241/1241)**: LINE COVERAGE GATE MET.
   - Dead code removed: `SingleRoleUserProxy::$id` set hook; `OverviewMiddleware` null/empty-name guard +
     `normalizeRouteList()` flat branch; `Container\CommandHandlerMiddlewareFactory` DELETED.
-  - Bug-blocked (5): RESOLVED — `Validator\Assertion` (issue #15) + `Entity\Rule::resolveType()` (issue #17) covered.
+  - Bug-blocked (5): RESOLVED - `Validator\Assertion` (issue #15) + `Entity\Rule::resolveType()` (issue #17) covered.
   - `ProcessRoleMiddleware` invalid-input branch now unit-covered (`processPostSkipsDispatchOnInvalidInput()`).
 - Test helpers: `test/unit/Support/PhpDbAdapterMockTrait.php`, `test/unit/Support/InputFilterHelper.php`,
   `test/integration/Support/FilterManagerFactory.php`.
@@ -55,13 +55,13 @@ The circular dep: `webware-acl` required `webware-usermanager` (for `UserInterfa
   `AclInterface extends LaminasAclInterface` (`isAllowedRoute(?UserInterface, ResourceInterface)`).
 - Therefore `laminas/laminas-permissions-acl` is a **runtime `require`** of webware-core (NOT require-dev).
 - `laminas/laminas-permissions-acl` ALSO stays a direct `require` of webware-acl (its `Acl` extends
-  `Laminas\Permissions\Acl\Acl` directly — implementation dep, not a contract).
+  `Laminas\Permissions\Acl\Acl` directly - implementation dep, not a contract).
 - core + acl must bump laminas-permissions-acl in lockstep.
 
 ### Cross-repo ordering
-1. webware-core: add `UserInterface` + `AclInterface` (DONE — on core `0.1.x`).
-2. webware-usermanager: repoint refs, remove acl dep (DONE — tracked in webware-usermanager#5).
-3. webware-acl: repoint refs, remove usermanager dep (IN PROGRESS — this repo).
+1. webware-core: add `UserInterface` + `AclInterface` (DONE - on core `0.1.x`).
+2. webware-usermanager: repoint refs, remove acl dep (DONE - tracked in webware-usermanager#5).
+3. webware-acl: repoint refs, remove usermanager dep (IN PROGRESS - this repo).
 
 ### What was done in webware-acl (uncommitted)
 - Deleted `src/AclInterface.php` (moved to core).
@@ -110,33 +110,33 @@ has the new webware-core `c36534f`, but the **host's** `vendor/` / autoloader do
 host vendor picks up webware-core `c36534f` (with `Webware\Core\UserInterface` + `AclInterface`).
 
 ### Also verify after the above
-- `mago format --check` — clean (already applied `mago format`; 76 files).
-- `mago lint` — should be clean once 3a is fixed (baseline was regenerated).
-- `mago analyze` — should be clean once 3b is fixed.
-- `composer test` + `composer test-integration` — already green in container (244/471, 11/58).
+- `mago format --check` - clean (already applied `mago format`; 76 files).
+- `mago lint` - should be clean once 3a is fixed (baseline was regenerated).
+- `mago analyze` - should be clean once 3b is fixed.
+- `composer test` + `composer test-integration` - already green in container (244/471, 11/58).
 
 ---
 
 ## 4. Remaining roadmap (after CI is green)
 
-1. ~~**Line coverage → 100%**~~ — DONE (2026-08-28): dead code removed, `ProcessRoleMiddleware` invalid-input branch unit-tested.
-2. ~~**Mutation coverage**~~ — DONE (2026-08-28): 100% MSI + 100% MCC (0 escaped, 0 timeouts).
-3. ~~**TASK-004**: Mago Guard rules for the new layout.~~ — DONE (2026-08-28, PR #24).
-4. ~~**Phase 2**: namespace moves (TASK-005/006).~~ — DONE (2026-08-27, PR #20).
-5. ~~**Phase 3**: MessageBus read migration + unwiring (TASK-007/008/009).~~ — DONE (2026-08-28, PR #24).
-6. ~~**Bug fixes** #13–#18 (post-refactor, separate effort)~~ — DONE (2026-08-28).
+1. ~~**Line coverage → 100%**~~ - DONE (2026-08-28): dead code removed, `ProcessRoleMiddleware` invalid-input branch unit-tested.
+2. ~~**Mutation coverage**~~ - DONE (2026-08-28): 100% MSI + 100% MCC (0 escaped, 0 timeouts).
+3. ~~**TASK-004**: Mago Guard rules for the new layout.~~ - DONE (2026-08-28, PR #24).
+4. ~~**Phase 2**: namespace moves (TASK-005/006).~~ - DONE (2026-08-27, PR #20).
+5. ~~**Phase 3**: MessageBus read migration + unwiring (TASK-007/008/009).~~ - DONE (2026-08-28, PR #24).
+6. ~~**Bug fixes** #13 - #18 (post-refactor, separate effort)~~ - DONE (2026-08-28).
 
 **Remaining:**
-- **TASK-010 (Phase 4)**: migrations/CLI — blocked on the IMS WSL branch (reference-only).
+- **TASK-010 (Phase 4)**: migrations/CLI - blocked on the IMS WSL branch (reference-only).
 - **Phase 3 leftovers (webware-acl #22)**: remove unwired acl-local `MessageBus\*` classes; migrate `UpdateRuleTypeHandler` cascade reads to queries; drop `SaveRuleHandler` dead `RoleRepository` dep; honor `SaveRoleHandler::$command->id`.
 - **RISK-007**: confirm/fix `ProcessRuleMiddleware` `CommandResult` + `RuleFilter` readonly bugs (separate effort).
 - **DEP-005**: `roave/backward-compatibility-check` policy for moved/removed classes.
 
 ## 5. Open decisions
 
-1. ~~`Container\CommandHandlerMiddlewareFactory` dead code~~ — DELETED (2026-08-28).
-2. ~~Bugs #15 + #17 block 5 coverage lines~~ — RESOLVED: bugs fixed, lines covered (2026-08-28).
-3. ~~`SingleRoleUserProxy::$id` set hook and `OverviewMiddleware` dead lines~~ — REMOVED (2026-08-28).
+1. ~~`Container\CommandHandlerMiddlewareFactory` dead code~~ - DELETED (2026-08-28).
+2. ~~Bugs #15 + #17 block 5 coverage lines~~ - RESOLVED: bugs fixed, lines covered (2026-08-28).
+3. ~~`SingleRoleUserProxy::$id` set hook and `OverviewMiddleware` dead lines~~ - REMOVED (2026-08-28).
 
 ## 6. Bug issues (post-refactor)
 

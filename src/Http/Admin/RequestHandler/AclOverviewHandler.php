@@ -17,7 +17,7 @@ use Webware\MessageBus\Command\CommandResultInterface;
 use Webware\MessageBus\MessageStatus;
 
 /**
- * Handles GET /admin/access — route-centric Access Control page.
+ * Handles GET /admin/access - route-centric Access Control page.
  *
  * All data assembly is performed by BuildAccessControlMiddleware which runs
  * before this handler in the pipeline and attaches the view model as a request

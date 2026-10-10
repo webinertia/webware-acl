@@ -1,4 +1,4 @@
-# webware-acl — Session Handoff (2026-09-20)
+# webware-acl: Session Handoff (2026-09-20)
 
 > Written at the end of the 2026-09-20 session. **webware-acl is the repo currently
 > under work.** Read this before touching anything: the live thread is one PR and
@@ -8,16 +8,16 @@
 
 ## TL;DR
 
-- **PR [#46](https://github.com/webinertia/webware-acl/pull/46) is MERGED** — merge
+- **PR [#46](https://github.com/webinertia/webware-acl/pull/46) is MERGED**: merge
   commit `e311834` on `0.1.x`. Its over-claimed checklist box was corrected first.
 - **`1.0.x` is now the repo DEFAULT branch**, created from the post-merge `0.1.x` at
   `e311834` (org convention: components land on `N.N.x`). `0.1.x`, `1.0.x` and
   `origin/1.0.x` are all at `e311834`.
-- Six legs are still red. **After cause (B) is fixed, cause (A) alone keeps them red** —
+- Six legs are still red. **After cause (B) is fixed, cause (A) alone keeps them red**:
   and (A) is not mechanical, it is the un-made design decision below.
 - **Blocked on a design decision, with a seeding gap behind it.** `acl:init-db` writes
   no rule rows for any `user.manager.*` route, so the ACL has no Guest-allow /
-  Member-deny pair to ask about — which is why `ForbiddenHandler` fell back to
+  Member-deny pair to ask about - which is why `ForbiddenHandler` fell back to
   `$user->getIdentity()`. See §3a.
 - **No edits were made** toward that fix. The superseded 6-file working tree was
   discarded (recoverable from `2e21d0b`).
@@ -31,10 +31,10 @@
 | item | value |
 | --- | --- |
 | default branch | **`1.0.x`** (flipped 2026-09-20; was `0.1.x`) |
-| `0.1.x` / `1.0.x` / `origin/1.0.x` tip | `e311834` — "Merge pull request #46 from webinertia/refactor/remove-role-proxies" |
+| `0.1.x` / `1.0.x` / `origin/1.0.x` tip | `e311834` - "Merge pull request #46 from webinertia/refactor/remove-role-proxies" |
 | local checkout branch | `docs/session-handoff-2026-09-20` |
 | working tree | clean; the superseded 6-file attempt discarded (`2e21d0b`) |
-| worktrees | main checkout only — `/tmp/acl-verify` removed |
+| worktrees | main checkout only - `/tmp/acl-verify` removed |
 
 ### The superseded 6-file attempt was DISCARDED
 
@@ -44,7 +44,7 @@ The working tree previously held a "userinterface contract conformance attempt" 
 lines that #46 deletes. Discarded on 2026-09-20; still recoverable from the dangling
 commit **`2e21d0b`** ("wip: userinterface contract conformance attempt", 2026-09-18).
 
-### The autoload fatal is GONE — this section is superseded
+### The autoload fatal is GONE: this section is superseded
 
 Before #46, a fatal at autoload blocked the suite entirely:
 
@@ -54,12 +54,12 @@ compatible with Webware\Core\UserInterface::getRoles(): Traversable|array
 ```
 
 That class no longer exists, so **the suite now runs**. Measured on `1.0.x`
-post-merge, 2026-09-20: `Tests: 281, Assertions: 703, Errors: 3` — all three cause (A).
+post-merge, 2026-09-20: `Tests: 281, Assertions: 703, Errors: 3` - all three cause (A).
 Renovate #43/#45 predate the merge and target the now non-default `0.1.x`.
 
 ---
 
-## 2. PR #46 — what it does
+## 2. PR #46: what it does
 
 **Title:** Drop the per-role user proxies from ACL authorization
 **URL:** https://github.com/webinertia/webware-acl/pull/46
@@ -68,41 +68,41 @@ Renovate #43/#45 predate the merge and target the now non-default `0.1.x`.
 
 `Acl::isAllowed()` unwrapped the caller into one `SingleRoleUserProxy` per entry in
 `getRoles()` and granted when any of them passed. That layer existed only to present a
-user as a Laminas role — but the contract already carries exactly one:
+user as a Laminas role - but the contract already carries exactly one:
 `Webware\Core\UserInterface` extends both
 `Laminas\Permissions\Acl\Role\RoleInterface` (`getRoleId()`) and
 `Laminas\Permissions\Acl\ProprietaryInterface` (`getOwnerId()`).
 
-The loop is replaced with direct delegation. **Everything around it is kept** — this
+The loop is replaced with direct delegation. **Everything around it is kept**: this
 is the part a future session must not "simplify" away:
 
 ```php
-if (null === $role) { return false; }                    // guest deny — unchanged
-$this->load();                                            // DB rule loading — unchanged
-if (! $this->hasResource($resource)) { return false; }    // FAIL CLOSED — unchanged
+if (null === $role) { return false; }                    // guest deny - unchanged
+$this->load();                                            // DB rule loading - unchanged
+if (! $this->hasResource($resource)) { return false; }    // FAIL CLOSED - unchanged
 return parent::isAllowed($role, $resource, $privilege);    // was: the proxy loop
 ```
 
 Removing the loop leaves `UserRoleIterator` and `SingleRoleUserProxy` with no
-consumers, so both go — along with their tests, the empty `src/Role/` and
+consumers, so both go - along with their tests, the empty `src/Role/` and
 `test/unit/Role/` directories, and the baseline entries that covered them
 (11 analyzer, 2 linter).
 
-### Behaviour delta — read before approving
+### Behaviour delta: read before approving
 
 **Any-role-wins is dropped; authorization is now `getRoleId()`.** That is a narrowing,
 not a no-op. No user state in this component can observe it, because the only
 implementation of the contract returns `[$this->roleId]` from `getRoles()` and
-`$this->roleId` from `getRoleId()` — the same value — so the loop always iterated
+`$this->roleId` from `getRoleId()` - the same value - so the loop always iterated
 exactly once with a proxy equivalent to the user. But a host returning more than one
 role from `getRoles()` would previously have been granted if *any* role allowed, and
 is now judged on the primary role only.
 
 Two tests carried the old semantics and could not survive as written:
 
-- `userWithMultipleRolesIsAllowedWhenAnyRolePasses` — **deleted**; its premise no
+- `userWithMultipleRolesIsAllowedWhenAnyRolePasses` - **deleted**; its premise no
   longer exists.
-- `userWithNoRolesIsDenied` — re-expressed as
+- `userWithNoRolesIsDenied` - re-expressed as
   `userWhoseRoleHasNoMatchingRuleIsDenied`. An empty role list has no representation
   now: the loop's zero-iteration path returned `false`, whereas the direct call must
   resolve the role in the registry or Laminas throws `InvalidArgumentException`. Two
@@ -127,7 +127,7 @@ Run **`35523375886`** = failure. Of 10 checks:
 | `qa / Test (PHP 8.5 \| locked)` | FAILURE |
 | `qa / Test (PHP 8.5 \| lowest)` | FAILURE |
 
-### Cause A — pre-existing stub errors (visible on `locked` / `lowest`)
+### Cause A: pre-existing stub errors (visible on `locked` / `lowest`)
 
 ```
 Tests: 281, Assertions: 703, Errors: 3
@@ -137,9 +137,9 @@ may not return value of type null, its declared return type is "string"
 ```
 
 Tests: `ForbiddenHandlerFactoryTest` ×2, `ForbiddenHandlerTest` ×1. Pre-existing in
-both the pre- and post-removal states — **not caused by #46**.
+both the pre- and post-removal states - **not caused by #46**.
 
-### Cause B — core constant removed, acl has not adopted (visible on `latest`)
+### Cause B: core constant removed, acl has not adopted (visible on `latest`)
 
 ```
 Tests: 281, Assertions: 670, Errors: 20
@@ -175,17 +175,17 @@ route.** Consequences:
 - the fail-closed guard (`if (! $this->hasResource($resource)) { return false; }`)
   denies everything the seed does not cover;
 - and there is **no Guest-allow / Member-deny pair anywhere in the DB**, so no ACL
-  question can distinguish a guest from a denied member — which is exactly why
+  question can distinguish a guest from a denied member - which is exactly why
   `ForbiddenHandler` fell back to `$user->getIdentity()`.
 
 The real policy exists only in IMS `data/schema/999_seed.sql` (hand-run SQL, outside
 the ecosystem) and, inert, in `webware-usermanager` `ConfigProvider::getAclConfig()`
-(`roles` / `resources` / `allow` / `deny`; nothing reads them — only `resources` is
+(`roles` / `resources` / `allow` / `deny`; nothing reads them - only `resources` is
 consumed, by `ResourceListHandler`).
 
 Two related findings:
 
-- **`AclSchema::roleSeeds()` is WET** — a hand-typed duplicate of `Core\Role::getRoles()`,
+- **`AclSchema::roleSeeds()` is WET**: a hand-typed duplicate of `Core\Role::getRoles()`,
   already drifted: JSON parent strings vs arrays, and `AclInterface::DEVELOPER_ROLE_ID`
   vs `Role::Developer->value`. Seven hand-typed role names in four lines.
 - **Nothing tests the seed → load → decision seam.** `Acl::load()` is private
@@ -194,7 +194,7 @@ Two related findings:
   `InitDBCommandIntegrationTest` reads back only `roleId` (never `parentId`) and never
   calls `isAllowed`; `MessageHandlerMiddlewareIntegrationTest` uses a stubbed ACL.
 
-## 4. THE BLOCKER — an unmade design decision
+## 4. THE BLOCKER: an unmade design decision
 
 The user's instruction, verbatim:
 
@@ -202,7 +202,7 @@ The user's instruction, verbatim:
 
 **Cause A cannot be folded in mechanically**, because the code under test is itself
 wrong. `ForbiddenHandler` decides guest-vs-authenticated with `$user->getIdentity()`,
-and that check is unreachable — `getIdentity(): string` is non-nullable, and `$user`
+and that check is unreachable - `getIdentity(): string` is non-nullable, and `$user`
 can be `null` from `getAttribute()`. The 3 failing tests stub `getIdentity()` to
 `null` against `string`, which is PHPUnit correctly objecting to a test that was
 written to exercise a branch that cannot exist.
@@ -221,24 +221,24 @@ So the branch must be replaced with an **ACL role question**, not an identity
 question. Guest/Member is expressed in the ACL by Guest-allow +
 **Member-deny overriding an inherited Guest-allow** (Member's parent is Guest).
 
-### Unresolved sub-questions — settle these first
+### Unresolved sub-questions: settle these first
 
-1. Which ACL resource the handler asks about — the concrete candidate is usermanager's
+1. Which ACL resource the handler asks about - the concrete candidate is usermanager's
    login route `user.manager.session.read`.
 2. Is the discriminator the ACL question, or `getRoleId()`?
 3. Does the guest redirect move to `AuthorizationMiddleware`, leaving
    `ForbiddenHandler` to handle denied *members* only (in which case it drops `$user`
    entirely)?
 
-**No code has been changed for this.** Do not start editing until (1)–(3) are answered
+**No code has been changed for this.** Do not start editing until (1) - (3) are answered
 by the user.
 
 ---
 
-## 5. acl#44 — the other open item
+## 5. acl#44: the other open item
 
 ```
-#44 [OPEN] bug — Align with webware-core: adopt Webware\Core\Role and drop the role proxies
+#44 [OPEN] bug - Align with webware-core: adopt Webware\Core\Role and drop the role proxies
 https://github.com/webinertia/webware-acl/issues/44
 ```
 
@@ -251,7 +251,7 @@ enum adoption in `src/Acl.php` and `src/Console/AclSchema.php`.
 
 ## 6. Deferred / paired from this session
 
-- **`IdentityMiddleware` payload typing** — deliberately deferred by the user, to land
+- **`IdentityMiddleware` payload typing**: deliberately deferred by the user, to land
   in the same pass as acl#44, because the middleware and the ACL pipeline are closely
   intertwined. Sites: `IdentityMiddleware.php:32,36` (callable type), `:53`
   (`@var ... $userInfo`), `IdentityMiddlewareFactory.php:22`. Expect a test cascade
@@ -284,13 +284,13 @@ enum adoption in `src/Acl.php` and `src/Console/AclSchema.php`.
 
 - Gates: `mago format --check && mago lint && mago analyze && mago guard`
 - Unit suite: `composer test` (in the `tooling` container: `docker compose exec -T tooling composer test`)
-- Integration suite: `docker compose exec -T tooling composer test-integration` — the
+- Integration suite: `docker compose exec -T tooling composer test-integration` - the
   tooling container bind-mounts the **main** checkout, which is why #46 was verified in
   a separate worktree instead.
 - **`format --check` reports 2 files on this repo and that is pre-existing.** The host
   `mago` is 1.49.0 while this repo's CI pins 1.48.1; the 1.48→1.49 formatter differs.
   Verified at the time by stashing the change and reproducing it on the pristine tree.
-- Re-verify the runner before trusting it — the host PHP floor and the container
+- Re-verify the runner before trusting it - the host PHP floor and the container
   mount both bite.
 
 ---
@@ -304,5 +304,5 @@ enum adoption in `src/Acl.php` and `src/Console/AclSchema.php`.
 - **`mago.toml` stays the stub.** General guard rules live in `webware-tools`; acl-local
   rules are domain-specific only. Do not re-add general rules locally.
 - **Do not suppress mago findings without asking.** `@mago-expect` needs approval first.
-- **Never present an inference as fact** — the §4 sub-questions above are exactly the
+- **Never present an inference as fact**: the §4 sub-questions above are exactly the
   kind of thing that must be asked, not assumed.

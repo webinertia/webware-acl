@@ -5,7 +5,7 @@
  * Rendered as a partial inside admin-acl.phtml.
  * All data already assembled by BuildAccessControlMiddleware.
  *
- * @var array<int, \Webware\Acl\Entity\Role> $roles  — keyed by synthetic PK
+ * @var array<int, \Webware\Acl\Entity\Role> $roles - keyed by synthetic PK
  * @var array<int, int[]>                    $roleChildren  parentPk → childPks[]
  * @var array<int, array{id:int, roleId:string, parents:int[]}>  $roleTree
  * @var string                               $protectUrl
@@ -25,7 +25,7 @@ foreach ($this->roleTree as $pk => $node) {
 $roleTree     = $this->roleTree;
 $roleChildren = $this->roleChildren;
 
-// Kahn's topological sort — each node is emitted only after ALL its parents
+// Kahn's topological sort - each node is emitted only after ALL its parents
 // have been processed, guaranteeing correct order with multiple inheritance.
 $inDegree = [];
 $depths   = [];
@@ -88,7 +88,7 @@ while ($queue !== []) {
                         <i class="bi bi-shield-plus me-2 text-primary"></i>Protect Route
                     </h5>
                     <div class="d-flex align-items-center gap-2 flex-wrap">
-                        <code class="small" id="wiz-route-display">—</code>
+                        <code class="small" id="wiz-route-display"> - </code>
                         <span id="wiz-header-methods"></span>
                         <span id="wiz-header-privs"></span>
                     </div>

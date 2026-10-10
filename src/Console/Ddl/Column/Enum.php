@@ -13,7 +13,7 @@ use function implode;
 use function str_replace;
 
 /**
- * MySQL ENUM column — not provided by phpdb core.
+ * MySQL ENUM column - not provided by phpdb core.
  *
  * Belongs upstream in php-db/phpdb-mysql; kept here until an upstream Ddl ENUM exists.
  */

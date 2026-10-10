@@ -309,7 +309,7 @@ final class RuleSeederIntegrationTest extends TestCase
     private function execute(CreateTable|DropTable $ddl): void
     {
         // Rendered through Sql so the driver's DDL decorator produces the column
-        // spec, including AUTO_INCREMENT — without it every row after the first
+        // spec, including AUTO_INCREMENT - without it every row after the first
         // collides on the primary key and INSERT IGNORE drops it silently.
         $this->adapter->executeQuery(
             sql: new Sql($this->adapter)->buildSqlString(

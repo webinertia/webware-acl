@@ -19,8 +19,8 @@ use Webware\MessageBus\MessageStatus;
 use function json_encode;
 
 /**
- * Handles GET /admin/access/resources — list all resources with their privileges.
- * Handles POST /admin/access/resources — create a new resource.
+ * Handles GET /admin/access/resources - list all resources with their privileges.
+ * Handles POST /admin/access/resources - create a new resource.
  *
  * Route protection for unprotected routes is handled by the Access Control page
  * (admin.acl.read). This handler focuses on low-level resource CRUD only.

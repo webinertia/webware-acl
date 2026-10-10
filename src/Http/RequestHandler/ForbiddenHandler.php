@@ -31,12 +31,12 @@ final readonly class ForbiddenHandler implements RequestHandlerInterface, Forbid
         /** @var UserInterface $user */
         $user = $request->getAttribute(UserInterface::class);
 
-        // Guest identity — silent redirect to login, no toast
+        // Guest identity - silent redirect to login, no toast
         if (Role::Guest === Role::tryFrom($user->getRoleId())) {
             return new RedirectResponse($this->loginPath);
         }
 
-        // Authenticated but denied — conditional toast then redirect
+        // Authenticated but denied - conditional toast then redirect
         /** @var SystemMessengerInterface|null $messenger */
         $messenger = $request->getAttribute(SystemMessengerInterface::class);
         $messenger?->warning(

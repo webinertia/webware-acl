@@ -41,7 +41,7 @@ final class RoleRepository
             $map[$role->getRoleId()] = $role;
         }
 
-        // Kahn's topological sort — build in-degree and adjacency list
+        // Kahn's topological sort - build in-degree and adjacency list
         $inDegree = [];
         $children = [];
         foreach ($map as $roleId => $role) {

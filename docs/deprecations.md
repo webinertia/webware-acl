@@ -6,7 +6,7 @@ component is confirmed working.
 
 ---
 
-## Pattern Violations — Needs Refactor (data assembly in handler)
+## Pattern Violations: Needs Refactor (data assembly in handler)
 
 These handlers fetch data and build view models directly instead of reading from
 a middleware-set request attribute. Each needs a corresponding `Build*Middleware`
@@ -21,7 +21,7 @@ constructor dependency is removed.
 
 ---
 
-## Old UI Pages — Candidates for Removal (pending wizard coverage)
+## Old UI Pages: Candidates for Removal (pending wizard coverage)
 
 These templates and their associated routes/handlers exist from the pre-wizard UI.
 Once `admin-acl.phtml` + the wizard covers all their functionality, these become
@@ -32,11 +32,11 @@ obsolete. Do not remove until feature parity is confirmed.
 | `templates/acl/admin-rules.phtml` | `RuleManagerHandler` | `admin.acl.rules.*` | Wizard covering rule edit / toggle / hierarchy view |
 | `templates/acl/admin-roles.phtml` | `RoleListHandler` | `admin.acl.roles.*` | Wizard or overview covering role CRUD |
 | `templates/acl/admin-resources.phtml` | `ResourceListHandler` | `admin.acl.resources.*` | Wizard or overview covering resource CRUD |
-| `templates/acl/admin-widget.phtml` | _(unknown — verify)_ | _(verify)_ | Verify if still referenced anywhere |
+| `templates/acl/admin-widget.phtml` | _(unknown - verify)_ | _(verify)_ | Verify if still referenced anywhere |
 
 ---
 
-## JS — Dead Code After Modal Fix
+## JS: Dead Code After Modal Fix
 
 | File | Code | Reason |
 |------|------|--------|

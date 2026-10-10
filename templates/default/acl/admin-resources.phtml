@@ -3,8 +3,8 @@
 use Webware\Acl\PrivilegeInterface as Privilege;
 
 /**
- * @var array<int, \Webware\Acl\Entity\Resource>  $resources   — keyed by resource_pk
- * @var array<int, \Webware\Acl\Entity\Privilege> $privileges  — keyed by privilege_pk
+ * @var array<int, \Webware\Acl\Entity\Resource>  $resources - keyed by resource_pk
+ * @var array<int, \Webware\Acl\Entity\Privilege> $privileges - keyed by privilege_pk
  */
 $this->headTitle('Resources & Privileges');
 
@@ -143,7 +143,7 @@ foreach ($this->privileges as $priv) {
             <div class="modal-body">
                 <?php
                 /*
-                 * TODO: 'acl.resources.create' route deleted — resources are route-derived (from RouteCollector),
+                 * TODO: 'acl.resources.create' route deleted - resources are route-derived (from RouteCollector),
                  * not manually created. This entire "Add Resource" modal and form needs to be redesigned
                  * or removed. Leaving in place until the admin-resources sub-page is reworked.
                  */

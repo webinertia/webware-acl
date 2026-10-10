@@ -14,13 +14,13 @@ use function sprintf;
  * These run before anything is written, because both failure modes they detect
  * are fatal later, at ACL load time, where the cause is no longer visible:
  *
- * - a `resourceId` that answers to no registered route is inert — it grants
+ * - a `resourceId` that answers to no registered route is inert - it grants
  *   nothing and denies nothing, silently;
  * - a `parentResourceId` that resolves to no node makes the ACL throw while
  *   building its resource tree.
  *
- * The checks are deliberately structural rather than clever. A leaf row — one
- * that names a parent — must name a registered route, because that is the only
+ * The checks are deliberately structural rather than clever. A leaf row - one
+ * that names a parent - must name a registered route, because that is the only
  * thing a check at request time can match. An anchor node may name a route (the
  * index route of an admin area) or an abstract segment such as `user`, but it
  * must be something, either a route name or the parent of at least one seed, so

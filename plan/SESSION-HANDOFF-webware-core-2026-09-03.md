@@ -1,4 +1,4 @@
-# Webware-Core Changes — Session Handoff (2026-09-03)
+# Webware-Core Changes: Session Handoff (2026-09-03)
 
 > Written from the webware-acl session so the **webware-core** session can pick
 > up the one shared change required to unblock the laminas-inputfilter 3.0
@@ -14,7 +14,7 @@
   object; the filter itself no longer holds validation messages. The old
   stateful `getMessages()` is `@deprecated Since 3.0` and removed in 4.0.
 - This is shared across **webware-acl (first)**, **webware-usermanager**, and
-  **ims-\*** components — hence it belongs in core, not duplicated per package.
+  **ims-\*** components - hence it belongs in core, not duplicated per package.
 
 ---
 
@@ -125,7 +125,7 @@ Notes:
 - Remove the now-inaccurate `@mixin \Laminas\InputFilter\InputFilterInterface`
   annotation (the trait no longer calls `$this->getMessages()`).
 - `ErrorMessages` is `final readonly` with public `toArray()` and
-  `jsonSerialize()` — no interface changes needed.
+  `jsonSerialize()` - no interface changes needed.
 - `flattenMessages()` / `isLeafMessageSet()` are unchanged.
 
 ---
