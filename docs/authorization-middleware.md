@@ -2,9 +2,9 @@
 
 Two middleware classes make up the per-request access control layer:
 
-- **`IdentityMiddleware`** — runs in the **global pipeline** once per request;
+- **`IdentityMiddleware`**: runs in the **global pipeline** once per request;
   resolves the authenticated user and attaches it to the request.
-- **`AuthorizationMiddleware`** — runs in the **global pipeline before**
+- **`AuthorizationMiddleware`**: runs in the **global pipeline before**
   Mezzio's `DispatchMiddleware`; checks `AclInterface::isAllowedRoute()`
   and either passes through to the next middleware or delegates to `ForbiddenHandlerInterface`.
 
@@ -74,7 +74,7 @@ The user is read from the request attribute set by `IdentityMiddleware`.
 
 | Condition | Action |
 |---|---|
-| No `RouteResult` on request | **Pass through** — `MethodNotAllowedMiddleware` handles it |
+| No `RouteResult` on request | **Pass through**: `MethodNotAllowedMiddleware` handles it |
 | Route not in ACL mappings | **Deny** → `ForbiddenHandlerInterface::handle($request)` |
 | User role(s) are allowed | **Dispatch** → `$routeResult->process($request, $handler)` |
 | Any other denial | **Deny** → `ForbiddenHandlerInterface::handle($request)` |
@@ -104,7 +104,7 @@ sequenceDiagram
         AuthMW->>Acl: isAllowedRoute(request, roles)
         alt Allowed
             Acl-->>AuthMW: true
-            AuthMW->>Handler: handle(request) — DispatchMiddleware dispatches
+            AuthMW->>Handler: handle(request) - DispatchMiddleware dispatches
             Handler-->>Request: Response
         else Denied
             Acl-->>AuthMW: false
@@ -130,7 +130,7 @@ isAllowedRoute(request, roles)
 
 Roles are checked in the order returned by `UserInterface::getRoles()`. The first
 `true` short-circuits. This means a user with multiple roles is granted access
-if **any** role allows it — standard multi-role RBAC semantics.
+if **any** role allows it - standard multi-role RBAC semantics.
 
 ### isAllowedByRouteName
 
@@ -138,7 +138,7 @@ Used by admin UI handlers to conditionally render action buttons without issuing
 a full redirect cycle.
 
 ```php
-// In a template or handler — check a specific route
+// In a template or handler - check a specific route
 $canEdit = $this->acl->isAllowedByRouteName('manifest.upload.store', $user->getRoles());
 ```
 
@@ -182,7 +182,7 @@ All keys live under `AclInterface::class` in the merged config:
 |---|---|---|
 | `login_path` | `'/login'` | Redirect target for guest denials |
 | `forbidden_redirect` | `'/'` | Redirect target for authenticated denials; falls back to `HTTP_REFERER` then `'/'` |
-| `forbidden_template` | `null` | Reserved — not yet implemented |
+| `forbidden_template` | `null` | Reserved - not yet implemented |
 
 ---
 
@@ -253,7 +253,7 @@ public function __construct(
 ```
 
 The messenger and user are read from request attributes (set by
-`IdentityMiddleware`) — not injected via the constructor.
+`IdentityMiddleware`) - not injected via the constructor.
 
 ### Decision table
 
@@ -318,7 +318,7 @@ isAllowedRoute(request, roles)
 
 Roles are checked in the order returned by `UserInterface::getRoles()`. The first
 `true` short-circuits. This means a user with multiple roles is granted access
-if **any** role allows it — standard multi-role RBAC semantics.
+if **any** role allows it - standard multi-role RBAC semantics.
 
 ### isAllowedByRouteName
 
@@ -326,7 +326,7 @@ Used by admin UI handlers to conditionally render action buttons without issuing
 a full redirect cycle.
 
 ```php
-// In a template or handler — check a specific route
+// In a template or handler - check a specific route
 $canEdit = $this->acl->isAllowedByRouteName('manifest.upload.store', $user->getRoles());
 ```
 
@@ -338,7 +338,7 @@ directly instead of reading from the `RouteResult` attribute.
 ## Route Stack Registration
 
 ```php
-// RouteProvider.php — every protected route
+// RouteProvider.php - every protected route
 $app->route(
     '/manifests/upload',
     [

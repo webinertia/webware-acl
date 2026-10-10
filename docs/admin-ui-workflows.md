@@ -10,7 +10,7 @@ downstream `RequestHandler` is render-only.
 ## Access Control for the Admin UI
 
 The `admin.acl` resource is granted exclusively to the **Developer** role.
-**Administrators cannot manage the ACL** — this is an immutable rule enforced
+**Administrators cannot manage the ACL**: this is an immutable rule enforced
 by `RegisterAclRulesListener` and intentionally absent from config, preventing
 lockout or privilege escalation via the UI.
 
@@ -44,7 +44,7 @@ public const string LOCAL_CONFIG_FILE = __DIR__ . '/../../../../config/autoload/
 
 | Entity | Read Handler | Write Middleware | Command Handler | Status |
 |---|---|---|---|---|
-| ACL Overview | `AclOverviewHandler` | — | — | ✓ implemented |
+| ACL Overview | `AclOverviewHandler` | - | - | ✓ implemented |
 | Protect Route Wizard | `RuleManagerHandler` | `ProcessRuleMiddleware` | `SaveRuleHandler` | ✓ implemented |
 | Save Role | `RoleListHandler` | `ProcessRoleMiddleware` | `SaveRoleHandler` | @todo stub |
 | Delete Role | `RoleListHandler` | `ProcessRoleMiddleware` | `DeleteRoleHandler` | @todo stub |
@@ -179,7 +179,7 @@ implementations.
 
 **Route**: `GET|POST /acl/roles`
 
-`SaveRoleHandler` and `DeleteRoleHandler` are **stub implementations** — they
+`SaveRoleHandler` and `DeleteRoleHandler` are **stub implementations**: they
 return `CommandStatus::Success` without writing anything. Config-driven role
 save/delete via `ConfigSaveEvent` is planned but not yet implemented.
 
@@ -218,8 +218,8 @@ event listener calls `bootstrap.Modal.getInstance(el).hide()` in response.
 
 - Each entity has a list template (`acl/role-list.phtml`) and a modal partial
   (`acl/partials/role-modal.phtml`)
-- No inline styles (`style="..."`) — use `.ims-*` CSS classes in `public/assets/css/custom.css`
-- No hardcoded URLs — always use `$this->url('route.name')`
+- No inline styles (`style="..."`) - use `.ims-*` CSS classes in `public/assets/css/custom.css`
+- No hardcoded URLs - always use `$this->url('route.name')`
 - Edit and Delete buttons carry `hx-get` / `hx-delete` attributes
 - Modal forms POST to the same URL as the list page; `AuthorizationMiddleware`
   checks both the GET and POST route stacks separately
@@ -231,7 +231,7 @@ event listener calls `bootstrap.Modal.getInstance(el).hide()` in response.
 ### Role Picker CSS Depth Cap
 
 The role picker indentation uses fixed CSS attribute-selector rules in
-`public/assets/css/custom.css`. The current rules cover depths 0–6:
+`public/assets/css/custom.css`. The current rules cover depths 0-6:
 
 ```css
 .ims-acl-role-item[data-depth="1"] .ims-acl-role-item-main { padding-left: 1rem; }
@@ -256,7 +256,7 @@ for the ancestry subtitle.
 the ACL roles config. After `array_merge_recursive`, Administrator has two
 parents: `Manager` (from `ims-store`) and `Member` (from `webware-admin`).
 
-The `Member` parent is redundant — Administrator already reaches `Member`
+The `Member` parent is redundant - Administrator already reaches `Member`
 through the full chain `Manager → Assistant Manager → Sales/Warehouse/Collections → Member`.
 The redundant edge does not affect runtime ACL evaluation (Laminas ACL handles
 it correctly) but it does cause Administrator to display "child of: Member, Manager"
@@ -268,7 +268,7 @@ in the Protect Route Wizard role picker instead of just "child of: Manager".
 ## Access Control for the Admin UI
 
 The `admin.acl` resource is granted exclusively to the **Developer** role.  
-**Administrators cannot manage the ACL** — this is an immutable rule enforced
+**Administrators cannot manage the ACL**: this is an immutable rule enforced
 by `RegisterAclRulesListener` and intentionally absent from the DB, preventing
 lockout or privilege escalation via the UI.
 
@@ -278,7 +278,7 @@ lockout or privilege escalation via the UI.
 
 | Entity | Handler (read) | Middleware (write) | Command Handler |
 |---|---|---|---|
-| ACL Overview | `AclOverviewHandler` | — | — |
+| ACL Overview | `AclOverviewHandler` | - | - |
 | Roles | `RoleListHandler` | `ProcessRoleMiddleware` | `SaveRoleHandler` / `DeleteRoleHandler` |
 | Resources | `ResourceListHandler` | `ProcessResourceMiddleware` | `SaveResourceHandler` / `DeleteResourceHandler` |
 | Rules | `RuleManagerHandler` | `ProcessRuleMiddleware` | `SaveRuleHandler` / `UpdateRuleTypeHandler` / `DeleteRuleHandler` |
@@ -370,7 +370,7 @@ with an error message via `SystemMessengerInterface`.
 
 Resources and privileges are managed on the same page. A resource is a logical
 grouping (e.g. `manifest`). Each resource has one or more privileges
-(`read`, `create`, `update`, `delete` — always from `Privilege` constants).
+(`read`, `create`, `update`, `delete` - always from `Privilege` constants).
 
 ```mermaid
 flowchart LR
@@ -417,7 +417,7 @@ an ancestor has an `explicit_deny` (or vice versa). Alerts the admin that the
 child's explicit rule overrides the inherited one.
 
 **Redundancy alert**: Displayed when a role has an explicit rule that matches
-what it would inherit — the explicit rule is unnecessary.
+what it would inherit - the explicit rule is unnecessary.
 
 ### Adding a rule
 
@@ -502,11 +502,11 @@ return new CommandResult($command, CommandStatus::Success, null);
 ## Version Increment Rule
 
 **Every `CommandHandler` must call `incrementVersion()` after the primary write.**
-This is not optional — without it, the cache will not invalidate and other
+This is not optional - without it, the cache will not invalidate and other
 requests will continue using stale ACL data.
 
 ```php
-// Required pattern — every CommandHandler::handle()
+// Required pattern - every CommandHandler::handle()
 assert($command instanceof SaveXxxCommand);
 $this->aclRepository->saveXxx(...);
 $this->aclRepository->incrementVersion();
@@ -553,8 +553,8 @@ event listener (in `app.js` or the page's `inlineScript()` block) calls
 
 - Each entity has a list template (`acl/role-list.phtml`) and a modal partial
   (`acl/partials/role-modal.phtml`)
-- No inline styles (`style="..."`) — use `.ims-*` CSS classes
-- No hardcoded URLs — always use `$this->url('route.name')`
+- No inline styles (`style="..."`) - use `.ims-*` CSS classes
+- No hardcoded URLs - always use `$this->url('route.name')`
 - Edit and Delete buttons carry `hx-get` / `hx-delete` attributes
 - Modal forms POST to the same URL as the list page; `AuthorizationMiddleware`
   checks both the GET and POST route stacks separately

@@ -26,7 +26,7 @@ use const JSON_THROW_ON_ERROR;
  * The table is injected as a {@see TableIdentifier} rather than named here: the
  * table belongs to the package that owns its DDL, and the schema factory that
  * resolves prefixes and schemas belongs to the caller. That is what lets
- * webware-usermanager contribute policy without depending on webware-acl — it
+ * webware-usermanager contribute policy without depending on webware-acl - it
  * publishes seeds, and whoever runs the seeding command writes them.
  *
  * Seeding is idempotent and authoritative. The pair (roleId, resourceId) is the
@@ -35,7 +35,7 @@ use const JSON_THROW_ON_ERROR;
  * row id stays stable for the administration screens that address rules by id.
  *
  * A missing table is reported, never thrown. Seeding may run before the owner's
- * schema exists — that is a warning for the command to print, not a failure that
+ * schema exists - that is a warning for the command to print, not a failure that
  * stops an installer.
  *
  * @api

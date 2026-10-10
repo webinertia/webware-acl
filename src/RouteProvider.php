@@ -42,7 +42,7 @@ final readonly class RouteProvider implements RouteProviderInterface
         MiddlewareFactoryInterface $middlewareFactory,
     ): void {
         /*
-         * ACL Manager — Component route / resource mappings
+         * ACL Manager - Component route / resource mappings
          *
          * Abstract:
          * This is the components base "manager" route. It is the resource
@@ -252,7 +252,7 @@ final readonly class RouteProvider implements RouteProviderInterface
             "{$this->adminRouteNamePrefix}role.delete",
         );
 
-        // Resources write/delete routes removed — resources are route-derived
+        // Resources write/delete routes removed - resources are route-derived
         // and cannot be manually created or deleted via the UI.
     }
 }

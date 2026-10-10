@@ -13,7 +13,7 @@ use function array_key_exists;
  * What a collected seed set contributes to the ACL resource tree.
  *
  * Rows describe a tree, not a flat list: `resourceId` is a node, and
- * `parentResourceId` places it. A node is one of two things — a registered route
+ * `parentResourceId` places it. A node is one of two things - a registered route
  * name, which is what an authorization check can match, or an anchor such as
  * `user` or `admin.acl`, which answers to no route of its own and exists so that
  * a role can be granted a whole subtree in one row.
@@ -110,7 +110,7 @@ final readonly class RuleSeedIndex
     }
 
     /**
-     * A registered route name — the only kind of node a request-time check can match.
+     * A registered route name - the only kind of node a request-time check can match.
      */
     public function isRoute(string $resourceId): bool
     {

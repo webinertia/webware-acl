@@ -29,7 +29,7 @@ use Webware\MessageBus\ResultInterface;
  *
  * Messages that implement AuthorizableCommandInterface are checked via
  * $acl->isAllowed() before the handler middleware is reached. A denied
- * message returns a CommandResult with CommandStatus::Forbidden — no
+ * message returns a CommandResult with CommandStatus::Forbidden - no
  * exception is thrown.
  *
  * Messages that do not implement AuthorizableCommandInterface are passed

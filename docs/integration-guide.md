@@ -30,11 +30,11 @@ public function getAclConfig(): array
 
 This method returns an array that is registered under the `AclInterface::class`
 config key. `AclFactory` reads the merged config at container build time and
-constructs the ACL — no events, no database, no cache.
+constructs the ACL - no events, no database, no cache.
 
 ---
 
-## Step 1 — Implement `getAclConfig()` in `ConfigProvider`
+## Step 1: Implement `getAclConfig()` in `ConfigProvider`
 
 ```php
 <?php
@@ -91,12 +91,12 @@ final class ConfigProvider
 
 > **Resources are route names.** `RouteResource::getResourceId()` returns the matched
 > route name, and `AclFactory` registers those same strings as Laminas ACL resources.
-> There is no separate "abstract resource" concept — one route name = one resource.
+> There is no separate "abstract resource" concept - one route name = one resource.
 
 ### Role hierarchy
 
-Roles are defined once — in whichever module owns the role domain for the
-application — and inherited by all feature modules through config merging.
+Roles are defined once - in whichever module owns the role domain for the
+application - and inherited by all feature modules through config merging.
 **Do not redeclare the role hierarchy in a feature module.** Only add
 `resources` and `allow`/`deny` for your module's routes.
 
@@ -110,14 +110,14 @@ assertions in an `AssertionAggregate`.
 
 ---
 
-## Step 2 — No Per-Route Middleware Required
+## Step 2: No Per-Route Middleware Required
 
 `AuthorizationMiddleware` runs in the **global pipeline before**
 Mezzio's `DispatchMiddleware`. You do **not** add any ACL middleware to
 individual route stacks.
 
 The ACL is checked for every matched request. If a route name is not registered
-as a resource, `Acl::isAllowedRoute()` returns `false` (**fail-closed** —
+as a resource, `Acl::isAllowedRoute()` returns `false` (**fail-closed**:
 intentional). Routes that must be publicly accessible (e.g. login, registration)
 must still be listed in `resources` and granted to the `Guest` role in `allow`.
 
@@ -135,7 +135,7 @@ must still be listed in `resources` and granted to the `Guest` role in `allow`.
 □ Allow rules declared for every role that needs access
 □ Guest routes explicitly allowed for 'Guest' role
 □ Route names in getAclConfig() match RouteProvider exactly
-□ Role hierarchy NOT redeclared — only ims-store owns 'roles'
+□ Role hierarchy NOT redeclared - only ims-store owns 'roles'
 □ AuthorizationMiddleware in global pipeline (not in route stacks)
 □ DispatchMiddleware still present in global pipeline (after AuthorizationMiddleware)
 ```
@@ -146,13 +146,13 @@ must still be listed in `resources` and granted to the `Guest` role in `allow`.
 
 | Mistake | Symptom |
 |---|---|
-| Route name typo in `resources` or `allow` | Route always returns 403 — resource not registered or rule not matched |
-| Route listed in `allow` but missing from `resources` | `isAllowedRoute()` returns `false` — resource must be registered before allow rules can apply |
+| Route name typo in `resources` or `allow` | Route always returns 403 - resource not registered or rule not matched |
+| Route listed in `allow` but missing from `resources` | `isAllowedRoute()` returns `false` - resource must be registered before allow rules can apply |
 | Redeclaring `roles` in a feature module | Role hierarchy merges incorrectly; parent resolution may fail |
 | Adding `AuthorizationMiddleware` to a route stack | Double ACL check; unexpected behaviour |
 | Removing Mezzio's `DispatchMiddleware` from the global pipeline | Routes never dispatched after ACL pass |
 | Public route (e.g. login) not in `resources` + `allow Guest` | Guest users get 403 on the login page |
-| Resolving `Mezzio\Authentication\UserInterface` without the alias | `isAllowed()` fails — `GuestUser` does not satisfy `RoleInterface` without proper wiring |
+| Resolving `Mezzio\Authentication\UserInterface` without the alias | `isAllowed()` fails - `GuestUser` does not satisfy `RoleInterface` without proper wiring |
 
 ---
 
@@ -167,7 +167,7 @@ The host application **must** alias Mezzio's interface to
 `Webware\Core\UserInterface` in its DI configuration:
 
 ```php
-// config/autoload/dependencies.global.php  (host application only — not in any package)
+// config/autoload/dependencies.global.php  (host application only - not in any package)
 
 use Mezzio\Authentication\UserInterface as MezzioUserInterface;
 use Webware\Core\UserInterface as UserManagerUserInterface;
@@ -180,7 +180,7 @@ return [
         ],
         'factories' => [
             // The factory that creates User instances is registered under our
-            // interface key — NOT under MezzioUserInterface::class directly.
+            // interface key - NOT under MezzioUserInterface::class directly.
             UserManagerUserInterface::class => \Webware\UserManager\Container\UserFactory::class,
         ],
     ],

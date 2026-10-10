@@ -1,7 +1,7 @@
 <?php
 /**
- * @var \Webware\Acl\Entity\Role[]            $roles              — all roles
- * @var array<string, bool>                  $rolesWithChildren  — roleId → true if has children
+ * @var \Webware\Acl\Entity\Role[]            $roles - all roles
+ * @var array<string, bool>                  $rolesWithChildren - roleId → true if has children
  */
 $this->headTitle('Roles');
 ?>
@@ -63,14 +63,14 @@ $this->headTitle('Roles');
                         <td class="fw-semibold"><?= $this->escapeHtml($role->getRoleId()) ?></td>
                         <td class="small text-secondary">
                             <?php if ($isRoot): ?>
-                                <span class="fst-italic">— root role</span>
+                                <span class="fst-italic"> - root role</span>
                             <?php else: ?>
                                 <?= $this->escapeHtml(implode(', ', $parentNames)) ?>
                             <?php endif; ?>
                         </td>
                         <td class="text-end">
                             <?php if ($isRoot): ?>
-                                <button class="btn btn-sm btn-outline-secondary py-0 px-2" disabled title="Root role — cannot edit">
+                                <button class="btn btn-sm btn-outline-secondary py-0 px-2" disabled title="Root role - cannot edit">
                                     <i class="bi bi-pencil"></i>
                                 </button>
                             <?php else: ?>

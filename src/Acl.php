@@ -122,7 +122,7 @@ final class Acl extends LaminasAcl implements AclInterface
 
         $this->load();
 
-        // FAIL CLOSED — intentional, do not change to true.
+        // FAIL CLOSED - intentional, do not change to true.
         // Routes must be explicitly registered as ACL resources to be accessible.
         // This is a hard requirement; unregistered routes are always denied.
         if (! $this->hasResource($resource)) {
@@ -192,7 +192,7 @@ final class Acl extends LaminasAcl implements AclInterface
             if ($this->hasResource($resourceId)) {
                 continue;
             }
-            // Use explicit parentResourceId from DB — no fallback by design.
+            // Use explicit parentResourceId from DB - no fallback by design.
             // A missing parent here indicates inconsistent DB state and should surface, not be masked.
             $parent = $explicitParents[$resourceId] ?? null;
             parent::addResource($resourceId, $parent);

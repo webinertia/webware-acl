@@ -1,22 +1,22 @@
 ---
-title: webware-acl — Architecture Blueprint
+title: webware-acl - Architecture Blueprint
 component_path: src/webware-acl/src
 version: 1.0.0
 date_created: 2026-05-10
 last_updated: 2026-05-10
 changelog:
-  - 2026-05-10: CommandBus integration — WriteResult retired; 11 single-command handlers introduced
+  - 2026-05-10: CommandBus integration - WriteResult retired; 11 single-command handlers introduced
 owner: Joey Smith <jsmith@webinertia.net>
 tags: [acl, rbac, mezzio, authorisation, psr-14, laminas]
 ---
 
-# webware-acl — Architecture Blueprint
+# webware-acl: Architecture Blueprint
 
 ## 1. Context (C4 Level 1)
 
 ```mermaid
 C4Context
-    title webware-acl — System Context
+    title webware-acl - System Context
 
     Person(dev, "Developer", "Adds new modules; integrates with ACL via listeners")
     Person(admin, "Administrator / Developer", "Manages roles, resources, rules, route mappings via the Admin UI")
@@ -24,7 +24,7 @@ C4Context
     System(ims, "Host Application", "Mezzio application using webware-acl for route-level authorisation")
 
     System_Ext(db, "Relational Database", "Stores roles, resources, privileges, rules, route mappings, version counter")
-    System_Ext(laminas, "laminas-permissions-acl", "RBAC engine — evaluates allow/deny rules")
+    System_Ext(laminas, "laminas-permissions-acl", "RBAC engine - evaluates allow/deny rules")
 
     Rel(dev, ims, "Registers listener classes in ConfigProvider")
     Rel(admin, ims, "Manages ACL objects via Admin UI (HTMX)")
@@ -38,13 +38,13 @@ C4Context
 
 ```mermaid
 C4Container
-    title webware-acl — Containers
+    title webware-acl - Containers
 
     Container(pipeline, "Mezzio Middleware Pipeline", "PHP", "Global pipeline; IdentityMiddleware runs here")
     Container(routes, "Route Stacks", "PHP", "Per-route pipelines; AuthorizationMiddleware is first in each protected stack")
     Container(acl, "webware-acl Library", "PHP 8.5", "AclBuilder, Acl, Cache, Repository, Events, Admin UI")
     ContainerDb(db, "Database", "MySQL / MariaDB", "role, acl_resource, acl_privilege, acl_rule, acl_rule_assertion, acl_route_mapping, acl_version")
-    ContainerDb(cache, "File Cache", "PHP serialize", "data/cache/acl.cache — raw arrays + version counter")
+    ContainerDb(cache, "File Cache", "PHP serialize", "data/cache/acl.cache - raw arrays + version counter")
 
     Rel(pipeline, acl, "IdentityMiddleware attaches user + messenger to request")
     Rel(routes, acl, "AuthorizationMiddleware checks isAllowedRoute()")
@@ -58,7 +58,7 @@ C4Container
 
 ```mermaid
 C4Component
-    title webware-acl — Internal Components
+    title webware-acl - Internal Components
 
     Component(builder, "AclBuilder", "PHP class", "Orchestrates DB load, event dispatch, cache read/write; returns hydrated Laminas Acl")
     Component(acli, "Acl", "PHP class", "Wraps Laminas Acl; exposes isAllowed / isAllowedRoute / isAllowedByRouteName")
@@ -67,10 +67,10 @@ C4Component
     Component(events, "PSR-14 Event Pipeline", "EventDispatcherInterface", "Fires 5 build-phase events; listeners extend roles/resources/rules/mappings")
     Component(authmw, "AuthorizationMiddleware", "PSR-15 middleware", "Per-request access check; redirects denied requests")
     Component(identmw, "IdentityMiddleware", "PSR-15 middleware", "Attaches UserInterface + SystemMessengerInterface to every request")
-    Component(adminmw, "Admin Write Middleware", "PSR-15 middleware ×5", "ProcessRole/Resource/Rule/RouteMapping/Assertion — HttpMethodProcessorTrait")
+    Component(adminmw, "Admin Write Middleware", "PSR-15 middleware ×5", "ProcessRole/Resource/Rule/RouteMapping/Assertion - HttpMethodProcessorTrait")
     Component(bus, "CommandBus", "CommandBusInterface", "webware/command-bus pipeline; resolves handler by command class")
-    Component(cmdhandlers, "CommandHandlers", "CommandHandlerInterface ×11", "SaveRole/DeleteRole/SaveResource/DeleteResource/SaveRule/UpdateRuleType/DeleteRule/SaveRouteMapping/DeleteRouteMapping/SaveAssertion/DeleteAssertion — 1:1 with commands")
-    Component(handlers, "Admin Handlers", "PSR-15 handler ×5", "AclOverview/RoleList/ResourceList/RuleManager/RouteMapManager — render only")
+    Component(cmdhandlers, "CommandHandlers", "CommandHandlerInterface ×11", "SaveRole/DeleteRole/SaveResource/DeleteResource/SaveRule/UpdateRuleType/DeleteRule/SaveRouteMapping/DeleteRouteMapping/SaveAssertion/DeleteAssertion - 1:1 with commands")
+    Component(handlers, "Admin Handlers", "PSR-15 handler ×5", "AclOverview/RoleList/ResourceList/RuleManager/RouteMapManager - render only")
 
     Rel(builder, cache2, "read/write serialised arrays")
     Rel(builder, repo, "fetch* on cache miss; fetchVersion() always")
@@ -78,7 +78,7 @@ C4Component
     Rel(acli, builder, "constructed with Laminas Acl + routeMappings from builder")
     Rel(authmw, acli, "isAllowedRoute(request, roles)")
     Rel(identmw, authmw, "populates UserInterface attribute consumed by AuthorizationMiddleware")
-    Rel(adminmw, bus, "handle(CommandInterface) — dispatches typed command")
+    Rel(adminmw, bus, "handle(CommandInterface) - dispatches typed command")
     Rel(bus, cmdhandlers, "resolves and calls handler")
     Rel(cmdhandlers, repo, "save* / delete* / incrementVersion")
     Rel(adminmw, handlers, "passes CommandResult attribute on request")
@@ -91,12 +91,12 @@ C4Component
 
 ```mermaid
 flowchart TB
-    A["**Admin UI Layer**\nHttp\\Admin\\RequestHandlers\\* — render only\ntemplates/acl/*.phtml"]
-    B["**Write-Path Middleware Layer**\nHttp\\Admin\\Middleware\\Process* — HttpMethodProcessorTrait\nDispatches typed Command; sets CommandResult attribute on request"]
-    BUS["**Command Bus Layer**\nwebware/command-bus — CommandBusInterface\nAdmin\\Command\\* (11 typed commands)\nAdmin\\CommandHandler\\* (11 handlers — 1:1 with commands)"]
-    C["**Access Control Layer**\nHttp\\Middleware\\AuthorizationMiddleware\nMiddleware\\IdentityMiddleware\nAcl — isAllowed / isAllowedRoute / isAllowedByRouteName"]
-    D["**Build & Cache Layer**\nAclBuilder + FileAclCache\nPSR-14 event pipeline — 5 events"]
-    E["**Repository Layer**\nAclRepository — implements AclRepositoryInterface\nEntity\\Role, Entity\\Resource, Entity\\Privilege"]
+    A["**Admin UI Layer**\nHttp\\Admin\\RequestHandlers\\* - render only\ntemplates/acl/*.phtml"]
+    B["**Write-Path Middleware Layer**\nHttp\\Admin\\Middleware\\Process* - HttpMethodProcessorTrait\nDispatches typed Command; sets CommandResult attribute on request"]
+    BUS["**Command Bus Layer**\nwebware/command-bus - CommandBusInterface\nAdmin\\Command\\* (11 typed commands)\nAdmin\\CommandHandler\\* (11 handlers - 1:1 with commands)"]
+    C["**Access Control Layer**\nHttp\\Middleware\\AuthorizationMiddleware\nMiddleware\\IdentityMiddleware\nAcl - isAllowed / isAllowedRoute / isAllowedByRouteName"]
+    D["**Build & Cache Layer**\nAclBuilder + FileAclCache\nPSR-14 event pipeline - 5 events"]
+    E["**Repository Layer**\nAclRepository - implements AclRepositoryInterface\nEntity\\Role, Entity\\Resource, Entity\\Privilege"]
 
     A --> B --> BUS --> C --> D --> E
 ```
@@ -213,7 +213,7 @@ classDiagram
 
 ---
 
-## 6. Request Lifecycle — Per-Request Flow
+## 6. Request Lifecycle: Per-Request Flow
 
 ```mermaid
 sequenceDiagram
@@ -301,7 +301,7 @@ sequenceDiagram
 
 ---
 
-## 8. Admin Write Pipeline — Single Write Route
+## 8. Admin Write Pipeline: Single Write Route
 
 ```mermaid
 flowchart LR
@@ -398,21 +398,21 @@ erDiagram
 
 ## 11. Architectural Decision Records
 
-### ADR-001 — Use Laminas Permissions ACL as the evaluation engine
+### ADR-001: Use Laminas Permissions ACL as the evaluation engine
 **Status**: Accepted  
 **Rationale**: Proven RBAC library with hierarchical role inheritance, assertion
 support, and `allow`/`deny` semantics. Avoids reimplementing graph traversal and
 evaluation logic. Trade-off: tight coupling to Laminas in `AclBuilder`; isolated
 behind `AclInterface` for callers.
 
-### ADR-002 — PSR-14 events for the build pipeline
+### ADR-002: PSR-14 events for the build pipeline
 **Status**: Accepted  
 **Rationale**: Modules must be able to register ACL data without modifying
 `AclBuilder`. PSR-14 events provide a stable contract. Listeners are registered
 in each module's `ConfigProvider::getListeners()`. No service locator, no
 runtime config merging.
 
-### ADR-003 — File cache with version counter
+### ADR-003: File cache with version counter
 **Status**: Accepted  
 **Rationale**: Zero-infrastructure requirement. PHP `serialize`/`unserialize` on
 a local file is adequate for a single-process CLI server or traditional
@@ -420,14 +420,14 @@ PHP-FPM deployment. The version counter in the DB (`acl_version` table) provides
 a reliable invalidation signal. If the cache file is absent or the version
 counter mismatches, a full rebuild runs.
 
-### ADR-004 — Route mappings stored separately from the Laminas Acl
+### ADR-004: Route mappings stored separately from the Laminas Acl
 **Status**: Accepted  
 **Rationale**: Laminas Acl has no HTTP concept. Route mappings are a thin lookup
 table (`route_name → resource_id + privilege_id`) held in the `Acl` wrapper.
 This keeps the Laminas layer pure and makes `isAllowedRoute()` a simple two-step
 lookup with no Laminas coupling.
 
-### ADR-005 — Middleware processes data; handlers render only
+### ADR-005: Middleware processes data; handlers render only
 **Status**: Accepted  
 **Rationale**: Write operations (`POST`, `PATCH`, `DELETE`) are handled by
 `Process*Middleware` classes using `HttpMethodProcessorTrait`. The downstream
@@ -435,7 +435,7 @@ lookup with no Laminas coupling.
 renders. This eliminates method-branching in handlers and makes each class
 single-responsibility.
 
-### ADR-007 — CommandBus for all admin write operations
+### ADR-007: CommandBus for all admin write operations
 **Status**: Accepted  
 **Rationale**: Middleware previously called `AclRepository` directly, coupling
 HTTP concerns to persistence logic. `webware/command-bus` decouples the
@@ -446,7 +446,7 @@ class and calls `handle()`. The `CommandResult` returned by the handler is set
 as the `CommandResult::class` request attribute for the downstream
 `RequestHandler`. The old `WriteResult` enum was retired.
 
-### ADR-008 — One CommandHandler per Command (1:1)
+### ADR-008: One CommandHandler per Command (1:1)
 **Status**: Accepted  
 **Rationale**: Handlers that switch on `instanceof` to serve multiple commands
 violate the Single Responsibility Principle and complicate testing. Each of the
@@ -454,7 +454,7 @@ violate the Single Responsibility Principle and complicate testing. Each of the
 makes handlers trivially testable in isolation (one mock, one assertion path)
 and makes the `ConfigProvider` command map self-documenting.
 
-### ADR-006 — Administrators cannot manage their own ACL
+### ADR-006: Administrators cannot manage their own ACL
 **Status**: Accepted  
 **Rationale**: `RegisterAclRulesListener` grants ACL management only to the
 `Developer` role. Granting `Administrator` write access to the ACL would allow
