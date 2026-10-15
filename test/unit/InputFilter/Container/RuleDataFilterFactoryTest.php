@@ -21,7 +21,8 @@ final class RuleDataFilterFactoryTest extends TestCase
     {
         $factory   = InputFilter\Factory::new(new ServiceManager());
         $container = $this->createStub(ContainerInterface::class);
-        $container->method('get')
+        $container
+            ->method('get')
             ->willReturnMap([
                 [InputFilter\Factory::class, $factory],
             ]);

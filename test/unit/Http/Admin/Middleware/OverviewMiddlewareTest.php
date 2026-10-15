@@ -90,7 +90,8 @@ final class OverviewMiddlewareTest extends TestCase
         ]));
 
         $routeCollector = $this->createStub(RouteCollectorInterface::class);
-        $routeCollector->method('getRoutes')
+        $routeCollector
+            ->method('getRoutes')
             ->willReturn([
                 $this->route('dashboard', ['GET']),
                 $this->route('unprotected', ['GET']),
@@ -157,7 +158,8 @@ final class OverviewMiddlewareTest extends TestCase
         ]));
 
         $routeCollector = $this->createStub(RouteCollectorInterface::class);
-        $routeCollector->method('getRoutes')
+        $routeCollector
+            ->method('getRoutes')
             ->willReturn([
                 $this->route('admin', ['GET']),
                 $this->route('admin.users', ['GET']),

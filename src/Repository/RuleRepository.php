@@ -35,7 +35,8 @@ final class RuleRepository
     public function hasRule(string $roleId, string $resourceId): bool
     {
         $select = $this->gateway->getSql()->select();
-        $select->columns(['id'])
+        $select
+            ->columns(['id'])
             ->where(['roleId' => $roleId, 'resourceId' => $resourceId])
             ->limit(1);
 
@@ -77,7 +78,8 @@ final class RuleRepository
         }
 
         $select = $this->gateway->getSql()->select();
-        $select->columns(['id'])
+        $select
+            ->columns(['id'])
             ->where(['roleId' => $roleId, 'resourceId' => $resourceId])
             ->limit(1);
 

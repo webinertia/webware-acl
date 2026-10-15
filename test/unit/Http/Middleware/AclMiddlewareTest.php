@@ -24,14 +24,16 @@ final class AclMiddlewareTest extends TestCase
 
         $decorated = $this->createStub(ServerRequestInterface::class);
         $request   = $this->createMock(ServerRequestInterface::class);
-        $request->expects(self::once())
+        $request
+            ->expects(self::once())
             ->method('withAttribute')
             ->with(AclInterface::class, $acl)
             ->willReturn($decorated);
 
         $response = $this->createStub(ResponseInterface::class);
         $handler  = $this->createMock(RequestHandlerInterface::class);
-        $handler->expects(self::once())
+        $handler
+            ->expects(self::once())
             ->method('handle')
             ->with($decorated)
             ->willReturn($response);

@@ -32,7 +32,8 @@ final class ProcessRoleMiddlewareTest extends TestCase
     {
         $captured = null;
         $bus      = $this->createMock(MessageBusInterface::class);
-        $bus->expects($this->once())
+        $bus
+            ->expects($this->once())
             ->method('handle')
             ->with($this->isInstanceOf(DeleteRoleCommand::class))
             ->willReturnCallback(static function (DeleteRoleCommand $cmd) use (&$captured): CommandResult {
@@ -57,7 +58,8 @@ final class ProcessRoleMiddlewareTest extends TestCase
     {
         $captured = null;
         $bus      = $this->createMock(MessageBusInterface::class);
-        $bus->expects($this->once())
+        $bus
+            ->expects($this->once())
             ->method('handle')
             ->with($this->isInstanceOf(SaveRoleCommand::class))
             ->willReturnCallback(static function (SaveRoleCommand $cmd) use (&$captured): CommandResult {
@@ -84,7 +86,8 @@ final class ProcessRoleMiddlewareTest extends TestCase
     {
         $captured = null;
         $bus      = $this->createMock(MessageBusInterface::class);
-        $bus->expects($this->once())
+        $bus
+            ->expects($this->once())
             ->method('handle')
             ->with($this->isInstanceOf(SaveRoleCommand::class))
             ->willReturnCallback(static function (SaveRoleCommand $cmd) use (&$captured): CommandResult {

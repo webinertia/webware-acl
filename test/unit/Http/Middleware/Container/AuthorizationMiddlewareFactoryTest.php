@@ -21,7 +21,8 @@ final class AuthorizationMiddlewareFactoryTest extends TestCase
     public function invokeBuildsMiddleware(): void
     {
         $container = $this->createStub(ContainerInterface::class);
-        $container->method('get')
+        $container
+            ->method('get')
             ->willReturnMap([
                 [
                     ForbiddenHandlerInterface::class,

@@ -63,7 +63,8 @@ final class SeedRunnerTest extends TestCase
     private function provider(string $resourceId, ?string $parentResourceId = null): RuleSeedProviderInterface
     {
         $provider = $this->createStub(RuleSeedProviderInterface::class);
-        $provider->method('ruleSeeds')
+        $provider
+            ->method('ruleSeeds')
             ->willReturn([
                 new RuleSeed(
                     type            : RuleType::Allow,

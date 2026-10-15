@@ -33,7 +33,8 @@ final class ProcessRuleMiddlewareTest extends TestCase
     public function processDeleteDispatchesDeleteRuleCommand(): void
     {
         $bus = $this->createMock(MessageBusInterface::class);
-        $bus->expects(self::once())
+        $bus
+            ->expects(self::once())
             ->method('handle')
             ->with(self::isInstanceOf(DeleteRuleCommand::class))
             ->willReturnCallback(
@@ -71,7 +72,8 @@ final class ProcessRuleMiddlewareTest extends TestCase
     public function processDeleteSetsFailureWhenBusFails(): void
     {
         $bus = $this->createMock(MessageBusInterface::class);
-        $bus->expects(self::once())
+        $bus
+            ->expects(self::once())
             ->method('handle')
             ->with(self::isInstanceOf(DeleteRuleCommand::class))
             ->willReturnCallback(
@@ -103,7 +105,8 @@ final class ProcessRuleMiddlewareTest extends TestCase
     public function processPatchDispatchesUpdateRuleTypeCommand(): void
     {
         $bus = $this->createMock(MessageBusInterface::class);
-        $bus->expects(self::once())
+        $bus
+            ->expects(self::once())
             ->method('handle')
             ->with(self::isInstanceOf(UpdateRuleTypeCommand::class))
             ->willReturnCallback(
@@ -132,7 +135,8 @@ final class ProcessRuleMiddlewareTest extends TestCase
     public function processPatchSetsFailureWhenBusFails(): void
     {
         $bus = $this->createMock(MessageBusInterface::class);
-        $bus->expects(self::once())
+        $bus
+            ->expects(self::once())
             ->method('handle')
             ->with(self::isInstanceOf(UpdateRuleTypeCommand::class))
             ->willReturnCallback(
@@ -185,7 +189,8 @@ final class ProcessRuleMiddlewareTest extends TestCase
     public function processPostDispatchesSaveRuleCommand(): void
     {
         $bus = $this->createMock(MessageBusInterface::class);
-        $bus->expects(self::once())
+        $bus
+            ->expects(self::once())
             ->method('handle')
             ->with(self::isInstanceOf(SaveRuleCommand::class))
             ->willReturnCallback(
@@ -215,7 +220,8 @@ final class ProcessRuleMiddlewareTest extends TestCase
     public function processPostSetsFailureWhenBusFails(): void
     {
         $bus = $this->createMock(MessageBusInterface::class);
-        $bus->expects(self::once())
+        $bus
+            ->expects(self::once())
             ->method('handle')
             ->with(self::isInstanceOf(SaveRuleCommand::class))
             ->willReturnCallback(

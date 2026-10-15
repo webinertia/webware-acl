@@ -19,7 +19,8 @@ final class MessageHandlerMiddlewareFactoryTest extends TestCase
     public function invokeBuildsMiddlewareWithAcl(): void
     {
         $container = $this->createStub(ContainerInterface::class);
-        $container->method('get')
+        $container
+            ->method('get')
             ->willReturnMap([
                 [AclInterface::class, $this->createStub(AclInterface::class)],
             ]);

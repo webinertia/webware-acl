@@ -34,7 +34,8 @@ final class MessageHandlerMiddlewareIntegrationTest extends TestCase
         $expectedResult = $this->createStub(ResultInterface::class);
 
         $acl = $this->createMock(AclInterface::class);
-        $acl->expects($this->once())
+        $acl
+            ->expects($this->once())
             ->method('isAllowed')
             ->with($role, $message, 'create')
             ->willReturn(true);
@@ -69,7 +70,8 @@ final class MessageHandlerMiddlewareIntegrationTest extends TestCase
         $message->method('getPrivilegeId')->willReturn('delete');
 
         $acl = $this->createMock(AclInterface::class);
-        $acl->expects($this->once())
+        $acl
+            ->expects($this->once())
             ->method('isAllowed')
             ->with($role, $message, 'delete')
             ->willReturn(false);

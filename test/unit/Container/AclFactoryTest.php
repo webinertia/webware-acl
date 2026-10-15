@@ -27,7 +27,8 @@ final class AclFactoryTest extends TestCase
     {
         $adapter   = $this->createAdapter([]);
         $container = $this->createStub(ContainerInterface::class);
-        $container->method('get')
+        $container
+            ->method('get')
             ->willReturnMap([
                 [MessageBusInterface::class, $this->createQueryBus($adapter)],
                 [

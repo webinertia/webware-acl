@@ -26,7 +26,8 @@ final class RuleSeederFactoryTest extends TestCase
         $metadata->method('getTableNames')->willReturn(['acl_rule']);
 
         $container = $this->createStub(ContainerInterface::class);
-        $container->method('get')
+        $container
+            ->method('get')
             ->willReturnMap([
                 [AdapterInterface::class, $this->createStub(AdapterInterface::class)],
                 [SchemaFactory::class, new SchemaFactory()],

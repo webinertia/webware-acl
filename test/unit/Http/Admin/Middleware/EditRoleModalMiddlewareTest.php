@@ -30,7 +30,8 @@ final class EditRoleModalMiddlewareTest extends TestCase
         $attached = null;
 
         $handler = $this->createStub(RequestHandlerInterface::class);
-        $handler->method('handle')
+        $handler
+            ->method('handle')
             ->willReturnCallback(
                 static function (ServerRequestInterface $request) use (&$attached): ResponseInterface {
                     $attached = $request->getAttribute(EditRoleModalMiddleware::class);
@@ -60,7 +61,8 @@ final class EditRoleModalMiddlewareTest extends TestCase
         $attached = null;
 
         $handler = $this->createStub(RequestHandlerInterface::class);
-        $handler->method('handle')
+        $handler
+            ->method('handle')
             ->willReturnCallback(
                 static function (ServerRequestInterface $request) use (&$attached): ResponseInterface {
                     $attached = $request->getAttribute(EditRoleModalMiddleware::class);

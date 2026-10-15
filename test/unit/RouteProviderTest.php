@@ -183,7 +183,8 @@ final class RouteProviderTest extends TestCase
     private function middlewareFactory(): MiddlewareFactoryInterface
     {
         $factory = $this->createStub(MiddlewareFactoryInterface::class);
-        $factory->method('prepare')
+        $factory
+            ->method('prepare')
             ->willReturnCallback(
                 function (array $middleware): MiddlewareInterface {
                     $this->preparedMiddleware[] = $middleware;

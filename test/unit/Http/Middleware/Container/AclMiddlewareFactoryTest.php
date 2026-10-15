@@ -19,7 +19,8 @@ final class AclMiddlewareFactoryTest extends TestCase
     public function invokeBuildsMiddleware(): void
     {
         $container = $this->createStub(ContainerInterface::class);
-        $container->method('get')
+        $container
+            ->method('get')
             ->willReturnMap([
                 [AclInterface::class, $this->createStub(AclInterface::class)],
             ]);

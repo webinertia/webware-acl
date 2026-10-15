@@ -106,7 +106,8 @@ final class RouteResourceTest extends TestCase
     {
         $request = $this->createStub(ServerRequestInterface::class);
         $request->method('getQueryParams')->willReturn($queryParams);
-        $request->method('getAttribute')
+        $request
+            ->method('getAttribute')
             ->willReturnCallback(
                 static fn(string $name, mixed $default = null): mixed => $attributes[$name] ?? $default,
             );

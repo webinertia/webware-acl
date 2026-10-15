@@ -41,7 +41,8 @@ final class ForbiddenHandlerTest extends TestCase
     {
         $handler   = new ForbiddenHandler('/login', '/denied');
         $messenger = $this->createMock(SystemMessengerInterface::class);
-        $messenger->expects(self::once())
+        $messenger
+            ->expects(self::once())
             ->method('warning')
             ->with(
                 'You do not have permission to access the requested resource.',
@@ -96,7 +97,8 @@ final class ForbiddenHandlerTest extends TestCase
     private function request(array $attributes, array $serverParams = []): ServerRequestInterface
     {
         $request = $this->createStub(ServerRequestInterface::class);
-        $request->method('getAttribute')
+        $request
+            ->method('getAttribute')
             ->willReturnCallback(
                 static fn(string $name, mixed $default = null): mixed => $attributes[$name] ?? $default,
             );

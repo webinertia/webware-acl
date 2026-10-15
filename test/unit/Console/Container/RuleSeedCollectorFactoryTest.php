@@ -76,7 +76,8 @@ final class RuleSeedCollectorFactoryTest extends TestCase
 
         $container = $this->createStub(ContainerInterface::class);
         $container->method('has')->willReturn(true);
-        $container->method('get')
+        $container
+            ->method('get')
             ->willReturnCallback(
                 static fn(string $id): mixed => 'config' === $id ? $config : $services[$id],
             );
