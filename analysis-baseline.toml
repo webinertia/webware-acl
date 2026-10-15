@@ -2,12 +2,6 @@ variant = "loose"
 
 [[issues]]
 file = "src/Acl.php"
-code = "impossible-condition"
-message = "This condition (type `false`) will always evaluate to false."
-count = 2
-
-[[issues]]
-file = "src/Acl.php"
 code = "impossible-null-type-comparison"
 message = "Impossible condition: variable `$name` (type `non-empty-string`) will always be `null`."
 count = 2
@@ -51,13 +45,7 @@ count = 1
 [[issues]]
 file = "src/Acl.php"
 code = "possibly-null-argument"
-message = 'Argument #1 of method `Webware\Acl\Acl::isAllowed` is possibly `null`, but parameter type `Laminas\Permissions\Acl\Role\RoleInterface|string` does not accept it.'
-count = 1
-
-[[issues]]
-file = "src/Acl.php"
-code = "possibly-null-argument"
-message = 'Argument #2 of method `Laminas\Permissions\Acl\Acl::addResource` is possibly `null`, but parameter type `Laminas\Permissions\Acl\Resource\ResourceInterface|string` does not accept it.'
+message = 'Argument #1 of method `Laminas\Permissions\Acl\Acl::hasResource` is possibly `null`, but parameter type `Laminas\Permissions\Acl\Resource\ResourceInterface|string` does not accept it.'
 count = 1
 
 [[issues]]
@@ -70,7 +58,7 @@ count = 1
 file = "src/Acl.php"
 code = "redundant-comparison"
 message = "Redundant `===` comparison: left-hand side is never identical to right-hand side."
-count = 4
+count = 2
 
 [[issues]]
 file = "src/Acl.php"
@@ -104,14 +92,14 @@ count = 1
 
 [[issues]]
 file = "src/Assertion/AssertionAggregate.php"
-code = "docblock-type-mismatch"
-message = 'Docblock return type `Laminas\Permissions\Acl\Assertion\AssertionManager|null` is incompatible with native return type `Webware\Acl\AssertionManager|null`.'
+code = "invalid-property-assignment-value"
+message = 'Invalid type for property `$assertionManager`: expected `Laminas\Permissions\Acl\Assertion\AssertionManager|null`, but got `Laminas\Permissions\Acl\Assertion\AssertionManager|Webware\Acl\AssertionManager`.'
 count = 1
 
 [[issues]]
 file = "src/Assertion/AssertionAggregate.php"
-code = "invalid-property-assignment-value"
-message = 'Invalid type for property `$assertionManager`: expected `Laminas\Permissions\Acl\Assertion\AssertionManager|null`, but got `Laminas\Permissions\Acl\Assertion\AssertionManager|Webware\Acl\AssertionManager`.'
+code = "invalid-return-statement"
+message = 'Invalid return type for function `Webware\Acl\Assertion\AssertionAggregate::getAssertionManager`: expected `Webware\Acl\AssertionManager|null`, but found `Laminas\Permissions\Acl\Assertion\AssertionManager|null`.'
 count = 1
 
 [[issues]]
@@ -160,6 +148,12 @@ count = 1
 file = "src/Entity/Role.php"
 code = "invalid-type-cast"
 message = 'Object of type `$this(Webware\Acl\Entity\Role)` cast to `array`. Property visibility (public, protected, private) affects the resulting array.'
+count = 1
+
+[[issues]]
+file = "src/Entity/Role.php"
+code = "less-specific-return-statement"
+message = 'Returned type `array<array-key, mixed>` is less specific than the declared return type `array<string, mixed>` for function `Webware\Acl\Entity\Role::toArray`.'
 count = 1
 
 [[issues]]
@@ -226,6 +220,12 @@ count = 1
 file = "src/Entity/Rule.php"
 code = "less-specific-return-statement"
 message = 'Returned type `PhpDb\ResultSet\RowPrototypeInterface` is less specific than the declared return type `webware\acl\entity\rule` for function `Webware\Acl\Entity\Rule::withRowData`.'
+count = 1
+
+[[issues]]
+file = "src/Entity/Rule.php"
+code = "less-specific-return-statement"
+message = 'Returned type `array<array-key, mixed>` is less specific than the declared return type `array<string, mixed>` for function `Webware\Acl\Entity\Rule::toArray`.'
 count = 1
 
 [[issues]]
@@ -388,12 +388,6 @@ count = 1
 file = "src/Repository/RoleRepository.php"
 code = "possibly-null-argument"
 message = 'Argument #1 of method `Laminas\Permissions\Acl\Role\Registry::add` is possibly `null`, but parameter type `Laminas\Permissions\Acl\Role\RoleInterface` does not accept it.'
-count = 1
-
-[[issues]]
-file = "src/Repository/RoleRepository.php"
-code = "possibly-null-argument"
-message = 'Argument #2 of method `Laminas\Permissions\Acl\Role\Registry::add` is possibly `null`, but parameter type `Laminas\Permissions\Acl\Role\RoleInterface|Traversable<mixed, mixed>|array<array-key, mixed>|string` does not accept it.'
 count = 1
 
 [[issues]]
