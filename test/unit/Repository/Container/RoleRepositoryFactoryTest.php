@@ -23,7 +23,8 @@ final class RoleRepositoryFactoryTest extends TestCase
     public function invokeBuildsRepository(): void
     {
         $container = $this->createStub(ContainerInterface::class);
-        $container->method('get')
+        $container
+            ->method('get')
             ->willReturnMap([
                 [SchemaFactory::class, new SchemaFactory([])],
                 [AdapterInterface::class, $this->createAdapter([])],

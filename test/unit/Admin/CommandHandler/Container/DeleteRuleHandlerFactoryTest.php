@@ -22,7 +22,8 @@ final class DeleteRuleHandlerFactoryTest extends TestCase
     public function invokeBuildsHandler(): void
     {
         $container = $this->createStub(ContainerInterface::class);
-        $container->method('get')
+        $container
+            ->method('get')
             ->willReturnMap([
                 [RuleRepository::class, $this->createRuleRepository($this->createAdapter([]))],
             ]);

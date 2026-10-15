@@ -33,7 +33,8 @@ final class RoleListMiddlewareTest extends TestCase
         $attached = null;
 
         $handler = $this->createStub(RequestHandlerInterface::class);
-        $handler->method('handle')
+        $handler
+            ->method('handle')
             ->willReturnCallback(
                 static function (ServerRequestInterface $request) use (&$attached): ResponseInterface {
                     $attached = $request->getAttribute(RoleListMiddleware::class);

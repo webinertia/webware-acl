@@ -34,7 +34,8 @@ final class ProcessRuleMiddlewareTest extends TestCase
     {
         $captured = null;
         $bus      = $this->createMock(MessageBusInterface::class);
-        $bus->expects($this->once())
+        $bus
+            ->expects($this->once())
             ->method('handle')
             ->with($this->isInstanceOf(DeleteRuleCommand::class))
             ->willReturnCallback(static function (DeleteRuleCommand $cmd) use (&$captured): CommandResult {
@@ -60,7 +61,8 @@ final class ProcessRuleMiddlewareTest extends TestCase
     {
         $captured = null;
         $bus      = $this->createMock(MessageBusInterface::class);
-        $bus->expects($this->once())
+        $bus
+            ->expects($this->once())
             ->method('handle')
             ->with($this->isInstanceOf(UpdateRuleTypeCommand::class))
             ->willReturnCallback(static function (UpdateRuleTypeCommand $cmd) use (&$captured): CommandResult {
@@ -91,7 +93,8 @@ final class ProcessRuleMiddlewareTest extends TestCase
     {
         $captured = null;
         $bus      = $this->createMock(MessageBusInterface::class);
-        $bus->expects($this->once())
+        $bus
+            ->expects($this->once())
             ->method('handle')
             ->with($this->isInstanceOf(SaveRuleCommand::class))
             ->willReturnCallback(static function (SaveRuleCommand $cmd) use (&$captured): CommandResult {

@@ -43,7 +43,8 @@ final class SeedFactoriesTest extends TestCase
     public function seedRunnerFactoryComposesCollectorSeederAndRoutes(): void
     {
         $container = $this->createStub(ContainerInterface::class);
-        $container->method('get')
+        $container
+            ->method('get')
             ->willReturnMap([
                 [RuleSeedCollector::class, new RuleSeedCollector([], 'admin')],
                 [

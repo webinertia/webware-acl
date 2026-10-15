@@ -30,7 +30,8 @@ final class ProcessRoleMiddlewareTest extends TestCase
     public function processDeleteDispatchesDeleteRoleCommand(): void
     {
         $bus = $this->createMock(MessageBusInterface::class);
-        $bus->expects(self::once())
+        $bus
+            ->expects(self::once())
             ->method('handle')
             ->with(self::isInstanceOf(DeleteRoleCommand::class))
             ->willReturnCallback(
@@ -61,7 +62,8 @@ final class ProcessRoleMiddlewareTest extends TestCase
     public function processDeleteSetsFailureWhenBusFails(): void
     {
         $bus = $this->createMock(MessageBusInterface::class);
-        $bus->expects(self::once())
+        $bus
+            ->expects(self::once())
             ->method('handle')
             ->with(self::isInstanceOf(DeleteRoleCommand::class))
             ->willReturnCallback(
@@ -87,7 +89,8 @@ final class ProcessRoleMiddlewareTest extends TestCase
     public function processPatchDispatchesSaveRoleCommandOnValidInput(): void
     {
         $bus = $this->createMock(MessageBusInterface::class);
-        $bus->expects(self::once())
+        $bus
+            ->expects(self::once())
             ->method('handle')
             ->with(self::isInstanceOf(SaveRoleCommand::class))
             ->willReturnCallback(
@@ -112,7 +115,8 @@ final class ProcessRoleMiddlewareTest extends TestCase
     public function processPatchSetsFailureWhenBusFails(): void
     {
         $bus = $this->createMock(MessageBusInterface::class);
-        $bus->expects(self::once())
+        $bus
+            ->expects(self::once())
             ->method('handle')
             ->with(self::isInstanceOf(SaveRoleCommand::class))
             ->willReturnCallback(
@@ -161,7 +165,8 @@ final class ProcessRoleMiddlewareTest extends TestCase
     public function processPostDispatchesSaveRoleCommand(): void
     {
         $bus = $this->createMock(MessageBusInterface::class);
-        $bus->expects(self::once())
+        $bus
+            ->expects(self::once())
             ->method('handle')
             ->with(self::isInstanceOf(SaveRoleCommand::class))
             ->willReturnCallback(
@@ -186,7 +191,8 @@ final class ProcessRoleMiddlewareTest extends TestCase
     public function processPostSetsFailureWhenBusFails(): void
     {
         $bus = $this->createMock(MessageBusInterface::class);
-        $bus->expects(self::once())
+        $bus
+            ->expects(self::once())
             ->method('handle')
             ->with(self::isInstanceOf(SaveRoleCommand::class))
             ->willReturnCallback(

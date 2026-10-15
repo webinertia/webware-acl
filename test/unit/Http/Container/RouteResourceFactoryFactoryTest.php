@@ -28,7 +28,8 @@ final class RouteResourceFactoryFactoryTest extends TestCase
     public function invokeReadsParamMapFromConfig(): void
     {
         $container = $this->createStub(ContainerInterface::class);
-        $container->method('get')
+        $container
+            ->method('get')
             ->willReturnMap([
                 [
                     'config',

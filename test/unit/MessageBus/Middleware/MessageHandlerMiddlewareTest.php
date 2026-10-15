@@ -31,13 +31,15 @@ final class MessageHandlerMiddlewareTest extends TestCase
         $result = $this->createStub(ResultInterface::class);
 
         $next = $this->createMock(PipelineHandlerInterface::class);
-        $next->expects($this->once())
+        $next
+            ->expects($this->once())
             ->method('handle')
             ->with($message)
             ->willReturn($result);
 
         $acl = $this->createMock(AclInterface::class);
-        $acl->expects($this->once())
+        $acl
+            ->expects($this->once())
             ->method('isAllowed')
             ->with($role, $message, 'create')
             ->willReturn(true);
@@ -59,7 +61,8 @@ final class MessageHandlerMiddlewareTest extends TestCase
         $next->expects($this->never())->method('handle');
 
         $acl = $this->createMock(AclInterface::class);
-        $acl->expects($this->once())
+        $acl
+            ->expects($this->once())
             ->method('isAllowed')
             ->with($role, $message, 'delete')
             ->willReturn(false);
@@ -79,7 +82,8 @@ final class MessageHandlerMiddlewareTest extends TestCase
         $result  = $this->createStub(ResultInterface::class);
 
         $next = $this->createMock(PipelineHandlerInterface::class);
-        $next->expects($this->once())
+        $next
+            ->expects($this->once())
             ->method('handle')
             ->with($message)
             ->willReturn($result);

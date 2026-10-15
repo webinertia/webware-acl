@@ -36,7 +36,8 @@ final class SeedCommandTest extends TestCase
     public function failsAndListsEveryViolation(): void
     {
         $provider = $this->createStub(RuleSeedProviderInterface::class);
-        $provider->method('ruleSeeds')
+        $provider
+            ->method('ruleSeeds')
             ->willReturn([
                 new RuleSeed(
                     type      : RuleType::Allow,

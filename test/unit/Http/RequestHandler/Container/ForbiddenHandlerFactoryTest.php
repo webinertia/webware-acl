@@ -22,7 +22,8 @@ final class ForbiddenHandlerFactoryTest extends TestCase
     public function invokeReadsLoginPathAndForbiddenRedirectFromConfig(): void
     {
         $container = $this->createStub(ContainerInterface::class);
-        $container->method('get')
+        $container
+            ->method('get')
             ->willReturnMap([
                 [
                     'config',
@@ -67,7 +68,8 @@ final class ForbiddenHandlerFactoryTest extends TestCase
     private function request(UserInterface $user): ServerRequestInterface
     {
         $request = $this->createStub(ServerRequestInterface::class);
-        $request->method('getAttribute')
+        $request
+            ->method('getAttribute')
             ->willReturnMap([
                 [UserInterface::class, $user],
             ]);

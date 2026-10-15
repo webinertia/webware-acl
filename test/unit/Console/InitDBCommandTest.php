@@ -97,7 +97,8 @@ final class InitDBCommandTest extends TestCase
     public function executeFailsWhenThePublishedRulesAreInvalid(): void
     {
         $provider = $this->createStub(RuleSeedProviderInterface::class);
-        $provider->method('ruleSeeds')
+        $provider
+            ->method('ruleSeeds')
             ->willReturn([
                 new RuleSeed(
                     type      : RuleType::Allow,
@@ -148,7 +149,8 @@ final class InitDBCommandTest extends TestCase
         $adapter = $this->createMock(AdapterInterface::class);
         $adapter->method('getDriver')->willReturn($driver);
         $adapter->method('getPlatform')->willReturn($platform);
-        $adapter->expects($this->exactly($queryCalls))
+        $adapter
+            ->expects($this->exactly($queryCalls))
             ->method('query')
             ->with($this->anything(), AdapterInterface::QUERY_MODE_EXECUTE)
             ->willReturn($this->createStub(ResultInterface::class));

@@ -21,7 +21,8 @@ final class EditRoleModalHandlerTest extends TestCase
     {
         [$name, $params] = [null, null];
         $template = $this->createStub(TemplateRendererInterface::class);
-        $template->method('render')
+        $template
+            ->method('render')
             ->willReturnCallback(
                 static function (string $template, mixed $model = null) use (&$name, &$params): string {
                     $name   = $template;
@@ -51,7 +52,8 @@ final class EditRoleModalHandlerTest extends TestCase
         ];
 
         $request = $this->createStub(ServerRequestInterface::class);
-        $request->method('getAttribute')
+        $request
+            ->method('getAttribute')
             ->willReturnCallback(
                 static fn(string $attribute, mixed $default = null): mixed => EditRoleModalMiddleware::class
                     === $attribute
@@ -74,7 +76,8 @@ final class EditRoleModalHandlerTest extends TestCase
     {
         $params   = null;
         $template = $this->createStub(TemplateRendererInterface::class);
-        $template->method('render')
+        $template
+            ->method('render')
             ->willReturnCallback(
                 static function (string $template, mixed $model = null) use (&$params): string {
                     $params = $model;
@@ -84,7 +87,8 @@ final class EditRoleModalHandlerTest extends TestCase
             );
 
         $request = $this->createStub(ServerRequestInterface::class);
-        $request->method('getAttribute')
+        $request
+            ->method('getAttribute')
             ->willReturnCallback(
                 static fn(string $attribute, mixed $default = null): mixed => (
                     EditRoleModalMiddleware::class === $attribute

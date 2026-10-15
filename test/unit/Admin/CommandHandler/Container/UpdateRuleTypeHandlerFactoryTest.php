@@ -24,7 +24,8 @@ final class UpdateRuleTypeHandlerFactoryTest extends TestCase
     {
         $adapter   = $this->createAdapter([]);
         $container = $this->createStub(ContainerInterface::class);
-        $container->method('get')
+        $container
+            ->method('get')
             ->willReturnMap([
                 [RuleRepository::class, $this->createRuleRepository($adapter)],
                 [RoleRepository::class, $this->createRoleRepository($adapter)],

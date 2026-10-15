@@ -21,7 +21,8 @@ final class ResourceListHandlerFactoryTest extends TestCase
     public function invokeBuildsHandlerFromConfig(): void
     {
         $container = $this->createStub(ContainerInterface::class);
-        $container->method('get')
+        $container
+            ->method('get')
             ->willReturnMap([
                 ['config', [AclInterface::class => ['resources' => ['dashboard']]]],
                 [TemplateRendererInterface::class, $this->createStub(TemplateRendererInterface::class)],
