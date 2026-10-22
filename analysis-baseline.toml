@@ -3,8 +3,8 @@ variant = "loose"
 [[issues]]
 file = "src/Acl.php"
 code = "impossible-null-type-comparison"
-message = "Impossible condition: variable `$name` (type `non-empty-string`) will always be `null`."
-count = 2
+message = "Impossible condition: variable `$name` (type `non-empty-string`) can never be non-`null`."
+count = 1
 
 [[issues]]
 file = "src/Acl.php"
@@ -33,7 +33,7 @@ count = 2
 [[issues]]
 file = "src/Acl.php"
 code = "mixed-method-access"
-message = "Attempting to access a method on a non-object type (`mixed`)."
+message = "Attempting to call method `getResourceId()` on a non-object type (`mixed`)."
 count = 1
 
 [[issues]]
@@ -362,6 +362,12 @@ count = 1
 
 [[issues]]
 file = "src/Repository/RoleRepository.php"
+code = "mixed-array-index"
+message = "Invalid index type `mixed` used in array assignment on `array<array-key, non-empty-list<string>>`."
+count = 1
+
+[[issues]]
+file = "src/Repository/RoleRepository.php"
 code = "mixed-assignment"
 message = "Assigning `mixed` type to a variable may lead to unexpected behavior."
 count = 2
@@ -369,7 +375,7 @@ count = 2
 [[issues]]
 file = "src/Repository/RoleRepository.php"
 code = "mixed-method-access"
-message = "Attempting to access a method on a non-object type (`mixed`)."
+message = "Attempting to call method `getRoleId()` on a non-object type (`mixed`)."
 count = 1
 
 [[issues]]
