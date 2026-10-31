@@ -106,6 +106,7 @@ final class InitDBCommand extends Command
     }
 
     /**
+     * @throws PhpDbException
      * @throws SqlInvalidArgumentException
      */
     private function executeDdl(Sql $sql, CreateTable|DropTable $ddl): void
@@ -117,8 +118,9 @@ final class InitDBCommand extends Command
     }
 
     /**
-     * @param array<string, mixed> $row
+     * @param array<string, scalar> $row
      *
+     * @throws PhpDbException
      * @throws SqlInvalidArgumentException
      */
     private function executeInsert(Sql $sql, string $table, array $row): void

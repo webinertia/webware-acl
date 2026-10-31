@@ -7,6 +7,7 @@ namespace Webware\Acl\Repository;
 use Laminas\Permissions\Acl\Exception\ExceptionInterface as AclException;
 use Laminas\Permissions\Acl\Role\Registry;
 use PhpDb\Exception\ExceptionInterface as PhpDbException;
+use PhpDb\Sql\Predicate\Expression as PredicateExpression;
 use PhpDb\TableGateway\TableGateway;
 use Webware\Acl\Entity\Role;
 
@@ -108,7 +109,7 @@ final class RoleRepository
     public function fetchDirectChildren(string $roleId): array
     {
         $select = $this->gateway->getSql()->select()->columns(['roleId']);
-        $select->where->expression('JSON_CONTAINS(parentId, JSON_QUOTE(?))', [$roleId]);
+        $select->where(new PredicateExpression('JSON_CONTAINS(parentId, JSON_QUOTE(?))', [$roleId]));
 
         $children = [];
         /** @var Role $role */
@@ -127,7 +128,7 @@ final class RoleRepository
     public function removeFromParents(string $roleId): void
     {
         $select = $this->gateway->getSql()->select()->columns(['id', 'parentId']);
-        $select->where->expression('JSON_CONTAINS(parentId, JSON_QUOTE(?))', [$roleId]);
+        $select->where(new PredicateExpression('JSON_CONTAINS(parentId, JSON_QUOTE(?))', [$roleId]));
 
         /** @var Role $role */
         foreach ($this->gateway->selectWith($select) as $role) {
