@@ -17,7 +17,7 @@ a PSR-14 event-driven build pipeline, and a full Bootstrap 5 administration UI.
 
 | Dependency | Version |
 |---|---|
-| PHP | 8.5+ |
+| PHP | `~8.4.1 \|\| ~8.5.0 \|\| ~8.6.0` |
 | `mezzio/mezzio` | ^3.0 |
 | `laminas/laminas-permissions-acl` | ^2.0 |
 | `psr/event-dispatcher` | ^1.0 |
