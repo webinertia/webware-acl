@@ -10,7 +10,7 @@ owner: Joey Smith <jsmith@webinertia.net>
 tags: [acl, rbac, mezzio, authorisation, psr-14, laminas]
 ---
 
-# webware-acl: Architecture Blueprint
+# Architecture Blueprint
 
 ## 1. Context (C4 Level 1)
 
@@ -399,6 +399,7 @@ erDiagram
 ## 11. Architectural Decision Records
 
 ### ADR-001: Use Laminas Permissions ACL as the evaluation engine
+
 **Status**: Accepted  
 **Rationale**: Proven RBAC library with hierarchical role inheritance, assertion
 support, and `allow`/`deny` semantics. Avoids reimplementing graph traversal and
@@ -406,6 +407,7 @@ evaluation logic. Trade-off: tight coupling to Laminas in `AclBuilder`; isolated
 behind `AclInterface` for callers.
 
 ### ADR-002: PSR-14 events for the build pipeline
+
 **Status**: Accepted  
 **Rationale**: Modules must be able to register ACL data without modifying
 `AclBuilder`. PSR-14 events provide a stable contract. Listeners are registered
@@ -413,6 +415,7 @@ in each module's `ConfigProvider::getListeners()`. No service locator, no
 runtime config merging.
 
 ### ADR-003: File cache with version counter
+
 **Status**: Accepted  
 **Rationale**: Zero-infrastructure requirement. PHP `serialize`/`unserialize` on
 a local file is adequate for a single-process CLI server or traditional
@@ -421,6 +424,7 @@ a reliable invalidation signal. If the cache file is absent or the version
 counter mismatches, a full rebuild runs.
 
 ### ADR-004: Route mappings stored separately from the Laminas Acl
+
 **Status**: Accepted  
 **Rationale**: Laminas Acl has no HTTP concept. Route mappings are a thin lookup
 table (`route_name → resource_id + privilege_id`) held in the `Acl` wrapper.
@@ -428,6 +432,7 @@ This keeps the Laminas layer pure and makes `isAllowedRoute()` a simple two-step
 lookup with no Laminas coupling.
 
 ### ADR-005: Middleware processes data; handlers render only
+
 **Status**: Accepted  
 **Rationale**: Write operations (`POST`, `PATCH`, `DELETE`) are handled by
 `Process*Middleware` classes using `HttpMethodProcessorTrait`. The downstream
@@ -436,6 +441,7 @@ renders. This eliminates method-branching in handlers and makes each class
 single-responsibility.
 
 ### ADR-007: CommandBus for all admin write operations
+
 **Status**: Accepted  
 **Rationale**: Middleware previously called `AclRepository` directly, coupling
 HTTP concerns to persistence logic. `webware/command-bus` decouples the
@@ -447,6 +453,7 @@ as the `CommandResult::class` request attribute for the downstream
 `RequestHandler`. The old `WriteResult` enum was retired.
 
 ### ADR-008: One CommandHandler per Command (1:1)
+
 **Status**: Accepted  
 **Rationale**: Handlers that switch on `instanceof` to serve multiple commands
 violate the Single Responsibility Principle and complicate testing. Each of the
@@ -455,6 +462,7 @@ makes handlers trivially testable in isolation (one mock, one assertion path)
 and makes the `ConfigProvider` command map self-documenting.
 
 ### ADR-006: Administrators cannot manage their own ACL
+
 **Status**: Accepted  
 **Rationale**: `RegisterAclRulesListener` grants ACL management only to the
 `Developer` role. Granting `Administrator` write access to the ACL would allow

@@ -171,9 +171,9 @@ final class AclAuthorizationIntegrationTest extends TestCase
         $bus = $this->createStub(MessageBusInterface::class);
         $bus->method('handle')->willReturnCallback(
             static fn(MessageInterface $message): QueryResult => match (true) {
-                $message instanceof FetchAllRulesQuery => $allRules->handle($message),
+                $message instanceof FetchAllRulesQuery            => $allRules->handle($message),
                 $message instanceof FetchDistinctResourceIdsQuery => $resources->handle($message),
-                $message instanceof FetchAclRoleRegistryQuery => $registry->handle($message),
+                $message instanceof FetchAclRoleRegistryQuery     => $registry->handle($message),
                 default => throw new RuntimeException('Unmapped query: ' . $message::class),
             },
         );

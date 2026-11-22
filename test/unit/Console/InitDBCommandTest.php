@@ -112,9 +112,9 @@ final class InitDBCommandTest extends TestCase
                 queryCalls         : 2,
                 statementExecutions: count(Role::getRoles()),
             ),
-            runner: $this->seedRunner(
+            runner : $this->seedRunner(
                 providers: [$provider],
-                tables: ['acl_rule'],
+                tables   : ['acl_rule'],
             ),
         );
 

@@ -48,7 +48,7 @@ final class SeedCommandTest extends TestCase
 
         $tester = new CommandTester(new SeedCommand($this->seedRunner(
             providers: [$provider],
-            tables: ['acl_rule'],
+            tables   : ['acl_rule'],
         )));
         $tester->execute([]);
 

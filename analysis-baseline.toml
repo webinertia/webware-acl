@@ -99,13 +99,13 @@ count = 1
 [[issues]]
 file = "src/Assertion/AssertionAggregate.php"
 code = "invalid-return-statement"
-message = 'Invalid return type for function `Webware\Acl\Assertion\AssertionAggregate::getAssertionManager`: expected `Webware\Acl\AssertionManager|null`, but found `Laminas\Permissions\Acl\Assertion\AssertionManager|null`.'
+message = 'Invalid return type for function `Webware\Acl\Assertion\AssertionAggregate::getAssertionManager`: expected `null`, but found `Laminas\Permissions\Acl\Assertion\AssertionManager|null`.'
 count = 1
 
 [[issues]]
-file = "src/AssertionManager.php"
-code = "docblock-type-mismatch"
-message = '''Docblock type `array{'abstract_factories'?: array<array-key, Laminas\ServiceManager\Factory\AbstractFactoryInterface|class-string<Laminas\ServiceManager\Factory\AbstractFactoryInterface>>, 'aliases'?: array<string, string>, 'delegators'?: !Laminas\ServiceManager\ServiceManager::DelegatorsConfiguration, 'factories'?: !Laminas\ServiceManager\ServiceManager::FactoriesConfiguration, 'initializers'?: !Laminas\ServiceManager\ServiceManager::InitializersConfiguration, 'invokables'?: array<string, class-string>, 'lazy_services'?: array{'class_map'?: array<string, class-string>, 'proxies_namespace'?: non-empty-string, 'proxies_target_dir'?: non-empty-string, 'write_proxy_files'?: bool}, 'services'?: array<string, mixed>, 'shared'?: array<string, bool>, 'shared_by_default'?: bool, ...<string, mixed>}` for parameter `$config` is incompatible with native type `array<array-key, mixed>`.'''
+file = "src/Assertion/AssertionAggregate.php"
+code = "nullable-return-statement"
+message = 'Function `Webware\Acl\Assertion\AssertionAggregate::getAssertionManager` is declared to return `null` but possibly returns a nullable value (inferred as `Laminas\Permissions\Acl\Assertion\AssertionManager|null`).'
 count = 1
 
 [[issues]]
@@ -117,7 +117,7 @@ count = 1
 [[issues]]
 file = "src/Container/AssertionManagerFactory.php"
 code = "less-specific-nested-argument-type"
-message = '''Argument type mismatch for argument #2 of `Laminas\ServiceManager\AbstractPluginManager::__construct`: expected `array{'abstract_factories'?: array<array-key, Laminas\ServiceManager\Factory\AbstractFactoryInterface|class-string<Laminas\ServiceManager\Factory\AbstractFactoryInterface>>, 'aliases'?: array<string, string>, 'delegators'?: !Laminas\ServiceManager\ServiceManager::DelegatorsConfiguration, 'factories'?: !Laminas\ServiceManager\ServiceManager::FactoriesConfiguration, 'initializers'?: !Laminas\ServiceManager\ServiceManager::InitializersConfiguration, 'invokables'?: array<string, class-string>, 'lazy_services'?: array{'class_map'?: array<string, class-string>, 'proxies_namespace'?: non-empty-string, 'proxies_target_dir'?: non-empty-string, 'write_proxy_files'?: bool}, 'services'?: array<string, mixed>, 'shared'?: array<string, bool>, 'shared_by_default'?: bool, ...<string, mixed>}`, but provided type `array<string, mixed>` is less specific.'''
+message = '''Argument type mismatch for argument #2 of `Laminas\ServiceManager\AbstractPluginManager::__construct`: expected `array{'abstract_factories'?: array<array-key, Laminas\ServiceManager\Factory\AbstractFactoryInterface|class-string<Laminas\ServiceManager\Factory\AbstractFactoryInterface>>, 'aliases'?: array<string, string>, 'delegators'?: array<string, array<array-key, (callable(Psr\Container\ContainerInterface, string, (callable(): mixed), array<array-key, mixed>|null): mixed)|Laminas\ServiceManager\Factory\DelegatorFactoryInterface|class-string<(!Laminas\ServiceManager\ServiceManager::DelegatorCallable)&object>|class-string<Laminas\ServiceManager\Factory\DelegatorFactoryInterface>>>, 'factories'?: array<string, (callable(Psr\Container\ContainerInterface, string, array<array-key, mixed>|null): mixed)|Laminas\ServiceManager\Factory\FactoryInterface|class-string<(!Laminas\ServiceManager\ServiceManager::FactoryCallable)&object>|class-string<Laminas\ServiceManager\Factory\FactoryInterface>>, 'initializers'?: array<array-key, (callable(Psr\Container\ContainerInterface, mixed): void)|Laminas\ServiceManager\Initializer\InitializerInterface|class-string<(!Laminas\ServiceManager\ServiceManager::InitializerCallable)&object>|class-string<Laminas\ServiceManager\Initializer\InitializerInterface>>, 'invokables'?: array<string, class-string>, 'lazy_services'?: array{'class_map'?: array<string, class-string>, 'proxies_namespace'?: non-empty-string, 'proxies_target_dir'?: non-empty-string, 'write_proxy_files'?: bool}, 'services'?: array<string, mixed>, 'shared'?: array<string, bool>, 'shared_by_default'?: bool, ...<string, mixed>}`, but provided type `array<string, mixed>` is less specific.'''
 count = 1
 
 [[issues]]
@@ -219,7 +219,7 @@ count = 1
 [[issues]]
 file = "src/Entity/Rule.php"
 code = "less-specific-return-statement"
-message = 'Returned type `PhpDb\ResultSet\RowPrototypeInterface` is less specific than the declared return type `webware\acl\entity\rule` for function `Webware\Acl\Entity\Rule::withRowData`.'
+message = 'Returned type `PhpDb\ResultSet\RowPrototypeInterface` is less specific than the declared return type `Webware\Acl\Entity\Rule` for function `Webware\Acl\Entity\Rule::withRowData`.'
 count = 1
 
 [[issues]]
@@ -260,26 +260,20 @@ count = 1
 
 [[issues]]
 file = "src/Http/Admin/Middleware/OverviewMiddleware.php"
-code = "invalid-iterator"
-message = "The expression provided to `foreach` is not iterable. It resolved to type `mixed`, which is not iterable."
-count = 1
-
-[[issues]]
-file = "src/Http/Admin/Middleware/OverviewMiddleware.php"
-code = "mixed-assignment"
-message = "Assigning `mixed` type to a variable may lead to unexpected behavior."
-count = 1
-
-[[issues]]
-file = "src/Http/Admin/Middleware/OverviewMiddleware.php"
-code = "possibly-undefined-int-array-index"
-message = "Possibly undefined array key `array-key` accessed on `array<array-key, mixed>`."
+code = "possibly-null-iterator"
+message = "Expression being iterated (type `array<array-key, string>|null`) might be `null` at runtime."
 count = 1
 
 [[issues]]
 file = "src/Http/Admin/Middleware/OverviewMiddleware.php"
 code = "possibly-undefined-int-array-index"
 message = "Possibly undefined array key `non-negative-int` accessed on `array<non-negative-int, list<non-negative-int>>`."
+count = 1
+
+[[issues]]
+file = "src/Http/Admin/Middleware/OverviewMiddleware.php"
+code = "possibly-undefined-string-array-index"
+message = "Possibly undefined array key `string` accessed on `array<string, array<array-key, string>>`."
 count = 1
 
 [[issues]]

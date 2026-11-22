@@ -128,7 +128,7 @@ must still be listed in `resources` and granted to the `Guest` role in `allow`.
 
 ## Checklist
 
-```
+```text
 □ getAclConfig() implemented in ConfigProvider
 □ AclInterface::class => $this->getAclConfig() in ConfigProvider::__invoke()
 □ All protected route names listed in 'resources'
