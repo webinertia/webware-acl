@@ -21,7 +21,7 @@ lockout or privilege escalation via the UI.
 ACL writes do **not** go through a database repository. The write path is
 event-driven and targets `config/autoload/acl.global.php` directly:
 
-```
+```text
 CommandHandler
     → EventDispatcher::dispatch(ConfigSaveEvent)
         → ConfigSaveListener: merges existing config + updatedConfig
@@ -107,7 +107,7 @@ The wizard is a 5-step Bootstrap modal rendered as a partial inside
 
 ### POST Body Fields
 
-```
+```text
 route_name        string   Named Mezzio route (e.g. manifest.upload.store)
 grant_mode        string   explicit | inherited
 rule_type         string   allow | deny
@@ -159,7 +159,7 @@ all its children regardless of multiple inheritance.
 Depth is computed as `max(depth of any parent) + 1`. The `data-depth` attribute
 drives CSS indentation:
 
-```
+```text
 depth 0 → Guest
 depth 1 → Member
 depth 2 → Warehouse, Sales, Collections
@@ -262,10 +262,9 @@ The redundant edge does not affect runtime ACL evaluation (Laminas ACL handles
 it correctly) but it does cause Administrator to display "child of: Member, Manager"
 in the Protect Route Wizard role picker instead of just "child of: Manager".
 
+## Reference
 
----
-
-## Access Control for the Admin UI
+### Access Control for the Admin UI
 
 The `admin.acl` resource is granted exclusively to the **Developer** role.  
 **Administrators cannot manage the ACL**: this is an immutable rule enforced
@@ -274,7 +273,7 @@ lockout or privilege escalation via the UI.
 
 ---
 
-## Entity Inventory
+### Entity Inventory
 
 | Entity | Handler (read) | Middleware (write) | Command Handler |
 |---|---|---|---|
@@ -287,7 +286,7 @@ lockout or privilege escalation via the UI.
 
 ---
 
-## Generic CRUD Workflow
+### Generic CRUD Workflow
 
 Every entity follows the same modal-driven pattern:
 
@@ -329,17 +328,18 @@ is returned by the bus. The HTMX swap target refreshes the surrounding list.
 
 ---
 
-## Role Management
+### Role Management
 
 **Route**: `GET|POST /acl/roles`
 
-### Listing
+#### Listing
 
 `RoleListHandler` renders all roles with their parent chain. Each row has:
+
 - **Edit** button → opens modal pre-filled with the role's current parents
 - **Delete** button → opens confirmation modal
 
-### Create / Edit
+#### Create / Edit
 
 The middleware validates input and dispatches a typed command to the bus.
 The `SaveRoleHandler` performs the write:
@@ -356,7 +356,7 @@ Roles have at most **one** parent in the DB schema (the `role_parent` table
 may hold multiple rows, but the UI exposes single-parent inheritance). Cycles
 are detected at build time by `AclBuilder::addRolesInOrder()`.
 
-### Delete
+#### Delete
 
 A role cannot be deleted if any rules reference it. The repository throws an
 exception that `ProcessRoleMiddleware` catches and sets a `CommandResult::Failure`
@@ -364,7 +364,7 @@ with an error message via `SystemMessengerInterface`.
 
 ---
 
-## Resource & Privilege Management
+### Resource & Privilege Management
 
 **Route**: `GET|POST /acl/resources`
 
@@ -385,19 +385,19 @@ New privileges can be added via the Add Privilege modal on the same page.
 
 ---
 
-## Rule Manager
+### Rule Manager
 
 **Route**: `GET|POST /acl/rules`
 
 The Rule Manager page is the most complex page in the Admin UI. It manages
 the allow/deny matrix across all roles, resources, and privileges.
 
-### Hierarchy View
+#### Hierarchy View
 
 When both `?resource` and `?privilege` query parameters are set, the handler
 switches to hierarchy view:
 
-```
+```http
 GET /acl/rules?resource=manifest&privilege=read
 ```
 
@@ -419,7 +419,7 @@ child's explicit rule overrides the inherited one.
 **Redundancy alert**: Displayed when a role has an explicit rule that matches
 what it would inherit - the explicit rule is unnecessary.
 
-### Adding a rule
+#### Adding a rule
 
 The middleware dispatches a `SaveRuleCommand` to the bus. `SaveRuleHandler` performs the write:
 
@@ -436,7 +436,7 @@ $this->aclRepository->incrementVersion();
 return new CommandResult($command, CommandStatus::Success, null);
 ```
 
-### Assertions
+#### Assertions
 
 Assertions are managed via the **Add Assertion** modal triggered from a rule
 row. `ProcessAssertionMiddleware` dispatches a `SaveAssertionCommand` to the
@@ -460,7 +460,7 @@ Multiple assertions on a rule are evaluated as an `AssertionAggregate`. The
 
 ---
 
-## Route Mapping Manager
+### Route Mapping Manager
 
 **Route**: `GET|POST /acl/route-mappings`
 
@@ -476,7 +476,7 @@ flowchart TD
     D --> E[Acl wrapper routeMappings]
 ```
 
-### Adding a route mapping
+#### Adding a route mapping
 
 The middleware dispatches a `SaveRouteMappingCommand` to the bus.
 `SaveRouteMappingHandler` performs the write:
@@ -499,7 +499,7 @@ return new CommandResult($command, CommandStatus::Success, null);
 
 ---
 
-## Version Increment Rule
+### Version Increment Rule
 
 **Every `CommandHandler` must call `incrementVersion()` after the primary write.**
 This is not optional - without it, the cache will not invalidate and other
@@ -519,7 +519,7 @@ attribute with a message via `SystemMessengerInterface`.
 
 ---
 
-## Handler Pattern
+### Handler Pattern
 
 All admin handlers are render-only. They inspect the `CommandResult` attribute
 and either close the modal or render the page with fresh data:
@@ -549,7 +549,7 @@ event listener (in `app.js` or the page's `inlineScript()` block) calls
 
 ---
 
-## Template Conventions
+### Template Conventions
 
 - Each entity has a list template (`acl/role-list.phtml`) and a modal partial
   (`acl/partials/role-modal.phtml`)

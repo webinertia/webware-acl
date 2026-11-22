@@ -18,7 +18,7 @@ final class EnumTest extends TestCase
     public function constructorDefaultsToNotNullable(): void
     {
         $enum = new Enum(
-            name: 'type',
+            name  : 'type',
             values: ['Allow', 'Deny'],
         );
 

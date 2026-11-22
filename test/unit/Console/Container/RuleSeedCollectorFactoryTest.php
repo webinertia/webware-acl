@@ -38,7 +38,7 @@ final class RuleSeedCollectorFactoryTest extends TestCase
 
         new RuleSeedCollectorFactory()($this->container(
             providers: ['not.a.provider'],
-            services: ['not.a.provider' => new stdClass()],
+            services : ['not.a.provider' => new stdClass()],
         ));
     }
 
@@ -55,7 +55,7 @@ final class RuleSeedCollectorFactoryTest extends TestCase
 
         $collector = new RuleSeedCollectorFactory()($this->container(
             providers: ['provider.one'],
-            services: ['provider.one' => $provider],
+            services : ['provider.one' => $provider],
         ));
 
         self::assertInstanceOf(RuleSeedCollector::class, $collector);

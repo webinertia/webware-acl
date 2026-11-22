@@ -77,7 +77,7 @@ Implement three listener classes in your module (see the
 
 ## Package Layout
 
-```
+```text
 src/webware-acl/
 ├── composer.json
 ├── docs/                          ← this documentation tree

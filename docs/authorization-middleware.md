@@ -30,6 +30,7 @@ flowchart LR
 ```
 
 **`GuestUser`** is a value object that satisfies `UserInterface` with:
+
 - `$roles = ['guest']` (the ACL base role, never granted anything)
 - `getOwnerId() → null`
 - `isGuest() → true`
@@ -116,7 +117,7 @@ sequenceDiagram
 
 ### isAllowedRoute implementation detail
 
-```
+```text
 isAllowedRoute(request, roles)
   1. Extract RouteResult from request attribute
   2. If RouteResult is null or failure → return false
@@ -196,17 +197,16 @@ All keys live under `AclInterface::class` in the merged config:
 | `UserInterface::class` attribute absent from request | `$user?->getRoles()` returns `[]` → every route denied |
 | Not placing `IdentityMiddleware` before `AuthorizationMiddleware` in the pipeline | User attribute missing; all routes denied |
 
+## Reference
 
----
+### IdentityMiddleware
 
-## IdentityMiddleware
-
-### Location
+#### Location
 
 `src/Middleware/IdentityMiddleware.php`  
 Registered in: `config/pipeline.php` (global; always runs)
 
-### What it does
+#### What it does
 
 ```mermaid
 flowchart LR
@@ -220,11 +220,12 @@ flowchart LR
 ```
 
 **`DefaultUser`** is a value object that satisfies `UserInterface` with:
+
 - `$roles = ['Guest']` (the ACL base role, never granted anything)
 - `$id = 0`
 - `isAuthenticated() → false`
 
-### Attributes set
+#### Attributes set
 
 | Attribute key | Value |
 |---|---|
@@ -236,14 +237,14 @@ handlers that need to know the current user.
 
 ---
 
-## AuthorizationMiddleware
+### AuthorizationMiddleware
 
-### Location
+#### Location
 
 `src/Http/Middleware/AuthorizationMiddleware.php`  
 Registered in: **every protected route stack, as the first middleware**.
 
-### Constructor dependencies
+#### Constructor dependencies
 
 ```php
 public function __construct(
@@ -255,7 +256,7 @@ public function __construct(
 The messenger and user are read from request attributes (set by
 `IdentityMiddleware`) - not injected via the constructor.
 
-### Decision table
+#### Decision table
 
 | Condition | Action |
 |---|---|
@@ -265,7 +266,7 @@ The messenger and user are read from request attributes (set by
 | User is unauthenticated (`DefaultUser`) | **Deny** → `RedirectResponse('/login')` |
 | Authenticated but forbidden | **Deny** → messenger warning + `RedirectResponse('/home')` |
 
-### Sequence diagram
+#### Sequence diagram
 
 ```mermaid
 sequenceDiagram
@@ -302,9 +303,9 @@ sequenceDiagram
     end
 ```
 
-### isAllowedRoute implementation detail
+#### isAllowedRoute implementation detail
 
-```
+```text
 isAllowedRoute(request, roles)
   1. Extract RouteResult from request attribute
   2. If RouteResult is null or failure → return false
@@ -320,7 +321,7 @@ Roles are checked in the order returned by `UserInterface::getRoles()`. The firs
 `true` short-circuits. This means a user with multiple roles is granted access
 if **any** role allows it - standard multi-role RBAC semantics.
 
-### isAllowedByRouteName
+#### isAllowedByRouteName
 
 Used by admin UI handlers to conditionally render action buttons without issuing
 a full redirect cycle.
@@ -335,7 +336,7 @@ directly instead of reading from the `RouteResult` attribute.
 
 ---
 
-## Route Stack Registration
+### Route Stack Registration
 
 ```php
 // RouteProvider.php - every protected route
@@ -367,7 +368,7 @@ $app->route(
 
 ---
 
-## Event Logging
+### Event Logging
 
 `AuthorizationMiddleware` dispatches a `LogEvent` on every denied request.
 The event carries the route name, user ID, and user roles, enabling audit
@@ -383,7 +384,7 @@ $this->events->dispatch(new LogEvent(
 
 ---
 
-## Common Mistakes
+### Common Mistakes
 
 | Mistake | Consequence |
 |---|---|

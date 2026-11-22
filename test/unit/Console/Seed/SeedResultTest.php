@@ -30,7 +30,7 @@ final class SeedResultTest extends TestCase
     public function reportsViolations(): void
     {
         $result = new SeedResult(
-            seeded: 4,
+            seeded    : 4,
             violations: ['something is wrong'],
         );
 
