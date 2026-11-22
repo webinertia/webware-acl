@@ -1,5 +1,5 @@
 {
-  "php_versions": ["8.4", "8.5"],
+  "php_versions": ["8.4", "8.5", "8.6"],
   "run_integration": true,
   "enable_codecov": true,
   "enable_infection": true,
